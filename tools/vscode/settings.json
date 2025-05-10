@@ -1,0 +1,10 @@
+{
+    "security.allowedUNCHosts": [
+        "MINERVA"
+    ],
+    "editor.fontFamily": "CaskaydiaCove Nerd Font Mono, CaskaydiaCove Mono, Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "git.showProgress": true,
+    "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font Mono",
+    "terminal.integrated.fontLigatures.enabled": true
+}

@@ -1,0 +1,8 @@
+services:
+  sunshine:
+    image: lizardbyte/sunshine:v2025.509.184504-ubuntu-24.04
+    restart: unless-stopped
+    port: 
+      - 47990:47990
+    volumes:
+      - ./config/:/config

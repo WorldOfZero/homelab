@@ -1,0 +1,10 @@
+services:
+  fenrus:
+    image: revenz/fenrus:latest
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      - TZ=America/Los_Angeles
+    volumes:
+      - ./data:/app/data

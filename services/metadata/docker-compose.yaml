@@ -1,0 +1,5 @@
+services:
+  readarr: # book metadata
+  radarr: # video metadata
+  sonarr: # show metadata
+  overseerr: # requests

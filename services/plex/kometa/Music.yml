@@ -1,0 +1,6 @@
+dynamic_collections:
+  Countries:
+    type: country
+    title_format: Music from <<key_name>>
+    key_name_override:
+      "Taiwan, Province of China": Taiwan

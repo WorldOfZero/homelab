@@ -1,0 +1,3 @@
+services:
+  SecretVault:
+    image: hashicorp/vault

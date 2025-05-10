@@ -1,0 +1,493 @@
+collections:
+  Shudder Originals:
+    summary: Horror and Thriller movies originally created and published for Shudder.
+    collection_order: random
+    imdb_list: https://www.imdb.com/list/ls089250460/
+  Chick Flicks:
+    trakt_list: 
+      - https://trakt.tv/users/29zombies/lists/romantic-comedies
+      - https://trakt.tv/users/yirmaster/lists/chick-flicks
+    summary: Get in touch with your feminine side.
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Chick%20Flick.jpg?raw=true
+  Heist Movies:
+    imdb_list:
+      - https://www.imdb.com/list/ls068224634/
+      - https://www.imdb.com/list/ls009794682/
+    summary: Movies detailing the preparation for, execution of and aftermath of a (well-)planned and often daring heist.
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Heist.jpg?raw=true
+  Spy Movies:
+    imdb_list:
+      - https://www.imdb.com/list/ls006704813/
+      - https://www.imdb.com/list/ls053334053/
+      - https://www.imdb.com/list/ls027041449/
+      - https://www.imdb.com/list/ls006405458/
+    summary: Something sneaky is going on and we're about to find out what.
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Spy.jpg?raw=true
+  Isekai:
+    imdb_list:
+      - https://www.imdb.com/list/ls088228623/
+      - https://www.imdb.com/list/ls505070747/
+    anilist_search:
+      tag: Isekai
+    summary: We're traveling to another world!
+    collection_order: random
+    collection_mode: default
+  Monster Movies:
+    imdb_list:
+      - https://www.imdb.com/list/ls075731034/
+      - https://www.imdb.com/list/ls080006372/
+      - https://www.imdb.com/list/ls009834210/
+      - https://www.imdb.com/list/ls027559043/
+    summary: I am a T-REX! Rawr! 🦖
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Monster.jpg?raw=true
+  Member Berries:
+    smart_label: release.desc
+    trakt_list: 
+      - https://trakt.tv/users/netplexflix/lists/member-berries
+      - https://trakt.tv/users/lish408/lists/mindfuck
+    summary: Member Berry movies are movies that contain a lot of call backs or easter eggs to previous movies in the franchise or related franchises. Often franchise reboots.
+    sync_mode: sync
+  Mindfuck Movies:
+    trakt_list: https://trakt.tv/users/benfranklin/lists/best-mindfucks
+    summary: Movies that play with your mind, confuse you, and leads you on. Plot twists or surreal storylines.
+    collection_order: random
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Mind-Fuck.jpg?raw=true
+  Movies People are Watching:
+    trakt_list: https://trakt.tv/users/hdlists/lists/top-films-everyone-s-watching
+    sync_mode: sync
+    smart_label: year.desc
+    summary: Movies That Everyone is Watching
+    url_poster: https://i.imgur.com/GQca9tU.png
+  A24:
+    summary: Movies produced or distributed by A24
+    trakt_list: https://trakt.tv/users/fidel-cb/lists/a24
+    sync_mode: sync
+    collection_order: random
+  Top 50 Grossing Films of All Time (Worldwide):
+    tmdb_list: 10 
+    collection_order: custom 
+    sync_mode: sync
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Top%20Grossing%20Films%20of%20All-Time.jpg?raw=true
+  Yuri:
+    anilist_search:
+      tag: Yuri
+    summary: Girls love.
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Girls%20Love.jpg?raw=true
+  Slice of Life:
+    anilist_search:
+      genre: Slice of Life
+    summary: Sometimes life can be pretty interesting.
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Slice%20of%20Life.jpg?raw=true
+  Sword & Sorcery Collection:
+    summary: Swords & Sorcery on an epic adventure
+    filters:
+      imdb_keyword: sword and sorcery
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Sword%20&%20Sorcery.jpg?raw=true
+  Trans Films Collection:
+    summary: Collection of films focusing on trans experiences.
+    imdb_list:
+      - https://www.imdb.com/list/ls082296974/
+    filters:
+      imdb_keyword: transgender
+      title.not:
+        - Harry Potter
+        - The Silence of the Lambs
+        - Dude, Where's My Car?
+        - Naked Gun
+        - Hangover
+        - Escape from L.A.
+    plex_search:
+      any:
+        title:
+          - XXY
+          - I Saw the TV Glow
+    collection_order: random
+    collection_mode: sync
+  Lovecraftian Horror:
+    imdb_list:
+      - https://www.imdb.com/list/ls096383412/
+      - https://www.imdb.com/list/ls063330609/
+    plex_search:
+      any:
+        title:
+          - The Mist
+    summary: Films based upon the work of HP Lovecraft or pertaining to the Cosmic Horror genre
+    collection_order: random
+    collection_mode: sync
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Lovecraftian.jpg?raw=true
+  Iyashikei:
+    anilist_search:
+      tag: Iyashikei
+    summary: Shows about healing through sharing stories about real life.
+    collection_order: random
+    collection_mode: default
+  Japanese Splatter Gore Films:
+    summary: Bring an umbrella.
+    imdb_list:
+      - https://www.imdb.com/list/ls003325105/
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Splatter.jpg?raw=true
+  Wikipedias Cult Films Collection:
+    trakt_list:
+      - https://trakt.tv/users/didzgreen/lists/wikipedia-s-list-of-cult-films
+    summary: Films collected from Wikipedia's List of Cult Films.
+  Roger Corman Collection:
+    imdb_list:
+      - https://www.imdb.com/list/ls090886156/
+      - https://www.imdb.com/list/ls063372552/
+      - https://www.imdb.com/list/ls045043590/
+    summary: Films produced by Roger Corman
+  Martial Arts Collection:
+    imdb_list:
+      - https://www.imdb.com/list/ls000099643/
+      - https://www.imdb.com/list/ls055787499/
+    summary: "Everybody was Kung-Fu fighting, Those cats were fast as lightning, In fact it was a little bit frightening, But they did it with expert timing..."
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Martial%20Arts.jpg?raw=true
+  Body Horror Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: Collection of films featuring macabre representations of the human condition, often with gratuitous use of gore and extreme body manipulation.
+    imdb_list:
+      - https://www.imdb.com/list/ls059662140/
+    plex_search:
+      any:
+        title:
+          - The Skin I Live In
+          - Tusk
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Body%20Horror.jpg?raw=true
+  Babylon 5 Universe:
+    tvdb_list: https://thetvdb.com/lists/babylon-5
+    plex_search:
+      any:
+        title:
+          - Babylon 5
+    sync_mode: sync
+  Horror Anthology Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of horror anthologies telling various stories to spook and frighten.
+    imdb_list:
+      - https://www.imdb.com/list/ls000742940/
+    plex_search:
+      any:
+        title:
+          - Scare Package
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Anthology.jpg?raw=true
+  Fighting Game Movies Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of movies based on fighting games.
+    imdb_list:
+      - https://www.imdb.com/list/ls066417841/
+  LGBT+ Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of films with LGBT+ representation.
+    imdb_list:
+      - https://www.imdb.com/list/ls082296974/
+      - https://www.imdb.com/list/ls063526611/
+      - https://www.imdb.com/list/ls080931354/
+    filters:
+      imdb_keyword: [lgbtq, gay, lesbian, transgender, queer]
+    plex_search:
+      any:
+        title:
+          - XXY
+          - Room in Rome
+          - Tangerine
+          - Tank Girl
+          - The Stroll
+          - Transamerica
+          - Transhood
+          - Your Name
+          - Women in Love
+          - Kink Crusaders
+          - "BloodSisters: Leather, Dykes and Sadomasochism"
+          - Bound
+          - Joyland
+          - Joy Ride
+          - I Saw the TV Glow
+          - A Good Man
+          - Hackers
+          - Funeral Parade of Roses
+          - Gender Troublemakers
+          - A Fantastic Women
+          - Eugenie... the Story of Her Journey Into Perversion
+          - The Adventures of Priscilla, Queen of the Desert
+          - Blades of Glory
+          - Bit
+          - Blue is the Warmest Color
+          - But I'm a Cheerleader
+          - Call Me By Your Name
+          - Female Trouble
+          - My Beautiful Laundrette
+  Criterion Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: Movies selected to be a part of the Criterion Collection - does not necessarily mean the movies selected here were from a Criterion reproduction.
+    imdb_list:
+      - https://www.imdb.com/list/ls087831830/
+  Kink and BDSM Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: Collection of films including or focused upon Kink or BDSM interactions. These films may not be for everyone and some are quite extreme.
+    imdb_list:
+      - https://www.imdb.com/list/ls071020622/
+    filters:
+      any:
+        imdb_keyword: [bdsm, kink]
+        title:
+          - Vampyros Lesbos
+          - Year of the Jellyfish
+          - Under the Skin
+          - Tokyo Gore Police
+          - Surrender Dorothy
+          - "BloodSisters: Leather, Dykes and Sadomasochism"
+          - The Rocky Horror Picture Show
+          - Kink Crusaders
+          - Sin City
+          - Secretary
+          - Sex, Lies and Videotape
+          - Secret Rites
+          - Salon Kitty
+          - RoboGeisha
+          - R100
+          - Pulp Fiction
+          - Pleasure
+          - The Piano Teacher
+          - Nymphomaniac
+          - The Notorious Bettie Page
+          - The Night Porter
+          - "Nathalie..."
+          - Legend of the Witches
+          - Irezumi
+          - Invasion of the Bee Girls
+          - Invasion of the Star Creatures
+          - Gorgasm
+          - Eyes Wide Shut
+          - Enter the Void
+          - Dogs Don't Wear Pants
+          - Climax
+          - Cashback
+          - Caligula
+          - Belle de Jour
+          - Bound
+          - The Babysitters
+          - Preaching to the Perverted
+          - Walk All Over Me
+          - The Image
+          - Venus in Furs
+          - Videodrome
+          - Deadgirl
+          - Latex
+          - Latex 2
+          - Red Latex
+          - Justify
+    plex_all: true
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Adult.jpg?raw=true
+  B-Movies Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various B-Movies
+    plex_all: true
+    filters:
+      imdb_keyword: b movie
+  Alien Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various alien movies
+    plex_all: true
+    filters:
+      imdb_keyword: alien
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Alien.jpg?raw=true
+  Mythology Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various Mythological movies
+    plex_all: true
+    filters:
+      imdb_keyword: [mythology, myth]
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Mythology.jpg?raw=true
+  Grindhouse Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various Grindhouse
+    plex_all: true
+    filters:
+      imdb_keyword: grindhouse
+  Satirical Movies Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various satirical movies
+    plex_all: true
+    filters:
+      imdb_keyword: satire
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Satire.jpg?raw=true
+  Medical Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of movies with medical themes
+    plex_all: true
+    filters:
+      imdb_keyword: [medical, doctor, nurse]
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Medical.jpg?raw=true
+  Steampunk Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of movies with a steampunk setting
+    plex_all: true
+    filters:
+      imdb_keyword: steampunk
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Steampunk.jpg?raw=true
+  Zombie Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of movies about zombies
+    plex_all: true
+    filters:
+      imdb_keyword: zombie
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Zombie.jpg?raw=true
+  Vampire Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of movies about vampires
+    plex_all: true
+    filters:
+      imdb_keyword: vampire
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Vampire.jpg?raw=true
+  Mecha Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of movies about mechs and robots 🤖
+    plex_all: true
+    filters:
+      imdb_keyword: [mecha,mech]
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Mecha.jpg?raw=true
+  Caper Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various Caper movies
+    plex_all: true
+    filters:
+      imdb_keyword: caper
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Caper.jpg?raw=true
+  Corruption Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various Corruption movies
+    plex_all: true
+    filters:
+      imdb_keyword: corruption
+  Cyberpunk Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various cyberpunk movies
+    plex_all: true
+    filters:
+      imdb_keyword: cyberpunk
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Cyberpunk.jpg?raw=true
+  Post-Apocalyptic Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various Post-Apocalyptic movies
+    plex_all: true
+    filters:
+      imdb_keyword: post-apocalypse
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Post-Apocalyptic.jpg?raw=true
+  Wilhelm Scream Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of various movies that include the wilhelm scream
+    plex_all: true
+    filters:
+      imdb_keyword: wilhelm scream
+  Reddit Top 250 (2019):
+    collection_order: custom
+    sync_mode: sync
+    summary: A reddit approved top 250 list collected from a 2019 survery of redditors
+    trakt_list:
+      - https://trakt.tv/users/jaygreene/lists/reddit-top-250-2019-edition
+  Ecchi:
+    anilist_search:
+      genre: Ecchi
+    summary: Mmmmmmm...
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Ecchi.jpg?raw=true
+  Oscars International Feature Winners:
+    trakt_list: https://trakt.tv/users/popeadam/lists/academy-awards-best-international-feature-film
+    sync_mode: sync
+    summary: Winners of the Best Foreign Feature Film and International Feature Film categories at the Academy Awards/Oscars
+    url_poster: https://i.ibb.co/sH8ytfm/international-feature-winners.png
+  Oscars International Feature Nominees:
+    trakt_list: https://trakt.tv/users/popeadam/lists/academy-awards-international-feature-film-nominees
+    sync_mode: sync
+    summary: Winners and nominees of the Best Foreign Feature Film and International Feature FIlm categories at the Academy Awards/Oscars
+    url_poster: https://i.ibb.co/sH8ytfm/international-feature-winners.png
+  StevenLu's Popular Movies:
+    stevenlu_popular: true
+    collection_order: custom
+    sync_mode: sync
+  Current Domestic Box Office:
+    mojo_domestic:
+      range: yearly
+      year: current
+  Last Year's Domestic Box Office:
+    mojo_domestic:
+      range: yearly
+      year: current-1
+  Current International Box Office:
+    mojo_international:
+      range: yearly
+      year: current
+  Last Year's International Box Office:
+    mojo_international:
+      range: yearly
+      year: current-1
+  Vulture's 101 Best Movie Endings:
+    letterboxd_list: https://letterboxd.com/brianformo/list/vultures-101-best-movie-endings/
+    collection_order: custom
+    sync_mode: sync
+  Highly Rated Shows:
+    plex_all: true
+    filters:
+      user_rating.gte: 9
+  Audience Highly Rated:
+    smart_filter:
+      sort_by: audience_rating.desc
+      limit: 100
+  Critics Highly Rated:
+    smart_filter:
+      sort_by: critic_rating.desc
+      limit: 100
+  Assassin Films:
+    sync_mode: sync
+    sort_by: random
+    summary: 🥷
+    plex_all: true
+    filters:
+      imdb_keyword: assassin
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Assassin.jpg?raw=true
+  Most Played:
+    smart_filter:
+      sort_by: plays.desc
+      limit: 20
+  Movies with Commentary:
+    plex_all: true
+    filters:
+      audio_track_title: Commentary
+  Released in the Past Year:
+    plex_all: true
+    filters:
+      release: 365

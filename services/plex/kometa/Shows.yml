@@ -1,0 +1,167 @@
+collections:
+  Isekai:
+    anilist_search:
+      tag: Isekai
+    summary: We're traveling to another world!
+    collection_order: random
+    collection_mode: default
+  Ecchi:
+    anilist_search:
+      genre: Ecchi
+    summary: Mmmmmmm...
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Ecchi.jpg?raw=true
+  Slice of Life:
+    anilist_search:
+      genre: Slice of Life
+    summary: Sometimes life can be pretty interesting.
+    collection_order: random
+    collection_mode: default
+  Shoujo:
+    anilist_search:
+      tag: Shoujo
+    summary: Shows targeting teen girls
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Shoujo.jpg?raw=true
+  Shounen:
+    anilist_search:
+      tag: Shounen
+    summary: Shows targeting teen boys
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Shounen.jpg?raw=true
+  Josei:
+    anilist_search:
+      tag: Josei
+    summary: Shows targeting adult women
+    collection_order: random
+    collection_mode: default
+  Tsundere:
+    anilist_search:
+      tag: Tsundere
+    summary: Receiving mixed signals...
+    collection_order: random
+    collection_mode: default
+  Seinen:
+    anilist_search:
+      tag: Seinen
+    summary: Shows targeting adult men
+    collection_order: random
+    collection_mode: default
+  Iyashikei:
+    anilist_search:
+      tag: Iyashikei
+    summary: Shows about healing through sharing stories about real life.
+    collection_order: random
+    collection_mode: default
+  Yuri:
+    anilist_search:
+      tag: Yuri
+    summary: Girls love.
+    collection_order: random
+    collection_mode: default
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Girls%20Love.jpg?raw=true
+  Mecha Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of movies about mechs and robots 🤖
+    imdb_search:
+      type: movie
+      sort_by: popularity.desc
+      keyword: mecha
+      limit: 1000
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Mecha.jpg?raw=true
+  Babylon 5 Universe:
+    tvdb_list: https://thetvdb.com/lists/babylon-5
+    collection_order: custom
+    sync_mode: sync
+  Best of Star Trek - The Original Series:
+    summary: The top selected episodes from the Original Star Trek series.
+    imdb_list:
+      - https://www.imdb.com/list/ls531084692/
+  Sword & Sorcery Collection:
+    summary: Swords & Sorcery on an epic adventure
+    imdb_search:
+      type: movie
+      sort_by: popularity.desc
+      keyword: sword and sorcery
+      limit: 2000
+  Vampire Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: A collection of movies about vampires
+    imdb_search:
+      type: movie
+      sort_by: popularity.desc
+      keyword: vampire
+      limit: 2000
+    url_poster: https://github.com/Kometa-Team/Default-Images/blob/master/genre/Vampire.jpg?raw=true
+  Kink and BDSM Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: Collection of films including or focused upon Kink or BDSM interactions. These films may not be for everyone and some are quite extreme.
+    imdb_list:
+      - https://www.imdb.com/list/ls071020622/
+    imdb_search:
+      type: movie
+      sort_by: popularity.desc
+      keyword: bdsm
+      limit: 1000
+    plex_search:
+      any:
+        title:
+          - Brand New Cherry Flavor
+          - Sex Actually with Alice Levine
+          - Doreiku
+          - Submission
+          - Bonding
+  Rolling Stones Best TV Shows Of All Times List:
+    collection_order: random
+    sync_mode: sync
+    summary: Rolling Stone magazine issued a list ranking what they call the 100 greatest TV shows of all time. The list was compiled after the pop culture magazine sent out ballots to entertainment inudustry professionals.
+    trakt_list:
+      - http://www.rollingstone.com/tv/lists/100-greatest-tv-shows-of-all-time-w439520
+  Casual Watching Collection:
+    collection_order: random
+    sync_mode: sync
+    summary: Collection of shows that are intended to be casually watched.
+    plex_search:
+      any:
+        title:
+          - American Ninja Warriors
+          - Battlebots
+          - Game Changer
+          - Mythbusters
+          - Play It By Ear
+          - Taskmaster
+          - White Rabbit Project
+  Pilots:
+    builder_level: episode
+    summary: A collection of the first episodes of every show on the server. Looking for something new? Watch a few new pilots to find something you like.
+    plex_pilots: true
+  Highly Rated:
+    plex_all: true
+    filters:
+      user_rating.gte: 9
+  Audience Highly Rated:
+    smart_filter:
+      sort_by: audience_rating.desc
+      limit: 100
+  Critics Highly Rated:
+    smart_filter:
+      sort_by: critic_rating.desc
+      limit: 100
+  Recently Played:
+    smart_filter:
+      sort_by: played.desc
+      limit: 20
+  Most Played:
+    smart_filter:
+      sort_by: plays.desc
+      limit: 20
+  Released in the Past Year:
+    plex_all: true
+    filters:
+      release: 365

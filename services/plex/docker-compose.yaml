@@ -1,0 +1,5 @@
+services:
+  plex:
+  plex-prometheus: # provides prometheus metrics - allows grafana + alerting
+  plex-tautulli: # combined with prometheus to monitor server
+  plex-kometa-metadata:
