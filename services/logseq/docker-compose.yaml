@@ -1,0 +1,4 @@
+services:
+  logseq:
+    image: ghcr.io/logseq/logseq-webapp:latest
+    # TODO: certs
