@@ -1,3 +1,4 @@
+# https://github.com/logseq/logseq/blob/master/docs/docker-web-app-guide.md
 services:
   logseq:
     image: ghcr.io/logseq/logseq-webapp:latest

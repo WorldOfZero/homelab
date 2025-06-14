@@ -14,6 +14,9 @@ services:
     environment:
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
+      OLLAMA_BASE_URL: http://ollama
+      INFERENCE_TEXT_MODEL: llama3.1
+      INFERENCE_IMAGE_MODEL: llava
       # OPENAI_API_KEY: ...
 
       # You almost never want to change the value of the DATA_DIR variable.
