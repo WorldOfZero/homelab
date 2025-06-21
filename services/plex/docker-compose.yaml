@@ -21,10 +21,10 @@ services:
       timeout: 15s
       retries: 3
       start_period: 1m00s
-    # devices: TODO add gpu mount
+    # devices: TODO add gpu mount for transcoding
     volumes:
-      - media:/etc/data/media
-      - plex-config:/config
+      - /etc/vault/media:/etc/data/media
+      - /etc/vault/config/Plex:/config
   #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
   #  image: ghcr.io/jsclayton/prometheus-plex-exporter
   #plex-tautulli: # combined with prometheus to monitor server
