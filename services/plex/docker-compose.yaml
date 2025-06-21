@@ -1,5 +1,31 @@
 services:
   plex:
-  plex-prometheus: # provides prometheus metrics - allows grafana + alerting
-  plex-tautulli: # combined with prometheus to monitor server
-  plex-kometa-metadata:
+    image: plexinc/pms-docker:1.41.8.9834-071366d65
+    ports:
+      - 32400:32400/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    environment:
+      - TZ=America/Los_Angeles
+      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+      - ADVERTISE_IP=http://minerva.local:32400
+    restart: unless-stopped
+    healthcheck: # Validate plex connectivity
+      test: curl --connect-timeout 15 --silent --show-error --fail http://localhost:32400/identity
+      interval: 1m00s
+      timeout: 15s
+      retries: 3
+      start_period: 1m00s
+    # devices: TODO add gpu mount
+    volumes:
+      - media:/etc/data/media
+      - plex-config:/config
+  #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
+  #  image: ghcr.io/jsclayton/prometheus-plex-exporter
+  #plex-tautulli: # combined with prometheus to monitor server
+  #plex-kometa-metadata:

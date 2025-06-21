@@ -1,0 +1,3 @@
+fenrus.minerva.local {
+    reverse_proxy fenrus:3000
+}
