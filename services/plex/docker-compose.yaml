@@ -25,6 +25,7 @@ services:
     volumes:
       - /etc/vault/media:/etc/data/media
       - '/etc/vault/config/Plex/Library/Application Support/Plex Media Server:/config'
+      - '/mnt/vault/Media:/etc/data/media2'
   #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
   #  image: ghcr.io/jsclayton/prometheus-plex-exporter
   #plex-tautulli: # combined with prometheus to monitor server
