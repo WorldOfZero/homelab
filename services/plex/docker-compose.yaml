@@ -23,8 +23,8 @@ services:
       start_period: 1m00s
     # devices: TODO add gpu mount for transcoding
     volumes:
-      - /etc/vault/media:/etc/data/media
-      - '/etc/vault/config/Plex/Library/Application Support/Plex Media Server:/config'
+      - /mnt/vault/media:/etc/data/media
+      - '/mnt/vault/config/Plex/Library/Application Support/Plex Media Server:/config'
       - '/mnt/vault/Media:/etc/data/media2'
   #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
   #  image: ghcr.io/jsclayton/prometheus-plex-exporter
