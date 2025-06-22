@@ -12,7 +12,7 @@ services:
       - 32414:32414/udp
     environment:
       - TZ=America/Los_Angeles
-      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN} # https://plex.tv/claim
       - ADVERTISE_IP=http://minerva.local:32400
     restart: unless-stopped
     healthcheck: # Validate plex connectivity
@@ -24,7 +24,7 @@ services:
     # devices: TODO add gpu mount for transcoding
     volumes:
       - /etc/vault/media:/etc/data/media
-      - /etc/vault/config/Plex:/config
+      - '/etc/vault/config/Plex/Library/Application Support/Plex Media Server:/config'
   #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
   #  image: ghcr.io/jsclayton/prometheus-plex-exporter
   #plex-tautulli: # combined with prometheus to monitor server
