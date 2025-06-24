@@ -28,4 +28,8 @@ services:
   #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
   #  image: ghcr.io/jsclayton/prometheus-plex-exporter
   #plex-tautulli: # combined with prometheus to monitor server
-  #plex-kometa-metadata:
+  plex-kometa-metadata:
+    image: kometateam/kometa:v2.2.0
+    restart: unless-stopped
+    volumes:
+      - '/mnt/Vault/Configuration/PlexMetaManager:/config'
