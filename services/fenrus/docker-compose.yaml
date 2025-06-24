@@ -1,6 +1,8 @@
 services:
   fenrus:
     image: revenz/fenrus:latest
+    labels:
+      logging: "promtail"
     restart: unless-stopped
     ports:
       - 3000:3000

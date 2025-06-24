@@ -12,6 +12,8 @@ x-logging-config:
 services:
   grafana:
     image: grafana/grafana:12.0.2
+    labels:
+      logging: "promtail"
     restart: unless-stopped
     ports:
       - 3001:3000
