@@ -25,4 +25,4 @@ services:
     volumes:
       - '/var/lib/docker/containers:/var/lib/docker/containers'
       - '/mnt/Vault/Configuration/grafana/promtail:/etc/promtail'
-    command: -config.file=/etc/promtail/docker-config.yml
+    command: -config.file=/etc/promtail/docker-config.yaml
