@@ -4,7 +4,7 @@ services:
     image: grafana/grafana:12.0.2
     restart: unless-stopped
     ports:
-      - 3001:3001
+      - 3001:3000
     volumes:
       - /mnt/Vault/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning
 
