@@ -31,5 +31,10 @@ services:
   plex-kometa-metadata:
     image: kometateam/kometa:v2.2.0
     restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+      - KOMETA_CONFIG=/config/config.yml
+      - KOMETA_TIMES=02:00 # run this overnight
+      - KOMETA_RUN=True
     volumes:
       - '/mnt/Vault/Configuration/PlexMetaManager:/config'
