@@ -1,0 +1,28 @@
+# This is for the full monitoring stack to simplify things
+services:
+  grafana:
+    image: grafana/grafana:12.0.2
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - /mnt/Vault/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning
+
+  loki:
+    image: grafana/loki:3.4.4
+    restart: unless-stopped
+    ports:
+      - 3100:3100
+    volumes:
+      - /mnt/Vault/Configuration/grafana/loki/local-config.yaml:/etc/loki/local-config.yaml
+    command: -config.file=/etc/loki/local-config.yaml
+
+  promtail:
+    image: grafana/promtail:3.4.4
+    restart: unless-stopped
+    depends_on:
+      - loki
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - /mnt/Vault/Configuration/grafana/promtail/docker-config.yml:/etc/promtail/docker-config.yml
+    command: -config.file=/etc/promtail/docker-config.yml
