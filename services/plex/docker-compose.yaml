@@ -1,6 +1,17 @@
+
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+    
 services:
   plex:
     image: plexinc/pms-docker:1.41.8.9834-071366d65
+    labels:
+      logging: "promtail"
     ports:
       - 32400:32400/tcp
       - 8324:8324/tcp
@@ -25,6 +36,7 @@ services:
     volumes:
       - '/mnt/Vault/Media:/data/media'
       - '/mnt/Vault/Configuration/Plex:/config'
+    logging: *logging-config
   #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
   #  image: ghcr.io/jsclayton/prometheus-plex-exporter
   #plex-tautulli: # combined with prometheus to monitor server
@@ -40,3 +52,4 @@ services:
       - KOMETA_RUN=True
     volumes:
       - '/mnt/Vault/Configuration/PlexMetaManager:/config'
+    logging: *logging-config

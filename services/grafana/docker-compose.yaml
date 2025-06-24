@@ -23,6 +23,8 @@ services:
 
   loki:
     image: grafana/loki:3.4.4
+    labels:
+      logging: "promtail"
     restart: unless-stopped
     ports:
       - 3100:3100
@@ -33,6 +35,8 @@ services:
 
   promtail:
     image: grafana/promtail:3.4.4
+    labels:
+      logging: "promtail"
     restart: unless-stopped
     depends_on:
       - loki

@@ -1,3 +1,12 @@
+
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+
 services:
   fenrus:
     image: revenz/fenrus:latest
@@ -10,3 +19,4 @@ services:
       - TZ=America/Los_Angeles
     volumes:
       - ./data:/app/data
+    logging: *logging-config
