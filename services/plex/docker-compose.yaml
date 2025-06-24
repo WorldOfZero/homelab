@@ -23,9 +23,8 @@ services:
       start_period: 1m00s
     # devices: TODO add gpu mount for transcoding
     volumes:
-      - '/data/vault/media:/data/media'
-      - '/data/vault/config/Plex:/config'
-      - '/data/vault/Media:/data/media2'
+      - '/mnt/Vault/Media:/data/media'
+      - '/mnt/Vault/Configuration/Plex:/config'
   #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
   #  image: ghcr.io/jsclayton/prometheus-plex-exporter
   #plex-tautulli: # combined with prometheus to monitor server
