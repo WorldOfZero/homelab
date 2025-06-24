@@ -12,6 +12,7 @@ services:
     image: plexinc/pms-docker:1.41.8.9834-071366d65
     labels:
       logging: "promtail"
+      stack: plex
     ports:
       - 32400:32400/tcp
       - 8324:8324/tcp
@@ -43,6 +44,7 @@ services:
   plex-kometa-metadata:
     labels:
       logging: "promtail"
+      stack: plex
     image: kometateam/kometa:v2.2.0
     restart: unless-stopped
     environment:
