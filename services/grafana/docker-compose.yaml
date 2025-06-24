@@ -1,4 +1,14 @@
 # This is for the full monitoring stack to simplify things
+
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+
+
 services:
   grafana:
     image: grafana/grafana:12.0.2
@@ -7,6 +17,7 @@ services:
       - 3001:3000
     volumes:
       - '/mnt/Vault/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning'
+    logging: *logging-config
 
   loki:
     image: grafana/loki:3.4.4
@@ -16,6 +27,7 @@ services:
     volumes:
       - '/mnt/Vault/Configuration/grafana/loki:/etc/loki'
     command: -config.file=/etc/loki/local-config.yaml
+    logging: *logging-config
 
   promtail:
     image: grafana/promtail:3.4.4
@@ -27,3 +39,4 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
       - '/mnt/Vault/Configuration/grafana/promtail:/etc/promtail'
     command: -config.file=/etc/promtail/docker-config.yaml
+    logging: *logging-config
