@@ -22,7 +22,7 @@ services:
     logging: *logging-config
 
   loki:
-    image: grafana/loki:3.4.4
+    image: grafana/loki:3.5.1
     labels:
       logging: "promtail"
     restart: unless-stopped
