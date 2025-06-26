@@ -38,9 +38,12 @@ services:
       - '/mnt/Vault/Media:/data/media'
       - '/mnt/Vault/Configuration/Plex:/config'
     logging: *logging-config
-  #plex-prometheus: # provides prometheus metrics - allows grafana + alerting
-  #  image: ghcr.io/jsclayton/prometheus-plex-exporter
-  #plex-tautulli: # combined with prometheus to monitor server
+  plex-prometheus: # provides prometheus metrics - allows grafana + alerting
+    image: ghcr.io/jsclayton/prometheus-plex-exporter
+    environment:
+      - PLEX_SERVER=http://plex:32400
+      - PLEX_TOKEN=${PLEX_TOKEN}
+  #plex-tautulli: # }combined with prometheus to monitor server
   plex-kometa-metadata:
     labels:
       logging: "promtail"
