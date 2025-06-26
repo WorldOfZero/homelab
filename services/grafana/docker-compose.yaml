@@ -51,7 +51,7 @@ services:
     logging: *logging-config
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.52.0
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
     labels:
       prometheus_job: cadvisor
     volumes:
