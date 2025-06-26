@@ -69,7 +69,7 @@ services:
     ports:
       - 9090:9090
     command:
-      - --config.file=/etc/prometheus/prometheus.yml
+      - --config.file=/etc/prometheus/prometheus-docker-scraper.yaml
     volumes:
       - '/mnt/Vault/Configuration/grafana/prometheus:/etc/prometheus:ro'
     depends_on:
