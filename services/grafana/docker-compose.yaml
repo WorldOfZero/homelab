@@ -56,6 +56,8 @@ services:
     restart: unless-stopped
     labels:
       prometheus_job: cadvisor
+      logging: "promtail"
+      stack: grafana
     volumes:
       - '/:/rootfs:ro'
       - '/sys:/sys:ro'
@@ -67,6 +69,9 @@ services:
   prometheus:
     image: prom/prometheus:v3.4.1
     restart: unless-stopped
+    labels:
+      logging: "prometheus"
+      stack: grafana
     ports:
       - 9090:9090
     command:

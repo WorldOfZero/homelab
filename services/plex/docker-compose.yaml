@@ -40,6 +40,10 @@ services:
     logging: *logging-config
   plex-prometheus: # provides prometheus metrics - allows grafana + alerting
     image: ghcr.io/jsclayton/prometheus-plex-exporter
+    restart: unless-stopped
+    labels:
+      logging: "plex-prometheus"
+      stack: plex
     environment:
       - PLEX_SERVER=http://plex:32400
       - PLEX_TOKEN=${PLEX_TOKEN}
