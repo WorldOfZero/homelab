@@ -49,3 +49,27 @@ services:
       - '/mnt/Vault/Configuration/grafana/promtail:/etc/promtail'
     command: -config.file=/etc/promtail/docker-config.yaml
     logging: *logging-config
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.52.0
+    labels:
+      prometheus_job: cadvisor
+    volumes:
+      - '/:/rootfs:ro'
+      - '/sys:/sys:ro'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - '/var/lib/docker:/var/lib/docker:ro'
+    command:
+      - '-docker-only'
+
+  prometheus:
+    image: prom/prometheus:2.44.0
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - '/mnt/Vault/Configuration/grafana/prometheus:/etc/prometheus:ro'
+    depends_on:
+      - cadvisor
+
