@@ -9,7 +9,7 @@ x-logging-config:
 
 services:
   fenrus:
-    image: revenz/fenrus:latest
+    image: revenz/fenrus:23.08
     labels:
       logging: "promtail"
       stack: fenrus
