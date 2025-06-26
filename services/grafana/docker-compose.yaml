@@ -63,7 +63,7 @@ services:
       - '-docker-only'
 
   prometheus:
-    image: prom/prometheus:2.44.0
+    image: prom/prometheus:2.55.1
     ports:
       - 9090:9090
     command:
