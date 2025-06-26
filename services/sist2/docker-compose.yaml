@@ -1,9 +1,11 @@
+services:
   sist2-admin:
     image: sist2app/sist2:x64-linux
     restart: unless-stopped
     volumes:
       - /data/sist2-admin-data/:/sist2-admin/
-      - /<path to index>/:/host
+      - /mnt/Vault/Media:/host/media:ro
+      - /mnt/Vault/Configuration:/host/config:ro
     ports:
       - 4090:4090
       # NOTE: Don't expose this port publicly!

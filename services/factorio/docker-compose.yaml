@@ -1,0 +1,5 @@
+services:
+  factorio:
+    image: factorio
+  factorio-prom-exporter:
+    image: factorio-prometheus-exporter
