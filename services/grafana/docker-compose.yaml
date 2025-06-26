@@ -70,7 +70,7 @@ services:
     image: prom/prometheus:v3.4.1
     restart: unless-stopped
     labels:
-      logging: "prometheus"
+      logging: "promtail"
       stack: grafana
     ports:
       - 9090:9090

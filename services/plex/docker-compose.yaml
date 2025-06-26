@@ -42,7 +42,7 @@ services:
     image: ghcr.io/jsclayton/prometheus-plex-exporter
     restart: unless-stopped
     labels:
-      logging: "plex-prometheus"
+      logging: "promtail"
       stack: plex
     environment:
       - PLEX_SERVER=http://plex:32400
@@ -50,7 +50,7 @@ services:
   plex-tautulli: # combined with prometheus to monitor server
     image: ghcr.io/tautulli/tautulli:v2.15.2
     labels:
-      logging: "tautulli"
+      logging: "promtail"
       stack: plex
     restart: unless-stopped
     ports:
