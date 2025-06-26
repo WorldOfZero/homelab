@@ -10,6 +10,3 @@ datasources:
       manageAlerts: true
       prometheusType: Prometheus
       prometheusVersion: 2.44.0
-      cacheLevel: 'High'
-      disableRecordingRules: false
-      incrementalQueryOverlapWindow: 10m
