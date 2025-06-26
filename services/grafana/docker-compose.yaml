@@ -19,6 +19,7 @@ services:
     ports:
       - 3001:3000
     volumes:
+      - '/mnt/Vault/Configuration/grafana/data:/var/lib/grafana'
       - '/mnt/Vault/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning'
     logging: *logging-config
 
