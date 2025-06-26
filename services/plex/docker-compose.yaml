@@ -47,6 +47,7 @@ services:
     environment:
       - PLEX_SERVER=http://plex:32400
       - PLEX_TOKEN=${PLEX_TOKEN}
+    logging: *logging-config
   plex-tautulli: # combined with prometheus to monitor server
     image: ghcr.io/tautulli/tautulli:v2.15.2
     labels:
@@ -59,6 +60,7 @@ services:
       - TZ=America/Los_Angeles
     volumes:
       - '/mnt/Vault/Configuration/Tautulli:/config:rw'
+    logging: *logging-config
   plex-kometa-metadata:
     labels:
       logging: "promtail"

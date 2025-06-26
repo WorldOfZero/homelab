@@ -65,6 +65,7 @@ services:
       - '/var/lib/docker:/var/lib/docker:ro'
     command:
       - '-docker_only'
+    logging: *logging-config
 
   prometheus:
     image: prom/prometheus:v3.4.1
@@ -80,4 +81,5 @@ services:
       - '/mnt/Vault/Configuration/grafana/prometheus:/etc/prometheus:ro'
     depends_on:
       - cadvisor
+    logging: *logging-config
 
