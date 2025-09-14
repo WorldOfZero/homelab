@@ -49,7 +49,7 @@ services:
       - PLEX_TOKEN=${PLEX_TOKEN}
     logging: *logging-config
   plex-tautulli: # combined with prometheus to monitor server
-    image: ghcr.io/tautulli/tautulli:v2.15.2
+    image: ghcr.io/tautulli/tautulli:v2.16.0
     labels:
       logging: "promtail"
       stack: plex
