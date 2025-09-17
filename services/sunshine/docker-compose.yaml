@@ -1,6 +1,6 @@
 services:
   sunshine:
-    image: lizardbyte/sunshine:v2025.914.41258-ubuntu-24.04
+    image: lizardbyte/sunshine:v2025.917.33729-ubuntu-24.04
     restart: unless-stopped
     port: 
       - 47990:47990
