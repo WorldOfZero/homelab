@@ -1,6 +1,15 @@
+
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+    
 services:
   sunshine:
-    image: lizardbyte/sunshine:v2025.924.154138-ubuntu-24.04
+    image: ghcr.io/lizardbyte/sunshine:v2025.923.184424-ubuntu-24.04
     restart: unless-stopped
     ports: 
       - '47984-47990:47984-47990/tcp'
@@ -9,3 +18,4 @@ services:
     volumes:
       - '/mnt/Vault/Configuration/sunshine:/config'
       - '/mnt/Vault/Media/Games:/data/games'
+    logging: *logging-config
