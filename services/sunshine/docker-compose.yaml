@@ -2,7 +2,10 @@ services:
   sunshine:
     image: lizardbyte/sunshine:v2025.924.154138-ubuntu-24.04
     restart: unless-stopped
-    port: 
-      - 47990:47990
+    ports: 
+      - '47984-47990:47984-47990/tcp'
+      - '48010:48010'
+      - '47998-48000:47998-48000/udp'
     volumes:
-      - ./config/:/config
+      - '/mnt/Vault/Configuration/sunshine:/config'
+      - '/mnt/Vault/Media/Games:/data/games'
