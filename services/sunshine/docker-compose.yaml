@@ -11,6 +11,7 @@ services:
   sunshine:
     image: ghcr.io/lizardbyte/sunshine:v2025.923.184424-ubuntu-24.04
     restart: unless-stopped
+    ipc: host
     ports: 
       - '47984-47990:47984-47990/tcp'
       - '48010:48010'
