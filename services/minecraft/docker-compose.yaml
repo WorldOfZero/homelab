@@ -1,0 +1,39 @@
+# This is for the full monitoring stack to simplify things
+
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+
+services:
+  minecraft-server:
+    image: itzg/minecraft-server:stable-java21
+    tty: true
+    stdin_open: true
+    ports:
+      - 25565:25565
+      - 24454:24454
+    environment:
+      EULA: "TRUE"
+      TYPE: NeoForge
+      VERSION: "1.21.8"
+      DIFFICULTY: hard
+      OPS: |
+        runewake2
+      WHITELIST: |
+        runewake2
+      SEED: "69420018030897796"
+      MODE: survival
+      CF_API_KEY: "${CURSEFORGE_API_KEY}"
+      CURSEFORGE_FILES: |
+        balm
+        waystones
+        simple-voice-chat
+        prometheus-exporter
+        chat-heads
+    volumes:
+      - './Minecraft/Server:/data'
+    logging: *logging-config
