@@ -35,5 +35,5 @@ services:
         prometheus-exporter
         chat-heads
     volumes:
-      - './Minecraft/Server:/data'
+      - '/mnt/Vault/Configuration/Minecraft/Server:/data'
     logging: *logging-config
