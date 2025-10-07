@@ -9,7 +9,7 @@ x-logging-config:
     
 services:
   sunshine:
-    image: ghcr.io/lizardbyte/sunshine:v2025.929.5023-ubuntu-24.04
+    image: ghcr.io/lizardbyte/sunshine:v2025.1007.152916-ubuntu-24.04
     restart: unless-stopped
     ipc: host
     ports: 
