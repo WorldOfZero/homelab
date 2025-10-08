@@ -15,7 +15,7 @@ services:
     stdin_open: true
     ports:
       - 25565:25565
-      - 24454:24454
+      - 24454:24454/udp # Simple Voice Chat requires UDP connections
     environment:
       EULA: "TRUE"
       TYPE: NeoForge
