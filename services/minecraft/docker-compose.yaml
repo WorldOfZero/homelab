@@ -34,6 +34,7 @@ services:
         simple-voice-chat
         prometheus-exporter
         chat-heads
+        afkstatus
     volumes:
       - '/mnt/Vault/Configuration/Minecraft/Server:/data'
     logging: *logging-config
