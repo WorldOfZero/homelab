@@ -35,6 +35,8 @@ services:
         prometheus-exporter
         chat-heads
         afkstatus
+        darkheads
+        disable-enderman-picking-up-blocks
     volumes:
       - '/mnt/Vault/Configuration/Minecraft/Server:/data'
     logging: *logging-config
