@@ -25,6 +25,7 @@ services:
         runewake2
       WHITELIST: |
         runewake2
+        Greenhottub
       SEED: "69420018030897796"
       MODE: survival
       CF_API_KEY: "${CURSEFORGE_API_KEY}"
