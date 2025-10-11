@@ -28,6 +28,7 @@ services:
         runewake2
         ItsPerfectVision
         tinyelephant54
+        Farego
         Greenhottub
       SEED: "69420018030897796"
       MODE: survival
