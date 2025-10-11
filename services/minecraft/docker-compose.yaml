@@ -20,6 +20,7 @@ services:
       EULA: "TRUE"
       TYPE: NeoForge
       VERSION: "1.21.8"
+      NEOFORGE_VERSION: "21.8.47"
       DIFFICULTY: hard
       OPS: |
         runewake2
@@ -28,6 +29,7 @@ services:
         ItsPerfectVision
         tinyelephant54
         Farego
+        Greenhottub
       SEED: "69420018030897796"
       MODE: survival
       CF_API_KEY: "${CURSEFORGE_API_KEY}"
