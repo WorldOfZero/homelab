@@ -13,6 +13,7 @@ services:
     image: itzg/minecraft-server:stable-java21
     tty: true
     stdin_open: true
+    restart: unless-stopped
     ports:
       - 25565:25565
       - 24454:24454/udp # Simple Voice Chat requires UDP connections
