@@ -22,6 +22,7 @@ services:
       TYPE: NeoForge
       VERSION: "1.21.8"
       NEOFORGE_VERSION: "21.8.47"
+      MAX_MEMORY: 8G
       DIFFICULTY: hard
       OPS: |
         runewake2
