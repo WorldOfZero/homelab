@@ -37,7 +37,7 @@ services:
     logging: *logging-config
 
   promtail:
-    image: grafana/promtail:3.5.5
+    image: grafana/promtail:3.5.7
     labels:
       logging: "promtail"
       stack: grafana
