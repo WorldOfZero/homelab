@@ -15,6 +15,7 @@ services:
       - TS_EXTRA_ARGS=--advertise-tags=tag:container
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
+      - TS_ENABLE_METRICS=true
     volumes:
       - '/mnt/Vault/Configuration/tailscale/state:/var/lib/tailscale'
     devices:
@@ -22,4 +23,10 @@ services:
     cap_add:
       - net_admin
     restart: unless-stopped
+    healthcheck:
+      test: curl --connect-timeout 15 --silent --show-error --fail http://localhost:9002/healthz
+      interval: 1m00s
+      timeout: 15s
+      retries: 3
+      start_period: 1m00s
     logging: *logging-config
