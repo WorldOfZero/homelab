@@ -4,3 +4,8 @@ dynamic_collections:
     title_format: Music from <<key_name>>
     key_name_override:
       "Taiwan, Province of China": Taiwan
+  ___Unmatched:
+    plex_search:
+      any:
+        artist_unmatched: true
+        album_unmatched: true

@@ -491,3 +491,7 @@ collections:
     plex_all: true
     filters:
       release: 365
+  ___Unmatched:
+    plex_search:
+      all:
+        unmatched: true
