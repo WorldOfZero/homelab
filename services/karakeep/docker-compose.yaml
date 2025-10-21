@@ -1,12 +1,12 @@
 services:
   web:
-    image: ghcr.io/karakeep-app/karakeep:${KARAKEEP_VERSION:-release}
+    image: ghcr.io/karakeep-app/karakeep:0.27.1
     restart: unless-stopped
     volumes:
       # By default, the data is stored in a docker volume called "data".
       # If you want to mount a custom directory, change the volume mapping to:
       # - /path/to/your/directory:/data
-      - data:/data
+      - /mnt/Vault/Configuration/katakeep/data:/data
     ports:
       - 3000:3000
     env_file:
@@ -14,10 +14,10 @@ services:
     environment:
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
-      OLLAMA_BASE_URL: http://ollama
+      OLLAMA_BASE_URL: http://ollama:11434
       INFERENCE_TEXT_MODEL: llama3.1
       INFERENCE_IMAGE_MODEL: llava
-      # OPENAI_API_KEY: ...
+      # OPENAI_API_KEY: ... # Unused - use ollama for local analysis
 
       # You almost never want to change the value of the DATA_DIR variable.
       # If you want to mount a custom directory, change the volume mapping above instead.
@@ -40,7 +40,10 @@ services:
     environment:
       MEILI_NO_ANALYTICS: "true"
     volumes:
-      - meilisearch:/meili_data
+      - /mnt/Vault/Configuration/katakeep/meilisearch:/meili_data
+
+  ollama: # CPU based LLM for processing bookmarks
+    image: ollama/ollama:0.12.6
 
 volumes:
   meilisearch:
