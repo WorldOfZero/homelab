@@ -33,6 +33,7 @@ services:
         Farego
         Greenhottub
         xxxoozxxx
+        joeymaximum
       SEED: "69420018030897796"
       MODE: survival
       CF_API_KEY: "${CURSEFORGE_API_KEY}"
