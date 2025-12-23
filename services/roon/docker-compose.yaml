@@ -1,0 +1,22 @@
+
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+    
+services:
+  roonserver:
+    image: steefdebruijn/docker-roonserver:debian-12-slim
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      TZ: "America/Los_Angeles"
+    volumes:
+      - /mnt/Vault/Configuration/roon/app:/app
+      - /mnt/Vault/Configuration/roon/data:/data
+      - /mnt/Vault/Media/Music:/music
+      - /mnt/Vault/Configuration/roon/backup:/backup
+    logging: *logging-config
