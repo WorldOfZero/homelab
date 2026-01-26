@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    image: elasticsearch:9.1.3
+    image: elasticsearch:9.2.4
     restart: unless-stopped
     volumes:
       # This directory must have 1000:1000 permissions (or update PUID & PGID below)
