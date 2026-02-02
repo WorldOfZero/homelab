@@ -43,7 +43,7 @@ services:
       - /mnt/Vault/Configuration/katakeep/meilisearch:/meili_data
 
   ollama: # CPU based LLM for processing bookmarks
-    image: ollama/ollama:0.15.1
+    image: ollama/ollama:0.15.4
 
 volumes:
   meilisearch:
