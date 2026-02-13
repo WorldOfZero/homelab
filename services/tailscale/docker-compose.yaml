@@ -23,6 +23,7 @@ services:
     cap_add:
       - net_admin
     restart: unless-stopped
+    network_mode: host
     healthcheck:
       test: curl --connect-timeout 15 --silent --show-error --fail http://localhost:9002/healthz
       interval: 1m00s
