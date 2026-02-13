@@ -46,8 +46,8 @@ services:
     ### Uncomment the below command after taking a meilisearch dump to upgrade the db.
     ### https://www.meilisearch.com/docs/learn/data_backup/dumps
     ### https://www.meilisearch.com/docs/guides/docker#generating-dumps-and-updating-meilisearch
-    command:
-      - "meilisearch --import-dump /meili_data/dumps/"
+    # command:
+    #   - "meilisearch --import-dump /meili_data/dumps/"
 
   ollama: # CPU based LLM for processing bookmarks
     image: ollama/ollama:0.16.0
