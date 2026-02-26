@@ -55,7 +55,7 @@ services:
     #   - "meilisearch --import-dump /meili_data/dumps/"
 
   ollama: # CPU based LLM for processing bookmarks
-    image: ollama/ollama:0.16.1
+    image: ollama/ollama:0.17.1
 
 volumes:
   meilisearch:
