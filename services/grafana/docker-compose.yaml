@@ -24,7 +24,7 @@ services:
     logging: *logging-config
 
   loki:
-    image: grafana/loki:3.6.5
+    image: grafana/loki:3.6.7
     labels:
       logging: "promtail"
       stack: grafana
