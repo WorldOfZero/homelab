@@ -68,7 +68,7 @@ services:
     logging: *logging-config
 
   prometheus:
-    image: prom/prometheus:v3.11.1
+    image: prom/prometheus:v3.11.2
     restart: unless-stopped
     labels:
       logging: "promtail"
