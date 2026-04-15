@@ -2,7 +2,6 @@ services:
   web:
     image: ghcr.io/karakeep-app/karakeep:0.31.0
     restart: unless-stopped
-    network_mode: container:tailscale
     volumes:
       # By default, the data is stored in a docker volume called "data".
       # If you want to mount a custom directory, change the volume mapping to:
