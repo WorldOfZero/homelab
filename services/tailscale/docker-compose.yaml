@@ -16,6 +16,7 @@ services:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
       - TS_ENABLE_METRICS=true
+      - TS_ENABLE_HEALTH_CHECK=true 
     volumes:
       - '/mnt/Vault/Configuration/tailscale/state:/var/lib/tailscale'
     devices:
