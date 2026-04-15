@@ -26,9 +26,9 @@ services:
     restart: unless-stopped
     network_mode: host
     healthcheck:
-      test: curl --connect-timeout 15 --silent --show-error --fail http://localhost:9002/healthz
-      interval: 1m00s
-      timeout: 15s
-      retries: 3
-      start_period: 1m00s
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz"] # Check Tailscale has a Tailnet IP and is operational
+      interval: 1m # How often to perform the check
+      timeout: 10s # Time to wait for the check to succeed
+      retries: 3 # Number of retries before marking as unhealthy
+      start_period: 10s # Time to wait before starting health checks
     logging: *logging-config
