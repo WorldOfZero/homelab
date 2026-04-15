@@ -11,7 +11,6 @@ services:
   sunshine:
     image: ghcr.io/lizardbyte/sunshine:v2026.212.153612-ubuntu-24.04
     restart: unless-stopped
-    network_mode: service:tailscale
     ipc: host
     ports: 
       - '47984-47990:47984-47990/tcp'
