@@ -32,3 +32,18 @@ services:
       retries: 3 # Number of retries before marking as unhealthy
       start_period: 10s # Time to wait before starting health checks
     logging: *logging-config
+  # Experimentally adding tailscale as an auth provider.
+  # See: https://github.com/tailscale/tsidp
+  tsidp:
+    image: ghcr.io/tailscale/tsidp:latest
+    restart: unless-stopped
+    volumes:
+      - '/mnt/Vault/Configuration/tailscale/tsidp:/data'
+    environment:
+      - TAILSCALE_USE_WIP_CODE=1 # tsidp is experimental - needed while version <1.0.0
+      - TS_STATE_DIR=/data # store persistent tsnet and tsidp state
+      - TS_HOSTNAME=auth # Hostname on tailnet (becomes idp.your-tailnet.ts.net)
+      - TSIDP_ENABLE_STS=1 # Enable OAuth token exchange
+      - TS_AUTHKEY=${TAILSCALE_AUTH_IDP_TOKEN}
+      - TS_ADVERTISE_TAGS=tag:tsidp
+    logging: *logging-config
