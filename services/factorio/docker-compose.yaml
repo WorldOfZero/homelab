@@ -1,5 +1,22 @@
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+    
 services:
   factorio:
-    image: factorio
-  factorio-prom-exporter:
-    image: factorio-prometheus-exporter
+    image: factoriotools/factorio:2.0.76-rootless
+    restart: unless-stopped
+    ports:
+      - 34197:34197/udp
+      - 27015:27015/tcp
+    # volumes:
+    #   - '/mnt/Vault/Configuration/factorio/:/factorio'
+    environment:
+      - PRESET=rail-world
+      - INSTANCE_NAME="World of Zero"
+      - INSTANCE_DESCRIPTION="Multiplayer rail world."
+    logging: *logging-config
