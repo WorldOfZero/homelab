@@ -9,8 +9,8 @@ x-logging-config:
 configs:
   ts-serve:
     content: |
-      {"TCP":{"27015":{"HTTPS":false}}},
-      {"UDP":{"34197":{"HTTPS":false}}},
+      {"TCP":{"27015":{"HTTPS":false}},
+      {"UDP":{"34197":{"HTTPS":false}},
       "AllowFunnel":{"$${TS_CERT_DOMAIN}:34197":false}}
     
 services:
