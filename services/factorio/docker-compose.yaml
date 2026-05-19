@@ -56,8 +56,6 @@ services:
     restart: unless-stopped
     volumes:
       - '/mnt/Vault/Configuration/factorio/:/factorio'
-    environment:
-      - stack.env
     depends_on:
       tailscale:
         condition: service_healthy
