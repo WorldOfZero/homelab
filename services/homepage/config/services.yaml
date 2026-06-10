@@ -78,25 +78,15 @@
     - Minerva:
         widget:
             type: tailscale
-            deviceid: minerva
+            deviceid: nTacDWpKGb11CNTRL
             key: {{HOMEPAGE_VAR_TS_APIKEY}}
     - Hestia:
         widget:
             type: tailscale
-            deviceid: hestia
+            deviceid: nbLpPXcJBH11CNTRL
             key: {{HOMEPAGE_VAR_TS_APIKEY}}
     - Athena:
         widget:
             type: tailscale
-            deviceid: athena
-            key: {{HOMEPAGE_VAR_TS_APIKEY}}
-    - Apollo:
-        widget:
-            type: tailscale
-            deviceid: apollo
-            key: {{HOMEPAGE_VAR_TS_APIKEY}}
-    - Hermes:
-        widget:
-            type: tailscale
-            deviceid: hermes
+            deviceid: nJgUqg5CNTRL
             key: {{HOMEPAGE_VAR_TS_APIKEY}}
