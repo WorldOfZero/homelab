@@ -1,0 +1,40 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/info-widgets/
+
+- datetime:
+    text_size: xl
+    format:
+      timeStyle: short
+
+- resources:
+    label: System
+    cpu: true
+    memory: true
+
+- resources:
+    label: Media
+    disk: /host-fs/media
+
+- resources:
+    label: Configuration
+    disk: /host-fs/config
+
+- search:
+    provider: duckduckgo
+    target: _blank
+
+- openmeteo:
+    label: Oakland CA # optional
+    latitude: 37.799746476127055
+    longitude: -122.27113227483392
+    timezone: America/Los_Angeles # optional
+    units: imperial # or metric
+    cache: 5 # Time in minutes to cache API responses, to stay within limits
+    format: # optional, Intl.NumberFormat options
+    maximumFractionDigits: 1
+
+- unifi_console:
+    url: https://unifi.host.or.ip:port
+    site: Ayr
+    #key: unifiapikey # required if using API key instead of username/password

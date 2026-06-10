@@ -17,7 +17,7 @@ services:
       - TS_USERSPACE=false
       - TS_ENABLE_METRICS=true
       - TS_ENABLE_HEALTH_CHECK=true
-      - TS_LOCAL_ADDR_PORT=127.0.0.1:41234
+      - TS_LOCAL_ADDR_PORT=127.0.0.1:41235
       - TS_ACCEPT_DNS=true
       - TS_AUTH_ONCE=true
     volumes:
@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     network_mode: host
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz"] # Check Tailscale has a Tailnet IP and is operational
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41235/healthz"] # Check Tailscale has a Tailnet IP and is operational
       interval: 1m # How often to perform the check
       timeout: 10s # Time to wait for the check to succeed
       retries: 3 # Number of retries before marking as unhealthy
