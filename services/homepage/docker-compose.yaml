@@ -48,6 +48,7 @@ services:
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: homepage
     environment:
+      - HOMEPAGE_VAR_JELLYFIN_API=${JELLYFIN_APIKEY}
       - HOMEPAGE_VAR_TS_APIKEY=${TS_APIKEY}
       - HOMEPAGE_ALLOWED_HOSTS=homepage.comet-stork.ts.net,home.worldofzero.com
     volumes:
