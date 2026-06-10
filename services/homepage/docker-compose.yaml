@@ -49,7 +49,7 @@ services:
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: homepage
     environment:
-      - HOMEPAGE_ALLOWED_HOSTS=homepage-1.comet-stork.ts.net,home.worldofzero.com
+      - HOMEPAGE_ALLOWED_HOSTS=homepage-1.comet-stork.ts.net:3000,home.worldofzero.com
     volumes:
       - '/mnt/Vault/Configuration/homepage/config:/app/config'
       # Don't use docker socket.
