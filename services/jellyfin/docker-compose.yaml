@@ -20,6 +20,7 @@ services:
     image: tailscale/tailscale:latest # Image to be used
     container_name: tailscale-jellyfin # Name for local container management
     hostname: jellyfin
+    network_mode: host
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
@@ -45,7 +46,7 @@ services:
       retries: 3 # Number of retries before marking as unhealthy
       start_period: 10s # Time to wait before starting health checks
     logging: *logging-config
-    
+
   application:
     image: jellyfin/jellyfin
     network_mode: service:tailscale
