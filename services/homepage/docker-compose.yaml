@@ -8,12 +8,9 @@ configs:
       "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 
 services:
-  # Make sure you have updated/checked the .env file with the correct variables. 
-  # All the ${ xx } need to be defined there.
-  # Tailscale Sidecar Configuration
   tailscale:
     image: tailscale/tailscale:latest # Image to be used
-    container_name: tailscale-homepage # Name for local container management
+    container_name: tailscale-${SERVICE} # Name for local container management
     hostname: ${SERVICE} # Name used within your Tailscale environment
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
@@ -28,12 +25,16 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/config/homepage:/config' # Config folder used to store Tailscale files - you may need to change the path
-      - '/mnt/Vault/Configuration/tailscale/state:/var/lib/tailscale' # Tailscale requirement - you may need to change the path
+      - '/mnt/Vault/Configuration/tailscale/state-homepage:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
       - net_admin # Tailscale requirement
+    #ports:
+    #  - 0.0.0.0:${SERVICEPORT}:${SERVICEPORT} # Binding port ${SERVICE}PORT to the local network - may be removed if only exposure to your Tailnet is required
+    # If any DNS issues arise, use your preferred DNS provider by uncommenting the config below
+    # dns: 
+    #   - ${DNS_SERVER}
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz"] # Check Tailscale has a Tailnet IP and is operational
       interval: 1m # How often to perform the check
@@ -41,16 +42,16 @@ services:
       retries: 3 # Number of retries before marking as unhealthy
       start_period: 10s # Time to wait before starting health checks
     restart: always
-  
+    
   application:
     image: ghcr.io/gethomepage/homepage:v1.13
-    network_mode: service:tailscale
-    container_name: app-homepage
+    network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
+    container_name: homepage
     environment:
-      - HOMEPAGE_ALLOWED_HOSTS=homepage.comet-stork.ts.net,homepage.home.worldofzero.com
+      - HOMEPAGE_ALLOWED_HOSTS=homepage.comet-stork.ts.net,home.worldofzero.com
     volumes:
       - '/mnt/Vault/Configuration/homepage/config:/app/config'
-      - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
+      # Don't use docker socket.
     depends_on:
       tailscale:
         condition: service_healthy
