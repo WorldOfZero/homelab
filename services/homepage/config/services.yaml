@@ -1,0 +1,102 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+- Media:
+    - Jellyfin:
+        href: http://localhost/
+        description: Homepage is awesome
+        widget:
+            type: jellyfin
+            url: http://jellyfin.host.or.ip:port
+            #key: apikeyapikeyapikeyapikeyapikey
+            version: 2 # optional, default is 1
+            enableBlocks: true # optional, defaults to false
+            enableNowPlaying: true # optional, defaults to true
+            enableUser: true # optional, defaults to false
+            enableMediaControl: false # optional, defaults to true
+            showEpisodeNumber: true # optional, defaults to false
+            expandOneStreamToTwoRows: false # optional, defaults to true
+    - Bazarr:
+        href: todo
+        description: Bazarr Subtitle Service
+        widget:
+            type: bazarr
+            url: http://sonarr.host.or.ip
+            #key: apikeyapikeyapikeyapikeyapikey
+    - Radarr:
+        href: todo
+        description: Radarr Movie Metadata Service
+        widget:
+            type: radarr
+            url: http://sonarr.host.or.ip
+            #key: apikeyapikeyapikeyapikeyapikey
+            enableQueue: true # optional, defaults to false
+    - Sonarr:
+        href: todo
+        description: Sonarr Show Metadata Service
+        widget:
+            type: sonarr
+            url: http://sonarr.host.or.ip
+            #key: apikeyapikeyapikeyapikeyapikey
+            enableQueue: true # optional, defaults to false
+    - Seerr:
+        href: todo
+        description: Seerr Media Requests
+        widget:
+            type: seerr
+            url: http://seerr.host.or.ip
+            #key: apikeyapikeyapikeyapikeyapikey
+
+- Intranet:
+    - Portainer:
+        href: http://localhost/
+        description: Portainer portal
+        widget:
+            type: portainer
+            url: https://portainer.host.or.ip:9443
+            env: Minerva
+            #key: ptr_accesskeyaccesskeyaccesskeyaccesskey
+    - Grafana:
+        description: Homelab Dashboards and Monitoring
+        widget:
+            type: grafana
+            version: 2 # optional, default is 1
+            url: http://grafana.host.or.ip:port
+            #username: username
+            #password: password
+
+- Configuration:
+    - Homelab Configuration:
+        href: https://github.com/worldofzero/homelab 
+        description: Homelab configuration on GitHub 
+    - Tailscale:
+        href: https://login.tailscale.com/admin
+        descripption: Tailscale admin portal for Tailnet management
+
+- Machines:
+    - Minerva:
+        widget:
+            type: tailscale
+            deviceid: minerva
+            #key: tailscalekey
+    - Hestia:
+        widget:
+            type: tailscale
+            deviceid: hestia
+            #key: tailscalekey
+    - Athena:
+        widget:
+            type: tailscale
+            deviceid: athena
+            #key: tailscalekey
+    - Apollo:
+        widget:
+            type: tailscale
+            deviceid: apollo
+            #key: tailscalekey
+    - Hermes:
+        widget:
+            type: tailscale
+            deviceid: hermes
+            #key: tailscalekey
