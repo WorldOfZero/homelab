@@ -48,7 +48,7 @@ services:
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: homepage
     environment:
-      - HOMEPAGE_ALLOWED_HOSTS=homepage-1.comet-stork.ts.net,home.worldofzero.com
+      - HOMEPAGE_ALLOWED_HOSTS=homepage.comet-stork.ts.net,home.worldofzero.com
     volumes:
       - '/mnt/Vault/Configuration/homepage/config:/app/config'
       # These mounts are provided so that homepage can give info about these directories - it should not have write permission to either of them
