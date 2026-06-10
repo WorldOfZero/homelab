@@ -79,24 +79,24 @@
         widget:
             type: tailscale
             deviceid: minerva
-            #key: tailscalekey
+            key: $TS_AUTHKEY
     - Hestia:
         widget:
             type: tailscale
             deviceid: hestia
-            #key: tailscalekey
+            key: $TS_AUTHKEY
     - Athena:
         widget:
             type: tailscale
             deviceid: athena
-            #key: tailscalekey
+            key: $TS_AUTHKEY
     - Apollo:
         widget:
             type: tailscale
             deviceid: apollo
-            #key: tailscalekey
+            key: $TS_AUTHKEY
     - Hermes:
         widget:
             type: tailscale
             deviceid: hermes
-            #key: tailscalekey
+            key: $TS_AUTHKEY
