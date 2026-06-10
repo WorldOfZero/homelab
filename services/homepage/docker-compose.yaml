@@ -12,7 +12,6 @@ services:
     image: tailscale/tailscale:latest # Image to be used
     container_name: tailscale-homepage # Name for local container management
     hostname: homepage # Name used within your Tailscale environment
-    network_mode: host
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
