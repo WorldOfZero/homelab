@@ -51,7 +51,7 @@ services:
       retries: 3 # Number of retries before marking as unhealthy
       start_period: 10s # Time to wait before starting health checks
     restart: always
-  seerr: # Managing requests
+  application: # Managing requests
     image: ghcr.io/seerr-team/seerr:latest
     init: true
     network_mode: service:tailscale
