@@ -55,8 +55,7 @@ services:
   application: # Subtitle Metadata
     container_name: bazarr
     image: ghcr.io/hotio/bazarr
-    ports:
-      - "6767:6767"
+    network_mode: service:tailscale
     environment:
       - PUID=1000
       - PGID=1000
@@ -64,6 +63,15 @@ services:
       - TZ=Etc/UTC
       - WEBUI_PORTS=6767/tcp 
     volumes:
-      - /<host_folder_config>:/config
-      - /<host_folder_data>:/data
+      - '/mnt/Vault/Configuration/arr/radarr:/config'
+      - '/mnt/Vault/Media/Data/Media:/data'
+    depends_on:
+      tailscale:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "${SERVICE}"] # Check if ${SERVICE} process is running
+      interval: 1m # How often to perform the check
+      timeout: 10s # Time to wait for the check to succeed
+      retries: 3 # Number of retries before marking as unhealthy
+      start_period: 30s # Time to wait before starting health checks
     logging: *logging-config
