@@ -18,34 +18,34 @@
             showEpisodeNumber: true # optional, defaults to false
             expandOneStreamToTwoRows: false # optional, defaults to true
     - Bazarr:
-        href: todo
+        href: https://bazarr.comet-stork.ts.net
         description: Bazarr Subtitle Service
         widget:
             type: bazarr
-            url: http://sonarr.host.or.ip
+            url: https://bazarr.comet-stork.ts.net
             #key: apikeyapikeyapikeyapikeyapikey
     - Radarr:
-        href: todo
+        href: https://radarr.comet-stork.ts.net
         description: Radarr Movie Metadata Service
         widget:
             type: radarr
-            url: http://sonarr.host.or.ip
+            url: https://radarr.comet-stork.ts.net
             #key: apikeyapikeyapikeyapikeyapikey
             enableQueue: true # optional, defaults to false
     - Sonarr:
-        href: todo
+        href: https://sonarr.comet-stork.ts.net
         description: Sonarr Show Metadata Service
         widget:
             type: sonarr
-            url: http://sonarr.host.or.ip
+            url: https://sonarr.comet-stork.ts.net
             #key: apikeyapikeyapikeyapikeyapikey
             enableQueue: true # optional, defaults to false
     - Seerr:
-        href: todo
+        href: https://seerr.comet-stork.ts.net
         description: Seerr Media Requests
         widget:
             type: seerr
-            url: http://seerr.host.or.ip
+            url: https://seerr.comet-stork.ts.net
             #key: apikeyapikeyapikeyapikeyapikey
 
 - Intranet:

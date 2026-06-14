@@ -5,13 +5,22 @@ x-logging-config:
     max-size: "1m"
     max-file: "1"
     tag: "{{.Name}}"
+
+configs:
+  ts-serve:
+    content: |
+      {"TCP":{"443":{"HTTPS":true}},
+      "Web":{"$${TS_CERT_DOMAIN}:443":
+          {"Handlers":{"/":
+          {"Proxy":"http://127.0.0.1:6767"}}}},
+      "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
     
 # Media Metadata and Request management
 services:
   tailscale:
     image: tailscale/tailscale:latest # Image to be used
-    container_name: tailscale-homepage # Name for local container management
-    hostname: homepage # Name used within your Tailscale environment
+    container_name: tailscale-bazarr # Name for local container management
+    hostname: bazarr # Name used within your Tailscale environment
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
@@ -25,7 +34,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-homepage:/var/lib/tailscale'
+      - '/mnt/Vault/Configuration/tailscale/state-bazarr:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -43,7 +52,7 @@ services:
       start_period: 10s # Time to wait before starting health checks
     restart: always
 
-  bazarr: # Subtitle Metadata
+  application: # Subtitle Metadata
     container_name: bazarr
     image: ghcr.io/hotio/bazarr
     ports:
