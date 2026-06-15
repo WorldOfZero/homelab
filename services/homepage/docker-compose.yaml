@@ -49,6 +49,9 @@ services:
     container_name: homepage
     environment:
       - HOMEPAGE_VAR_JELLYFIN_API=${JELLYFIN_APIKEY}
+      - HOMEPAGE_VAR_RADARR_API=${RADARR_APIKEY}
+      - HOMEPAGE_VAR_SEERR_API=${SEERR_APIKEY}
+      - HOMEPAGE_VAR_SONARR_API=${SONARR_APIKEY}
       - HOMEPAGE_VAR_TS_APIKEY=${TS_APIKEY}
       - HOMEPAGE_ALLOWED_HOSTS=homepage.comet-stork.ts.net,home.worldofzero.com
     volumes:

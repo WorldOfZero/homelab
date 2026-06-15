@@ -4,11 +4,11 @@
 
 - Media:
     - Jellyfin:
-        href: http://localhost/
-        description: Homepage is awesome
+        href: https://jellyfin.comet-stork.ts.net
+        description: Home Jellyfin Server for Movie, Show, Music and Book streaming.
         widget:
             type: jellyfin
-            url: https://jellyfin.comet-stork.ts.net
+            url: http://100.93.135.76:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_API}}
             version: 2 # optional, default is 1
             enableBlocks: true # optional, defaults to false
@@ -22,31 +22,31 @@
         description: Bazarr Subtitle Service
         widget:
             type: bazarr
-            url: https://bazarr.comet-stork.ts.net
-            #key: apikeyapikeyapikeyapikeyapikey
+            url: http://100.87.59.121
+            key: {{HOMEPAGE_VAR_BAZARR_API}}
     - Radarr:
         href: https://radarr.comet-stork.ts.net
         description: Radarr Movie Metadata Service
         widget:
             type: radarr
-            url: https://radarr.comet-stork.ts.net
-            #key: apikeyapikeyapikeyapikeyapikey
+            url: http://100.113.174.100
+            key: {{HOMEPAGE_VAR_RADARR_API}}
             enableQueue: true # optional, defaults to false
     - Sonarr:
         href: https://sonarr.comet-stork.ts.net
         description: Sonarr Show Metadata Service
         widget:
             type: sonarr
-            url: https://sonarr.comet-stork.ts.net
-            #key: apikeyapikeyapikeyapikeyapikey
+            url: http://100.126.40.118
+            key: {{HOMEPAGE_VAR_SONARR_API}}
             enableQueue: true # optional, defaults to false
     - Seerr:
         href: https://seerr.comet-stork.ts.net
         description: Seerr Media Requests
         widget:
             type: seerr
-            url: https://seerr.comet-stork.ts.net
-            #key: apikeyapikeyapikeyapikeyapikey
+            url: http://100.104.237.63
+            key: {{HOMEPAGE_VAR_SEERR_API}}
 
 - Intranet:
     - Portainer:
