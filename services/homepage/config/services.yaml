@@ -22,14 +22,14 @@
         description: Bazarr Subtitle Service
         widget:
             type: bazarr
-            url: http://100.87.59.121
+            url: http://100.87.59.121:6767
             key: {{HOMEPAGE_VAR_BAZARR_API}}
     - Radarr:
         href: https://radarr.comet-stork.ts.net
         description: Radarr Movie Metadata Service
         widget:
             type: radarr
-            url: http://100.113.174.100
+            url: http://100.113.174.100:7878
             key: {{HOMEPAGE_VAR_RADARR_API}}
             enableQueue: true # optional, defaults to false
     - Sonarr:
@@ -37,7 +37,7 @@
         description: Sonarr Show Metadata Service
         widget:
             type: sonarr
-            url: http://100.126.40.118
+            url: http://100.126.40.118:8989
             key: {{HOMEPAGE_VAR_SONARR_API}}
             enableQueue: true # optional, defaults to false
     - Seerr:
@@ -45,7 +45,7 @@
         description: Seerr Media Requests
         widget:
             type: seerr
-            url: http://100.104.237.63
+            url: http://100.104.237.63:5055
             key: {{HOMEPAGE_VAR_SEERR_API}}
 
 - Intranet:

@@ -35,6 +35,6 @@
     maximumFractionDigits: 1
 
 - unifi_console:
-    url: https://unifi.host.or.ip:port
+    url: https://unifi.ui.com
     site: Ayr
-    #key: unifiapikey # required if using API key instead of username/password
+    key: {{HOMEPAGE_VAR_UNIFI_API}}
