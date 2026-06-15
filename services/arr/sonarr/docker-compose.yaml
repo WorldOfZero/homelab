@@ -63,7 +63,7 @@ services:
       - WEBUI_PORTS=8989/tcp 
     volumes:
       - '/mnt/Vault/Configuration/arr/sonarr:/config'
-      - '/mnt/Vault/Media/Data/Media:/data'
+      - '/mnt/Vault/Media/:/data'
     depends_on:
       tailscale:
         condition: service_healthy

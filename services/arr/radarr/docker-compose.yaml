@@ -63,7 +63,7 @@ services:
       - WEBUI_PORTS=7878/tcp 
     volumes:
       - '/mnt/Vault/Configuration/arr/radarr:/config'
-      - '/mnt/Vault/Media/Data/Media:/data'
+      - '/mnt/Vault/Media/:/data'
     depends_on:
       tailscale:
         condition: service_healthy
