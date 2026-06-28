@@ -54,7 +54,6 @@ services:
   web:
     image: ghcr.io/karakeep-app/karakeep:0.31.0
     restart: unless-stopped
-    init: true
     network_mode: service:tailscale
     container_name: app-karakeep
     volumes:
