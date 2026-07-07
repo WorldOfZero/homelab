@@ -61,7 +61,7 @@ services:
       - type: bind
         source: /mnt/Vault/Media
         target: /media
-        read_only: true
+        read_only: false
       # Fonts for subtitles
       - type: bind
         source: /mnt/Vault/Media/Fonts
