@@ -97,7 +97,7 @@ services:
       - --hide-scrollbars
     logging: *logging-config
   meilisearch:
-    image: getmeili/meilisearch:v1.35.0
+    image: getmeili/meilisearch:v1.50.0
     container_name: app-karakeep-meilisearch
     restart: unless-stopped
     ports:
