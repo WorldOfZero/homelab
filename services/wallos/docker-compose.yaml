@@ -4,7 +4,7 @@ configs:
       {"TCP":{"443":{"HTTPS":true}},
       "Web":{"$${TS_CERT_DOMAIN}:443":
           {"Handlers":{"/":
-          {"Proxy":"http://127.0.0.1:5000"}}}},
+          {"Proxy":"http://127.0.0.1:80"}}}},
       "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 
 services:
@@ -49,21 +49,21 @@ services:
 
   # ${SERVICE}
   application:
-    image: jvmilazz0/kavita:0.9.0.2 # Image to be used
+    image: bellamy/wallos # Image to be used
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: app-${SERVICE} # Name for local container management
     environment:
       - TZ=America/Pacific
     volumes:
-      - /mnt/Vault/Media/EBooks:/books
-      - /mnt/Vault/Configuration/kavita/config:/kavita/config
+      - /mnt/Vault/Configuration/wallos/db:/var/www/html/db
+      - /mnt/Vault/Configuration/wallos/logos:/var/www/html/images/uploads/logos
     depends_on:
       tailscale:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "pgrep", "-f", "${SERVICE}"] # Check if ${SERVICE} process is running
+      test: ["CMD", "pgrep", "-f", "nginx"] # Check if ${SERVICE} process is running
       interval: 1m # How often to perform the check
       timeout: 10s # Time to wait for the check to succeed
       retries: 3 # Number of retries before marking as unhealthy
       start_period: 30s # Time to wait before starting health checks
-    restart: always
+    restart: always   

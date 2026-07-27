@@ -4,7 +4,7 @@ Import-Module -Name Terminal-Icons # Adds icons to terminal results
 Import-Module PSReadLine
 
 # Setup Oh My Posh
-oh-my-posh init pwsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/night-owl.omp.json' | Invoke-Expression
+oh-my-posh init pwsh --config 'https://raw.githubusercontent.com/runewake2/oh-my-posh/refs/heads/main/themes/world-of-zero.omp.json' | Invoke-Expression
 
 # TODO: Create seperate Aliases file
 
