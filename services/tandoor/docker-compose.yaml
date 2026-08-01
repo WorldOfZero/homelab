@@ -64,6 +64,7 @@ services:
       - TZ=America/Pacific
       - TANDOOR_PORT=9001
       - ALLOWED_HOSTS=tandoor.comet-stork.ts.net
+      - SECRET_KEY=$SECRET_KEY
       - DB_ENGINE=django.db.backends.postgresql
       - POSTGRES_HOST=$POSTGRES_HOST
       - POSTGRES_PORT=$POSTGRES_PORT
