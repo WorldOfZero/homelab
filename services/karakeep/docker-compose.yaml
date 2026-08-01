@@ -70,7 +70,7 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
-      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_BASE_URL: http://100.116.7.88:11434
       INFERENCE_TEXT_MODEL: gemma3
       INFERENCE_IMAGE_MODEL: llava
       INFERENCE_LANG: english
@@ -113,10 +113,6 @@ services:
     ### https://www.meilisearch.com/docs/guides/docker#generating-dumps-and-updating-meilisearch
     # command:
     #   - "meilisearch --import-dump /meili_data/dumps/"
-
-  ollama: # CPU based LLM for processing bookmarks
-    image: ollama/ollama:0.32.5
-    logging: *logging-config
 
 volumes:
   meilisearch:
