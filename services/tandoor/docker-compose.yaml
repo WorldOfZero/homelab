@@ -1,10 +1,18 @@
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+
 configs:
   ts-serve:
     content: |
       {"TCP":{"443":{"HTTPS":true}},
       "Web":{"$${TS_CERT_DOMAIN}:443":
           {"Handlers":{"/":
-          {"Proxy":"http://127.0.0.1:5000"}}}},
+          {"Proxy":"http://127.0.0.1:9001"}}}},
       "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 
 services:
@@ -49,14 +57,22 @@ services:
 
   # ${SERVICE}
   application:
-    image: jvmilazz0/kavita:0.9.0.2 # Image to be used
+    image: vabene1111/recipes:2.6.13 # Image to be used
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: app-${SERVICE} # Name for local container management
     environment:
       - TZ=America/Pacific
+      - TANDOOR_PORT=9001
+      - ALLOWED_HOSTS=tandoor.comet-stork.ts.net
+      - DB_ENGINE=django.db.backends.postgresql
+      - POSTGRES_HOST=$POSTGRES_HOST
+      - POSTGRES_PORT=$POSTGRES_PORT
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
     volumes:
-      - /mnt/Vault/Media/EBooks:/books
-      - /mnt/Vault/Configuration/kavita/config:/kavita/config
+      - /mnt/Vault/Configuration/tandoor/staticfiles:/opt/recipes/staticfiles
+      - /mnt/Vault/Configuration/tandoor/mediafiles:/opt/recipes/mediafiles
     depends_on:
       tailscale:
         condition: service_healthy
@@ -67,3 +83,4 @@ services:
       retries: 3 # Number of retries before marking as unhealthy
       start_period: 30s # Time to wait before starting health checks
     restart: always
+    logging: *logging-config
