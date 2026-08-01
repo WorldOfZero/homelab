@@ -61,7 +61,7 @@ services:
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: app-${SERVICE} # Name for local container management
     environment:
-      - TZ=America/Pacific
+      - TZ=America/Los_Angeles
       - TANDOOR_PORT=9001
       - ALLOWED_HOSTS=tandoor.comet-stork.ts.net
       - SECRET_KEY=$SECRET_KEY
