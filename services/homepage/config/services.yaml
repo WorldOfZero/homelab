@@ -17,6 +17,13 @@
             enableMediaControl: false # optional, defaults to true
             showEpisodeNumber: true # optional, defaults to false
             expandOneStreamToTwoRows: false # optional, defaults to true
+    - Kavita:
+        href: https://kavita.comet-stork.ts.net
+        description: Ebook Library
+        widget:
+            type: kavita
+            url: https://kavita.comet-stork.ts.net:41234
+            key: {{HOMEPAGE_VAR_KAVITA_API}} # Optional, e.g. if not using username and password
     - Bazarr:
         href: https://bazarr.comet-stork.ts.net
         description: Bazarr Subtitle Service
@@ -65,6 +72,14 @@
             url: http://grafana.host.or.ip:port
             #username: username
             #password: password
+
+- Finance:
+    - Wallos:
+        description: Wallos subscription tracking
+        widget:
+            type: wallos
+            url: https://wallos.comet-stork.ts.net:80
+            key: {{HOMEPAGE_VAR_WALLOS_APIKEY}}
 
 - Configuration:
     - Homelab Configuration:
