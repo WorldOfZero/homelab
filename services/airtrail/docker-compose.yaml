@@ -55,8 +55,6 @@ services:
     container_name: airtrail_db
     image: postgres:16-alpine
     restart: always
-    env_file:
-      - .env
     environment:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_USER: ${DB_USERNAME}
