@@ -28,8 +28,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - ./config:/config # Config folder used to store Tailscale files - you may need to change the path
-      - ./ts/state:/var/lib/tailscale # Tailscale requirement - you may need to change the path
+      - /mnt/Vault/Configuration/tailscale/state-kavita:/var/lib/tailscale # Tailscale requirement - you may need to change the path
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:

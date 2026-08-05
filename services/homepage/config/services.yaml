@@ -78,7 +78,7 @@
         description: Wallos subscription tracking
         widget:
             type: wallos
-            url: https://wallos.comet-stork.ts.net:80
+            url: https://wallos.comet-stork.ts.net
             key: {{HOMEPAGE_VAR_WALLOS_APIKEY}}
 
 - Configuration:
