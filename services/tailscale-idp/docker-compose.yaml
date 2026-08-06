@@ -59,6 +59,9 @@ services:
     restart: unless-stopped
     volumes:
       - '/mnt/Vault/Configuration/tailscale/tsidp:/data'
+    depends_on:
+      tailscale:
+        condition: service_healthy
     environment:
       - TZ=America/Pacific
       - TAILSCALE_USE_WIP_CODE=1 # tsidp is experimental - needed while version <1.0.0
