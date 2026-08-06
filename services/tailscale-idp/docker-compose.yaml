@@ -69,5 +69,5 @@ services:
       - TS_HOSTNAME=idp # Hostname on tailnet (becomes idp.your-tailnet.ts.net)
       - TSIDP_ENABLE_STS=1 # Enable OAuth token exchange
       - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_ADVERTISE_TAGS=tag:tsidp
+      #- TS_ADVERTISE_TAGS=tag:tsidp
     logging: *logging-config
