@@ -48,8 +48,6 @@ services:
     volumes:
       - '/mnt/Vault/Configuration/tailscale/tsidp:/data'
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=America/Pacific
       - TAILSCALE_USE_WIP_CODE=1 # tsidp is experimental - needed while version <1.0.0
       - TS_STATE_DIR=/data # store persistent tsnet and tsidp state
