@@ -71,6 +71,7 @@ services:
       - POSTGRES_USER=$POSTGRES_USER
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
       - POSTGRES_DB=$POSTGRES_DB
+      - SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
     volumes:
       - /mnt/Vault/Configuration/tandoor/staticfiles:/opt/recipes/staticfiles
       - /mnt/Vault/Configuration/tandoor/mediafiles:/opt/recipes/mediafiles
