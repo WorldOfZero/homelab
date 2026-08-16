@@ -47,7 +47,7 @@ services:
     logging: *logging-config
 
   application:
-    image: jellyfin/jellyfin
+    image: jellyfin/jellyfin:10.11.11
     network_mode: service:tailscale
     container_name: app-jellyfin
     user: 1000:1000
