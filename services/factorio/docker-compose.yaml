@@ -8,7 +8,7 @@ x-logging-config:
 
 services:
   factorio:
-    image: factoriotools/factorio:2.0.76-rootless
+    image: factoriotools/factorio:2.1.17-rootless
     container_name: app-${SERVICE}
     restart: unless-stopped
     volumes:
