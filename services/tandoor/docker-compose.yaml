@@ -56,7 +56,7 @@ services:
 
   # ${SERVICE}
   application:
-    image: vabene1111/recipes:2.6.13 # Image to be used
+    image: vabene1111/recipes:2.6.15 # Image to be used
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: app-${SERVICE} # Name for local container management
     environment:
