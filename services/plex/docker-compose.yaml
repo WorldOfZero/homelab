@@ -65,7 +65,7 @@ services:
     labels:
       logging: "promtail"
       stack: plex
-    image: kometateam/kometa:v2.4.6
+    image: kometateam/kometa:v2.4.8
     restart: unless-stopped
     environment:
       - TZ=America/Los_Angeles
