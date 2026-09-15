@@ -55,6 +55,7 @@ services:
       - TZ=America/Pacific
     volumes:
       - /mnt/Vault/Media/EBooks:/books
+      - /mnt/Vault/Media/Adult:/adult
       - /mnt/Vault/Configuration/kavita/config:/kavita/config
     depends_on:
       tailscale:
