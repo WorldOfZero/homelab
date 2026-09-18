@@ -18,7 +18,7 @@ configs:
 # Media Metadata and Request management
 services:
   tailscale:
-    image: tailscale/tailscale:latest # Image to be used
+    image: tailscale/tailscale:v1.98 # Image to be used
     container_name: tailscale-radarr # Name for local container management
     hostname: radarr # Name used within your Tailscale environment
     environment:
