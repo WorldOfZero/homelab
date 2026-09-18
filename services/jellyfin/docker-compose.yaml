@@ -52,8 +52,6 @@ services:
     container_name: app-jellyfin
     user: 1000:1000
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=America/Los_Angeles
     volumes:
       - '/mnt/Vault/Configuration/jellyfin/config:/config'
@@ -67,6 +65,10 @@ services:
         source: /mnt/Vault/Media/Fonts
         target: /usr/local/share/fonts/custom
         read_only: true
+    
+    # Write transcodes directly to RAM to save the HDDs
+    tmpfs:
+      - /config/data/transcodes:size=4G
     depends_on:
       tailscale:
         condition: service_healthy
