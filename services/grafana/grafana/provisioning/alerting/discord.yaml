@@ -1,0 +1,25 @@
+apiVersion: 1
+
+# Every firing/resolved alert goes to Discord, giving reliability issues a
+# searchable history in the channel. The webhook URL is a secret, supplied via
+# the DISCORD_WEBHOOK_URL env var (set in Portainer, passed through by
+# docker-compose.yaml) - never write it into this file.
+contactPoints:
+  - orgId: 1
+    name: discord
+    receivers:
+      - uid: discord-alerts
+        type: discord
+        settings:
+          url: $DISCORD_WEBHOOK_URL
+        disableResolveMessage: false
+
+# Note: provisioning the policy replaces the default policy tree. Add
+# child `routes:` here if some alerts should go elsewhere later.
+policies:
+  - orgId: 1
+    receiver: discord
+    group_by: ['alertname', 'grafana_folder']
+    group_wait: 30s
+    group_interval: 5m
+    repeat_interval: 4h

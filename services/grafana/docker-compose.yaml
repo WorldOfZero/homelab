@@ -18,6 +18,8 @@ services:
     restart: unless-stopped
     ports:
       - 3001:3000
+    environment:
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
     volumes:
       - '/mnt/Vault/Configuration/grafana/data:/var/lib/grafana:rw'
       - '/mnt/Vault/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning'
