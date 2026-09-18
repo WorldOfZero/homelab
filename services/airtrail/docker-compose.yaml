@@ -66,6 +66,26 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  # Daily pg_dump snapshots with 7 daily / 4 weekly / 6 monthly retention
+  # (the image's own defaults - override via BACKUP_KEEP_DAYS/WEEKS/MONTHS or
+  # SCHEDULE if you want something else).
+  backup:
+    image: prodrigestivill/postgres-backup-local:16-alpine
+    container_name: airtrail_db_backup
+    restart: unless-stopped
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_DB=${DB_DATABASE_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - /mnt/Vault/Configuration/flights/postgresql/backups:/backups
+    depends_on:
+      db:
+        condition: service_healthy
+    logging: *logging-config
+
   application: # Managing requests
     image: johly/airtrail:v3.11.1
     init: true

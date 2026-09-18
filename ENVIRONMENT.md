@@ -44,15 +44,26 @@ long-lived reusable secret.
 | `MEILI_MASTER_KEY` | `karakeep` (both the `web` app and `meilisearch`) | Yes | Portainer (secret) |
 | `NEXTAUTH_URL` | `karakeep` | No — just a URL | Env file candidate |
 | `SECRET_KEY` | `tandoor` (Django secret key) | Yes | Portainer (secret) |
-| `POSTGRES_PASSWORD` | `tandoor`, `airtrail` | Yes | Portainer (secret) |
-| `POSTGRES_HOST` / `POSTGRES_PORT` | `tandoor` | No | Env file candidate |
-| `POSTGRES_USER` | `tandoor`, `airtrail` (as `DB_USERNAME` there) | Borderline — a username alone, low sensitivity | Env file candidate |
-| `POSTGRES_DB` | `tandoor`, `airtrail` (as `DB_DATABASE_NAME` there) | No — just a database name | Env file candidate |
-| `DB_USERNAME` | `airtrail` | Borderline, same as `POSTGRES_USER` above | Env file candidate |
-| `DB_DATABASE_NAME` | `airtrail` | No | Env file candidate |
+| `POSTGRES_PASSWORD` | `tandoor` (`application`, `db`, `backup`), `airtrail` (as `DB_PASSWORD` there — `db`, `backup`) | Yes | Portainer (secret) |
+| `POSTGRES_USER` | `tandoor` (`application`, `db`, `backup`), `airtrail` (as `DB_USERNAME` there — `db`, `backup`) | Borderline — a username alone, low sensitivity | Env file candidate |
+| `POSTGRES_DB` | `tandoor` (`application`, `db`, `backup`), `airtrail` (as `DB_DATABASE_NAME` there — `db`, `backup`) | No — just a database name | Env file candidate |
+| `DB_USERNAME` | `airtrail` (`db`, `backup`) | Borderline, same as `POSTGRES_USER` above | Env file candidate |
+| `DB_DATABASE_NAME` | `airtrail` (`db`, `backup`) | No | Env file candidate |
 | `DB_URL` | `airtrail` (app connection string) | Depends on format — confirm it doesn't embed the password inline before treating as non-secret; `DB_PASSWORD` is already passed separately, so it likely doesn't | Portainer (secret) until confirmed otherwise |
 | `CURSEFORGE_API_KEY` | `minecraft` | Yes | Portainer (secret) |
 | `OLLAMA_API_KEY` | `ollama` (currently commented out / optional) | Yes, if enabled | Portainer (secret) |
+
+`tandoor`'s `POSTGRES_HOST`/`POSTGRES_PORT` used to be Portainer-set variables pointing at an
+external supabase database; as of 9/20/2026 they're now hardcoded to `db`/`5432` in the compose file instead, since
+`tandoor` owns its own postgres container now (see the Backups section below) and that value can
+never meaningfully be anything else. One less thing to configure.
+
+## Postgres backups
+
+Both self-hosted postgres instances (`tandoor`, `airtrail`) now have a `backup` sidecar
+(`prodrigestivill/postgres-backup-local`) doing daily `pg_dump` snapshots into a `backups/`
+subdirectory next to each database's data directory, with 7 daily / 4 weekly / 6 monthly
+retention (the image's own defaults). See Improvements.md §14.
 
 ## Homepage dashboard API keys
 
