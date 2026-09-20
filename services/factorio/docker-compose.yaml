@@ -9,7 +9,7 @@ x-logging-config:
 services:
   factorio:
     image: factoriotools/factorio:2.0.76-rootless
-    container_name: app-${SERVICE}
+    container_name: app-factorio
     restart: unless-stopped
     volumes:
       - '/mnt/Vault/Configuration/factorio/:/factorio'
