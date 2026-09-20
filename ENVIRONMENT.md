@@ -65,6 +65,12 @@ Both self-hosted postgres instances (`tandoor`, `airtrail`) now have a `backup` 
 subdirectory next to each database's data directory, with 7 daily / 4 weekly / 6 monthly
 retention (the image's own defaults). See Improvements.md §14.
 
+## Grafana alerting
+
+| Variable | Used by | Secret? | Where |
+|---|---|---|---|
+| `DISCORD_WEBHOOK_URL` | `grafana` — expanded into `services/grafana/grafana/provisioning/alerting/discord.yaml` | Yes — anyone with the URL can post to the channel | Portainer (secret) |
+
 ## Homepage dashboard API keys
 
 `homepage` pulls read-only status/API keys from six other services to populate its dashboard.
