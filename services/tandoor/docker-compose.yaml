@@ -91,7 +91,7 @@ services:
     logging: *logging-config
 
   application:
-    image: vabene1111/recipes:2.6.13 # Image to be used
+    image: vabene1111/recipes:2.6.15 # Image to be used
     network_mode: service:tailscale # Sidecar configuration to route tandoor through Tailscale
     container_name: app-tandoor # Name for local container management
     environment:
