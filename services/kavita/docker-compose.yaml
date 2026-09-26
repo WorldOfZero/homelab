@@ -28,7 +28,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - /mnt/Vault/Configuration/tailscale/state-kavita:/var/lib/tailscale # Tailscale requirement - you may need to change the path
+      - /mnt/Fast/Configuration/tailscale/state-kavita:/var/lib/tailscale # Tailscale requirement - you may need to change the path
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -56,7 +56,7 @@ services:
     volumes:
       - /mnt/Vault/Media/EBooks:/books
       - /mnt/Vault/Media/Adult:/adult
-      - /mnt/Vault/Configuration/kavita/config:/kavita/config
+      - /mnt/Fast/Configuration/kavita/config:/kavita/config
     depends_on:
       tailscale:
         condition: service_healthy

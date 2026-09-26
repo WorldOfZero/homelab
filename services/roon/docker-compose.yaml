@@ -15,8 +15,8 @@ services:
     environment:
       TZ: "America/Los_Angeles"
     volumes:
-      - /mnt/Vault/Configuration/roon/app:/app
-      - /mnt/Vault/Configuration/roon/data:/data
+      - /mnt/Fast/Configuration/roon/app:/app
+      - /mnt/Fast/Configuration/roon/data:/data
       - /mnt/Vault/Media/Music:/music
-      - /mnt/Vault/Configuration/roon/backup:/backup
+      - /mnt/Fast/Configuration/roon/backup:/backup
     logging: *logging-config

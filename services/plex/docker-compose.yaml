@@ -36,7 +36,7 @@ services:
     # devices: TODO add gpu mount for transcoding
     volumes:
       - '/mnt/Vault/Media:/data/media'
-      - '/mnt/Vault/Configuration/Plex:/config'
+      - '/mnt/Fast/Configuration/Plex:/config'
     logging: *logging-config
   plex-prometheus: # provides prometheus metrics - allows grafana + alerting
     image: ghcr.io/jsclayton/prometheus-plex-exporter
@@ -59,7 +59,7 @@ services:
     environment:
       - TZ=America/Los_Angeles
     volumes:
-      - '/mnt/Vault/Configuration/Tautulli:/config:rw'
+      - '/mnt/Fast/Configuration/Tautulli:/config:rw'
     logging: *logging-config
   plex-kometa-metadata:
     labels:
@@ -73,5 +73,5 @@ services:
       - KOMETA_TIMES=02:00 # run this overnight
       - KOMETA_RUN=True
     volumes:
-      - '/mnt/Vault/Configuration/PlexMetaManager:/config'
+      - '/mnt/Fast/Configuration/PlexMetaManager:/config'
     logging: *logging-config

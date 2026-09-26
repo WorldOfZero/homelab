@@ -33,7 +33,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-jellyfin:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-jellyfin:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -54,8 +54,8 @@ services:
     environment:
       - TZ=America/Los_Angeles
     volumes:
-      - '/mnt/Vault/Configuration/jellyfin/config:/config'
-      - '/mnt/Vault/Configuration/jellyfin/cache:/cache'
+      - '/mnt/Fast/Configuration/jellyfin/config:/config'
+      - '/mnt/Fast/Configuration/jellyfin/cache:/cache'
       - type: bind
         source: /mnt/Vault/Media
         target: /media

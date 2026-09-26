@@ -5,7 +5,7 @@ services:
     volumes:
       - /data/sist2-admin-data/:/sist2-admin/
       - /mnt/Vault/Media:/host/media:ro
-      - /mnt/Vault/Configuration:/host/config:ro
+      - /mnt/Fast/Configuration:/host/config:ro
     ports:
       - 4090:4090
       # NOTE: Don't expose this port publicly!

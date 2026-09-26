@@ -47,5 +47,5 @@ services:
         darkheads
         disable-enderman-picking-up-blocks
     volumes:
-      - '/mnt/Vault/Configuration/Minecraft/Server:/data'
+      - '/mnt/Fast/Configuration/Minecraft/Server:/data'
     logging: *logging-config

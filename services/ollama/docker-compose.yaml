@@ -37,7 +37,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - /mnt/Vault/Configuration/tailscale/state-ollama:/var/lib/tailscale # Tailscale requirement
+      - /mnt/Fast/Configuration/tailscale/state-ollama:/var/lib/tailscale # Tailscale requirement
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -70,7 +70,7 @@ services:
       - OLLAMA_KEEP_ALIVE=24h # Optional: keeps models loaded in memory (default is 5 min)
       # - OLLAMA_API_KEY=${OLLAMA_API_KEY} # Optional: set an API key to restrict access
     volumes:
-      - /mnt/Vault/Configuration/ollama:/root/.ollama # Stores downloaded models
+      - /mnt/Fast/Configuration/ollama:/root/.ollama # Stores downloaded models
     depends_on:
       tailscale:
         condition: service_healthy

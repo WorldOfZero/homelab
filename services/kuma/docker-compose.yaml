@@ -25,7 +25,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-kuma:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-kuma:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -52,7 +52,7 @@ services:
       - PGID=1000
       - TZ=America/Pacific
     volumes:
-      - '/mnt/Vault/Configuration/kuma/config:/app/data'
+      - '/mnt/Fast/Configuration/kuma/config:/app/data'
     depends_on:
       tailscale:
         condition: service_healthy

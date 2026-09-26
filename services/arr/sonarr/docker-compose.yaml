@@ -34,7 +34,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-sonarr:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-sonarr:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -62,7 +62,7 @@ services:
       - TZ=Etc/UTC
       - WEBUI_PORTS=8989/tcp 
     volumes:
-      - '/mnt/Vault/Configuration/arr/sonarr:/config'
+      - '/mnt/Fast/Configuration/arr/sonarr:/config'
       - '/mnt/Vault/Media/:/data'
     depends_on:
       tailscale:

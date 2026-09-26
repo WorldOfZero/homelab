@@ -55,8 +55,8 @@ services:
     environment:
       - TZ=America/Pacific
     volumes:
-      - /mnt/Vault/Configuration/wallos/db:/var/www/html/db
-      - /mnt/Vault/Configuration/wallos/logos:/var/www/html/images/uploads/logos
+      - /mnt/Fast/Configuration/wallos/db:/var/www/html/db
+      - /mnt/Fast/Configuration/wallos/logos:/var/www/html/images/uploads/logos
     depends_on:
       tailscale:
         condition: service_healthy
