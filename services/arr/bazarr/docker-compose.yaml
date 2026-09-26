@@ -34,7 +34,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-bazarr:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-bazarr:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -63,7 +63,7 @@ services:
       - TZ=America/Pacific
       - WEBUI_PORTS=6767/tcp 
     volumes:
-      - '/mnt/Vault/Configuration/arr/bazarr:/config'
+      - '/mnt/Fast/Configuration/arr/bazarr:/config'
       - '/mnt/Vault/Media/:/data'
     depends_on:
       tailscale:

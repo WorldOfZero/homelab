@@ -17,6 +17,6 @@ services:
       - '48010:48010'
       - '47998-48000:47998-48000/udp'
     volumes:
-      - '/mnt/Vault/Configuration/sunshine:/config'
+      - '/mnt/Fast/Configuration/sunshine:/config'
       - '/mnt/Vault/Media/Games:/data/games'
     logging: *logging-config

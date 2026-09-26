@@ -34,7 +34,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-seerr:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-seerr:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -63,7 +63,7 @@ services:
       - TZ=America/Pacific
       - PORT=5055 #optional
     volumes:
-      -  '/mnt/Vault/Configuration/arr/seerr:/app/config'
+      -  '/mnt/Fast/Configuration/arr/seerr:/app/config'
     depends_on:
       tailscale:
         condition: service_healthy

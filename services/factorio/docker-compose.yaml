@@ -12,5 +12,5 @@ services:
     container_name: app-factorio
     restart: unless-stopped
     volumes:
-      - '/mnt/Vault/Configuration/factorio/:/factorio'
+      - '/mnt/Fast/Configuration/factorio/:/factorio'
     logging: *logging-config

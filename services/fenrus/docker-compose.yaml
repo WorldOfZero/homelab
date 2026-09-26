@@ -19,5 +19,5 @@ services:
     environment:
       - TZ=America/Los_Angeles
     volumes:
-      - /mnt/Vault/Configuration/fenrus:/app/data
+      - /mnt/Fast/Configuration/fenrus:/app/data
     logging: *logging-config

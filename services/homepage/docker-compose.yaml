@@ -25,7 +25,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-homepage:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-homepage:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -57,14 +57,14 @@ services:
       - HOMEPAGE_VAR_WALLOS_APIKEY=${WALLOS_APIKEY}
       - HOMEPAGE_ALLOWED_HOSTS=homepage.comet-stork.ts.net,home.worldofzero.com
     volumes:
-      - '/mnt/Vault/Configuration/homepage/config:/app/config'
+      - '/mnt/Fast/Configuration/homepage/config:/app/config'
       # These mounts are provided so that homepage can give info about these directories - it should not have write permission to either of them
       - type: bind
         source: /mnt/Vault/Media
         target: /host-fs/media
         read_only: true
       - type: bind
-        source: /mnt/Vault/Configuration
+        source: /mnt/Fast/Configuration
         target: /host-fs/config
         read_only: true
       # Don't use docker socket.

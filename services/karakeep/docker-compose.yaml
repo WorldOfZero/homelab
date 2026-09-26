@@ -33,7 +33,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-karakeep:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-karakeep:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -60,7 +60,7 @@ services:
       # By default, the data is stored in a docker volume called "data".
       # If you want to mount a custom directory, change the volume mapping to:
       # - /path/to/your/directory:/data
-      - /mnt/Vault/Configuration/katakeep/data:/data
+      - /mnt/Fast/Configuration/katakeep/data:/data
     depends_on:
       tailscale:
         condition: service_healthy
@@ -106,7 +106,7 @@ services:
       MEILI_NO_ANALYTICS: "true"
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
     volumes:
-      - /mnt/Vault/Configuration/katakeep/meilisearch:/meili_data
+      - /mnt/Fast/Configuration/katakeep/meilisearch:/meili_data
     logging: *logging-config
     ### Uncomment the below command after taking a meilisearch dump to upgrade the db.
     ### https://www.meilisearch.com/docs/learn/data_backup/dumps

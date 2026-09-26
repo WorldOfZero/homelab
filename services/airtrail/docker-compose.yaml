@@ -34,7 +34,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-airtrail:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-airtrail:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -60,7 +60,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - '/mnt/Vault/Configuration/flights/postgresql/data:/var/lib/postgresql/data'
+      - '/mnt/Fast/Configuration/flights/postgresql/data:/var/lib/postgresql/data'
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE_NAME}']
       interval: 5s
@@ -80,7 +80,7 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - /mnt/Vault/Configuration/flights/postgresql/backups:/backups
+      - /mnt/Fast/Configuration/flights/postgresql/backups:/backups
     depends_on:
       db:
         condition: service_healthy
@@ -102,7 +102,7 @@ services:
       - UPLOAD_LOCATION=/app/uploads
       - BODY_SIZE_LIMIT=20M
     volumes:
-      -  '/mnt/Vault/Configuration/flights/airtrail:/app/uploads'
+      -  '/mnt/Fast/Configuration/flights/airtrail:/app/uploads'
     depends_on:
       tailscale:
         condition: service_healthy

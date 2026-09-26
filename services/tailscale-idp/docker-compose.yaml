@@ -33,7 +33,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state-tsidp:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state-tsidp:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -58,7 +58,7 @@ services:
     container_name: app-tsidp
     restart: unless-stopped
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/tsidp:/data'
+      - '/mnt/Fast/Configuration/tailscale/tsidp:/data'
     depends_on:
       tailscale:
         condition: service_healthy

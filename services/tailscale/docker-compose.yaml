@@ -21,7 +21,7 @@ services:
       - TS_ACCEPT_DNS=true
       - TS_AUTH_ONCE=true
     volumes:
-      - '/mnt/Vault/Configuration/tailscale/state:/var/lib/tailscale'
+      - '/mnt/Fast/Configuration/tailscale/state:/var/lib/tailscale'
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:

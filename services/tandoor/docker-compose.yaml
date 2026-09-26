@@ -36,7 +36,7 @@ services:
       - source: ts-serve
         target: /config/serve.json
     volumes:
-      - /mnt/Vault/Configuration/tailscale/state-tandoor:/var/lib/tailscale # Tailscale requirement - you may need to change the path
+      - /mnt/Fast/Configuration/tailscale/state-tandoor:/var/lib/tailscale # Tailscale requirement - you may need to change the path
     devices:
       - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
     cap_add:
@@ -63,7 +63,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - /mnt/Vault/Configuration/tandoor/postgresql/data:/var/lib/postgresql/data
+      - /mnt/Fast/Configuration/tandoor/postgresql/data:/var/lib/postgresql/data
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
       interval: 10s
@@ -84,7 +84,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - /mnt/Vault/Configuration/tandoor/postgresql/backups:/backups
+      - /mnt/Fast/Configuration/tandoor/postgresql/backups:/backups
     depends_on:
       db:
         condition: service_healthy
@@ -108,8 +108,8 @@ services:
       - POSTGRES_DB=$POSTGRES_DB
       - SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
     volumes:
-      - /mnt/Vault/Configuration/tandoor/staticfiles:/opt/recipes/staticfiles
-      - /mnt/Vault/Configuration/tandoor/mediafiles:/opt/recipes/mediafiles
+      - /mnt/Fast/Configuration/tandoor/staticfiles:/opt/recipes/staticfiles
+      - /mnt/Fast/Configuration/tandoor/mediafiles:/opt/recipes/mediafiles
     depends_on:
       tailscale:
         condition: service_healthy

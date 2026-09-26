@@ -21,8 +21,8 @@ services:
     environment:
       - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
     volumes:
-      - '/mnt/Vault/Configuration/grafana/data:/var/lib/grafana:rw'
-      - '/mnt/Vault/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning'
+      - '/mnt/Fast/Configuration/grafana/data:/var/lib/grafana:rw'
+      - '/mnt/Fast/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning'
     logging: *logging-config
 
   loki:
@@ -34,7 +34,7 @@ services:
     ports:
       - 3100:3100
     volumes:
-      - '/mnt/Vault/Configuration/grafana/loki:/etc/loki'
+      - '/mnt/Fast/Configuration/grafana/loki:/etc/loki'
     command: -config.file=/etc/loki/local-config.yaml
     logging: *logging-config
 
@@ -49,7 +49,7 @@ services:
     volumes:
       - '/var/lib/docker/containers:/var/lib/docker/containers:ro'
       - '/var/run/docker.sock:/var/run/docker.sock'
-      - '/mnt/Vault/Configuration/grafana/promtail:/etc/promtail'
+      - '/mnt/Fast/Configuration/grafana/promtail:/etc/promtail'
     command: -config.file=/etc/promtail/docker-config.yaml
     logging: *logging-config
 
@@ -80,7 +80,7 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus-docker-scraper.yaml
     volumes:
-      - '/mnt/Vault/Configuration/grafana/prometheus:/etc/prometheus:ro'
+      - '/mnt/Fast/Configuration/grafana/prometheus:/etc/prometheus:ro'
     depends_on:
       - cadvisor
     logging: *logging-config
