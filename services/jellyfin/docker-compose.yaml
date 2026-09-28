@@ -53,6 +53,15 @@ services:
     user: 1000:1000
     environment:
       - TZ=America/Los_Angeles
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     volumes:
       - '/mnt/Fast/Configuration/jellyfin/config:/config'
       - '/mnt/Fast/Configuration/jellyfin/cache:/cache'
