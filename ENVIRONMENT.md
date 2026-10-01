@@ -26,7 +26,7 @@ referencing a new variable, or stops referencing one.
 
 | Variable | Used by | Secret? | Where |
 |---|---|---|---|
-| `TS_AUTHKEY` | Sidecar in nearly every service: `airtrail`, `arr/bazarr`, `arr/radarr`, `arr/seerr`, `arr/sonarr`, `homepage`, `jellyfin`, `karakeep`, `kavita`, `kuma`, `ollama`, `tailscale-idp` (sidecar + `tsidp` app), `tandoor`, `wallos` | Yes | Portainer (shared, if supported) |
+| `TS_AUTHKEY` | Sidecar in nearly every service: `airtrail`, `arr/bazarr`, `arr/radarr`, `arr/seerr`, `arr/sonarr`, `arr/themearr`, `homepage`, `jellyfin`, `karakeep`, `kavita`, `kuma`, `ollama`, `tailscale-idp` (sidecar + `tsidp` app), `tandoor`, `wallos` | Yes | Portainer (shared, if supported) |
 | `TAILSCALE_AUTH_TOKEN` | `tailscale` (the main tailnet node) — same purpose as `TS_AUTHKEY` above, different name; see Improvements.md §8 | Yes | Portainer (shared, if supported) |
 | `TS_CERT_DOMAIN` | Every sidecar's `ts-serve` config (`services/*/docker-compose.yaml`, the `configs:` block) | No | Auto (not user-set) — supplied by Tailscale itself; the `$$` escaping in those files is deliberate, don't "fix" it into a Portainer variable |
 
@@ -52,6 +52,7 @@ long-lived reusable secret.
 | `DB_URL` | `airtrail` (app connection string) | Depends on format — confirm it doesn't embed the password inline before treating as non-secret; `DB_PASSWORD` is already passed separately, so it likely doesn't | Portainer (secret) until confirmed otherwise |
 | `CURSEFORGE_API_KEY` | `minecraft` | Yes | Portainer (secret) |
 | `OLLAMA_API_KEY` | `ollama` (currently commented out / optional) | Yes, if enabled | Portainer (secret) |
+| `THEMEARR_AUTH_TOKEN` | `arr/themearr` | Yes — the API refuses to start without it; generate with `openssl rand -hex 32` | Portainer (secret) |
 
 `tandoor`'s `POSTGRES_HOST`/`POSTGRES_PORT` used to be Portainer-set variables pointing at an
 external supabase database; as of 9/20/2026 they're now hardcoded to `db`/`5432` in the compose file instead, since
