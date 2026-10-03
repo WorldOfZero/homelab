@@ -54,6 +54,7 @@ services:
     container_name: themearr
     image: ghcr.io/themearr/themearr:latest
     network_mode: service:tailscale
+    user: "999:999" # Image's own built-in non-root user - host dir must be chowned to match
     environment:
       - DB_PATH=/opt/themearr/data/themearr.db
       - ASPNETCORE_ENVIRONMENT=Production
