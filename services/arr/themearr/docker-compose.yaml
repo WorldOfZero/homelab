@@ -1,0 +1,80 @@
+x-logging-config:
+  &logging-config
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+    tag: "{{.Name}}"
+
+configs:
+  ts-serve:
+    content: |
+      {"TCP":{"443":{"HTTPS":true}},
+      "Web":{"$${TS_CERT_DOMAIN}:443":
+          {"Handlers":{"/":
+          {"Proxy":"http://127.0.0.1:8080"}}}},
+      "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
+
+# Automatic movie theme song (theme.mp3) downloader. Movies only - no Sonarr/TV
+# integration exists upstream. Reads its library from Radarr and writes
+# theme.mp3 into each movie folder; see services/arr/README.md for the webhook
+# setup that makes Radarr notify it on import instead of waiting for a sync.
+services:
+  tailscale:
+    image: tailscale/tailscale:v1.98 # Image to be used
+    container_name: tailscale-themearr # Name for local container management
+    hostname: themearr # Name used within your Tailscale environment
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json # Tailscale Serve configuration to expose the web interface on your local Tailnet - remove this line if not required
+      - TS_USERSPACE=false
+      - TS_ENABLE_HEALTH_CHECK=true # Enable healthcheck endpoint: "/healthz"
+      - TS_LOCAL_ADDR_PORT=127.0.0.1:41234 # The <addr>:<port> for the healthz endpoint
+      - TS_ACCEPT_DNS=true # Uncomment when using MagicDNS
+      - TS_AUTH_ONCE=true
+    configs:
+      - source: ts-serve
+        target: /config/serve.json
+    volumes:
+      - '/mnt/Fast/Configuration/tailscale/state-themearr:/var/lib/tailscale'
+    devices:
+      - /dev/net/tun:/dev/net/tun # Network configuration for Tailscale to work
+    cap_add:
+      - net_admin # Tailscale requirement
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz"] # Check Tailscale has a Tailnet IP and is operational
+      interval: 1m # How often to perform the check
+      timeout: 10s # Time to wait for the check to succeed
+      retries: 3 # Number of retries before marking as unhealthy
+      start_period: 10s # Time to wait before starting health checks
+    restart: always
+
+  application:
+    container_name: themearr
+    image: ghcr.io/themearr/themearr:latest
+    network_mode: service:tailscale
+    environment:
+      - DB_PATH=/opt/themearr/data/themearr.db
+      - ASPNETCORE_ENVIRONMENT=Production
+      # Required - the API refuses to start without it. Generate with `openssl rand -hex 32`.
+      - THEMEARR_AUTH_TOKEN=${THEMEARR_AUTH_TOKEN:?THEMEARR_AUTH_TOKEN is required}
+    volumes:
+      - '/mnt/Fast/Configuration/arr/themearr:/opt/themearr/data'
+      # Must be writable (no :ro) - Themearr writes theme.mp3 into movie folders.
+      # After first boot, add this as a Local Library Path in Settings and map it
+      # to whatever path Radarr/Plex actually report for your movies - see
+      # services/arr/README.md.
+      - '/mnt/Vault/Media:/data'
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    depends_on:
+      tailscale:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *logging-config
