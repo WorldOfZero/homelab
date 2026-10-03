@@ -16,6 +16,7 @@ services:
       logging: "promtail"
       stack: grafana
     restart: unless-stopped
+    user: "472:472"
     ports:
       - 3001:3000
     environment:
