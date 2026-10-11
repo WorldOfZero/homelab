@@ -31,8 +31,10 @@ def normalize(text):
 
 def http_json(url, method="GET", headers=None, body=None, timeout=30):
     data = json.dumps(body).encode() if body is not None else None
+    if data is None and method != "GET":
+        data = b""  # send Content-Length: 0 rather than no length on a body-less POST
     req = urllib.request.Request(url, data=data, method=method, headers=headers or {})
-    if data is not None:
+    if body is not None:
         req.add_header("Content-Type", "application/json")
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         raw = resp.read()
@@ -81,6 +83,28 @@ class Jellyfin:
         # POST /Items/{id} replaces the item's metadata with the DTO, so always send the full
         # DTO fetched just before, with only the additive fields changed.
         self._call(f"/Items/{item_id}", method="POST", body=dto)
+
+    def plugin_id(self, name):
+        plugins = self._call("/Plugins")
+        for p in plugins:
+            if p["Name"].casefold() == name.casefold():
+                return p["Id"]
+        raise LookupError(f"plugin {name!r} not installed; have: {sorted(p['Name'] for p in plugins)}")
+
+    def plugin_config(self, plugin_id):
+        return self._call(f"/Plugins/{plugin_id}/Configuration")
+
+    def set_plugin_config(self, plugin_id, config):
+        self._call(f"/Plugins/{plugin_id}/Configuration", method="POST", body=config)
+
+    def start_task(self, name):
+        """Start the first scheduled task whose name contains `name` (case-insensitive)."""
+        tasks = self._call("/ScheduledTasks")
+        for task in tasks:
+            if name.casefold() in task["Name"].casefold():
+                self._call(f"/ScheduledTasks/Running/{task['Id']}", method="POST")
+                return task["Name"]
+        raise LookupError(f"no scheduled task matching {name!r}; have: {sorted(t['Name'] for t in tasks)}")
 
 
 class KeywordSource:
@@ -258,6 +282,59 @@ def run(cfg, jellyfin, source, dry_run):
     return stats
 
 
+MANAGED_PLUGIN_KEYS = ("ExpressionCollections", "TitleMatchPairs")
+
+
+def load_auto_collections(path):
+    """Read auto-collections.yaml into (plugin settings, desired values for the managed config keys)."""
+    with open(path) as f:
+        spec = yaml.safe_load(f)
+    defaults = spec.get("expression_defaults", {})
+    desired = {
+        "ExpressionCollections": [{**defaults, **c} for c in spec.get("ExpressionCollections", [])],
+        "TitleMatchPairs": list(spec.get("TitleMatchPairs", [])),
+    }
+    names = [c["CollectionName"] for c in desired["ExpressionCollections"]]
+    dupes = sorted({n for n in names if names.count(n) > 1})
+    if dupes:
+        raise ValueError(f"duplicate CollectionName in {path}: {dupes}")
+    return spec.get("plugin", {}), desired
+
+
+def sync_auto_collections(path, jellyfin, dry_run):
+    """Make the Auto Collections plugin's collection definitions match the repo.
+
+    Authoritative for the managed keys (a collection removed from the file is removed from the
+    plugin); every other key in the plugin's configuration is left as Jellyfin has it.
+    Returns True if the plugin configuration changed (or would have, in a dry run).
+    """
+    plugin, desired = load_auto_collections(path)
+    plugin_id = jellyfin.plugin_id(plugin.get("name", "Auto Collections"))
+    current = jellyfin.plugin_config(plugin_id)
+    if all(current.get(k) == desired[k] for k in MANAGED_PLUGIN_KEYS):
+        log.info("auto collections: plugin config already matches %s", os.path.basename(path))
+        return False
+    have = {c.get("CollectionName"): c for c in current.get("ExpressionCollections") or []}
+    want = {c["CollectionName"]: c for c in desired["ExpressionCollections"]}
+    log.info("auto collections: %s plugin config: +%s -%s ~%s%s",
+             "would update" if dry_run else "updating",
+             sorted(want.keys() - have.keys()), sorted(have.keys() - want.keys()),
+             sorted(n for n in want.keys() & have.keys() if want[n] != have[n]),
+             " (TitleMatchPairs changed)" if current.get("TitleMatchPairs") != desired["TitleMatchPairs"] else "")
+    if not dry_run:
+        jellyfin.set_plugin_config(plugin_id, {**current, **desired})
+    return True
+
+
+def refresh_auto_collections(path, jellyfin):
+    plugin, _ = load_auto_collections(path)
+    task = plugin.get("task_name", "Auto Collections")
+    try:
+        log.info("auto collections: started task %r", jellyfin.start_task(task))
+    except LookupError as e:
+        log.warning("auto collections: %s (collections update on the plugin's own schedule)", e)
+
+
 def seconds_until(run_at, tz):
     now = dt.datetime.now(tz)
     hour, minute = map(int, run_at.split(":"))
@@ -298,7 +375,15 @@ def main(argv=None):
             cache_days=kw_cfg.get("cache_days", 30),
             request_delay=float(kw_cfg.get("request_delay_seconds", 1.0)),
         )
-        return run(cfg, jellyfin, source, dry_run)
+        ac_path = cfg.get("auto_collections")
+        if ac_path:
+            ac_path = os.path.join(os.path.dirname(os.path.abspath(args.config)), ac_path)
+        # Sync collection definitions first so new TAG rules exist before tags are added.
+        config_changed = sync_auto_collections(ac_path, jellyfin, dry_run) if ac_path else False
+        stats = run(cfg, jellyfin, source, dry_run)
+        if ac_path and not dry_run and (config_changed or stats["changed"]):
+            refresh_auto_collections(ac_path, jellyfin)
+        return stats
 
     if args.once or not os.environ.get("RUN_AT"):
         once()

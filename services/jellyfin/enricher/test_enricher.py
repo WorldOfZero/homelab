@@ -1,6 +1,7 @@
 import copy
 import json
 import os
+import re
 import tempfile
 import threading
 import unittest
@@ -24,6 +25,10 @@ class Fake:
         self.imdb_pages = {}   # imdb id -> keyword list for __NEXT_DATA__
         self.posts = []
         self.requests = []
+        self.plugins = [{"Id": "p-other", "Name": "TMDb"}, {"Id": "p-ac", "Name": "Auto Collections"}]
+        self.plugin_configs = {"p-ac": {"TitleMatchPairs": [], "ExpressionCollections": [], "SomeOtherSetting": 7}}
+        self.tasks = [{"Id": "t-scan", "Name": "Scan Media Library"}, {"Id": "t-ac", "Name": "Auto Collections Update"}]
+        self.started_tasks = []
 
     def add(self, item_id, name, imdb=None, item_type="Movie", tags=None, **extra):
         self.items[item_id] = {"Id": item_id, "Name": name, "Type": item_type,
@@ -53,6 +58,12 @@ def make_handler(fake):
             if u.path == "/jf/Users":
                 return self._send(200, [{"Id": "u-user", "Policy": {"IsAdministrator": False}},
                                         {"Id": "u-admin", "Policy": {"IsAdministrator": True}}])
+            if u.path == "/jf/Plugins":
+                return self._send(200, fake.plugins)
+            if u.path.startswith("/jf/Plugins/"):
+                return self._send(200, copy.deepcopy(fake.plugin_configs[u.path.split("/")[3]]))
+            if u.path == "/jf/ScheduledTasks":
+                return self._send(200, fake.tasks)
             if u.path == "/jf/Items":
                 types = q["IncludeItemTypes"].split(",")
                 allitems = [i for i in fake.items.values() if i["Type"] in types]
@@ -78,7 +89,14 @@ def make_handler(fake):
 
         def do_POST(self):
             u = urllib.parse.urlparse(self.path)
-            body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            length = int(self.headers.get("Content-Length") or 0)
+            body = json.loads(self.rfile.read(length)) if length else None
+            if u.path.startswith("/jf/ScheduledTasks/Running/"):
+                fake.started_tasks.append(u.path.rsplit("/", 1)[1])
+                return self._send(204)
+            if u.path.startswith("/jf/Plugins/"):
+                fake.plugin_configs[u.path.split("/")[3]] = body
+                return self._send(204)
             fake.posts.append((u.path, body))
             fake.items[u.path.rsplit("/", 1)[1]] = body
             self._send(204)
@@ -175,6 +193,89 @@ class EnricherTest(unittest.TestCase):
         cfg = dict(self.cfg, max_lookups_per_run=2)
         stats = self.run_once(cfg=cfg)
         self.assertEqual(stats["skipped_lookups"], 3)
+
+    def write_ac(self, collections, pairs=()):
+        path = os.path.join(self.tmp.name, "ac.yaml")
+        with open(path, "w") as f:
+            yaml.safe_dump({"plugin": {"name": "auto collections", "task_name": "Auto Collection"},
+                            "expression_defaults": {"CaseSensitive": False, "SortBy": 2, "SortOrder": 0},
+                            "TitleMatchPairs": list(pairs), "ExpressionCollections": collections}, f)
+        return path
+
+    def jf(self):
+        return enricher.Jellyfin(f"{self.base}/jf", "key")
+
+    def test_sync_replaces_managed_keys_and_keeps_other_settings(self):
+        self.fake.plugin_configs["p-ac"]["ExpressionCollections"] = [
+            {"CollectionName": "Old", "Expression": 'TAG "old"', "CaseSensitive": False, "SortBy": 2, "SortOrder": 0}]
+        path = self.write_ac([{"CollectionName": "Heist Collection", "Expression": 'TAG "heist"'},
+                              {"CollectionName": "1950s", "Expression": 'YEAR ">1949"', "SortBy": 0}])
+        self.assertTrue(enricher.sync_auto_collections(path, self.jf(), dry_run=False))
+        cfg = self.fake.plugin_configs["p-ac"]
+        self.assertEqual(cfg["SomeOtherSetting"], 7)
+        self.assertEqual(cfg["ExpressionCollections"], [
+            {"CollectionName": "Heist Collection", "Expression": 'TAG "heist"', "CaseSensitive": False, "SortBy": 2, "SortOrder": 0},
+            {"CollectionName": "1950s", "Expression": 'YEAR ">1949"', "CaseSensitive": False, "SortBy": 0, "SortOrder": 0}])
+        # second sync is a no-op
+        self.assertFalse(enricher.sync_auto_collections(path, self.jf(), dry_run=False))
+
+    def test_sync_dry_run_leaves_plugin_untouched(self):
+        path = self.write_ac([{"CollectionName": "Heist Collection", "Expression": 'TAG "heist"'}])
+        before = copy.deepcopy(self.fake.plugin_configs["p-ac"])
+        self.assertTrue(enricher.sync_auto_collections(path, self.jf(), dry_run=True))
+        self.assertEqual(self.fake.plugin_configs["p-ac"], before)
+
+    def test_sync_errors_when_plugin_missing_or_duplicate_names(self):
+        self.fake.plugins = [{"Id": "p-other", "Name": "TMDb"}]
+        path = self.write_ac([{"CollectionName": "A", "Expression": 'TAG "a"'}])
+        with self.assertRaises(LookupError):
+            enricher.sync_auto_collections(path, self.jf(), dry_run=False)
+        dup = self.write_ac([{"CollectionName": "A", "Expression": "x"}, {"CollectionName": "A", "Expression": "y"}])
+        with self.assertRaises(ValueError):
+            enricher.load_auto_collections(dup)
+
+    def run_main(self, dry_run):
+        self.write_ac([{"CollectionName": "Heist Collection", "Expression": 'TAG "heist"'}])
+        cfg_path = os.path.join(self.tmp.name, "config.yaml")
+        with open(cfg_path, "w") as f:
+            yaml.safe_dump(dict(self.cfg, auto_collections="ac.yaml",
+                                imdb_keywords={"sources": ["kometa"], "request_delay_seconds": 0}), f)
+        env = {"JELLYFIN_APIKEY": "key", "JELLYFIN_URL": f"{self.base}/jf", "KOMETA_SERVICE_URL": f"{self.base}/kometa",
+               "DATA_DIR": self.tmp.name, "DRY_RUN": "false"}  # --dry-run still overrides
+        old = {k: os.environ.get(k) for k in [*env, "RUN_AT"]}
+        os.environ.update(env)
+        os.environ.pop("RUN_AT", None)
+        try:
+            enricher.main(["--config", cfg_path, "--once"] + (["--dry-run"] if dry_run else []))
+        finally:
+            for k, v in old.items():
+                os.environ.pop(k, None) if v is None else os.environ.__setitem__(k, v)
+
+    def test_main_syncs_tags_then_starts_plugin_task(self):
+        self.fake.add("1", "Heat", "tt0113277")
+        self.fake.kometa["tt0113277"] = {"keywords": {"heist": [1, 1]}}
+        self.run_main(dry_run=False)
+        self.assertEqual(self.fake.items["1"]["Tags"], ["heist"])
+        self.assertEqual(self.fake.plugin_configs["p-ac"]["ExpressionCollections"][0]["CollectionName"], "Heist Collection")
+        self.assertEqual(self.fake.started_tasks, ["t-ac"])
+
+    def test_main_dry_run_starts_nothing(self):
+        self.fake.add("1", "Heat", "tt0113277")
+        self.fake.kometa["tt0113277"] = {"keywords": {"heist": [1, 1]}}
+        self.run_main(dry_run=True)
+        self.assertEqual(self.fake.started_tasks, [])
+        self.assertEqual(self.fake.plugin_configs["p-ac"]["ExpressionCollections"], [])
+
+    def test_shipped_auto_collections_cover_every_enricher_tag(self):
+        _, desired = enricher.load_auto_collections(os.path.join(HERE, "auto-collections.yaml"))
+        self.assertGreaterEqual(len(desired["ExpressionCollections"]), 55)
+        expr_tags = set()
+        for c in desired["ExpressionCollections"]:
+            expr_tags |= {t.casefold() for t in re.findall(r'TAG "([^"]+)"', c["Expression"])}
+        with open(os.path.join(HERE, "config.yaml")) as f:
+            cfg = yaml.safe_load(f)
+        rule_tags = {t.casefold() for r in cfg["rules"] for t in r["add"].get("tags", [])}
+        self.assertEqual(rule_tags - expr_tags, set(), "enricher adds tags no collection uses")
 
     def test_shipped_config_is_valid(self):
         with open(os.path.join(HERE, "config.yaml")) as f:

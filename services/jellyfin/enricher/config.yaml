@@ -8,6 +8,10 @@
 
 item_types: [Movie, Series]
 
+# Auto Collections plugin definitions, synced into the plugin on every run (path relative to
+# this file). Remove the line to stop managing the plugin from here.
+auto_collections: auto-collections.yaml
+
 imdb_keywords:
   sources: [kometa, imdb]   # tried in order per title; results cached on disk
   cache_days: 30

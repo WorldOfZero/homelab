@@ -1,0 +1,85 @@
+# Collection definitions for the Auto Collections Jellyfin plugin (KeksBombe). jellyfin-enricher
+# pushes these into the plugin's configuration on every run. They are AUTHORITATIVE: edits
+# made in the plugin's web UI to ExpressionCollections / TitleMatchPairs are overwritten, and a
+# collection deleted here is deleted from the plugin. Other plugin settings are left alone.
+#
+# TAG expressions match Jellyfin tags. Tags come from TMDb plus jellyfin-enricher's IMDb keyword
+# rules in config.yaml, so a new tag-based collection usually needs a rule there too.
+
+plugin:
+  name: Auto Collections        # as listed in Dashboard -> Plugins
+  task_name: Auto Collection    # substring of the plugin's scheduled task; started after changes
+
+# Merged into every ExpressionCollections entry unless the entry sets the field itself.
+# SortBy/SortOrder are the plugin's enum values as exported from its UI (2 was the UI's choice
+# for most collections; the decade and Bond collections used 0).
+expression_defaults:
+  CaseSensitive: false
+  SortBy: 2
+  SortOrder: 0
+
+TitleMatchPairs: []
+
+ExpressionCollections:
+  # --- Studios ---
+  - {CollectionName: Marvel Movies, Expression: 'STUDIO "Marvel"'}
+  - {CollectionName: Streamed Collection, Expression: 'STUDIO "youtube" or STUDIO "twitch"'}
+
+  # --- Themes (TAG) ---
+  - {CollectionName: Actual Play Collection, Expression: 'TAG "actual play"'}
+  - {CollectionName: Vampires Collection, Expression: 'TAG "vampire"'}
+  - {CollectionName: Zombie Collection, Expression: 'TAG "zombie"'}
+  - {CollectionName: Werewolf Collection, Expression: 'TAG "werewolf"'}
+  - {CollectionName: Spy Collection, Expression: 'TAG "spy"'}
+  - {CollectionName: Monster Collection, Expression: 'TAG "monster"'}
+  - {CollectionName: Demon Collection, Expression: 'TAG "demon"'}
+  - {CollectionName: Body Horror Collection, Expression: 'TAG "body horror"'}
+  - {CollectionName: Magic Collection, Expression: 'TAG "magic"'}
+  - {CollectionName: Heist Collection, Expression: 'TAG "heist"'}
+  - {CollectionName: Whodunit Collection, Expression: 'TAG "whodunit"'}
+  - {CollectionName: Documentary Collection, Expression: 'TAG "documentary"'}
+  - {CollectionName: Mafia Collection, Expression: 'TAG "mafia"'}
+  - {CollectionName: "Swindler's and Con People Collection", Expression: 'TAG "conman" or TAG "conmen" or TAG "conwomen" or TAG "con man" or TAG "con women"'}
+  - {CollectionName: Romcom Collection, Expression: 'TAG "romcom"'}
+  - {CollectionName: Lego Collection, Expression: 'TAG "lego"'}
+  - {CollectionName: Hacking Collection, Expression: 'TAG "hacker" or TAG "hacking"'}
+  - {CollectionName: James Bond Collection, Expression: 'TAG "james bond" or TAG "007"', SortBy: 0}
+  - {CollectionName: Based on a Video Game Collection, Expression: 'TAG "based on video game"'}
+  - {CollectionName: Based on a Book Collection, Expression: 'TAG "based on book" or TAG "based on novel or book"'}
+  - {CollectionName: Based on a Comic Collection, Expression: 'TAG "based on comic"'}
+  - {CollectionName: Queer Collection, Expression: 'TAG "lgbt" or TAG "lesbian" or TAG "trans" or TAG "gay" or TAG "queer"'}
+  - {CollectionName: Gay Collection, Expression: 'TAG "gay"'}
+  - {CollectionName: Lesbian Collection, Expression: 'TAG "lesbian"'}
+  - {CollectionName: Trans Collection, Expression: 'TAG "trans"'}
+  - {CollectionName: BDSM Collection, Expression: 'TAG "bdsm" or TAG "kink"'}
+  - {CollectionName: Leather and Latex Collection, Expression: 'TAG "leather" or TAG "latex"'}
+  - {CollectionName: Independent Collection, Expression: 'TAG "independent film"'}
+  - {CollectionName: Anime Collection, Expression: 'TAG "anime"'}
+  - {CollectionName: Anthology, Expression: 'TAG "anthology"'}
+
+  # --- Ported from Kometa's imdb_keyword collections (tags supplied by config.yaml rules) ---
+  - {CollectionName: Sword & Sorcery Collection, Expression: 'TAG "sword and sorcery"'}
+  - {CollectionName: B-Movies Collection, Expression: 'TAG "b movie"'}
+  - {CollectionName: Alien Collection, Expression: 'TAG "alien"'}
+  - {CollectionName: Mythology Collection, Expression: 'TAG "mythology"'}
+  - {CollectionName: Grindhouse Collection, Expression: 'TAG "grindhouse"'}
+  - {CollectionName: Satirical Movies Collection, Expression: 'TAG "satire"'}
+  - {CollectionName: Medical Collection, Expression: 'TAG "medical"'}
+  - {CollectionName: Steampunk Collection, Expression: 'TAG "steampunk"'}
+  - {CollectionName: Mecha Collection, Expression: 'TAG "mecha"'}
+  - {CollectionName: Caper Collection, Expression: 'TAG "caper"'}
+  - {CollectionName: Corruption Collection, Expression: 'TAG "corruption"'}
+  - {CollectionName: Cyberpunk Collection, Expression: 'TAG "cyberpunk"'}
+  - {CollectionName: Post-Apocalyptic Collection, Expression: 'TAG "post apocalypse"'}
+  - {CollectionName: Wilhelm Scream Collection, Expression: 'TAG "wilhelm scream"'}
+  - {CollectionName: Assassin Collection, Expression: 'TAG "assassin"'}
+
+  # --- Decades ---
+  - {CollectionName: "1950's Movies", Expression: 'YEAR ">1949" AND YEAR "<1960"', SortBy: 0}
+  - {CollectionName: "1960's Movies", Expression: 'YEAR ">1959" AND YEAR "<1970"', SortBy: 0}
+  - {CollectionName: "1970's Movies", Expression: 'YEAR ">1969" AND YEAR "<1980"', SortBy: 0}
+  - {CollectionName: "1980's Movies", Expression: 'YEAR ">1979" AND YEAR "<1990"', SortBy: 0}
+  - {CollectionName: "1990's Movies", Expression: 'YEAR ">1989" AND YEAR "<2000"', SortBy: 0}
+  - {CollectionName: "2000's Movies", Expression: 'YEAR ">1999" AND YEAR "<2010"', SortBy: 0}
+  - {CollectionName: "2010's Movies", Expression: 'YEAR ">2009" AND YEAR "<2020"', SortBy: 0}
+  - {CollectionName: "2020's Movies", Expression: 'YEAR ">2019" AND YEAR "<2030"', SortBy: 0}

@@ -4,7 +4,7 @@ FROM python:3.13-slim
 RUN pip install --no-cache-dir pyyaml==6.0.2 tzdata==2025.2
 
 WORKDIR /app
-COPY enricher.py config.yaml ./
+COPY enricher.py config.yaml auto-collections.yaml ./
 
 USER 1000:1000
 ENTRYPOINT ["python", "-u", "/app/enricher.py"]
