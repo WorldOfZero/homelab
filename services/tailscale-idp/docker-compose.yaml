@@ -63,7 +63,7 @@ services:
       tailscale:
         condition: service_healthy
     environment:
-      - TZ=America/Pacific
+      - TZ=America/Los_Angeles
       - TAILSCALE_USE_WIP_CODE=1 # tsidp is experimental - needed while version <1.0.0
       - TS_STATE_DIR=/data # store persistent tsnet and tsidp state
       - TS_HOSTNAME=idp # Hostname on tailnet (becomes idp.your-tailnet.ts.net)

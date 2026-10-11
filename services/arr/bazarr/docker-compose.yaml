@@ -60,7 +60,7 @@ services:
       - PUID=1000
       - PGID=1000
       - UMASK=002
-      - TZ=America/Pacific
+      - TZ=America/Los_Angeles
       - WEBUI_PORTS=6767/tcp 
     volumes:
       - '/mnt/Fast/Configuration/arr/bazarr:/config'

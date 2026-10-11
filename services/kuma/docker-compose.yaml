@@ -50,7 +50,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/Pacific
+      - TZ=America/Los_Angeles
     volumes:
       - '/mnt/Fast/Configuration/kuma/config:/app/data'
     depends_on:

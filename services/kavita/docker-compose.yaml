@@ -52,7 +52,7 @@ services:
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: app-kavita # Name for local container management
     environment:
-      - TZ=America/Pacific
+      - TZ=America/Los_Angeles
     volumes:
       - /mnt/Vault/Media/EBooks:/books
       - /mnt/Vault/Media/Adult:/adult
