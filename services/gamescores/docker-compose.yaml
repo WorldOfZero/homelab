@@ -26,6 +26,9 @@ services:
     image: tailscale/tailscale:v1.98 # Image to be used
     container_name: tailscale-gamescores # Name for local container management
     hostname: gamescores # Name used within your Tailscale environment
+    networks:
+      - default
+      - tailnet-local # Shared with the other sidecars on this host so tailscaled finds a direct path instead of relaying via DERP
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
@@ -84,3 +87,7 @@ services:
       start_period: 30s # Time to wait before starting health checks
     restart: always
     logging: *logging-config
+
+networks:
+  tailnet-local:
+    external: true # Create once on the host: docker network create tailnet-local

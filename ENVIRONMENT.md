@@ -34,6 +34,23 @@ referencing a new variable, or stops referencing one.
 Improvements.md §12 for reducing that to a short-lived, tag-scoped OAuth-issued key instead of one
 long-lived reusable secret.
 
+### Host prerequisite: the `tailnet-local` network
+
+Every sidecar listed above also joins an external Docker network called `tailnet-local`, which
+must exist on the host before any of those stacks will deploy:
+
+```bash
+sudo docker network create tailnet-local
+```
+
+Without it, each sidecar sits alone on its stack's default bridge behind Docker's NAT, and two
+sidecars on the same host can't reach each other directly — the router doesn't hairpin and offers
+no port mapping — so tailscaled falls back to relaying through DERP (observed: Kuma → Jellyfin via
+`DERP(sfo)`, "direct connection not established"). On the shared network each sidecar has an
+address the others can reach, and tailscaled uses it as a direct endpoint. Check with
+`sudo docker exec tailscale-kuma tailscale ping jellyfin` — it should say `via 172.x.x.x:…`, not
+`via DERP`.
+
 ## Per-service secrets
 
 | Variable | Used by | Secret? | Where |

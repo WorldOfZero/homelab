@@ -20,6 +20,9 @@ services:
     image: tailscale/tailscale:v1.98 # Image to be used
     container_name: tailscale-jellyfin # Name for local container management
     hostname: jellyfin
+    networks:
+      - default
+      - tailnet-local # Shared with the other sidecars on this host so tailscaled finds a direct path instead of relaying via DERP
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
@@ -29,6 +32,9 @@ services:
       - TS_LOCAL_ADDR_PORT=127.0.0.1:41236       # The <addr>:<port> for the healthz endpoint
       - TS_ACCEPT_DNS=true # Uncomment when using MagicDNS
       - TS_AUTH_ONCE=true
+      - TS_TAILSCALED_EXTRA_ARGS=--port=41642 # Fixed WireGuard port (host node uses the default 41641) so it can be published and port-forwarded
+    ports:
+      - 41642:41642/udp # Forward UDP 41642 on the router to minerva so remote clients connect directly instead of via DERP
     configs:
       - source: ts-serve
         target: /config/serve.json
@@ -86,3 +92,7 @@ services:
     #environment:
     #  - JELLYFIN_PublishedServerUrl=http://jellyfin.home.worldofzero.com
     logging: *logging-config
+
+networks:
+  tailnet-local:
+    external: true # Create once on the host: docker network create tailnet-local
