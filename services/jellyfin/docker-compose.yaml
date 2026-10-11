@@ -101,6 +101,25 @@ services:
     #  - JELLYFIN_PublishedServerUrl=http://jellyfin.home.worldofzero.com
     logging: *logging-config
 
+  # Additively tags items from IMDb keywords (rules in enricher/config.yaml) so the Auto
+  # Collections plugin's TAG rules catch films TMDb never tagged. See enricher/README.md.
+  enricher:
+    build: ./enricher
+    network_mode: service:tailscale # Reaches Jellyfin on 127.0.0.1:8096
+    container_name: jellyfin-enricher
+    environment:
+      - TZ=America/Los_Angeles
+      - JELLYFIN_URL=http://127.0.0.1:8096
+      - JELLYFIN_APIKEY=${JELLYFIN_APIKEY}
+      - RUN_AT=03:00 # After Kometa's old 02:00 slot, before morning viewing
+      - DRY_RUN=${ENRICHER_DRY_RUN:-true} # Logs intended changes only; set ENRICHER_DRY_RUN=false to write
+    volumes:
+      - '/mnt/Fast/Configuration/jellyfin/enricher:/data' # IMDb keyword cache; must be owned by 1000:1000
+    depends_on:
+      - application
+    restart: 'unless-stopped'
+    logging: *logging-config
+
 networks:
   tailnet-local:
     external: true # Create once on the host: docker network create tailnet-local

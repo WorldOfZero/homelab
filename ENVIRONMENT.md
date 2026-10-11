@@ -70,6 +70,8 @@ address the others can reach, and tailscaled uses it as a direct endpoint. Check
 | `CURSEFORGE_API_KEY` | `minecraft` | Yes | Portainer (secret) |
 | `OLLAMA_API_KEY` | `ollama` (currently commented out / optional) | Yes, if enabled | Portainer (secret) |
 | `THEMEARR_AUTH_TOKEN` | `arr/themearr` | Yes — the API refuses to start without it; generate with `openssl rand -hex 32` | Portainer (secret) |
+| `JELLYFIN_APIKEY` | `jellyfin` (the `enricher` service) — same name as the homepage widget's key below, but set on the jellyfin stack; can be the same key or a dedicated one | Yes | Portainer (secret) |
+| `ENRICHER_DRY_RUN` | `jellyfin` (`enricher`) — defaults to `true` (log only); set `false` once the dry-run log looks right. See `services/jellyfin/enricher/README.md` | No | Portainer |
 
 `tandoor`'s `POSTGRES_HOST`/`POSTGRES_PORT` used to be Portainer-set variables pointing at an
 external supabase database; as of 9/20/2026 they're now hardcoded to `db`/`5432` in the compose file instead, since

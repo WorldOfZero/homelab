@@ -1,0 +1,116 @@
+# jellyfin-enricher rules. Each rule: if an item's IMDb keywords include any of `imdb_keywords`
+# (case-insensitive, "-" == " "), append `add.tags` / `add.genres` to the item. Additive only:
+# nothing is ever removed, so deleting a rule leaves previously added tags in place.
+#
+# Tag names are the ones the Auto Collections plugin's TAG expressions match on, so the
+# collections fill in without touching the plugin. The second block ports Kometa's imdb_keyword
+# collections from services/plex/kometa/Movies.yml.
+
+item_types: [Movie, Series]
+
+imdb_keywords:
+  sources: [kometa, imdb]   # tried in order per title; results cached on disk
+  cache_days: 30
+  request_delay_seconds: 1.0
+
+max_lookups_per_run: 2000   # bounds the first run on a big library; the rest are picked up next run
+
+defaults:
+  # IMDb shows "N of M found this relevant" per keyword. 0 = accept any keyword on the title,
+  # matching Kometa's default. Raise per rule if a tag gets noisy.
+  min_relevant: 0
+  min_votes: 0
+  min_percentage: 0
+
+rules:
+  # --- Tags used by the existing Auto Collections expressions ---
+  - match: {imdb_keywords: [heist, bank heist, bank robbery, heist movie]}
+    add: {tags: [heist]}
+  - match: {imdb_keywords: [spy, espionage, secret agent, spy thriller]}
+    add: {tags: [spy]}
+  - match: {imdb_keywords: [vampire]}
+    add: {tags: [vampire]}
+  - match: {imdb_keywords: [zombie, zombie apocalypse]}
+    add: {tags: [zombie]}
+  - match: {imdb_keywords: [werewolf]}
+    add: {tags: [werewolf]}
+  - match: {imdb_keywords: [monster, giant monster, kaiju, creature feature]}
+    add: {tags: [monster]}
+  - match: {imdb_keywords: [demon, demonic possession]}
+    add: {tags: [demon]}
+  - match: {imdb_keywords: [body horror]}
+    add: {tags: [body horror]}
+  - match: {imdb_keywords: [magic, sorcery, wizard]}
+    add: {tags: [magic]}
+  - match: {imdb_keywords: [whodunit, murder mystery]}
+    add: {tags: [whodunit]}
+  - match: {imdb_keywords: [mafia, mobster, organized crime]}
+    add: {tags: [mafia]}
+  - match: {imdb_keywords: [con man, con artist, swindle, swindler, grifter]}
+    add: {tags: [conman]}
+  - match: {imdb_keywords: [romantic comedy, romcom]}
+    add: {tags: [romcom]}
+  - match: {imdb_keywords: [lego]}
+    add: {tags: [lego]}
+  - match: {imdb_keywords: [hacker, hacking, computer hacker]}
+    add: {tags: [hacker]}
+  - match: {imdb_keywords: [james bond, "007"]}  # quoted: bare 007 is a YAML int
+    add: {tags: [james bond]}
+  - match: {imdb_keywords: [based on video game]}
+    add: {tags: [based on video game]}
+  - match: {imdb_keywords: [based on novel, based on book]}
+    add: {tags: [based on book]}
+  - match: {imdb_keywords: [based on comic, based on comic book, based on graphic novel]}
+    add: {tags: [based on comic]}
+  - match: {imdb_keywords: [lgbt, lgbtq, lgbtq+]}
+    add: {tags: [lgbt]}
+  - match: {imdb_keywords: [lesbian, lesbian relationship]}
+    add: {tags: [lesbian]}
+  - match: {imdb_keywords: [gay, gay relationship]}
+    add: {tags: [gay]}
+  - match: {imdb_keywords: [transgender, trans woman, trans man]}
+    add: {tags: [trans]}
+  - match: {imdb_keywords: [queer]}
+    add: {tags: [queer]}
+  - match: {imdb_keywords: [bdsm, sadomasochism, kink]}
+    add: {tags: [bdsm]}
+  - match: {imdb_keywords: [leather, latex]}
+    add: {tags: [leather]}
+  - match: {imdb_keywords: [independent film]}
+    add: {tags: [independent film]}
+  - match: {imdb_keywords: [anime]}
+    add: {tags: [anime]}
+  - match: {imdb_keywords: [anthology, anthology film, horror anthology]}
+    add: {tags: [anthology]}
+
+  # --- Ported Kometa imdb_keyword collections (need a matching Auto Collections TAG rule) ---
+  - match: {imdb_keywords: [sword and sorcery]}
+    add: {tags: [sword and sorcery]}
+  - match: {imdb_keywords: [b movie]}
+    add: {tags: [b movie]}
+  - match: {imdb_keywords: [alien]}
+    add: {tags: [alien]}
+  - match: {imdb_keywords: [mythology, myth]}
+    add: {tags: [mythology]}
+  - match: {imdb_keywords: [grindhouse]}
+    add: {tags: [grindhouse]}
+  - match: {imdb_keywords: [satire]}
+    add: {tags: [satire]}
+  - match: {imdb_keywords: [medical, doctor, nurse]}
+    add: {tags: [medical]}
+  - match: {imdb_keywords: [steampunk]}
+    add: {tags: [steampunk]}
+  - match: {imdb_keywords: [mecha, mech]}
+    add: {tags: [mecha]}
+  - match: {imdb_keywords: [caper]}
+    add: {tags: [caper]}
+  - match: {imdb_keywords: [corruption]}
+    add: {tags: [corruption]}
+  - match: {imdb_keywords: [cyberpunk]}
+    add: {tags: [cyberpunk]}
+  - match: {imdb_keywords: [post apocalypse, post apocalyptic, post apocalyptic future]}
+    add: {tags: [post apocalypse]}
+  - match: {imdb_keywords: [wilhelm scream]}
+    add: {tags: [wilhelm scream]}
+  - match: {imdb_keywords: [assassin, hitman, contract killer]}
+    add: {tags: [assassin]}
