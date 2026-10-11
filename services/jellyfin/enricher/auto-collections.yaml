@@ -83,3 +83,124 @@ ExpressionCollections:
   - {CollectionName: "2000's Movies", Expression: 'YEAR ">1999" AND YEAR "<2010"', SortBy: 0}
   - {CollectionName: "2010's Movies", Expression: 'YEAR ">2009" AND YEAR "<2020"', SortBy: 0}
   - {CollectionName: "2020's Movies", Expression: 'YEAR ">2019" AND YEAR "<2030"', SortBy: 0}
+
+  # New entries below use upper-case AND/OR/NOT, the form the plugin's USAGE.md documents.
+
+  # --- Remaining Kometa topics (tags from config.yaml rules) ---
+  - {CollectionName: Lovecraftian Horror Collection, Expression: 'TAG "lovecraftian"'}
+  - {CollectionName: Martial Arts Collection, Expression: 'TAG "martial arts"'}
+  - {CollectionName: Splatter and Gore Collection, Expression: 'TAG "splatter"'}
+  - {CollectionName: Mind Bending Collection, Expression: 'TAG "mind bending"'}
+  - {CollectionName: Chick Flicks, Expression: 'TAG "chick flick"'}
+  - {CollectionName: Isekai, Expression: 'TAG "isekai"'}
+  - {CollectionName: Slice of Life, Expression: 'TAG "slice of life"'}
+  - {CollectionName: Iyashikei, Expression: 'TAG "iyashikei"'}
+  - {CollectionName: Yuri, Expression: 'TAG "yuri"'}
+  - {CollectionName: Shounen, Expression: 'TAG "shounen"'}
+  - {CollectionName: Shoujo, Expression: 'TAG "shoujo"'}
+  - {CollectionName: Seinen, Expression: 'TAG "seinen"'}
+  - {CollectionName: Josei, Expression: 'TAG "josei"'}
+  - {CollectionName: Babylon 5 Universe, Expression: 'TITLE "Babylon 5"', SortBy: 0}
+
+  # --- Sci-fi & fantasy ---
+  - {CollectionName: Time Travel Collection, Expression: 'TAG "time travel" OR TAG "time loop"'}
+  - {CollectionName: Time Loop Collection, Expression: 'TAG "time loop"'}
+  - {CollectionName: Dystopia Collection, Expression: 'TAG "dystopia"'}
+  - {CollectionName: Space Collection, Expression: 'TAG "space"'}
+  - {CollectionName: Artificial Intelligence Collection, Expression: 'TAG "artificial intelligence"'}
+  - {CollectionName: Superhero Collection, Expression: 'TAG "superhero"'}
+  - {CollectionName: Alternate History Collection, Expression: 'TAG "alternate history"'}
+  - {CollectionName: Multiverse Collection, Expression: 'TAG "multiverse"'}
+  - {CollectionName: Virtual Reality Collection, Expression: 'TAG "virtual reality"'}
+  - {CollectionName: Dinosaur Collection, Expression: 'TAG "dinosaur"'}
+  - {CollectionName: Kaiju Collection, Expression: 'TAG "kaiju"'}
+  - {CollectionName: Dragon Collection, Expression: 'TAG "dragon"'}
+  - {CollectionName: Fairy Tale Collection, Expression: 'TAG "fairy tale"'}
+
+  # --- Horror ---
+  - {CollectionName: Ghost Collection, Expression: 'TAG "ghost"'}
+  - {CollectionName: Witch Collection, Expression: 'TAG "witch"'}
+  - {CollectionName: Slasher Collection, Expression: 'TAG "slasher"'}
+  - {CollectionName: Found Footage Collection, Expression: 'TAG "found footage"'}
+  - {CollectionName: Folk Horror Collection, Expression: 'TAG "folk horror"'}
+  - {CollectionName: Killer Animal Collection, Expression: 'TAG "killer animal"'}
+  - {CollectionName: Cult Collection, Expression: 'TAG "cult"'}
+
+  # --- Crime, thriller & drama ---
+  - {CollectionName: Serial Killer Collection, Expression: 'TAG "serial killer"'}
+  - {CollectionName: Revenge Collection, Expression: 'TAG "revenge"'}
+  - {CollectionName: Prison Collection, Expression: 'TAG "prison"'}
+  - {CollectionName: Courtroom Collection, Expression: 'TAG "courtroom"'}
+  - {CollectionName: Conspiracy Collection, Expression: 'TAG "conspiracy"'}
+  - {CollectionName: Survival Collection, Expression: 'TAG "survival"'}
+  - {CollectionName: Disaster Collection, Expression: 'TAG "disaster"'}
+  - {CollectionName: Based on a True Story Collection, Expression: 'TAG "based on true story"'}
+
+  # --- Settings & occasions ---
+  - {CollectionName: World War II Collection, Expression: 'TAG "world war ii"'}
+  - {CollectionName: Cold War Collection, Expression: 'TAG "cold war"'}
+  - {CollectionName: Pirate Collection, Expression: 'TAG "pirate"'}
+  - {CollectionName: Samurai Collection, Expression: 'TAG "samurai"'}
+  - {CollectionName: Ninja Collection, Expression: 'TAG "ninja"'}
+  - {CollectionName: Christmas Collection, Expression: 'TAG "christmas"'}
+  - {CollectionName: Halloween Collection, Expression: 'TAG "halloween"'}
+  - {CollectionName: Road Trip Collection, Expression: 'TAG "road trip"'}
+  - {CollectionName: Coming of Age Collection, Expression: 'TAG "coming of age"'}
+  - {CollectionName: High School Collection, Expression: 'TAG "high school"'}
+  - {CollectionName: Sports Collection, Expression: 'TAG "sports"'}
+
+  # --- Form & tone ---
+  - {CollectionName: Parody Collection, Expression: 'TAG "parody"'}
+  - {CollectionName: Mockumentary Collection, Expression: 'TAG "mockumentary"'}
+  - {CollectionName: Stop Motion Collection, Expression: 'TAG "stop motion"'}
+  - {CollectionName: Short Films, Expression: 'MOVIE AND RUNTIME "<45"'}
+  - {CollectionName: Epics (3 Hours+), Expression: 'MOVIE AND RUNTIME ">=180"'}
+
+  # --- Ratings & recency (Kometa smart_filter equivalents; no tags needed) ---
+  - {CollectionName: Audience Highly Rated, Expression: 'COMMUNITYRATING ">=8"'}
+  - {CollectionName: Critics Highly Rated, Expression: 'CRITICS ">=90"'}
+  - {CollectionName: Unwatched Gems, Expression: 'UNPLAYED AND COMMUNITYRATING ">=7.5"'}
+  - {CollectionName: Released in the Past Year, Expression: 'RELEASEDATE "<=365"'}
+  - {CollectionName: Recently Added, Expression: 'ADDEDDATE "<=30"'}
+
+  # --- Picture & sound (read from media streams, which series don't have, so movies only) ---
+  - {CollectionName: Movies with Commentary, Expression: 'MOVIE AND AUDIOCODEC "commentary"'}
+  - {CollectionName: 4K Movies, Expression: 'MOVIE AND RESOLUTION "4K"'}
+  - {CollectionName: Dolby Vision Movies, Expression: 'MOVIE AND HDR "DOVI"'}
+  - {CollectionName: Dolby Atmos Movies, Expression: 'MOVIE AND AUDIOCODEC "atmos"'}
+
+  # --- World cinema (production country) ---
+  - {CollectionName: Japanese Cinema, Expression: 'MOVIE AND COUNTRY "Japan" AND NOT TAG "anime"'}
+  - {CollectionName: Korean Cinema, Expression: 'MOVIE AND COUNTRY "South Korea"'}
+  - {CollectionName: Hong Kong Cinema, Expression: 'MOVIE AND COUNTRY "Hong Kong"'}
+  - {CollectionName: French Cinema, Expression: 'MOVIE AND COUNTRY "France"'}
+  - {CollectionName: Indian Cinema, Expression: 'MOVIE AND COUNTRY "India"'}
+  - {CollectionName: British Cinema, Expression: 'MOVIE AND COUNTRY "United Kingdom"'}
+
+  # --- Studios (partial match, like the existing STUDIO "Marvel") ---
+  - {CollectionName: A24, Expression: 'STUDIO "A24"'}
+  - {CollectionName: Shudder Originals, Expression: 'STUDIO "Shudder"'}
+  - {CollectionName: Studio Ghibli, Expression: 'STUDIO "Studio Ghibli"'}
+  - {CollectionName: Pixar, Expression: 'STUDIO "Pixar"'}
+  - {CollectionName: Blumhouse, Expression: 'STUDIO "Blumhouse"'}
+  - {CollectionName: Hammer Horror, Expression: 'STUDIO "Hammer Film"'}
+  - {CollectionName: Laika, Expression: 'STUDIO "Laika"'}
+  - {CollectionName: Aardman, Expression: 'STUDIO "Aardman"'}
+  - {CollectionName: Troma, Expression: 'STUDIO "Troma"'}
+
+  # --- Directors (SortBy 0, as for the decade collections) ---
+  - {CollectionName: Roger Corman Collection, Expression: 'DIRECTOR "Roger Corman" OR PRODUCER "Roger Corman"', SortBy: 0}
+  - {CollectionName: Hayao Miyazaki, Expression: 'DIRECTOR "Hayao Miyazaki"', SortBy: 0}
+  - {CollectionName: Akira Kurosawa, Expression: 'DIRECTOR "Akira Kurosawa"', SortBy: 0}
+  - {CollectionName: Alfred Hitchcock, Expression: 'DIRECTOR "Alfred Hitchcock"', SortBy: 0}
+  - {CollectionName: Stanley Kubrick, Expression: 'DIRECTOR "Stanley Kubrick"', SortBy: 0}
+  - {CollectionName: John Carpenter, Expression: 'DIRECTOR "John Carpenter"', SortBy: 0}
+  - {CollectionName: David Cronenberg, Expression: 'DIRECTOR "David Cronenberg"', SortBy: 0}
+  - {CollectionName: David Lynch, Expression: 'DIRECTOR "David Lynch"', SortBy: 0}
+  - {CollectionName: Guillermo del Toro, Expression: 'DIRECTOR "Guillermo del Toro"', SortBy: 0}
+  - {CollectionName: Quentin Tarantino, Expression: 'DIRECTOR "Quentin Tarantino"', SortBy: 0}
+  - {CollectionName: Christopher Nolan, Expression: 'DIRECTOR "Christopher Nolan"', SortBy: 0}
+  - {CollectionName: Denis Villeneuve, Expression: 'DIRECTOR "Denis Villeneuve"', SortBy: 0}
+  - {CollectionName: Wes Anderson, Expression: 'DIRECTOR "Wes Anderson"', SortBy: 0}
+  - {CollectionName: Steven Spielberg, Expression: 'DIRECTOR "Steven Spielberg"', SortBy: 0}
+  - {CollectionName: Martin Scorsese, Expression: 'DIRECTOR "Martin Scorsese"', SortBy: 0}

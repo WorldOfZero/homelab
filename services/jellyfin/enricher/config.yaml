@@ -118,3 +118,125 @@ rules:
     add: {tags: [wilhelm scream]}
   - match: {imdb_keywords: [assassin, hitman, contract killer]}
     add: {tags: [assassin]}
+
+  # --- Remaining Kometa topics (anime ones were anilist_search; IMDb keywords approximate them) ---
+  - match: {imdb_keywords: [lovecraftian, cosmic horror, cthulhu mythos, h.p. lovecraft]}
+    add: {tags: [lovecraftian]}
+  - match: {imdb_keywords: [martial arts, kung fu, wuxia]}
+    add: {tags: [martial arts]}
+  - match: {imdb_keywords: [splatter, gore, extreme gore]}
+    add: {tags: [splatter]}
+  - match: {imdb_keywords: [mindfuck, mind bender, mind bending, reality bending]}
+    add: {tags: [mind bending]}
+  - match: {imdb_keywords: [chick flick]}
+    add: {tags: [chick flick]}
+  - match: {imdb_keywords: [isekai, transported to another world]}
+    add: {tags: [isekai]}
+  - match: {imdb_keywords: [slice of life]}
+    add: {tags: [slice of life]}
+  - match: {imdb_keywords: [iyashikei]}
+    add: {tags: [iyashikei]}
+  - match: {imdb_keywords: [yuri, girls love]}
+    add: {tags: [yuri]}
+  - match: {imdb_keywords: [shonen, shounen]}
+    add: {tags: [shounen]}
+  - match: {imdb_keywords: [shojo, shoujo]}
+    add: {tags: [shoujo]}
+  - match: {imdb_keywords: [seinen]}
+    add: {tags: [seinen]}
+  - match: {imdb_keywords: [josei]}
+    add: {tags: [josei]}
+
+  # --- Sci-fi & fantasy ---
+  - match: {imdb_keywords: [time travel, time machine]}
+    add: {tags: [time travel]}
+  - match: {imdb_keywords: [time loop]}
+    add: {tags: [time loop]}
+  - match: {imdb_keywords: [dystopia, totalitarianism]}
+    add: {tags: [dystopia]}
+  - match: {imdb_keywords: [space opera, outer space, spaceship]}
+    add: {tags: [space]}
+  - match: {imdb_keywords: [artificial intelligence, android, robot, sentient computer]}
+    add: {tags: [artificial intelligence]}
+  - match: {imdb_keywords: [superhero, superheroine, super powers]}
+    add: {tags: [superhero]}
+  - match: {imdb_keywords: [alternate history]}
+    add: {tags: [alternate history]}
+  - match: {imdb_keywords: [parallel universe, multiverse, alternate reality]}
+    add: {tags: [multiverse]}
+  - match: {imdb_keywords: [virtual reality, simulated reality]}
+    add: {tags: [virtual reality]}
+  - match: {imdb_keywords: [dinosaur]}
+    add: {tags: [dinosaur]}
+  - match: {imdb_keywords: [kaiju, giant monster]}
+    add: {tags: [kaiju]}
+  - match: {imdb_keywords: [dragon]}
+    add: {tags: [dragon]}
+  - match: {imdb_keywords: [fairy tale, based on fairy tale]}
+    add: {tags: [fairy tale]}
+
+  # --- Horror ---
+  - match: {imdb_keywords: [ghost, haunted house, haunting, poltergeist]}
+    add: {tags: [ghost]}
+  - match: {imdb_keywords: [witch, witchcraft, coven]}
+    add: {tags: [witch]}
+  - match: {imdb_keywords: [slasher, slasher flick, masked killer]}
+    add: {tags: [slasher]}
+  - match: {imdb_keywords: [found footage]}
+    add: {tags: [found footage]}
+  - match: {imdb_keywords: [folk horror, pagan]}
+    add: {tags: [folk horror]}
+  - match: {imdb_keywords: [shark, killer shark, killer animal, animal attack]}
+    add: {tags: [killer animal]}
+  - match: {imdb_keywords: [cult, cult leader, religious cult]}
+    add: {tags: [cult]}
+
+  # --- Crime, thriller & drama ---
+  - match: {imdb_keywords: [serial killer]}
+    add: {tags: [serial killer]}
+  - match: {imdb_keywords: [revenge, vengeance]}
+    add: {tags: [revenge]}
+  - match: {imdb_keywords: [prison, prison escape, prisoner]}
+    add: {tags: [prison]}
+  - match: {imdb_keywords: [courtroom, trial, lawyer]}
+    add: {tags: [courtroom]}
+  - match: {imdb_keywords: [conspiracy, cover up]}
+    add: {tags: [conspiracy]}
+  - match: {imdb_keywords: [survival, stranded, wilderness survival]}
+    add: {tags: [survival]}
+  - match: {imdb_keywords: [disaster, natural disaster, disaster film]}
+    add: {tags: [disaster]}
+  - match: {imdb_keywords: [based on true story, based on real events]}
+    add: {tags: [based on true story]}
+
+  # --- Settings & occasions ---
+  - match: {imdb_keywords: [world war two, world war ii, second world war]}
+    add: {tags: [world war ii]}
+  - match: {imdb_keywords: [cold war]}
+    add: {tags: [cold war]}
+  - match: {imdb_keywords: [pirate, pirate ship]}
+    add: {tags: [pirate]}
+  - match: {imdb_keywords: [samurai, ronin]}
+    add: {tags: [samurai]}
+  - match: {imdb_keywords: [ninja]}
+    add: {tags: [ninja]}
+  - match: {imdb_keywords: [christmas, christmas eve, santa claus]}
+    add: {tags: [christmas]}
+  - match: {imdb_keywords: [halloween]}
+    add: {tags: [halloween]}
+  - match: {imdb_keywords: [road trip, road movie]}
+    add: {tags: [road trip]}
+  - match: {imdb_keywords: [coming of age]}
+    add: {tags: [coming of age]}
+  - match: {imdb_keywords: [high school, high school student]}
+    add: {tags: [high school]}
+  - match: {imdb_keywords: [sport, sports, boxing, boxer, football, baseball, basketball]}
+    add: {tags: [sports]}
+
+  # --- Form & tone ---
+  - match: {imdb_keywords: [parody, spoof]}
+    add: {tags: [parody]}
+  - match: {imdb_keywords: [mockumentary]}
+    add: {tags: [mockumentary]}
+  - match: {imdb_keywords: [stop motion, stop motion animation, claymation]}
+    add: {tags: [stop motion]}
