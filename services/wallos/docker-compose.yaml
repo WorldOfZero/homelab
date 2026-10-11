@@ -52,7 +52,7 @@ services:
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: app-wallos # Name for local container management
     environment:
-      - TZ=America/Pacific
+      - TZ=America/Los_Angeles
     volumes:
       - /mnt/Fast/Configuration/wallos/db:/var/www/html/db
       - /mnt/Fast/Configuration/wallos/logos:/var/www/html/images/uploads/logos
