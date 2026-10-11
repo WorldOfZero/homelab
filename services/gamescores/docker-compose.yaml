@@ -57,7 +57,7 @@ services:
 
   application:
     container_name: gamescores
-    image: ghcr.io/worldofzero/gamescores:0.0.87
+    image: ghcr.io/worldofzero/gamescores:0.0.90
     network_mode: service:tailscale # Sidecar configuration to route GameScores through Tailscale
     environment:
       - TZ=America/Los_Angeles
