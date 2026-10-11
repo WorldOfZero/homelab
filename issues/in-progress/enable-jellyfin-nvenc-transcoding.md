@@ -54,4 +54,13 @@ Steps:
 
 2026-10-11: Found during an investigation of Jellyfin stalls. The stalls were a Tailscale relay problem, not CPU load. This issue removes CPU load that is not necessary.
 
+2026-10-11: Input from the human (command output from minerva):
+
+- `nvidia-smi` in `app-jellyfin` shows an NVIDIA T400 4GB (Turing, TU117). The driver is 550.127.05 and the CUDA version is 12.4. The container can use the GPU.
+- `encoding.xml` has `HardwareAccelerationType` set to `none`. This is the cause: Jellyfin does not use the GPU.
+- `HardwareDecodingCodecs` holds only `h264` and `vc1`. `EnableHardwareEncoding` is `true` but has no effect while the type is `none`. `EnableTonemapping` is `false`.
+- The bundled ffmpeg lists the `cuda` hwaccel, `h264_nvenc`, `hevc_nvenc` and `av1_nvenc` encoders, and `*_cuvid` decoders. The T400 has no AV1 decode or AV1 encode hardware, so the AV1 entries do not apply.
+
+Next: the human applies the settings in the `services/jellyfin` README, then runs a test transcode.
+
 ## Resolution

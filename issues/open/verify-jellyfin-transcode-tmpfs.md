@@ -60,4 +60,6 @@ Option B keeps the setting in the repo. 4 GB is enough for about two 4K transcod
 
 ## Notes
 
+2026-10-11: `encoding.xml` (from the human, during [[enable-jellyfin-nvenc-transcoding]]) has `EnableThrottling` and `EnableSegmentDeletion` set to `false`. With both off, a transcode keeps all of its segments until playback stops. A long 4K transcode can then fill a 4 GB tmpfs. The file has no `TranscodingTempPath` entry, so Jellyfin uses its default path.
+
 ## Resolution
