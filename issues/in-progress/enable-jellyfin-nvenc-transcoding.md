@@ -1,16 +1,16 @@
 ---
 title: "Enable NVENC hardware acceleration in Jellyfin"
-state: open            # open | in-progress | closed. Must match the directory of the file.
+state: in-progress     # open | in-progress | closed. Must match the directory of the file.
 resolution:            # completed | abandoned. Set this only when state is closed.
 priority: high         # critical | high | medium | low
 effort: small          # small | medium | large | x-large
 tags: [jellyfin, performance] # Built-in: bug, feature. Add the components the work touches too, for example [bug, scheduler].
 created: 2026-10-11
 closed:                # YYYY-MM-DD. Set this only when state is closed.
-owner:                 # The person or agent working on the issue. Cleared when the issue returns to open.
+owner: claude          # The person or agent working on the issue. Cleared when the issue returns to open.
 approver:              # The person or agent who accepts the issue when it closes.
-bookmark:              # The jj bookmark of the work on the issue. Set this when work starts.
-workspaces: []         # jj workspaces where local work on the issue has happened, for example [fix-login-bug].
+bookmark: enable-jellyfin-nvenc-transcoding # The jj bookmark of the work on the issue. Set this when work starts.
+workspaces: [tailnet-local-network] # jj workspaces where local work on the issue has happened, for example [fix-login-bug].
 metadata: {}           # Optional. Arbitrary key-value notes, for example an AI agent session id to resume work with context: {session-id: "abc123"}.
 deferred-from:         # Optional. The issue (as a quoted wikilink) or bookmark that deferred this work.
 parent:                # Optional. The parent issue (as a quoted wikilink), if this issue is a sub-issue.
