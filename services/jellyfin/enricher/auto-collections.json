@@ -1,0 +1,1069 @@
+{
+  "TitleMatchPairs": [],
+  "ExpressionCollections": [
+    {
+      "CollectionName": "Marvel Movies",
+      "Expression": "STUDIO \"Marvel\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Streamed Collection",
+      "Expression": "STUDIO \"youtube\" or STUDIO \"twitch\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Actual Play Collection",
+      "Expression": "TAG \"actual play\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Vampires Collection",
+      "Expression": "TAG \"vampire\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Zombie Collection",
+      "Expression": "TAG \"zombie\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Werewolf Collection",
+      "Expression": "TAG \"werewolf\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Spy Collection",
+      "Expression": "TAG \"spy\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Monster Collection",
+      "Expression": "TAG \"monster\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Demon Collection",
+      "Expression": "TAG \"demon\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Body Horror Collection",
+      "Expression": "TAG \"body horror\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Magic Collection",
+      "Expression": "TAG \"magic\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Heist Collection",
+      "Expression": "TAG \"heist\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Whodunit Collection",
+      "Expression": "TAG \"whodunit\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Documentary Collection",
+      "Expression": "TAG \"documentary\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Mafia Collection",
+      "Expression": "TAG \"mafia\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Swindler's and Con People Collection",
+      "Expression": "TAG \"conman\" or TAG \"conmen\" or TAG \"conwomen\" or TAG \"con man\" or TAG \"con women\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Romcom Collection",
+      "Expression": "TAG \"romcom\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Lego Collection",
+      "Expression": "TAG \"lego\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Hacking Collection",
+      "Expression": "TAG \"hacker\" or TAG \"hacking\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "James Bond Collection",
+      "Expression": "TAG \"james bond\" or TAG \"007\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Based on a Video Game Collection",
+      "Expression": "TAG \"based on video game\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Based on a Book Collection",
+      "Expression": "TAG \"based on book\" or TAG \"based on novel or book\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Based on a Comic Collection",
+      "Expression": "TAG \"based on comic\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Queer Collection",
+      "Expression": "TAG \"lgbt\" or TAG \"lesbian\" or TAG \"trans\" or TAG \"gay\" or TAG \"queer\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Gay Collection",
+      "Expression": "TAG \"gay\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Lesbian Collection",
+      "Expression": "TAG \"lesbian\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Trans Collection",
+      "Expression": "TAG \"trans\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "BDSM Collection",
+      "Expression": "TAG \"bdsm\" or TAG \"kink\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Leather and Latex Collection",
+      "Expression": "TAG \"leather\" or TAG \"latex\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Independent Collection",
+      "Expression": "TAG \"independent film\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Anime Collection",
+      "Expression": "TAG \"anime\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Anthology",
+      "Expression": "TAG \"anthology\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Sword & Sorcery Collection",
+      "Expression": "TAG \"sword and sorcery\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "B-Movies Collection",
+      "Expression": "TAG \"b movie\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Alien Collection",
+      "Expression": "TAG \"alien\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Mythology Collection",
+      "Expression": "TAG \"mythology\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Grindhouse Collection",
+      "Expression": "TAG \"grindhouse\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Satirical Movies Collection",
+      "Expression": "TAG \"satire\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Medical Collection",
+      "Expression": "TAG \"medical\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Steampunk Collection",
+      "Expression": "TAG \"steampunk\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Mecha Collection",
+      "Expression": "TAG \"mecha\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Caper Collection",
+      "Expression": "TAG \"caper\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Corruption Collection",
+      "Expression": "TAG \"corruption\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Cyberpunk Collection",
+      "Expression": "TAG \"cyberpunk\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Post-Apocalyptic Collection",
+      "Expression": "TAG \"post apocalypse\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Wilhelm Scream Collection",
+      "Expression": "TAG \"wilhelm scream\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Assassin Collection",
+      "Expression": "TAG \"assassin\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "1950's Movies",
+      "Expression": "YEAR \">1949\" AND YEAR \"<1960\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "1960's Movies",
+      "Expression": "YEAR \">1959\" AND YEAR \"<1970\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "1970's Movies",
+      "Expression": "YEAR \">1969\" AND YEAR \"<1980\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "1980's Movies",
+      "Expression": "YEAR \">1979\" AND YEAR \"<1990\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "1990's Movies",
+      "Expression": "YEAR \">1989\" AND YEAR \"<2000\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "2000's Movies",
+      "Expression": "YEAR \">1999\" AND YEAR \"<2010\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "2010's Movies",
+      "Expression": "YEAR \">2009\" AND YEAR \"<2020\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "2020's Movies",
+      "Expression": "YEAR \">2019\" AND YEAR \"<2030\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Lovecraftian Horror Collection",
+      "Expression": "TAG \"lovecraftian\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Martial Arts Collection",
+      "Expression": "TAG \"martial arts\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Splatter and Gore Collection",
+      "Expression": "TAG \"splatter\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Mind Bending Collection",
+      "Expression": "TAG \"mind bending\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Chick Flicks",
+      "Expression": "TAG \"chick flick\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Isekai",
+      "Expression": "TAG \"isekai\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Slice of Life",
+      "Expression": "TAG \"slice of life\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Iyashikei",
+      "Expression": "TAG \"iyashikei\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Yuri",
+      "Expression": "TAG \"yuri\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Shounen",
+      "Expression": "TAG \"shounen\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Shoujo",
+      "Expression": "TAG \"shoujo\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Seinen",
+      "Expression": "TAG \"seinen\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Josei",
+      "Expression": "TAG \"josei\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Babylon 5 Universe",
+      "Expression": "TITLE \"Babylon 5\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Time Travel Collection",
+      "Expression": "TAG \"time travel\" OR TAG \"time loop\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Time Loop Collection",
+      "Expression": "TAG \"time loop\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Dystopia Collection",
+      "Expression": "TAG \"dystopia\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Space Collection",
+      "Expression": "TAG \"space\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Artificial Intelligence Collection",
+      "Expression": "TAG \"artificial intelligence\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Superhero Collection",
+      "Expression": "TAG \"superhero\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Alternate History Collection",
+      "Expression": "TAG \"alternate history\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Multiverse Collection",
+      "Expression": "TAG \"multiverse\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Virtual Reality Collection",
+      "Expression": "TAG \"virtual reality\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Dinosaur Collection",
+      "Expression": "TAG \"dinosaur\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Kaiju Collection",
+      "Expression": "TAG \"kaiju\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Dragon Collection",
+      "Expression": "TAG \"dragon\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Fairy Tale Collection",
+      "Expression": "TAG \"fairy tale\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Ghost Collection",
+      "Expression": "TAG \"ghost\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Witch Collection",
+      "Expression": "TAG \"witch\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Slasher Collection",
+      "Expression": "TAG \"slasher\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Found Footage Collection",
+      "Expression": "TAG \"found footage\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Folk Horror Collection",
+      "Expression": "TAG \"folk horror\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Killer Animal Collection",
+      "Expression": "TAG \"killer animal\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Cult Collection",
+      "Expression": "TAG \"cult\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Serial Killer Collection",
+      "Expression": "TAG \"serial killer\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Revenge Collection",
+      "Expression": "TAG \"revenge\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Prison Collection",
+      "Expression": "TAG \"prison\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Courtroom Collection",
+      "Expression": "TAG \"courtroom\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Conspiracy Collection",
+      "Expression": "TAG \"conspiracy\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Survival Collection",
+      "Expression": "TAG \"survival\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Disaster Collection",
+      "Expression": "TAG \"disaster\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Based on a True Story Collection",
+      "Expression": "TAG \"based on true story\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "World War II Collection",
+      "Expression": "TAG \"world war ii\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Cold War Collection",
+      "Expression": "TAG \"cold war\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Pirate Collection",
+      "Expression": "TAG \"pirate\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Samurai Collection",
+      "Expression": "TAG \"samurai\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Ninja Collection",
+      "Expression": "TAG \"ninja\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Christmas Collection",
+      "Expression": "TAG \"christmas\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Halloween Collection",
+      "Expression": "TAG \"halloween\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Road Trip Collection",
+      "Expression": "TAG \"road trip\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Coming of Age Collection",
+      "Expression": "TAG \"coming of age\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "High School Collection",
+      "Expression": "TAG \"high school\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Sports Collection",
+      "Expression": "TAG \"sports\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Parody Collection",
+      "Expression": "TAG \"parody\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Mockumentary Collection",
+      "Expression": "TAG \"mockumentary\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Stop Motion Collection",
+      "Expression": "TAG \"stop motion\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Short Films",
+      "Expression": "MOVIE AND RUNTIME \"<45\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Epics (3 Hours+)",
+      "Expression": "MOVIE AND RUNTIME \">=180\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Audience Highly Rated",
+      "Expression": "COMMUNITYRATING \">=8\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Critics Highly Rated",
+      "Expression": "CRITICS \">=90\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Unwatched Gems",
+      "Expression": "UNPLAYED AND COMMUNITYRATING \">=7.5\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Released in the Past Year",
+      "Expression": "RELEASEDATE \"<=365\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Recently Added",
+      "Expression": "ADDEDDATE \"<=30\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Movies with Commentary",
+      "Expression": "MOVIE AND AUDIOCODEC \"commentary\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "4K Movies",
+      "Expression": "MOVIE AND RESOLUTION \"4K\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Dolby Vision Movies",
+      "Expression": "MOVIE AND HDR \"DOVI\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Dolby Atmos Movies",
+      "Expression": "MOVIE AND AUDIOCODEC \"atmos\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Japanese Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Japan\" AND NOT TAG \"anime\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Korean Cinema",
+      "Expression": "MOVIE AND COUNTRY \"South Korea\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Hong Kong Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Hong Kong\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "French Cinema",
+      "Expression": "MOVIE AND COUNTRY \"France\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Indian Cinema",
+      "Expression": "MOVIE AND COUNTRY \"India\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "British Cinema",
+      "Expression": "MOVIE AND COUNTRY \"United Kingdom\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "A24",
+      "Expression": "STUDIO \"A24\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Shudder Originals",
+      "Expression": "STUDIO \"Shudder\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Studio Ghibli",
+      "Expression": "STUDIO \"Studio Ghibli\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Pixar",
+      "Expression": "STUDIO \"Pixar\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Blumhouse",
+      "Expression": "STUDIO \"Blumhouse\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Hammer Horror",
+      "Expression": "STUDIO \"Hammer Film\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Laika",
+      "Expression": "STUDIO \"Laika\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Aardman",
+      "Expression": "STUDIO \"Aardman\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Troma",
+      "Expression": "STUDIO \"Troma\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Roger Corman Collection",
+      "Expression": "DIRECTOR \"Roger Corman\" OR PRODUCER \"Roger Corman\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Hayao Miyazaki",
+      "Expression": "DIRECTOR \"Hayao Miyazaki\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Akira Kurosawa",
+      "Expression": "DIRECTOR \"Akira Kurosawa\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Alfred Hitchcock",
+      "Expression": "DIRECTOR \"Alfred Hitchcock\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Stanley Kubrick",
+      "Expression": "DIRECTOR \"Stanley Kubrick\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "John Carpenter",
+      "Expression": "DIRECTOR \"John Carpenter\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "David Cronenberg",
+      "Expression": "DIRECTOR \"David Cronenberg\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "David Lynch",
+      "Expression": "DIRECTOR \"David Lynch\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Guillermo del Toro",
+      "Expression": "DIRECTOR \"Guillermo del Toro\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Quentin Tarantino",
+      "Expression": "DIRECTOR \"Quentin Tarantino\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Christopher Nolan",
+      "Expression": "DIRECTOR \"Christopher Nolan\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Denis Villeneuve",
+      "Expression": "DIRECTOR \"Denis Villeneuve\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Wes Anderson",
+      "Expression": "DIRECTOR \"Wes Anderson\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Steven Spielberg",
+      "Expression": "DIRECTOR \"Steven Spielberg\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Martin Scorsese",
+      "Expression": "DIRECTOR \"Martin Scorsese\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    }
+  ]
+}

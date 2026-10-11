@@ -194,51 +194,50 @@ class EnricherTest(unittest.TestCase):
         stats = self.run_once(cfg=cfg)
         self.assertEqual(stats["skipped_lookups"], 3)
 
+    def ac(self, name, expression, sort_by=2):
+        return {"CollectionName": name, "Expression": expression, "CaseSensitive": False, "SortBy": sort_by, "SortOrder": 0}
+
     def write_ac(self, collections, pairs=()):
-        path = os.path.join(self.tmp.name, "ac.yaml")
+        """Write a plugin-format JSON file; returns the auto_collections settings pointing at it."""
+        path = os.path.join(self.tmp.name, "ac.json")
         with open(path, "w") as f:
-            yaml.safe_dump({"plugin": {"name": "auto collections", "task_name": "Auto Collection"},
-                            "expression_defaults": {"CaseSensitive": False, "SortBy": 2, "SortOrder": 0},
-                            "TitleMatchPairs": list(pairs), "ExpressionCollections": collections}, f)
-        return path
+            json.dump({"TitleMatchPairs": list(pairs), "ExpressionCollections": collections}, f)
+        return {"file": path, "plugin_name": "auto collections", "task_name": "Auto Collection"}
 
     def jf(self):
         return enricher.Jellyfin(f"{self.base}/jf", "key")
 
     def test_sync_replaces_managed_keys_and_keeps_other_settings(self):
-        self.fake.plugin_configs["p-ac"]["ExpressionCollections"] = [
-            {"CollectionName": "Old", "Expression": 'TAG "old"', "CaseSensitive": False, "SortBy": 2, "SortOrder": 0}]
-        path = self.write_ac([{"CollectionName": "Heist Collection", "Expression": 'TAG "heist"'},
-                              {"CollectionName": "1950s", "Expression": 'YEAR ">1949"', "SortBy": 0}])
-        self.assertTrue(enricher.sync_auto_collections(path, self.jf(), dry_run=False))
+        self.fake.plugin_configs["p-ac"]["ExpressionCollections"] = [self.ac("Old", 'TAG "old"')]
+        want = [self.ac("Heist Collection", 'TAG "heist"'), self.ac("1950s", 'YEAR ">1949"', sort_by=0)]
+        settings = self.write_ac(want)
+        self.assertTrue(enricher.sync_auto_collections(settings, self.jf(), dry_run=False))
         cfg = self.fake.plugin_configs["p-ac"]
         self.assertEqual(cfg["SomeOtherSetting"], 7)
-        self.assertEqual(cfg["ExpressionCollections"], [
-            {"CollectionName": "Heist Collection", "Expression": 'TAG "heist"', "CaseSensitive": False, "SortBy": 2, "SortOrder": 0},
-            {"CollectionName": "1950s", "Expression": 'YEAR ">1949"', "CaseSensitive": False, "SortBy": 0, "SortOrder": 0}])
+        self.assertEqual(cfg["ExpressionCollections"], want)
         # second sync is a no-op
-        self.assertFalse(enricher.sync_auto_collections(path, self.jf(), dry_run=False))
+        self.assertFalse(enricher.sync_auto_collections(settings, self.jf(), dry_run=False))
 
     def test_sync_dry_run_leaves_plugin_untouched(self):
-        path = self.write_ac([{"CollectionName": "Heist Collection", "Expression": 'TAG "heist"'}])
+        settings = self.write_ac([self.ac("Heist Collection", 'TAG "heist"')])
         before = copy.deepcopy(self.fake.plugin_configs["p-ac"])
-        self.assertTrue(enricher.sync_auto_collections(path, self.jf(), dry_run=True))
+        self.assertTrue(enricher.sync_auto_collections(settings, self.jf(), dry_run=True))
         self.assertEqual(self.fake.plugin_configs["p-ac"], before)
 
     def test_sync_errors_when_plugin_missing_or_duplicate_names(self):
         self.fake.plugins = [{"Id": "p-other", "Name": "TMDb"}]
-        path = self.write_ac([{"CollectionName": "A", "Expression": 'TAG "a"'}])
+        settings = self.write_ac([self.ac("A", 'TAG "a"')])
         with self.assertRaises(LookupError):
-            enricher.sync_auto_collections(path, self.jf(), dry_run=False)
-        dup = self.write_ac([{"CollectionName": "A", "Expression": "x"}, {"CollectionName": "A", "Expression": "y"}])
+            enricher.sync_auto_collections(settings, self.jf(), dry_run=False)
+        dup = self.write_ac([self.ac("A", "x"), self.ac("A", "y")])
         with self.assertRaises(ValueError):
-            enricher.load_auto_collections(dup)
+            enricher.load_auto_collections(dup["file"])
 
     def run_main(self, dry_run):
-        self.write_ac([{"CollectionName": "Heist Collection", "Expression": 'TAG "heist"'}])
+        self.write_ac([self.ac("Heist Collection", 'TAG "heist"')])
         cfg_path = os.path.join(self.tmp.name, "config.yaml")
         with open(cfg_path, "w") as f:
-            yaml.safe_dump(dict(self.cfg, auto_collections="ac.yaml",
+            yaml.safe_dump(dict(self.cfg, auto_collections={"file": "ac.json", "task_name": "Auto Collection"},
                                 imdb_keywords={"sources": ["kometa"], "request_delay_seconds": 0}), f)
         env = {"JELLYFIN_APIKEY": "key", "JELLYFIN_URL": f"{self.base}/jf", "KOMETA_SERVICE_URL": f"{self.base}/kometa",
                "DATA_DIR": self.tmp.name, "DRY_RUN": "false"}  # --dry-run still overrides
@@ -266,9 +265,14 @@ class EnricherTest(unittest.TestCase):
         self.assertEqual(self.fake.started_tasks, [])
         self.assertEqual(self.fake.plugin_configs["p-ac"]["ExpressionCollections"], [])
 
-    def test_shipped_auto_collections_cover_every_enricher_tag(self):
-        _, desired = enricher.load_auto_collections(os.path.join(HERE, "auto-collections.yaml"))
-        self.assertGreaterEqual(len(desired["ExpressionCollections"]), 55)
+    def test_shipped_auto_collections_json_is_importable_and_covers_every_enricher_tag(self):
+        with open(os.path.join(HERE, "auto-collections.json")) as f:
+            raw = json.load(f)
+        self.assertEqual(set(raw), {"TitleMatchPairs", "ExpressionCollections"})  # plugin export shape
+        for c in raw["ExpressionCollections"]:
+            self.assertEqual(set(c), {"CollectionName", "Expression", "CaseSensitive", "SortBy", "SortOrder"}, c)
+        desired = enricher.load_auto_collections(os.path.join(HERE, "auto-collections.json"))
+        self.assertGreaterEqual(len(desired["ExpressionCollections"]), 150)
         expr_tags = set()
         for c in desired["ExpressionCollections"]:
             expr_tags |= {t.casefold() for t in re.findall(r'TAG "([^"]+)"', c["Expression"])}

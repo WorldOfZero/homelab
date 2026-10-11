@@ -39,28 +39,38 @@ rules:
     add: {tags: [vampire], genres: [Horror]}
 ```
 
-Tag names match the `TAG "…"` expressions in `auto-collections.yaml`. A test checks that every
+Tag names match the `TAG "…"` expressions in `auto-collections.json`. A test checks that every
 tag a rule adds is used by at least one collection.
 
-## Auto Collections plugin config (`auto-collections.yaml`)
+## Auto Collections plugin config (`auto-collections.json`)
 
-Collection definitions for the Auto Collections plugin also live in git. Each run starts by
-reading the plugin's configuration (`GET /Plugins/{id}/Configuration`). It replaces
-`ExpressionCollections` and `TitleMatchPairs` with the file's contents and posts the result back.
-Every other plugin setting is left alone. The file is **authoritative** for those two keys:
-- A collection edited in the plugin's web UI is overwritten on the next run.
+Collection definitions for the Auto Collections plugin also live in git, in the **plugin's own
+export/import JSON format** (`TitleMatchPairs` + `ExpressionCollections`, every field spelled
+out). That means you can:
+- **Import it by hand** in the plugin's settings page. This doesn't need the enricher.
+- **Edit in the UI, export, and commit** the exported file over `auto-collections.json`.
+
+The enricher also applies it on each run, if the `auto_collections:` block in `config.yaml` is
+present:
+1. It reads the plugin's configuration (`GET /Plugins/{id}/Configuration`).
+2. It replaces `ExpressionCollections` and `TitleMatchPairs` with the file's contents and posts
+   the result back. Every other plugin setting is left alone.
+
+The file is **authoritative** for those two keys:
+- A collection edited only in the web UI, without exporting and committing it, is overwritten on
+  the next run.
 - A collection deleted from the file is deleted from the plugin.
 
-`expression_defaults` fills in `CaseSensitive`/`SortBy`/`SortOrder` for entries that don't set
-them. `SortBy`/`SortOrder` are the plugin's enum numbers, copied from its UI export.
+`SortBy`/`SortOrder` are the plugin's enum numbers, copied from its UI export. Most collections
+use `SortBy: 2`; the decade, director and Babylon 5 collections use `0`.
 
 After a run that changed the plugin config or any tags (not in dry run), it starts the
-plugin's scheduled task (the first task whose name contains `plugin.task_name`), so collections
-rebuild straight away. If no task matches, it logs a warning and the plugin's own schedule picks
-the changes up.
+plugin's scheduled task (the first task whose name contains `auto_collections.task_name`), so
+collections rebuild straight away. If no task matches, it logs a warning and the plugin's own
+schedule picks the changes up.
 
 To add a theme collection: add a `rules:` entry in `config.yaml` that produces the tag, then a
-`TAG "…"` entry in `auto-collections.yaml`, and redeploy.
+`TAG "…"` entry in `auto-collections.json`, and redeploy.
 
 Environment (set in `../docker-compose.yaml` / Portainer):
 
@@ -83,7 +93,7 @@ sudo install -d -o 1000 -g 1000 /mnt/Fast/Configuration/jellyfin/enricher
 2. Deploy with the default `DRY_RUN=true`, then read `sudo docker logs -f jellyfin-enricher` and
    check the `would update` lines look right. That includes the `auto collections: would update
    plugin config: +[…] -[…] ~[…]` line. `-[…]` lists collections in the plugin that aren't in
-   `auto-collections.yaml` and would be deleted, so add any you want to keep first.
+   `auto-collections.json` and would be deleted, so add any you want to keep first.
 3. Set `ENRICHER_DRY_RUN=false` and redeploy. Collections fill in on Auto Collections' next run.
 
 Run it by hand: `sudo docker exec jellyfin-enricher python /app/enricher.py --once [--dry-run]`.

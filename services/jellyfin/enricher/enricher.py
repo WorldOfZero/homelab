@@ -286,30 +286,27 @@ MANAGED_PLUGIN_KEYS = ("ExpressionCollections", "TitleMatchPairs")
 
 
 def load_auto_collections(path):
-    """Read auto-collections.yaml into (plugin settings, desired values for the managed config keys)."""
+    """Read the plugin's own export/import JSON into the desired values for the managed keys."""
     with open(path) as f:
-        spec = yaml.safe_load(f)
-    defaults = spec.get("expression_defaults", {})
-    desired = {
-        "ExpressionCollections": [{**defaults, **c} for c in spec.get("ExpressionCollections", [])],
-        "TitleMatchPairs": list(spec.get("TitleMatchPairs", [])),
-    }
+        spec = json.load(f)
+    desired = {k: list(spec.get(k, [])) for k in MANAGED_PLUGIN_KEYS}
     names = [c["CollectionName"] for c in desired["ExpressionCollections"]]
     dupes = sorted({n for n in names if names.count(n) > 1})
     if dupes:
         raise ValueError(f"duplicate CollectionName in {path}: {dupes}")
-    return spec.get("plugin", {}), desired
+    return desired
 
 
-def sync_auto_collections(path, jellyfin, dry_run):
+def sync_auto_collections(settings, jellyfin, dry_run):
     """Make the Auto Collections plugin's collection definitions match the repo.
 
     Authoritative for the managed keys (a collection removed from the file is removed from the
     plugin); every other key in the plugin's configuration is left as Jellyfin has it.
     Returns True if the plugin configuration changed (or would have, in a dry run).
     """
-    plugin, desired = load_auto_collections(path)
-    plugin_id = jellyfin.plugin_id(plugin.get("name", "Auto Collections"))
+    path = settings["file"]
+    desired = load_auto_collections(path)
+    plugin_id = jellyfin.plugin_id(settings.get("plugin_name", "Auto Collections"))
     current = jellyfin.plugin_config(plugin_id)
     if all(current.get(k) == desired[k] for k in MANAGED_PLUGIN_KEYS):
         log.info("auto collections: plugin config already matches %s", os.path.basename(path))
@@ -326,9 +323,8 @@ def sync_auto_collections(path, jellyfin, dry_run):
     return True
 
 
-def refresh_auto_collections(path, jellyfin):
-    plugin, _ = load_auto_collections(path)
-    task = plugin.get("task_name", "Auto Collections")
+def refresh_auto_collections(settings, jellyfin):
+    task = settings.get("task_name", "Auto Collection")
     try:
         log.info("auto collections: started task %r", jellyfin.start_task(task))
     except LookupError as e:
@@ -375,14 +371,14 @@ def main(argv=None):
             cache_days=kw_cfg.get("cache_days", 30),
             request_delay=float(kw_cfg.get("request_delay_seconds", 1.0)),
         )
-        ac_path = cfg.get("auto_collections")
-        if ac_path:
-            ac_path = os.path.join(os.path.dirname(os.path.abspath(args.config)), ac_path)
+        ac = dict(cfg.get("auto_collections") or {})
+        if ac:
+            ac["file"] = os.path.join(os.path.dirname(os.path.abspath(args.config)), ac["file"])
         # Sync collection definitions first so new TAG rules exist before tags are added.
-        config_changed = sync_auto_collections(ac_path, jellyfin, dry_run) if ac_path else False
+        config_changed = sync_auto_collections(ac, jellyfin, dry_run) if ac else False
         stats = run(cfg, jellyfin, source, dry_run)
-        if ac_path and not dry_run and (config_changed or stats["changed"]):
-            refresh_auto_collections(ac_path, jellyfin)
+        if ac and not dry_run and (config_changed or stats["changed"]):
+            refresh_auto_collections(ac, jellyfin)
         return stats
 
     if args.once or not os.environ.get("RUN_AT"):
