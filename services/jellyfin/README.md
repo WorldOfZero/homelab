@@ -41,12 +41,15 @@ at once.
 2. On minerva, while it plays:
 
    ```bash
-   # The GPU should list an ffmpeg process
-   sudo docker exec app-jellyfin nvidia-smi
+   # GPU memory and encoder/decoder use should rise. Inside the container nvidia-smi
+   # can't see processes, so an empty process list is normal.
+   sudo docker exec app-jellyfin nvidia-smi --query-gpu=memory.used,utilization.encoder,utilization.decoder --format=csv
    # The newest transcode log should show CUDA decode and NVENC encode
    sudo sh -c 'f=$(ls -t /mnt/Fast/Configuration/jellyfin/config/log/FFmpeg.Transcode-*.log | head -1); grep -o -E -- "-hwaccel cuda|-init_hw_device cuda[^ ]*|h264_nvenc|tonemap_cuda" "$f" | sort -u'
    ```
 
    Expect `-hwaccel cuda` (or `-init_hw_device cuda…`) and `h264_nvenc`, and `tonemap_cuda` for an HDR film.
+   Verified on 2026-10-11 with an HDR film: about 780 MiB of GPU memory, 93% encoder and 48% decoder use.
+   Encoder use is high at the start, because Jellyfin encodes ahead as fast as it can until throttling starts.
 3. In Dashboard → Activity (or the playback info overlay), the stream should show "Transcoding"
    with a hardware-accelerated video codec.

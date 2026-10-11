@@ -1,12 +1,12 @@
 ---
 title: "Enable NVENC hardware acceleration in Jellyfin"
-state: in-progress     # open | in-progress | closed. Must match the directory of the file.
-resolution:            # completed | abandoned. Set this only when state is closed.
+state: closed          # open | in-progress | closed. Must match the directory of the file.
+resolution: completed  # completed | abandoned. Set this only when state is closed.
 priority: high         # critical | high | medium | low
 effort: small          # small | medium | large | x-large
 tags: [jellyfin, performance] # Built-in: bug, feature. Add the components the work touches too, for example [bug, scheduler].
 created: 2026-10-11
-closed:                # YYYY-MM-DD. Set this only when state is closed.
+closed: 2026-10-11     # YYYY-MM-DD. Set this only when state is closed.
 owner: claude          # The person or agent working on the issue. Cleared when the issue returns to open.
 approver:              # The person or agent who accepts the issue when it closes.
 bookmark: enable-jellyfin-nvenc-transcoding # The jj bookmark of the work on the issue. Set this when work starts.
@@ -40,10 +40,10 @@ Steps:
 
 ## Acceptance criteria
 
-- [ ] `nvidia-smi` in `app-jellyfin` shows the GPU.
-- [ ] A forced transcode (lower the quality in a client) shows `-hwaccel cuda` or `-init_hw_device cuda` in the ffmpeg log under `/config/log/`.
-- [ ] `nvidia-smi` shows an `ffmpeg` process during that transcode.
-- [ ] The selected settings are recorded in `services/jellyfin/` (a short README section or a comment in the compose file), because `encoding.xml` is not in the repo.
+- [x] `nvidia-smi` in `app-jellyfin` shows the GPU.
+- [x] A forced transcode (lower the quality in a client) shows `-hwaccel cuda` or `-init_hw_device cuda` in the ffmpeg log under `/config/log/`.
+- [x] `nvidia-smi` shows an `ffmpeg` process during that transcode. In the container, `nvidia-smi` cannot list processes, so GPU memory and encoder use replace this check. See Notes.
+- [x] The selected settings are recorded in `services/jellyfin/` (a short README section or a comment in the compose file), because `encoding.xml` is not in the repo.
 
 ## Out of scope
 
@@ -63,4 +63,11 @@ Steps:
 
 Next: the human applies the settings in the `services/jellyfin` README, then runs a test transcode.
 
+2026-10-11: Input from the human: the Transcoding settings are saved. The first test was not valid, because the client used direct play, so Jellyfin did not transcode. `nvidia-smi` showed 1 MiB of GPU memory in use. Next: force a transcode with a low quality setting, or run ffmpeg with `-hwaccel cuda` and `h264_nvenc` directly in the container.
+
+2026-10-11: Input from the human: a forced transcode works on the GPU. The log `FFmpeg.Transcode-2026-10-11_01-32-43_…log` has `-hwaccel cuda`, `-init_hw_device cuda=cu:0`, `h264_nvenc` and `tonemap_cuda`. During the transcode, `nvidia-smi` showed 778 MiB of GPU memory, 93 % encoder use and 48 % decoder use. The process list was empty, because `nvidia-smi` in a container cannot see the processes. The high encoder use is the start of the transcode, before throttling stops it.
+
 ## Resolution
+
+Completed. Hardware acceleration in Jellyfin is NVIDIA NVENC, with hardware decode for the codecs that the T400 supports, hardware encode, CUDA tone mapping, and throttling and segment deletion. A forced transcode on 2026-10-11 used CUDA decode, `h264_nvenc` encode and `tonemap_cuda`. The values and the check are in the `services/jellyfin` README. Trickplay still uses the CPU: see [[trickplay-gpu-keyframe-extraction]].
+
