@@ -26,7 +26,7 @@ referencing a new variable, or stops referencing one.
 
 | Variable | Used by | Secret? | Where |
 |---|---|---|---|
-| `TS_AUTHKEY` | Sidecar in nearly every service: `airtrail`, `arr/bazarr`, `arr/radarr`, `arr/seerr`, `arr/sonarr`, `arr/themearr`, `homepage`, `jellyfin`, `karakeep`, `kavita`, `kuma`, `ollama`, `tailscale-idp` (sidecar + `tsidp` app), `tandoor`, `wallos` | Yes | Portainer (shared, if supported) |
+| `TS_AUTHKEY` | Sidecar in nearly every service: `airtrail`, `arr/bazarr`, `arr/radarr`, `arr/seerr`, `arr/sonarr`, `arr/themearr`, `gamescores`, `homepage`, `jellyfin`, `karakeep`, `kavita`, `kuma`, `ollama`, `tailscale-idp` (sidecar + `tsidp` app), `tandoor`, `wallos` | Yes | Portainer (shared, if supported) |
 | `TAILSCALE_AUTH_TOKEN` | `tailscale` (the main tailnet node) — same purpose as `TS_AUTHKEY` above, different name; see Improvements.md §8 | Yes | Portainer (shared, if supported) |
 | `TS_CERT_DOMAIN` | Every sidecar's `ts-serve` config (`services/*/docker-compose.yaml`, the `configs:` block) | No | Auto (not user-set) — supplied by Tailscale itself; the `$$` escaping in those files is deliberate, don't "fix" it into a Portainer variable |
 
