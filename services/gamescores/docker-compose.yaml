@@ -38,6 +38,7 @@ services:
       - TS_LOCAL_ADDR_PORT=127.0.0.1:41234 # The <addr>:<port> for the healthz endpoint
       - TS_ACCEPT_DNS=true # Uncomment when using MagicDNS
       - TS_AUTH_ONCE=true
+      - TS_EXTRA_ARGS=--advertise-tags=tag:gamescores
     configs:
       - source: ts-serve
         target: /config/serve.json
@@ -57,7 +58,7 @@ services:
 
   application:
     container_name: gamescores
-    image: ghcr.io/worldofzero/gamescores:sha-9314542
+    image: ghcr.io/worldofzero/gamescores:0.0.302
     network_mode: service:tailscale # Sidecar configuration to route GameScores through Tailscale
     environment:
       - TZ=America/Los_Angeles
