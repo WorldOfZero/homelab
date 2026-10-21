@@ -1,12 +1,12 @@
 ---
 title: "Diagnose Roon disconnects and playback dropouts"
-state: in-progress     # open | in-progress | closed. Must match the directory of the file.
-resolution:            # completed | abandoned. Set this only when state is closed.
+state: closed          # open | in-progress | closed. Must match the directory of the file.
+resolution: completed  # completed | abandoned. Set this only when state is closed.
 priority: medium       # critical | high | medium | low
 effort: small          # small | medium | large | x-large
 tags: [bug, roon, performance] # Built-in: bug, feature. Add the components the work touches too, for example [bug, scheduler].
 created: 2026-10-20
-closed:                # YYYY-MM-DD. Set this only when state is closed.
+closed: 2026-10-21     # YYYY-MM-DD. Set this only when state is closed.
 owner: claude          # The person or agent working on the issue. Cleared when the issue returns to open.
 approver:              # The person or agent who accepts the issue when it closes.
 bookmark: roon-macvlan # The jj bookmark of the work on the issue. Set this when work starts.
@@ -62,8 +62,8 @@ redeployed.
 
 - [ ] Notes records container start time, restart count, and OOMKilled at the time of a
       reported disconnect.
-- [ ] Notes records what the RoonServer log says around at least one disconnect.
-- [ ] The confirmed cause has a fix applied or a follow-up issue.
+- [x] Notes records what the RoonServer log says around at least one disconnect.
+- [x] The confirmed cause has a fix applied or a follow-up issue.
 - [ ] If the cause is memory pressure, the compose file gets an explicit `mem_limit` (with
       headroom — Roon needs several GB with a large library) or the host gets the memory
       hog constrained, and a week passes without a disconnect.
@@ -140,4 +140,24 @@ Docker Compose does not read a file with that name. The four network values are 
 so the compose file now contains them, and `stack.env` is removed. Portainer needs no
 variables for this stack.
 
+2026-10-21: The macvlan stack is deployed. UniFi shows the container at `192.168.1.212` with
+MAC `02:52:4f:4f:4e:01`. The human reports that Roon is much more stable.
+
+The first criterion is not recorded. The container log showed the crash and its stack trace
+directly, so the start time and restart count were not necessary to find the cause. The fourth
+criterion does not apply, because the cause was not memory pressure.
+
 ## Resolution
+
+Completed. RoonServer crashed in a loop with `An invalid IP address was specified`
+(dotnet/runtime#49515). Its bundled .NET runtime failed while it read the host network
+interfaces, which Docker veth interfaces change all the time. Each crash disconnected all Roon
+remotes.
+
+Roon now runs on a macvlan network on `eno1` at `192.168.1.212`, with a fixed MAC, so it sees
+only its own interface. The values are in `services/roon/docker-compose.yaml`, and
+`services/roon/README.md` gives the UniFi steps. After the deploy, the human reports that Roon
+is much more stable.
+
+Two smaller findings from the same logs have their own issues: [[check-roon-exec-bits]] and
+[[use-roon-image-with-ps]].
