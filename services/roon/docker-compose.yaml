@@ -6,12 +6,20 @@ x-logging-config:
     max-size: "10m"
     max-file: "3"
     tag: "{{.Name}}"
-    
+
 services:
   roonserver:
     image: steefdebruijn/docker-roonserver:debian-12-slim
     restart: unless-stopped
-    network_mode: host
+    # Macvlan instead of network_mode: host (#diagnose-roon-disconnects): Roon's bundled
+    # .NET runtime crashes with "An invalid IP address was specified" (dotnet/runtime#49515)
+    # when it enumerates host interfaces while Docker veths come and go. On its own macvlan
+    # interface the container sees only eth0 + lo, and RAAT/discovery still work because
+    # macvlan sits directly on the LAN at L2.
+    networks:
+      roon-lan:
+        ipv4_address: ${ROON_MACVLAN_IP:?set in stack.env to an unused LAN IP outside the DHCP range}
+        mac_address: "02:52:4f:4f:4e:01" # Fixed, so UniFi tracks one client across container recreates; 02 = locally administered
     environment:
       TZ: "America/Los_Angeles"
     volumes:
@@ -20,3 +28,15 @@ services:
       - /mnt/Vault/Media/Music:/music
       - /mnt/Fast/Configuration/roon/backup:/backup
     logging: *logging-config
+
+networks:
+  roon-lan:
+    driver: macvlan
+    driver_opts:
+      # The physical LAN NIC on minerva. Find it with: ip route get 192.168.1.1
+      parent: ${ROON_MACVLAN_PARENT:?set in stack.env to minerva's LAN NIC (ip route get 192.168.1.1)}
+    ipam:
+      driver: default
+      config:
+        - subnet: ${ROON_MACVLAN_SUBNET:?set in stack.env, e.g. 192.168.1.0/24}
+          gateway: ${ROON_MACVLAN_GATEWAY:?set in stack.env, e.g. 192.168.1.1}
