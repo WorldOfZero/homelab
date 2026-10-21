@@ -2,8 +2,8 @@ x-logging-config:
   &logging-config
   driver: "json-file"
   options:
-    max-size: "1m"
-    max-file: "1"
+    max-size: "10m"
+    max-file: "3"
     tag: "{{.Name}}"
     
 configs:
@@ -71,19 +71,27 @@ services:
     volumes:
       - '/mnt/Fast/Configuration/jellyfin/config:/config'
       - '/mnt/Fast/Configuration/jellyfin/cache:/cache'
+      # Read-only: artwork, NFO, subtitle and trickplay savers must keep their files under /config (see README)
       - type: bind
         source: /mnt/Vault/Media
         target: /media
-        read_only: false
+        read_only: true
       # Fonts for subtitles
       - type: bind
         source: /mnt/Vault/Media/Fonts
         target: /usr/local/share/fonts/custom
         read_only: true
-    
-    # Write transcodes directly to RAM to save the HDDs
+
+    # Transcode segments go to RAM, not the Fast NVMe. /cache/transcodes is Jellyfin's default
+    # transcode path. uid/gid are necessary because Docker creates tmpfs mounts owned by root.
     tmpfs:
-      - /config/data/transcodes:size=4G
+      - /cache/transcodes:size=4G,uid=1000,gid=1000,mode=0755
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8096/health"] # Jellyfin's built-in health endpoint; catches a hung server, not just a dead one
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 2m # Startup can include database migrations after an image upgrade
     depends_on:
       tailscale:
         condition: service_healthy

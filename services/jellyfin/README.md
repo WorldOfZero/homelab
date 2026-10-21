@@ -7,6 +7,37 @@ Jellyfin runs as `app-jellyfin` behind the `tailscale-jellyfin` sidecar. It is r
 Some settings live only in Jellyfin's own config files under `/config/config/`, not in this repo.
 This file records the values those settings must have, so the server can be rebuilt.
 
+## Storage
+
+- **Media is read-only.** The compose file mounts `/mnt/Vault/Media` at `/media` with
+  `read_only: true`. Writes to Vault wake the HDDs, and each write touches a wide RAIDZ2 vdev.
+  Jellyfin keeps its metadata under `/config` on the Fast pool (see
+  [[keep-jellyfin-writes-off-vault]]).
+- **Transcodes are in RAM.** A 4 GB tmpfs is mounted at `/cache/transcodes`, which is the
+  default transcode path of the Jellyfin image. Do not set a different "Transcode path" in
+  Dashboard → Playback → Transcoding, or the tmpfs is not used (see
+  [[verify-jellyfin-transcode-tmpfs]]).
+
+Because the media is read-only, these settings must be off for each library, in
+**Dashboard → Libraries → (library) → Manage library**. They are stored in the
+`options.xml` file of each library, under
+`/mnt/Fast/Configuration/jellyfin/config/root/default/<library>/`.
+
+| Setting (UI) | `options.xml` key | Value | Why |
+|---|---|---|---|
+| Save artwork into media folders | `SaveLocalMetadata` | off | Jellyfin cannot write next to read-only media |
+| Metadata savers (Nfo) | `MetadataSavers` | empty | NFO files are written next to the media |
+| Save subtitles with media | `SaveSubtitlesWithMedia` | off | Downloaded subtitles are written next to the media. On by default |
+| Save lyrics with media | `SaveLyricsWithMedia` | off | Downloaded lyrics are written next to the media |
+| Save trickplay images next to media | `SaveTrickplayWithMedia` | off | Trickplay images are written next to the media |
+
+Check all libraries on minerva:
+
+```bash
+sudo find /mnt/Fast/Configuration/jellyfin/config/root/default -name options.xml \
+  -exec grep -H -E 'SaveLocalMetadata|<MetadataSavers|SaveSubtitlesWithMedia|SaveLyricsWithMedia|SaveTrickplayWithMedia' {} +
+```
+
 ## Hardware transcoding (NVIDIA T400)
 
 minerva has an **NVIDIA T400 4GB** (Turing, TU117). The compose file passes it to the container

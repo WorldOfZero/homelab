@@ -51,4 +51,6 @@ Also check that no Jellyfin task overlaps the nightly ZFS snapshot and replicati
 
 ## Notes
 
+2026-10-20: The server log shows the problem again, this time in the morning: a library scan ("Validating media library") started at 10:13 while a playback session (started 10:09, Snake Eyes, audio transcode) was streaming from the Vault HDDs. The Moonfin scheduled tasks ran at 10:13:23 and the scan followed immediately, so the 12-hour scan interval appears to fire mid-morning. The scan also re-reads game disc images from Vault and throws errors on them — see [[stop-jellyfin-scanning-game-disc-images]].
+
 ## Resolution
