@@ -75,7 +75,7 @@ Existing trickplay images and artwork next to the media stay readable. Only new 
 
 `SaveLyricsWithMedia` is off (default) for each library. The Collections library is under `/config/data/collections`, not under `/media`, so its settings do not write to Vault.
 
-Do not deploy the read-only mount until these settings are off. With these values, a read-only mount blocks new artwork (Movies, Erotica, Books), NFO files (Movies, Shows), trickplay images (Movies, Shows), and downloaded subtitles (all libraries).
+Do not deploy the read-only mount until these settings are off. With these values, a read-only mount blocks new artwork (Movies, Books), NFO files (Movies, Shows), trickplay images (Movies, Shows), and downloaded subtitles (all libraries).
 
 Trickplay needs a decision before you turn off `SaveTrickplayWithMedia`. Jellyfin finds trickplay images in the location that the current setting gives. When the setting is off, it can ignore the existing images next to the media, and the trickplay task can generate them again under `/config` on the Fast pool. That reads the full Movies and Shows libraries from Vault, and the images use space on the Fast NVMe. Measure the existing images first:
 
