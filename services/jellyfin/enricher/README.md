@@ -62,7 +62,7 @@ The file is **authoritative** for those two keys:
 - A collection deleted from the file is deleted from the plugin.
 
 `SortBy`/`SortOrder` are the plugin's enum numbers, copied from its UI export. Most collections
-use `SortBy: 2`; the decade, director and Babylon 5 collections use `0`.
+use `SortBy: 2`; the decade, James Bond, Babylon 5 and Roger Corman collections use `0`.
 
 After a run that changed the plugin config or any tags (not in dry run), it starts the
 plugin's scheduled task (the first task whose name contains `auto_collections.task_name`), so

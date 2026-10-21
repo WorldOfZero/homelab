@@ -272,7 +272,7 @@ class EnricherTest(unittest.TestCase):
         for c in raw["ExpressionCollections"]:
             self.assertEqual(set(c), {"CollectionName", "Expression", "CaseSensitive", "SortBy", "SortOrder"}, c)
         desired = enricher.load_auto_collections(os.path.join(HERE, "auto-collections.json"))
-        self.assertGreaterEqual(len(desired["ExpressionCollections"]), 150)
+        self.assertGreaterEqual(len(desired["ExpressionCollections"]), 135)
         expr_tags = set()
         for c in desired["ExpressionCollections"]:
             expr_tags |= {t.casefold() for t in re.findall(r'TAG "([^"]+)"', c["Expression"])}
