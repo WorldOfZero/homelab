@@ -18,7 +18,7 @@ services:
     # macvlan sits directly on the LAN at L2.
     networks:
       roon-lan:
-        ipv4_address: ${ROON_MACVLAN_IP:?set in stack.env to an unused LAN IP outside the DHCP range}
+        ipv4_address: 192.168.1.212 # Outside the UniFi DHCP range; see README
         mac_address: "02:52:4f:4f:4e:01" # Fixed, so UniFi tracks one client across container recreates; 02 = locally administered
     environment:
       TZ: "America/Los_Angeles"
@@ -34,9 +34,9 @@ networks:
     driver: macvlan
     driver_opts:
       # The physical LAN NIC on minerva. Find it with: ip route get 192.168.1.1
-      parent: ${ROON_MACVLAN_PARENT:?set in stack.env to minerva's LAN NIC (ip route get 192.168.1.1)}
+      parent: eno1
     ipam:
       driver: default
       config:
-        - subnet: ${ROON_MACVLAN_SUBNET:?set in stack.env, e.g. 192.168.1.0/24}
-          gateway: ${ROON_MACVLAN_GATEWAY:?set in stack.env, e.g. 192.168.1.1}
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1

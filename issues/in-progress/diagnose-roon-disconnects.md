@@ -133,4 +133,11 @@ the deploy, make sure that the UniFi DHCP range does not include `.212`, and tha
 uses it. After the deploy, set a Fixed IP Address for the client. A MAC address per network
 needs Docker Engine 25 or later on minerva.
 
+2026-10-21: The first deploy from Portainer failed: `required variable ROON_MACVLAN_IP is
+missing a value`. Portainer does not read `services/roon/stack.env`. Each stack gets its
+variables from the "Environment variables" field of Portainer (see `ENVIRONMENT.md`), and
+Docker Compose does not read a file with that name. The four network values are not secret,
+so the compose file now contains them, and `stack.env` is removed. Portainer needs no
+variables for this stack.
+
 ## Resolution

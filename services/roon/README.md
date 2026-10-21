@@ -19,12 +19,16 @@ On a macvlan network the container has its own MAC and IP directly on the LAN, s
 
 ## Deploying
 
-Fill in `stack.env` first. The compose file refuses to deploy while a value is missing:
+The network values are in the compose file. They are not secret, so they are in git and
+Portainer needs no environment variables for this stack:
 
-1. `ROON_MACVLAN_PARENT` — minerva's LAN NIC: `ip route get 192.168.1.1`, the `dev` field.
-2. `ROON_MACVLAN_IP` — an unused LAN address outside the DHCP range (or reserved on the
-   router). Roon remotes connect to this IP, not to minerva's.
-3. Subnet/gateway are pre-filled for 192.168.1.0/24.
+| Value | Setting | How to check it |
+|---|---|---|
+| LAN interface | `parent: eno1` | `ip route get 192.168.1.1` on minerva, the `dev` field |
+| Subnet and gateway | `192.168.1.0/24`, `192.168.1.1` | the same command, the `src` address |
+| Container address | `ipv4_address: 192.168.1.212` | must be outside the UniFi DHCP range (see below) |
+
+Roon remotes connect to `192.168.1.212`, not to the address of minerva.
 
 ## UniFi
 
@@ -36,10 +40,10 @@ locally administered, so it cannot be the same as the MAC of real hardware.
 Configure the router once:
 
 1. In **Settings → Networks → (LAN) → DHCP**, make sure that the DHCP range does not include
-   `ROON_MACVLAN_IP`. For example, end the range at `.199` and use an address above it. UniFi
-   never gives an address outside the range to a client.
+   `192.168.1.212`. For example, end the range at `.199`. UniFi never gives an address outside
+   the range to a client.
 2. After the first deploy, find the client with MAC `02:52:4f:4f:4e:01` in the client list.
-   Name it "Roon Core", and set **Fixed IP Address** to `ROON_MACVLAN_IP`. This records the
+   Name it "Roon Core", and set **Fixed IP Address** to `192.168.1.212`. This records the
    address in UniFi, so that nobody gives it to a different device.
 
 ## Known limitations
