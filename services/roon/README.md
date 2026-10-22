@@ -48,6 +48,11 @@ Configure the router once:
 
 ## Known limitations
 
+- **IPv6 is off in the container.** The macvlan network has only IPv4. With IPv6 on, Roon
+  tried to connect to the IPv6 addresses of Qobuz, failed with `Network is unreachable`, and
+  did not try IPv4, so Qobuz tracks stopped. The `sysctls` in the compose file turn IPv6 off,
+  so Roon uses only IPv4. To use IPv6, configure an IPv6 subnet on the macvlan network first.
+
 - **minerva itself cannot reach the container** (kernel macvlan isolation). Roon doesn't
   need it — remotes and audio endpoints are other LAN devices, and music arrives through the
   bind mount. Remember it when debugging: `curl` from the host will fail while every other

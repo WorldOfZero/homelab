@@ -20,6 +20,11 @@ services:
       roon-lan:
         ipv4_address: 192.168.1.212 # Outside the UniFi DHCP range; see README
         mac_address: "02:52:4f:4f:4e:01" # Fixed, so UniFi tracks one client across container recreates; 02 = locally administered
+    # The macvlan network is IPv4-only. With IPv6 on, Roon connects to IPv6 addresses
+    # (Qobuz streams) and fails with "Network is unreachable" instead of using IPv4.
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
+      net.ipv6.conf.default.disable_ipv6: 1
     environment:
       TZ: "America/Los_Angeles"
     volumes:
