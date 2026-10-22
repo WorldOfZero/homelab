@@ -38,6 +38,25 @@ sudo find /mnt/Fast/Configuration/jellyfin/config/root/default -name options.xml
   -exec grep -H -E 'SaveLocalMetadata|<MetadataSavers|SaveSubtitlesWithMedia|SaveLyricsWithMedia|SaveTrickplayWithMedia' {} +
 ```
 
+## API clients
+
+Jellyfin 12 removed the `/emby` and `/mediabrowser` routes and turned off legacy
+authentication: the `X-Emby-Token` and `X-MediaBrowser-Token` headers and the `api_key` query
+parameter. A client must send the `Authorization: MediaBrowser Token="…"` header, or the
+`ApiKey` query parameter. These clients call the API of this server:
+
+| Client | Where it is configured | Jellyfin 12 |
+|---|---|---|
+| Homepage widget | `services/homepage/config/services.yaml` | Needs `version: 2`, which is set |
+| Seerr | Seerr settings (its own database) | Not confirmed. Test the login after the upgrade |
+| Sonarr and Radarr library refresh | Settings → Connect in each app (if configured) | Not confirmed. Test a connection |
+| Moonfin clients | Moonbase plugin | Moonbase 2.x supports Jellyfin 12 |
+
+If a client that you need fails with 401 or 403 after the upgrade, you can turn legacy
+authentication on again for a short time: set `EnableLegacyAuthorization` to `true` in
+`/mnt/Fast/Configuration/jellyfin/config/config/system.xml`, and restart the container.
+Jellyfin plans to remove legacy authentication, so update the client instead.
+
 ## Hardware transcoding (NVIDIA T400)
 
 minerva has an **NVIDIA T400 4GB** (Turing, TU117). The compose file passes it to the container

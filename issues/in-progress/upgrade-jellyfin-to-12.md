@@ -1,16 +1,16 @@
 ---
 title: "Upgrade Jellyfin from 10.11.11 to 12.x"
-state: open            # open | in-progress | closed. Must match the directory of the file.
+state: in-progress     # open | in-progress | closed. Must match the directory of the file.
 resolution:            # completed | abandoned. Set this only when state is closed.
 priority: medium       # critical | high | medium | low
 effort: medium         # small | medium | large | x-large
 tags: [jellyfin, feature] # Built-in: bug, feature. Add the components the work touches too, for example [bug, scheduler].
 created: 2026-10-20
 closed:                # YYYY-MM-DD. Set this only when state is closed.
-owner:                 # The person or agent working on the issue. Cleared when the issue returns to open.
+owner: claude          # The person or agent working on the issue. Cleared when the issue returns to open.
 approver:              # The person or agent who accepts the issue when it closes.
-bookmark:              # The jj bookmark of the work on the issue. Set this when work starts.
-workspaces: []         # jj workspaces where local work on the issue has happened, for example [fix-login-bug].
+bookmark: jellyfin-12  # The jj bookmark of the work on the issue. Set this when work starts.
+workspaces: [fable]    # jj workspaces where local work on the issue has happened, for example [fix-login-bug].
 metadata: {}           # Optional. Arbitrary key-value notes, for example an AI agent session id to resume work with context: {session-id: "abc123"}.
 deferred-from:         # Optional. The issue (as a quoted wikilink) or bookmark that deferred this work.
 parent:                # Optional. The parent issue (as a quoted wikilink), if this issue is a sub-issue.
@@ -65,10 +65,13 @@ Repo-side exposure, checked 2026-10-20:
 - [ ] The upgrade runs in an overnight window: the forced full library scan after the
       migration is long and hammers the Vault HDDs. The server is not stopped during the
       migration.
-- [ ] `services/jellyfin/docker-compose.yaml` pins the new 12.x tag.
+- [x] `services/jellyfin/docker-compose.yaml` pins the new 12.x tag.
 - [ ] After the upgrade: all three plugins load, Moonfin clients still see the game
       library, the enricher's auto-collections sync still works, and the Homepage widget
-      still authenticates (it may use a legacy auth method — fix it if it gets 401s).
+      still authenticates.
+- [ ] After the upgrade: Seerr can sign in to Jellyfin, and each Sonarr and Radarr
+      connection to Jellyfin (Settings -> Connect), if one exists, passes its test. If one
+      fails, Notes tells what was done (see "API clients" in `services/jellyfin/README.md`).
 
 ## Out of scope
 
@@ -77,5 +80,27 @@ Repo-side exposure, checked 2026-10-20:
   post-upgrade full scan runs against a tuned configuration.
 
 ## Notes
+
+2026-10-22: The change on bookmark `jellyfin-12` prepares the upgrade. Do not deploy it until
+the acceptance criteria before the upgrade are complete.
+
+- The image tag is `jellyfin/jellyfin:12.2` (released 2026-10-05). Jellyfin 12 uses version
+  numbers `12.x` with no third part. The Docker Hub tag `12.2` is that release, and `12` and
+  `latest` point to the same image.
+- The healthcheck still works: the 12 image installs `curl` and serves `/health`. Its own
+  Dockerfile uses the same URL for its `HEALTHCHECK`. The pull for a test in the sandbox
+  failed (no disk space), so this comes from the `jellyfin-packaging` Dockerfile, not from a
+  running container.
+- The healthcheck `start_period` is now 15 minutes, not 2. The migration rewrites the
+  database, and the first start can take several minutes on a large library. With 2 minutes,
+  the container shows as unhealthy during the migration, and a person can restart it.
+- The Homepage widget already has `version: 2`, which the Homepage documentation requires
+  for Jellyfin 12. By the same documentation, Jellyfin 10.11 needs `version: 1`, so the widget
+  can show errors until the upgrade.
+- Seerr: a Jellyfin bug report shows a Seerr login failure when legacy authentication is
+  off. The linked Seerr issue (seerr-team/seerr#1925) is closed with no fix. Seerr uses the
+  `latest` image, so a fix can already be in it, but this is not confirmed.
+- `services/jellyfin/README.md` now lists each client of the Jellyfin API, and tells how to
+  turn legacy authentication on again for a short time if a client fails.
 
 ## Resolution
