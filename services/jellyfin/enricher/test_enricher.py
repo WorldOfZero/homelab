@@ -311,6 +311,27 @@ class EnricherTest(unittest.TestCase):
         self.assertGreater(len(rules), 40)
         self.assertTrue(rules[0].matches("Movie", {"bank robbery": (0, 0)}))
 
+    def test_shipped_config_on_real_keywords(self):
+        # Excerpts of real Kometa keyword data (2026-10-26) for titles the first run mis-tagged.
+        with open(os.path.join(HERE, "config.yaml")) as f:
+            cfg = yaml.safe_load(f)
+        rules = [enricher.Rule(r, cfg.get("defaults", {})) for r in cfg["rules"]]
+
+        def tags(keywords):
+            return {t for r in rules if r.matches("Movie", keywords) for t in r.add["Tags"]}
+
+        lost_in_space = {"spaceship": (3, 3), "robot": (4, 5), "alien": (1, 1), "spy": (0, 0),
+                         "assassin": (0, 0), "doctor": (0, 0), "time travel": (0, 0)}
+        self.assertEqual(tags(lost_in_space), {"space", "alien", "time travel"})
+        nosferatu = {"vampire": (8, 11), "christmas": (0, 1), "grindhouse": (0, 0),
+                     "folk horror": (0, 0), "doctor": (0, 0)}
+        self.assertEqual(tags(nosferatu), {"vampire"})
+        # Unvoted keywords still count: most keywords, and every keyword on old films, have no votes.
+        shriek_in_the_night = {"serial killer": (0, 0), "revenge": (0, 0), "lawyer": (0, 0)}
+        self.assertEqual(tags(shriek_in_the_night), {"serial killer", "revenge"})
+        self.assertEqual(tags({"body horror": (0, 0), "independent film": (1, 2)}),
+                         {"body horror", "independent film"})
+
 
 if __name__ == "__main__":
     unittest.main()

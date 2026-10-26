@@ -24,17 +24,22 @@ imdb_keywords:
 max_lookups_per_run: 2000   # bounds the first run on a big library; the rest are picked up next run
 
 defaults:
-  # IMDb shows "N of M found this relevant" per keyword. 0 = accept any keyword on the title,
-  # matching Kometa's default. Raise per rule if a tag gets noisy.
+  # IMDb shows "N of M found this relevant" per keyword. Most keywords have no votes at all
+  # ([0, 0]), including many accurate ones and every keyword on most older films, so a keyword
+  # with no votes is accepted. min_percentage only applies once someone has voted: 0.5 rejects
+  # keywords voted down (e.g. "christmas" at 0 of 1 on Nosferatu). Raise min_relevant per rule
+  # for keywords that IMDb applies loosely.
   min_relevant: 0
   min_votes: 0
-  min_percentage: 0
+  min_percentage: 0.5
 
 rules:
   # --- Tags used by the existing Auto Collections expressions ---
   - match: {imdb_keywords: [heist, bank heist, bank robbery, heist movie]}
     add: {tags: [heist]}
-  - match: {imdb_keywords: [spy, espionage, secret agent, spy thriller]}
+  # min_relevant: 1 on loosely applied keywords: unvoted, they are often wrong (spy and assassin
+  # on Lost in Space, independent film on Red Sonja, folk horror on Saint Maud).
+  - match: {imdb_keywords: [spy, espionage, secret agent, spy thriller], min_relevant: 1}
     add: {tags: [spy]}
   - match: {imdb_keywords: [vampire]}
     add: {tags: [vampire]}
@@ -84,7 +89,7 @@ rules:
     add: {tags: [bdsm]}
   - match: {imdb_keywords: [leather, latex]}
     add: {tags: [leather]}
-  - match: {imdb_keywords: [independent film]}
+  - match: {imdb_keywords: [independent film], min_relevant: 1}
     add: {tags: [independent film]}
   - match: {imdb_keywords: [anime]}
     add: {tags: [anime]}
@@ -100,11 +105,11 @@ rules:
     add: {tags: [alien]}
   - match: {imdb_keywords: [mythology, myth]}
     add: {tags: [mythology]}
-  - match: {imdb_keywords: [grindhouse]}
+  - match: {imdb_keywords: [grindhouse], min_relevant: 1}
     add: {tags: [grindhouse]}
   - match: {imdb_keywords: [satire]}
     add: {tags: [satire]}
-  - match: {imdb_keywords: [medical, doctor, nurse]}
+  - match: {imdb_keywords: [medical, medical drama]}  # not doctor/nurse: any film with one in it
     add: {tags: [medical]}
   - match: {imdb_keywords: [steampunk]}
     add: {tags: [steampunk]}
@@ -120,7 +125,7 @@ rules:
     add: {tags: [post apocalypse]}
   - match: {imdb_keywords: [wilhelm scream]}
     add: {tags: [wilhelm scream]}
-  - match: {imdb_keywords: [assassin, hitman, contract killer]}
+  - match: {imdb_keywords: [assassin, hitman, contract killer], min_relevant: 1}
     add: {tags: [assassin]}
 
   # --- Remaining Kometa topics (anime ones were anilist_search; IMDb keywords approximate them) ---
@@ -160,13 +165,13 @@ rules:
     add: {tags: [dystopia]}
   - match: {imdb_keywords: [space opera, outer space, spaceship]}
     add: {tags: [space]}
-  - match: {imdb_keywords: [artificial intelligence, android, robot, sentient computer]}
+  - match: {imdb_keywords: [artificial intelligence, android, sentient computer]}  # not robot
     add: {tags: [artificial intelligence]}
   - match: {imdb_keywords: [superhero, superheroine, super powers]}
     add: {tags: [superhero]}
   - match: {imdb_keywords: [alternate history]}
     add: {tags: [alternate history]}
-  - match: {imdb_keywords: [parallel universe, multiverse, alternate reality]}
+  - match: {imdb_keywords: [parallel universe, multiverse]}  # alternate reality is often alternate history
     add: {tags: [multiverse]}
   - match: {imdb_keywords: [virtual reality, simulated reality]}
     add: {tags: [virtual reality]}
@@ -188,9 +193,9 @@ rules:
     add: {tags: [slasher]}
   - match: {imdb_keywords: [found footage]}
     add: {tags: [found footage]}
-  - match: {imdb_keywords: [folk horror, pagan]}
+  - match: {imdb_keywords: [folk horror, pagan], min_relevant: 1}
     add: {tags: [folk horror]}
-  - match: {imdb_keywords: [shark, killer shark, killer animal, animal attack]}
+  - match: {imdb_keywords: [shark, killer shark, killer animal]}  # not animal attack (Song of the South)
     add: {tags: [killer animal]}
   - match: {imdb_keywords: [cult, cult leader, religious cult]}
     add: {tags: [cult]}
@@ -200,13 +205,13 @@ rules:
     add: {tags: [serial killer]}
   - match: {imdb_keywords: [revenge, vengeance]}
     add: {tags: [revenge]}
-  - match: {imdb_keywords: [prison, prison escape, prisoner]}
+  - match: {imdb_keywords: [prison, prison escape]}  # not prisoner: hostages, POWs
     add: {tags: [prison]}
-  - match: {imdb_keywords: [courtroom, trial, lawyer]}
+  - match: {imdb_keywords: [courtroom, trial, courtroom drama]}  # not lawyer
     add: {tags: [courtroom]}
   - match: {imdb_keywords: [conspiracy, cover up]}
     add: {tags: [conspiracy]}
-  - match: {imdb_keywords: [survival, stranded, wilderness survival]}
+  - match: {imdb_keywords: [survival, stranded, wilderness survival], min_relevant: 1}
     add: {tags: [survival]}
   - match: {imdb_keywords: [disaster, natural disaster, disaster film]}
     add: {tags: [disaster]}
