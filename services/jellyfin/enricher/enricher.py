@@ -86,10 +86,16 @@ class Jellyfin:
 
     def plugin_id(self, name):
         plugins = self._call("/Plugins")
-        for p in plugins:
-            if p["Name"].casefold() == name.casefold():
+        matches = [p for p in plugins if p["Name"].casefold() == name.casefold()]
+        if not matches:
+            raise LookupError(f"plugin {name!r} not installed; have: {sorted(p['Name'] for p in plugins)}")
+        # Jellyfin answers 404 for the configuration of a plugin that is not loaded (an old version
+        # that this server does not support, or one waiting for a restart), so use the active one.
+        for p in matches:
+            if p.get("Status", "Active") == "Active":
                 return p["Id"]
-        raise LookupError(f"plugin {name!r} not installed; have: {sorted(p['Name'] for p in plugins)}")
+        raise LookupError(f"plugin {name!r} is not active: "
+                          + ", ".join(f"{p.get('Version')} is {p.get('Status')}" for p in matches))
 
     def plugin_config(self, plugin_id):
         return self._call(f"/Plugins/{plugin_id}/Configuration")
@@ -375,7 +381,14 @@ def main(argv=None):
         if ac:
             ac["file"] = os.path.join(os.path.dirname(os.path.abspath(args.config)), ac["file"])
         # Sync collection definitions first so new TAG rules exist before tags are added.
-        config_changed = sync_auto_collections(ac, jellyfin, dry_run) if ac else False
+        config_changed = False
+        if ac:
+            try:
+                config_changed = sync_auto_collections(ac, jellyfin, dry_run)
+            except (LookupError, urllib.error.HTTPError) as e:
+                # Tagging does not need the plugin, so still run it.
+                log.error("auto collections: sync skipped: %s", e)
+                ac = {}
         stats = run(cfg, jellyfin, source, dry_run)
         if ac and not dry_run and (config_changed or stats["changed"]):
             refresh_auto_collections(ac, jellyfin)

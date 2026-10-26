@@ -61,7 +61,10 @@ def make_handler(fake):
             if u.path == "/jf/Plugins":
                 return self._send(200, fake.plugins)
             if u.path.startswith("/jf/Plugins/"):
-                return self._send(200, copy.deepcopy(fake.plugin_configs[u.path.split("/")[3]]))
+                pid = u.path.split("/")[3]
+                if any(p["Id"] == pid and p.get("Status", "Active") != "Active" for p in fake.plugins):
+                    return self._send(404, None)  # Jellyfin has no instance of a plugin that is not loaded
+                return self._send(200, copy.deepcopy(fake.plugin_configs[pid]))
             if u.path == "/jf/ScheduledTasks":
                 return self._send(200, fake.tasks)
             if u.path == "/jf/Items":
@@ -233,6 +236,16 @@ class EnricherTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             enricher.load_auto_collections(dup["file"])
 
+    def test_sync_uses_the_active_plugin_and_names_the_status_when_none_is(self):
+        settings = self.write_ac([self.ac("A", 'TAG "a"')])
+        self.fake.plugins = [{"Id": "p-old", "Name": "Auto Collections", "Version": "0.0.7.0", "Status": "NotSupported"},
+                             {"Id": "p-ac", "Name": "Auto Collections", "Version": "0.0.9.0", "Status": "Active"}]
+        enricher.sync_auto_collections(settings, self.jf(), dry_run=False)
+        self.assertEqual(self.fake.plugin_configs["p-ac"]["ExpressionCollections"][0]["CollectionName"], "A")
+        self.fake.plugins = [{"Id": "p-old", "Name": "Auto Collections", "Version": "0.0.7.0", "Status": "NotSupported"}]
+        with self.assertRaisesRegex(LookupError, "0.0.7.0 is NotSupported"):
+            enricher.sync_auto_collections(settings, self.jf(), dry_run=False)
+
     def run_main(self, dry_run):
         self.write_ac([self.ac("Heist Collection", 'TAG "heist"')])
         cfg_path = os.path.join(self.tmp.name, "config.yaml")
@@ -257,6 +270,16 @@ class EnricherTest(unittest.TestCase):
         self.assertEqual(self.fake.items["1"]["Tags"], ["heist"])
         self.assertEqual(self.fake.plugin_configs["p-ac"]["ExpressionCollections"][0]["CollectionName"], "Heist Collection")
         self.assertEqual(self.fake.started_tasks, ["t-ac"])
+
+    def test_main_still_tags_when_the_plugin_is_not_active(self):
+        self.fake.plugins = [{"Id": "p-ac", "Name": "Auto Collections", "Version": "0.0.7.0", "Status": "NotSupported"}]
+        self.fake.add("1", "Heat", "tt0113277")
+        self.fake.kometa["tt0113277"] = {"keywords": {"heist": [1, 1]}}
+        with self.assertLogs(level="ERROR") as logs:
+            self.run_main(dry_run=False)
+        self.assertIn("0.0.7.0 is NotSupported", "\n".join(logs.output))
+        self.assertEqual(self.fake.items["1"]["Tags"], ["heist"])
+        self.assertEqual(self.fake.started_tasks, [])
 
     def test_main_dry_run_starts_nothing(self):
         self.fake.add("1", "Heat", "tt0113277")
