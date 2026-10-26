@@ -68,6 +68,8 @@ def make_handler(fake):
             if u.path == "/jf/ScheduledTasks":
                 return self._send(200, fake.tasks)
             if u.path == "/jf/Items":
+                if q.get("userId") != "u-admin":  # Jellyfin 12 returns mostly collections without a user
+                    return self._send(200, {"Items": [], "TotalRecordCount": 0})
                 types = q["IncludeItemTypes"].split(",")
                 allitems = [i for i in fake.items.values() if i["Type"] in types]
                 start, limit = int(q["StartIndex"]), int(q["Limit"])

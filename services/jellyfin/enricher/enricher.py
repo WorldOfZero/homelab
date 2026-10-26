@@ -54,7 +54,8 @@ class Jellyfin:
         return http_json(url, method=method, headers=self.headers, body=body)
 
     def user_id(self):
-        # GET /Items/{id} needs a user context; use the first administrator.
+        # Item queries need a user context; use the first administrator. Without one, Jellyfin 12's
+        # GET /Items ignores IncludeItemTypes and returns mostly collections, not the library.
         if self._user_id is None:
             users = self._call("/Users")
             admins = [u for u in users if u.get("Policy", {}).get("IsAdministrator")]
@@ -65,6 +66,7 @@ class Jellyfin:
         start = 0
         while True:
             page = self._call("/Items", params={
+                "userId": self.user_id(),
                 "Recursive": "true",
                 "IncludeItemTypes": ",".join(item_types),
                 "Fields": "ProviderIds,Tags,Genres",
