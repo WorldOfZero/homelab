@@ -331,6 +331,11 @@ class EnricherTest(unittest.TestCase):
         self.assertEqual(tags(shriek_in_the_night), {"serial killer", "revenge"})
         self.assertEqual(tags({"body horror": (0, 0), "independent film": (1, 2)}),
                          {"body horror", "independent film"})
+        self.assertEqual(tags({"gay": (9, 9), "based on novel": (1, 1)}), {"gay", "lgbt", "based on book"})
+        self.assertEqual(tags({"trans woman": (0, 0)}), {"trans", "lgbt"})
+        vicky_cristina_barcelona = {"polyamorous relationship": (3, 3), "polyamory": (3, 4), "bisexual": (1, 3)}
+        self.assertEqual(tags(vicky_cristina_barcelona), {"polyamory"})  # bisexual voted down
+        self.assertEqual(tags({"menage a trois": (0, 0), "open marriage": (2, 2)}), set())
 
 
 if __name__ == "__main__":

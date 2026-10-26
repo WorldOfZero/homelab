@@ -191,6 +191,13 @@
       "SortOrder": 0
     },
     {
+      "CollectionName": "Polyamory Collection",
+      "Expression": "TAG \"polyamory\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
       "CollectionName": "BDSM Collection",
       "Expression": "TAG \"bdsm\" or TAG \"kink\"",
       "CaseSensitive": false,
