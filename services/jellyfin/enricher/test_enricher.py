@@ -2,11 +2,13 @@ import copy
 import json
 import os
 import re
+import socket
 import tempfile
 import threading
 import unittest
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from unittest import mock
 
 import yaml
 
@@ -29,6 +31,7 @@ class Fake:
         self.plugin_configs = {"p-ac": {"TitleMatchPairs": [], "ExpressionCollections": [], "SomeOtherSetting": 7}}
         self.tasks = [{"Id": "t-scan", "Name": "Scan Media Library"}, {"Id": "t-ac", "Name": "Auto Collections Update"}]
         self.started_tasks = []
+        self.not_ready = 0     # answer /health with 503 this many more times
 
     def add(self, item_id, name, imdb=None, item_type="Movie", tags=None, **extra):
         self.items[item_id] = {"Id": item_id, "Name": name, "Type": item_type,
@@ -55,6 +58,11 @@ def make_handler(fake):
             fake.requests.append(u.path)
             if u.path.startswith("/jf/"):
                 assert self.headers["Authorization"] == 'MediaBrowser Token="key"'
+            if u.path == "/jf/health":
+                if fake.not_ready:
+                    fake.not_ready -= 1
+                    return self._send(503, b"Unhealthy", "text/plain")
+                return self._send(200, b"Healthy", "text/plain")
             if u.path == "/jf/Users":
                 return self._send(200, [{"Id": "u-user", "Policy": {"IsAdministrator": False}},
                                         {"Id": "u-admin", "Policy": {"IsAdministrator": True}}])
@@ -289,6 +297,24 @@ class EnricherTest(unittest.TestCase):
         self.run_main(dry_run=True)
         self.assertEqual(self.fake.started_tasks, [])
         self.assertEqual(self.fake.plugin_configs["p-ac"]["ExpressionCollections"], [])
+
+    def test_main_waits_for_jellyfin_to_be_ready(self):
+        self.fake.add("1", "Heat", "tt0113277")
+        self.fake.kometa["tt0113277"] = {"keywords": {"heist": [1, 1]}}
+        self.fake.not_ready = 3
+        with mock.patch("enricher.time.sleep") as sleep:
+            self.run_main(dry_run=False)
+        self.assertEqual(self.fake.not_ready, 0)
+        self.assertGreaterEqual(sleep.call_count, 3)
+        self.assertEqual(self.fake.items["1"]["Tags"], ["heist"])
+
+    def test_wait_gives_up_when_jellyfin_never_answers(self):
+        with socket.socket() as s:  # a port nothing listens on: connection refused
+            s.bind(("127.0.0.1", 0))
+            port = s.getsockname()[1]
+        jf = enricher.Jellyfin(f"http://127.0.0.1:{port}", "key")
+        with self.assertRaises(TimeoutError):
+            jf.wait_until_ready(timeout=0.2, interval=0.05)
 
     def test_shipped_auto_collections_json_is_importable_and_covers_every_enricher_tag(self):
         with open(os.path.join(HERE, "auto-collections.json")) as f:

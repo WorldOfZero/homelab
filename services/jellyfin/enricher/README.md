@@ -80,6 +80,7 @@ Environment (set in `../docker-compose.yaml` / Portainer):
 | `JELLYFIN_URL` | `http://127.0.0.1:8096` | Shares the sidecar's network, so localhost is Jellyfin |
 | `RUN_AT` | unset (run once and exit) | Daily local time, e.g. `03:00` |
 | `RUN_ON_START` | `true` | Also run immediately when the container starts |
+| `JELLYFIN_WAIT_MINUTES` | `20` | How long a run waits for Jellyfin to answer `/health` (it is down during a redeploy, longer during a migration) |
 | `DRY_RUN` | `true` | Logs `would update …` without writing; compose maps `ENRICHER_DRY_RUN` |
 | `TZ`, `LOG_LEVEL`, `DATA_DIR` | `UTC`, `INFO`, `/data` | |
 

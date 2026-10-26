@@ -86,6 +86,27 @@ class Jellyfin:
         # DTO fetched just before, with only the additive fields changed.
         self._call(f"/Items/{item_id}", method="POST", body=dto)
 
+    def wait_until_ready(self, timeout, interval=10):
+        """Wait until GET /health answers 200: Jellyfin refuses connections while it starts and
+        answers 503 during startup and database migrations."""
+        deadline = time.monotonic() + timeout
+        logged = False
+        while True:
+            try:
+                req = urllib.request.Request(f"{self.url}/health", headers=self.headers)
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    if resp.status == 200:
+                        if logged:
+                            log.info("jellyfin is up")
+                        return
+            except OSError as e:  # URLError, HTTPError and connection errors
+                if time.monotonic() >= deadline:
+                    raise TimeoutError(f"jellyfin not ready after {timeout:.0f}s: {e}") from e
+                if not logged:
+                    log.info("waiting for jellyfin: %s", e)
+                    logged = True
+            time.sleep(interval)
+
     def plugin_id(self, name):
         plugins = self._call("/Plugins")
         matches = [p for p in plugins if p["Name"].casefold() == name.casefold()]
@@ -371,6 +392,8 @@ def main(argv=None):
     kw_cfg = cfg.get("imdb_keywords", {})
 
     def once():
+        # On a redeploy this starts alongside Jellyfin, which needs a while (longer when it migrates).
+        jellyfin.wait_until_ready(float(os.environ.get("JELLYFIN_WAIT_MINUTES", 20)) * 60)
         source = KeywordSource(
             os.path.join(data_dir, "imdb_keywords.json"),
             sources=kw_cfg.get("sources", ["kometa", "imdb"]),
