@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Slapstick: a cream pie flying through the air, speed lines behind it and a splat of cream ahead. -->
+  <g transform="rotate(-12 50 50)">
+    <path d="M30 56 L80 56 L74 70 L36 70 Z"/>
+    <path d="M28 56 C28 50 34 48 38 50 C40 44 48 44 50 49 C52 43 60 43 62 49 C66 45 74 47 74 52 C78 50 82 53 82 56 Z"/>
+    <path d="M40 62 L70 62" stroke-opacity="0.45"/>
+  </g>
+  <path d="M6 46 L22 46 M4 56 L24 56 M8 66 L20 66" stroke-opacity="0.5"/>
+  <path d="M86 26 C88 22 93 24 92 28 C96 28 96 33 92 33 C93 37 88 38 86 35 C83 37 80 33 83 31 C80 28 84 25 86 26 Z" stroke-opacity="0.75"/>
+</svg>

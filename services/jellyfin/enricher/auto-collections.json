@@ -9,6 +9,13 @@
       "SortOrder": 0
     },
     {
+      "CollectionName": "DC Movies",
+      "Expression": "STUDIO \"DC Comics\" OR STUDIO \"DC Entertainment\" OR STUDIO \"DC Films\" OR STUDIO \"DC Studios\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
       "CollectionName": "Streamed Collection",
       "Expression": "STUDIO \"youtube\" or STUDIO \"twitch\"",
       "CaseSensitive": false,
@@ -1019,6 +1026,643 @@
     {
       "CollectionName": "Roger Corman Collection",
       "Expression": "DIRECTOR \"Roger Corman\" OR PRODUCER \"Roger Corman\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Silent Era",
+      "Expression": "MOVIE AND YEAR \"<1930\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Pre-Code Hollywood",
+      "Expression": "MOVIE AND YEAR \">1928\" AND YEAR \"<1935\" AND COUNTRY \"United States of America\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Black and White Movies",
+      "Expression": "TAG \"black and white\" OR (MOVIE AND YEAR \"<1935\")",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Australian Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Australia\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Spanish Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Spain\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Mexican Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Mexico\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Chinese Cinema",
+      "Expression": "MOVIE AND COUNTRY \"China\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Taiwanese Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Taiwan\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Thai Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Thailand\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Canadian Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Canada\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Nordic Cinema",
+      "Expression": "MOVIE AND (COUNTRY \"Sweden\" OR COUNTRY \"Norway\" OR COUNTRY \"Denmark\" OR COUNTRY \"Finland\" OR COUNTRY \"Iceland\")",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Foreign Language Movies",
+      "Expression": "MOVIE AND NOT LANG \"eng\" AND NOT COUNTRY \"United States of America\" AND NOT COUNTRY \"United Kingdom\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Car Chase Collection",
+      "Expression": "TAG \"car chase\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Treasure Hunt Collection",
+      "Expression": "TAG \"treasure hunt\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Vigilante Collection",
+      "Expression": "TAG \"vigilante\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Kung Fu Collection",
+      "Expression": "TAG \"kung fu\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Erotic Thriller Collection",
+      "Expression": "TAG \"erotic thriller\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Psychological Thriller Collection",
+      "Expression": "TAG \"psychological thriller\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Creature Feature Collection",
+      "Expression": "TAG \"creature feature\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Racing Collection",
+      "Expression": "TAG \"racing\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Concert Films",
+      "Expression": "TAG \"concert film\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Musicals Collection",
+      "Expression": "TAG \"musical\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Film Noir Collection",
+      "Expression": "TAG \"film noir\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Biopics Collection",
+      "Expression": "TAG \"biopic\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Animation Collection",
+      "Expression": "MOVIE AND GENRE \"Animation\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Western Collection",
+      "Expression": "GENRE \"Western\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Family Movies",
+      "Expression": "MOVIE AND (GENRE \"Family\" OR PARENTALRATING \"G\")",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Under 90 Minutes",
+      "Expression": "MOVIE AND RUNTIME \">=45\" AND RUNTIME \"<90\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Tight 90",
+      "Expression": "MOVIE AND RUNTIME \">=85\" AND RUNTIME \"<=95\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Started Movies",
+      "Expression": "MOVIE AND TAG \"in progress\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Rewatch Favorites",
+      "Expression": "MOVIE AND (TAG \"favourite\" OR (WATCHED AND COMMUNITYRATING \">=8\"))",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Hypnosis Collection",
+      "Expression": "TAG \"hypnosis\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Mind Control Collection",
+      "Expression": "TAG \"mind control\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Valentine's Day Collection",
+      "Expression": "TAG \"valentine's day\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Thanksgiving Collection",
+      "Expression": "TAG \"thanksgiving\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "New Year's Collection",
+      "Expression": "TAG \"new year's\" OR (MOVIE AND TITLE \"New Year's\")",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Independence Day Collection",
+      "Expression": "TAG \"independence day\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Cult Classics",
+      "Expression": "TAG \"cult classic\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Remakes",
+      "Expression": "TAG \"remake\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Possession Collection",
+      "Expression": "TAG \"possession\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Military Collection",
+      "Expression": "TAG \"military\" OR GENRE \"War\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Based on a Play Collection",
+      "Expression": "TAG \"based on a play\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Dark Comedy Collection",
+      "Expression": "TAG \"dark comedy\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Miniseries",
+      "Expression": "SHOW AND TAG \"miniseries\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Sitcoms",
+      "Expression": "SHOW AND TAG \"sitcom\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Anime Series",
+      "Expression": "SHOW AND (TAG \"anime\" OR (GENRE \"Animation\" AND COUNTRY \"Japan\"))",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Ended Shows",
+      "Expression": "SHOW AND TAG \"ended\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Running Shows",
+      "Expression": "SHOW AND TAG \"continuing\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Weddings",
+      "Expression": "TAG \"wedding\" OR (MOVIE AND TITLE \"Wedding\")",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Holidays",
+      "Expression": "TAG \"christmas\" OR TAG \"halloween\" OR TAG \"thanksgiving\" OR TAG \"valentine's day\" OR TAG \"new year's\" OR TAG \"independence day\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Star Wars",
+      "Expression": "TITLE \"Star Wars\" OR TITLE \"Mandalorian\" OR TITLE \"Andor\" OR TITLE \"Boba Fett\" OR TITLE \"Ahsoka\" OR TITLE \"Obi-Wan Kenobi\" OR TITLE \"Skeleton Crew\" OR TITLE \"The Acolyte\" OR TITLE \"The Bad Batch\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Star Trek",
+      "Expression": "TITLE \"Star Trek\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Stargate",
+      "Expression": "TITLE \"Stargate\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Godzilla",
+      "Expression": "TITLE \"Godzilla\" OR TITLE \"Gojira\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Universal Monsters",
+      "Expression": "MOVIE AND STUDIO \"Universal\" AND YEAR \"<1960\" AND (GENRE \"Horror\" OR GENRE \"Science Fiction\")",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Disney",
+      "Expression": "STUDIO \"Walt Disney\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "DreamWorks",
+      "Expression": "STUDIO \"DreamWorks\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Amblin",
+      "Expression": "STUDIO \"Amblin\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Shaw Brothers",
+      "Expression": "STUDIO \"Shaw Brothers\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Cannon Films",
+      "Expression": "STUDIO \"Cannon Group\" OR STUDIO \"Cannon Films\" OR STUDIO \"Golan-Globus\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Haunted House Collection",
+      "Expression": "TAG \"haunted house\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Survival Horror Collection",
+      "Expression": "TAG \"survival horror\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Alien Invasion Collection",
+      "Expression": "TAG \"alien invasion\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Feel-Good Movies",
+      "Expression": "TAG \"feel good\" OR (MOVIE AND GENRE \"Family\" AND GENRE \"Comedy\" AND COMMUNITYRATING \">=7\")",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Tearjerkers",
+      "Expression": "TAG \"tearjerker\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Stoner Comedy Collection",
+      "Expression": "TAG \"stoner comedy\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Slapstick Collection",
+      "Expression": "TAG \"slapstick\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Reality TV",
+      "Expression": "SHOW AND GENRE \"Reality\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Docuseries",
+      "Expression": "SHOW AND GENRE \"Documentary\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Pokémon",
+      "Expression": "TITLE \"Pokémon\" OR TITLE \"Pokemon\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Middle-earth",
+      "Expression": "TITLE \"Lord of the Rings\" OR TITLE \"The Hobbit\" OR TITLE \"Rings of Power\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Fast & Furious",
+      "Expression": "TITLE \"Fast & Furious\" OR TITLE \"Fast and the Furious\" OR TITLE \"2 Fast 2 Furious\" OR TITLE \"Fast Five\" OR TITLE \"Furious 7\" OR TITLE \"Fate of the Furious\" OR TITLE \"Hobbs & Shaw\" OR TITLE \"Fast X\" OR (TITLE \"F9\" AND YEAR \"=2021\")",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "X-Men",
+      "Expression": "TITLE \"X-Men\" OR TITLE \"Wolverine\" OR TITLE \"Deadpool\" OR TITLE \"New Mutants\" OR TITLE \"Dark Phoenix\" OR (TITLE \"Logan\" AND YEAR \"=2017\" AND NOT TITLE \"Lucky\")",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Alien Franchise",
+      "Expression": "STUDIO \"Brandywine\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Indiana Jones",
+      "Expression": "TITLE \"Indiana Jones\" OR TITLE \"Raiders of the Lost Ark\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "The Matrix",
+      "Expression": "TITLE \"Matrix\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Neon Genesis Evangelion",
+      "Expression": "TITLE \"Evangelion\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Resident Evil",
+      "Expression": "TITLE \"Resident Evil\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Pirates of the Caribbean",
+      "Expression": "TITLE \"Pirates of the Caribbean\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "The Godfather",
+      "Expression": "TITLE \"The Godfather\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Back to the Future",
+      "Expression": "TITLE \"Back to the Future\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Saw",
+      "Expression": "STUDIO \"Twisted Pictures\" AND (TITLE \"Saw\" OR TITLE \"Jigsaw\" OR TITLE \"Spiral\")",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Ghost in the Shell",
+      "Expression": "TITLE \"Ghost in the Shell\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Dune",
+      "Expression": "TITLE \"Dune\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "John Wick",
+      "Expression": "TITLE \"John Wick\" OR (TITLE \"Ballerina\" AND YEAR \"=2025\") OR (SHOW AND TITLE \"The Continental\")",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Rocky",
+      "Expression": "(TITLE \"Rocky\" AND NOT TITLE \"Horror\") OR (TITLE \"Creed\" AND NOT TITLE \"Assassin\")",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Jurassic Park",
+      "Expression": "TITLE \"Jurassic Park\" OR TITLE \"Jurassic World\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Planet of the Apes",
+      "Expression": "TITLE \"Planet of the Apes\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Predator",
+      "Expression": "TITLE \"Predator\" OR (TITLE \"Prey\" AND YEAR \"=2022\")",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Terminator",
+      "Expression": "TITLE \"Terminator\"",
+      "CaseSensitive": false,
+      "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Mission: Impossible",
+      "Expression": "TITLE \"Mission: Impossible\"",
       "CaseSensitive": false,
       "SortBy": 0,
       "SortOrder": 0

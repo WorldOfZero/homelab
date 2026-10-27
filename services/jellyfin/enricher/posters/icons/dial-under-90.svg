@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Under 90 minutes: a two-hour dial with an arc sweeping from the top to just short of the 90-minute mark. -->
+  <circle cx="50" cy="50" r="44"/>
+  <path d="M50.0 14.0 L50.0 6.0 M70.0 15.4 L72.0 11.9 M84.6 30.0 L88.1 28.0 M86.0 50.0 L94.0 50.0 M84.6 70.0 L88.1 72.0 M70.0 84.6 L72.0 88.1 M50.0 86.0 L50.0 94.0 M30.0 84.6 L28.0 88.1 M15.4 70.0 L11.9 72.0 M14.0 50.0 L6.0 50.0 M15.4 30.0 L11.9 28.0 M30.0 15.4 L28.0 11.9" stroke-opacity="0.6"/>
+  <path d="M50.0 20.0 A30 30 0 1 1 21.0 57.8"/>
+  <path d="M27.9 59.4 L21.0 57.8 L16.9 64.1"/>
+  <circle cx="50" cy="50" r="3"/>
+</svg>

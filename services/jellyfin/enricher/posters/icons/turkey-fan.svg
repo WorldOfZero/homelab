@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A Thanksgiving turkey face on: tail feathers fanned out behind a round body, a small head
+       with beak and wattle, and legs. -->
+  <path d="M12.0 60.0 A9.5 9.5 0 0 1 15.8 43.5 A9.5 9.5 0 0 1 26.3 30.3 A9.5 9.5 0 0 1 41.5 23.0 A9.5 9.5 0 0 1 58.5 23.0 A9.5 9.5 0 0 1 73.7 30.3 A9.5 9.5 0 0 1 84.2 43.5 A9.5 9.5 0 0 1 88.0 60.0"/>
+  <path d="M29 60 A21 21 0 0 1 71 60" stroke-opacity="0.55"/>
+  <path d="M31.1 50.9 L15.8 43.5 M36.9 43.6 L26.3 30.3 M45.3 39.5 L41.5 23.0 M54.7 39.5 L58.5 23.0 M63.1 43.6 L73.7 30.3 M68.9 50.9 L84.2 43.5" stroke-opacity="0.55"/>
+  <ellipse cx="50" cy="66" rx="15" ry="17"/>
+  <circle cx="50" cy="42" r="7"/>
+  <path d="M48 44 L50 48 L52 44" />
+  <path d="M53 46 C57 50 57 54 53 55" stroke-opacity="0.8"/>
+  <path d="M47.5 40.5 L47.5 41 M52.5 40.5 L52.5 41"/>
+  <path d="M44 82 L42 92 M56 82 L58 92 M38 92 L46 92 M54 92 L62 92"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A top hat with music notes rising from it. -->
+  <path d="M34 32 L66 32 L64 70 L36 70 Z"/>
+  <ellipse cx="50" cy="32" rx="16" ry="3" stroke-opacity="0.6"/>
+  <path d="M36 62 L64 62" stroke-opacity="0.6"/>
+  <path d="M16 72 C28 66 72 66 84 72 C72 79 28 79 16 72 Z"/>
+  <path d="M24 26 L24 12 L34 9 L34 23" stroke-opacity="0.8"/>
+  <ellipse cx="21" cy="26" rx="3.5" ry="2.6" stroke-opacity="0.8"/><ellipse cx="31" cy="23" rx="3.5" ry="2.6" stroke-opacity="0.8"/>
+  <path d="M74 22 L74 8 L80 12" stroke-opacity="0.8"/>
+  <ellipse cx="71" cy="22" rx="3.5" ry="2.6" stroke-opacity="0.8"/>
+</svg>

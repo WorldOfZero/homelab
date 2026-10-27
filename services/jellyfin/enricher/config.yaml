@@ -20,6 +20,21 @@ auto_collections:
   images: collection-images     # relative to this file
   task_wait_minutes: 30         # how long to wait for the task before setting images anyway
 
+# Tags kept in step with what users do, for the Started Movies and Rewatch Favorites collections.
+# Unlike the rule tags below, the enricher also removes these when they stop applying. They are
+# updated on each run, so they can be up to a day behind.
+user_state_tags:
+  item_types: [Movie]
+  tags:
+    in_progress: in progress   # any user has started it but not finished it
+    favourite: favourite       # any user has marked it as a favourite
+
+# Tags kept in step with each show's status in Jellyfin (from TMDb), for the Ended Shows and
+# Running Shows collections. Like the playback tags, these are removed when the status changes.
+series_status_tags:
+  Ended: ended
+  Continuing: continuing
+
 imdb_keywords:
   sources: [kometa, imdb]   # tried in order per title; results cached on disk
   cache_days: 30
@@ -270,6 +285,129 @@ rules:
     add: {tags: [high school]}
   - match: {imdb_keywords: [sport, sports, boxing, boxer, football, baseball, basketball]}
     add: {tags: [sports]}
+
+  # --- Themes and forms, checked against IMDb data for example films on 2026-10-27 ---
+  # The bare "car chase", "racing" and "neo noir" keywords are often added for a single scene (car
+  # chase on National Treasure, racing on The Social Network), so they need a relevance vote.
+  - match: {imdb_keywords: [car chase, highway chase, car chase scene], min_relevant: 1}
+    add: {tags: [car chase]}
+  - match: {imdb_keywords: [treasure hunt, treasure hunter, treasure map, hidden treasure, lost treasure,
+                            buried treasure], min_relevant: 1}
+    add: {tags: [treasure hunt]}
+  - match: {imdb_keywords: [vigilante, vigilantism, vigilante justice, masked vigilante], min_relevant: 1}
+    add: {tags: [vigilante]}
+  - match: {imdb_keywords: [kung fu, wuxia, kung fu master, hong kong kung fu, kung fu action], min_relevant: 1}
+    add: {tags: [kung fu]}
+  - match: {imdb_keywords: [erotic thriller], min_relevant: 1}
+    add: {tags: [erotic thriller]}
+  - match: {imdb_keywords: [psychological thriller]}
+    add: {tags: [psychological thriller]}
+  - match: {imdb_keywords: [creature feature, monster movie]}
+    add: {tags: [creature feature]}
+  - match: {imdb_keywords: [car racing, auto racing, automobile racing, motor racing, stock car racing,
+                            race car driver, formula one, nascar, motorcycle racing, drag racing]}
+    add: {tags: [racing]}
+  - match: {imdb_keywords: [racing], min_relevant: 1}
+    add: {tags: [racing]}
+  - match: {imdb_keywords: [concert film, live in concert recording, concert documentary]}
+    add: {tags: [concert film]}
+  # Not "musical number" or "singing": IMDb uses them for one song in any film (Whiplash, Bohemian Rhapsody).
+  - match: {imdb_keywords: [musical, classic musical, movie musical, based on stage musical, based on broadway musical,
+                            rock musical, jukebox musical, pop musical, mgm musical, 20th century fox musical,
+                            universal musical, warner bros musical, paramount musical, british musical]}
+    add: {tags: [musical]}
+  - match: {imdb_keywords: [film noir, classic film noir]}
+    add: {tags: [film noir]}
+  - match: {imdb_keywords: [neo noir], min_relevant: 2, min_percentage: 0.75}
+    add: {tags: [film noir]}
+  - match: {imdb_keywords: [biopic, biography, biographical, based on biography, based on autobiography,
+                            political biopic, music biopic, sports biopic, ends with biographical notes]}
+    add: {tags: [biopic]}
+  - match: {imdb_keywords: [based on real person], min_relevant: 1}
+    add: {tags: [biopic]}
+  # Checked 2026-10-27: hypnosis on Get Out, Caligari, Now You See Me, Dr. Mabuse, The Manchurian
+  # Candidate; mind control on They Live, Kingsman, Being John Malkovich, X2. "Hypnotized man/woman"
+  # and "subliminal message" also turn up for a single scene (X2), so they need a vote.
+  - match: {imdb_keywords: [hypnosis, hypnotism, hypnotist, hypnotic trance, hypnotic suggestion,
+                            post hypnotic suggestion, mesmerism]}
+    add: {tags: [hypnosis]}
+  - match: {imdb_keywords: [hypnotized woman, hypnotized man], min_relevant: 1}
+    add: {tags: [hypnosis]}
+  - match: {imdb_keywords: [mind control, brainwashing, mind controlled human, mind controlled killer,
+                            brainwashed assassin, sleeper agent]}
+    add: {tags: [mind control]}
+  - match: {imdb_keywords: [subliminal message], min_relevant: 1}
+    add: {tags: [mind control]}
+  # Holidays, checked 2026-10-27: IMDb adds them for a single scene too (New Year's Eve on When
+  # Harry Met Sally, the Fourth of July on Jaws is borderline), so they need a vote.
+  - match: {imdb_keywords: [valentine's day], min_relevant: 1}
+    add: {tags: [valentine's day]}
+  - match: {imdb_keywords: [thanksgiving, thanksgiving dinner, thanksgiving day, thanksgiving comedy,
+                            thanksgiving horror, thanksgiving parade], min_relevant: 1}
+    add: {tags: [thanksgiving]}
+  - match: {imdb_keywords: [new year's eve, new year's eve party, new year's day], min_relevant: 1}
+    add: {tags: [new year's]}
+  - match: {imdb_keywords: [fourth of july, independence day, july 4th, 4th of july], min_relevant: 1}
+    add: {tags: [independence day]}
+  # Weddings, checked 2026-10-27. Not "wedding" itself: The Godfather has it at 8 of 8 for its
+  # opening. These only appear when the wedding is the story; Shrek's and The Graduate's endings miss.
+  - match: {imdb_keywords: [bridesmaid, maid of honor, wedding planning, wedding planner, planning a wedding,
+                            father of the bride, wedding crasher, bride as protagonist, wedding gone wrong,
+                            bride to be, wedding rehearsal dinner, wedding coordinator, wedding singer,
+                            wedding preparations]}
+    add: {tags: [wedding]}
+  - match: {imdb_keywords: [objection at a wedding], min_relevant: 1}  # not canceled wedding: Shrek has it
+    add: {tags: [wedding]}
+  # Checked 2026-10-27 on Poltergeist, The Descent, Signs, Harold & Kumar, Home Alone and others.
+  - match: {imdb_keywords: [haunted house, haunted mansion]}
+    add: {tags: [haunted house]}
+  - match: {imdb_keywords: [survival horror]}
+    add: {tags: [survival horror]}
+  - match: {imdb_keywords: [alien invasion, invasion of earth]}
+    add: {tags: [alien invasion]}
+  - match: {imdb_keywords: [alien invasion sci fi], min_relevant: 1}  # unvoted on Alien
+    add: {tags: [alien invasion]}
+  - match: {imdb_keywords: [feel good, feel good movie, feel good comedy, feel good romance, heartwarming, uplifting]}
+    add: {tags: [feel good]}
+  - match: {imdb_keywords: [tearjerker, tear jerker, tearjerker romance]}
+    add: {tags: [tearjerker]}
+  - match: {imdb_keywords: [stoner comedy, stoner film]}
+    add: {tags: [stoner comedy]}
+  - match: {imdb_keywords: [stoner], min_relevant: 2}  # Attack the Block has it at 1 of 1
+    add: {tags: [stoner comedy]}
+  - match: {imdb_keywords: [slapstick, slapstick comedy, physical comedy]}
+    add: {tags: [slapstick]}
+  # Cult film is voted on widely (Top Gun at 1 of 2), so it needs real support.
+  - match: {imdb_keywords: [cult film, cult classic], min_relevant: 2, min_percentage: 0.6}
+    add: {tags: [cult classic]}
+  - match: {imdb_keywords: [remake, horror movie remake, american remake, remake of cult film, remake of british series,
+                            remake of 1930s film, remake of 1940s film, remake of 1950s film, remake of 1960s film,
+                            remake of 1970s film, remake of 1980s film, remake of 1990s film, remake of french film,
+                            remake of japanese film, remake of korean film]}
+    add: {tags: [remake]}
+  # Bare "possession" is also used loosely (The Thing, Being John Malkovich), so it needs a vote.
+  - match: {imdb_keywords: [demonic possession, exorcism, exorcist, diabolical possession, bodily possession,
+                            possessed girl, possessed boy, possessed woman, possessed man]}
+    add: {tags: [possession]}
+  - match: {imdb_keywords: [possession], min_relevant: 1}
+    add: {tags: [possession]}
+  - match: {imdb_keywords: [military, u.s. army, u.s. marine corps, u.s. military, u.s. navy, military base,
+                            military training, u.s. soldier], min_relevant: 1}
+    add: {tags: [military]}
+  - match: {imdb_keywords: [based on play, based on a stage play, based on stage play, based on broadway play,
+                            based on play by same name]}
+    add: {tags: [based on a play]}
+  - match: {imdb_keywords: [dark comedy, black comedy], min_relevant: 1}
+    add: {tags: [dark comedy]}
+  - match: {imdb_keywords: [sitcom, sitcom comedy, situation comedy, sitcom laughter]}
+    item_types: [Series]
+    add: {tags: [sitcom]}
+  - match: {imdb_keywords: [tv mini series, tv miniseries, miniseries, mini series, limited series]}
+    item_types: [Series]
+    add: {tags: [miniseries]}
+  # Not "some scenes in black and white" or "black and white to color": those films are in colour.
+  - match: {imdb_keywords: [black and white, black and white movie, black and white film]}
+    add: {tags: [black and white]}
 
   # --- Form & tone ---
   - match: {imdb_keywords: [parody, spoof]}

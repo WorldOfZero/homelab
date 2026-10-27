@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- TV: the retro set showing a reality-show confessional, a person framed by camera corners with a REC dot. -->
+  <rect x="8" y="26" width="84" height="60" rx="6"/>
+  <rect x="15" y="32" width="56" height="48" rx="5"/>
+  <circle cx="81" cy="42" r="4"/>
+  <circle cx="81" cy="56" r="4" stroke-opacity="0.7"/>
+  <path d="M77 67 L85 67 M77 72 L85 72 M77 77 L85 77" stroke-opacity="0.5"/>
+  <path d="M50 26 L38 8 M50 26 L62 8"/>
+  <path d="M20 86 L16 94 M80 86 L84 94"/>
+
+  <path d="M20 38 L20 44 M20 38 L26 38 M66 38 L66 44 M66 38 L60 38 M20 74 L20 68 M20 74 L26 74 M66 74 L66 68 M66 74 L60 74" stroke-opacity="0.7"/>
+  <circle cx="43" cy="51" r="7"/>
+  <path d="M30 72 C30 64 36 60 43 60 C50 60 56 64 56 72"/>
+  <circle cx="61" cy="44" r="2.5"/>
+</svg>

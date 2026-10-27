@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Spain: red, yellow and red bands (1:2:1) in the upper part of the poster; the coat of arms is omitted. The lower red band runs on under the title. -->
+  <rect width="1000" height="250" fill="#aa151b"/>
+  <rect y="250" width="1000" height="500" fill="#f1bf00"/>
+  <rect y="750" width="1000" height="750" fill="#aa151b"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Mind control: a marionette's control bar above a person, its strings holding the head and
+       shoulders, the eyes blank. -->
+  <path d="M24 10 L76 10 M50 3 L50 22 M36 16 L64 16" />
+  <path d="M24 10 L30 82 M76 10 L70 82 M50 22 L50 40 M36 16 L40 41 M64 16 L60 41" stroke-opacity="0.5"/>
+  <ellipse cx="50" cy="58" rx="16" ry="19"/>
+  <path d="M42 56 L46 56 M54 56 L58 56" />
+  <path d="M45 67 L55 67" stroke-opacity="0.7"/>
+  <path d="M20 98 C22 86 34 79 50 79 C66 79 78 86 80 98"/>
+</svg>

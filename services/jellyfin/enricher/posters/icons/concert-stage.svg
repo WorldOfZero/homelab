@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A concert stage: lighting truss, two spotlight beams on a performer, raised hands in the crowd. -->
+  <path d="M6 12 L94 12 M6 16 L94 16" stroke-opacity="0.7"/>
+  <path d="M24 16 L24 20 M76 16 L76 20"/>
+  <path d="M24 20 L38 62 M24 20 L56 62 M76 20 L62 62 M76 20 L44 62" stroke-opacity="0.4"/>
+  <circle cx="50" cy="40" r="4.5"/>
+  <path d="M50 45 L50 56 M50 48 L42 40 M50 48 L58 42 M50 56 L45 64 M50 56 L55 64"/>
+  <path d="M8 64 L92 64 L96 72 L4 72 Z"/>
+  <path d="M12 94 L16 82 L20 94 M30 92 L34 79 L38 92 M48 94 L50 82 L52 94 M62 92 L66 79 L70 92 M80 94 L84 82 L88 94" stroke-opacity="0.6"/>
+</svg>

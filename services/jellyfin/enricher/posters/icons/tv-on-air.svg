@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- TV: a retro set playing, its antenna broadcasting, a show still on the air. -->
+  <rect x="8" y="26" width="84" height="60" rx="6"/>
+  <rect x="15" y="32" width="56" height="48" rx="5"/>
+  <circle cx="81" cy="42" r="4"/>
+  <circle cx="81" cy="56" r="4" stroke-opacity="0.7"/>
+  <path d="M77 67 L85 67 M77 72 L85 72 M77 77 L85 77" stroke-opacity="0.5"/>
+  <path d="M50 26 L38 8 M50 26 L62 8"/>
+  <path d="M20 86 L16 94 M80 86 L84 94"/>
+  <path d="M30 8 C26 12 26 18 30 22 M70 8 C74 12 74 18 70 22" stroke-opacity="0.75"/>
+  <path d="M23 4 C16 11 16 19 23 26 M77 4 C84 11 84 19 77 26" stroke-opacity="0.45"/>
+  <path d="M36 45 L36 67 L55 56 Z"/>
+  <path d="M22 74 L64 74" stroke-opacity="0.45"/>
+
+</svg>

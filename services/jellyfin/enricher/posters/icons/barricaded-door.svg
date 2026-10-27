@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Survival horror: a door barricaded with boards nailed across it, scratches clawed into the wood. -->
+  <path d="M10 94 L90 94" stroke-opacity="0.5"/>
+  <path d="M24 94 L24 8 L76 8 L76 94"/>
+  <path d="M30 94 L30 14 L70 14 L70 94" stroke-opacity="0.45"/>
+  <circle cx="64" cy="56" r="2.5" stroke-opacity="0.6"/>
+  <path d="M14 26 L86 38 L85 46 L13 34 Z"/>
+  <path d="M15 62 L87 52 L88 60 L16 70 Z"/>
+  <path d="M20 30 L20 31 M80 41 L80 42 M22 64 L22 65 M82 56 L82 57"/>
+  <path d="M38 74 L44 88 M44 72 L50 86 M50 72 L55 84" stroke-opacity="0.75"/>
+</svg>

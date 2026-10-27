@@ -78,6 +78,18 @@ class Jellyfin:
             if not page["Items"] or start >= page.get("TotalRecordCount", 0):
                 return
 
+    def user_items(self, user_id, item_types, filters):
+        """Ids of the items a user's Jellyfin filter selects, e.g. IsResumable or IsFavorite."""
+        page = self._call("/Items", params={"userId": user_id, "Recursive": "true", "Filters": filters,
+                                            "IncludeItemTypes": ",".join(item_types), "Fields": "Tags"})
+        return {i["Id"] for i in page["Items"]}
+
+    def tagged_items(self, tag, item_types):
+        """Ids of the items carrying `tag`."""
+        page = self._call("/Items", params={"userId": self.user_id(), "Recursive": "true", "Tags": tag,
+                                            "IncludeItemTypes": ",".join(item_types), "Fields": "Tags"})
+        return {i["Id"] for i in page["Items"]}
+
     def get_item(self, item_id):
         return self._call(f"/Items/{item_id}", params={"userId": self.user_id()})
 
@@ -289,6 +301,62 @@ def missing_values(current, wanted):
             have.add(v.casefold())
             out.append(v)
     return out
+
+
+USER_STATE_FILTERS = {"in_progress": "IsResumable", "favourite": "IsFavorite"}
+
+
+def sync_user_state_tags(settings, jellyfin, dry_run):
+    """Keep tags in step with what users are doing, e.g. `in progress` on every movie any user has
+    started but not finished, and `favourite` on every movie any user has marked as a favourite.
+
+    Unlike the keyword rules, these tags are also removed when they no longer apply, so the
+    collections built on them stay current. Returns the number of items changed.
+    """
+    item_types = settings.get("item_types", ["Movie"])
+    users = [u["Id"] for u in jellyfin._call("/Users")]
+    changed = 0
+    for state, tag in (settings.get("tags") or {}).items():
+        wanted = set()
+        for user in users:
+            wanted |= jellyfin.user_items(user, item_types, USER_STATE_FILTERS[state])
+        have = jellyfin.tagged_items(tag, item_types)
+        for item_id, add in [(i, True) for i in sorted(wanted - have)] + [(i, False) for i in sorted(have - wanted)]:
+            dto = jellyfin.get_item(item_id)
+            verb = ("add" if add else "remove") if dry_run else ("adding" if add else "removing")
+            log.info("user state tags: %s%s %r %s %s", "would " if dry_run else "", verb, tag,
+                     "to" if add else "from", dto.get("Name"))
+            changed += 1
+            if dry_run:
+                continue
+            tags = [t for t in dto.get("Tags") or [] if t.casefold() != tag.casefold()]
+            dto["Tags"] = tags + [tag] if add else tags
+            jellyfin.update_item(item_id, dto)
+    log.info("user state tags: %d changed%s", changed, " (dry run)" if dry_run else "")
+    return changed
+
+
+def sync_series_status_tags(mapping, jellyfin, dry_run):
+    """Give each show the tag for its Jellyfin status, e.g. {"Ended": "ended", "Continuing":
+    "continuing"}, and take away the others. Returns the number of shows changed."""
+    managed = {t.casefold() for t in mapping.values()}
+    changed = 0
+    for show in jellyfin.items(["Series"]):
+        want = mapping.get(show.get("Status") or "")
+        have = [t for t in show.get("Tags") or [] if t.casefold() in managed]
+        if [t.casefold() for t in have] == ([want.casefold()] if want else []):
+            continue
+        log.info("show status tags: %s %s: %s -> %s", "would update" if dry_run else "updating",
+                 show.get("Name"), have, want)
+        changed += 1
+        if dry_run:
+            continue
+        dto = jellyfin.get_item(show["Id"])
+        tags = [t for t in dto.get("Tags") or [] if t.casefold() not in managed]
+        dto["Tags"] = tags + ([want] if want else [])
+        jellyfin.update_item(show["Id"], dto)
+    log.info("show status tags: %d changed%s", changed, " (dry run)" if dry_run else "")
+    return changed
 
 
 def run(cfg, jellyfin, source, dry_run):
@@ -542,6 +610,10 @@ def main(argv=None):
                 log.error("auto collections: sync skipped: %s", e)
                 ac = {}
         stats = run(cfg, jellyfin, source, dry_run)
+        if cfg.get("user_state_tags"):
+            stats["changed"] += sync_user_state_tags(cfg["user_state_tags"], jellyfin, dry_run)
+        if cfg.get("series_status_tags"):
+            stats["changed"] += sync_series_status_tags(cfg["series_status_tags"], jellyfin, dry_run)
         task = None
         if ac and not dry_run and (config_changed or stats["changed"]):
             task = refresh_auto_collections(ac, jellyfin)

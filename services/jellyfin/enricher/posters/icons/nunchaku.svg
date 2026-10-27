@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Kung fu: nunchaku, one stick held upright and the other swinging on its chain, with a motion arc. -->
+  <rect x="22" y="44" width="10" height="46" rx="5"/>
+  <path d="M27 44 L27 38 M27 36 C30 30 34 26 40 24 M42 23 C46 22 50 22 54 23" stroke-opacity="0.8"/>
+  <g transform="rotate(-60 56 24)"><rect x="51" y="24" width="10" height="46" rx="5"/></g>
+  <path d="M38 76 C52 82 72 80 86 66 M44 86 C60 90 78 86 90 76" stroke-opacity="0.45"/>
+</svg>

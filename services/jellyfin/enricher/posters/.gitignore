@@ -1,3 +1,6 @@
 preview/
+# Studio and franchise logos are downloaded by fetch_logos.py, not kept in git.
+logos/*
+!logos/sources.yaml
 __pycache__/
 batch-*.yaml

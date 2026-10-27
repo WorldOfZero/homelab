@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Started movies: a screen with a play button, and a progress bar half filled under it. -->
+  <rect x="8" y="14" width="84" height="56" rx="4"/>
+  <path d="M42 30 L62 42 L42 54 Z"/>
+  <rect x="14" y="80" width="72" height="8" rx="4" stroke-opacity="0.5"/>
+  <path d="M18 84 L48 84" stroke-width="5"/>
+  <circle cx="50" cy="84" r="5"/>
+</svg>

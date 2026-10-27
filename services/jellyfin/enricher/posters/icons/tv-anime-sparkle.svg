@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- TV: a retro set with anime speed lines rushing in to a sparkle star. -->
+  <rect x="8" y="26" width="84" height="60" rx="6"/>
+  <rect x="15" y="32" width="56" height="48" rx="5"/>
+  <circle cx="81" cy="42" r="4"/>
+  <circle cx="81" cy="56" r="4" stroke-opacity="0.7"/>
+  <path d="M77 67 L85 67 M77 72 L85 72 M77 77 L85 77" stroke-opacity="0.5"/>
+  <path d="M50 26 L38 8 M50 26 L62 8"/>
+  <path d="M20 86 L16 94 M80 86 L84 94"/>
+  <path d="M56.0 56.0 L64.0 56.0 M54.3 61.5 L61.2 64.9 M49.5 65.6 L53.5 71.5 M43.0 67.0 L43.0 73.8 M36.5 65.6 L32.5 71.5 M31.7 61.5 L24.8 64.9 M30.0 56.0 L22.0 56.0 M31.7 50.5 L24.8 47.1 M36.5 46.4 L32.5 40.5 M43.0 45.0 L43.0 38.2 M49.5 46.4 L53.5 40.5 M54.3 50.5 L61.2 47.1" stroke-opacity="0.5"/>
+  <path d="M43 46 C44 53 46 55 53 56 C46 57 44 59 43 66 C42 59 40 57 33 56 C40 55 42 53 43 46 Z"/>
+  <path d="M59 38 L59 44 M56 41 L62 41" stroke-opacity="0.8"/>
+
+</svg>

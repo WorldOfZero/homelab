@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- China: red with the large yellow star and four small stars, each small star pointing at the large one, laid out on the flag's 30-unit grid across the poster's width. -->
+  <rect width="1000" height="1500" fill="#ee1c25"/>
+  <g fill="#ffde00"><path d="M166.7 66.7 L189.1 135.8 L261.8 135.8 L203.0 178.5 L225.4 247.6 L166.7 204.9 L107.9 247.6 L130.3 178.5 L71.6 135.8 L144.2 135.8 Z"/><path d="M304.8 83.8 L320.6 65.5 L308.2 44.8 L330.5 54.3 L346.4 36.0 L344.3 60.1 L366.5 69.6 L342.9 75.0 L340.8 99.2 L328.4 78.4 Z"/><path d="M367.0 138.0 L388.7 127.4 L385.3 103.4 L402.2 120.8 L423.9 110.1 L412.6 131.5 L429.5 148.9 L405.6 144.8 L394.3 166.2 L390.9 142.2 Z"/><path d="M367.9 224.2 L392.2 223.3 L398.8 200.0 L407.1 222.8 L431.3 221.9 L412.2 236.8 L420.5 259.6 L400.5 246.1 L381.4 261.0 L388.0 237.7 Z"/><path d="M307.3 279.2 L330.0 287.7 L345.1 268.8 L344.0 293.0 L366.6 301.5 L343.3 308.0 L342.2 332.1 L328.8 311.9 L305.5 318.3 L320.6 299.4 Z"/></g>
+</svg>

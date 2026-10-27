@@ -7,6 +7,8 @@ RUN pip install --no-cache-dir -r posters/requirements.txt
 COPY auto-collections.json ./
 COPY posters/ posters/
 COPY collection-images/ collection-images/
+# The logos aren't kept in git (posters/logos/sources.yaml); download them from Wikimedia.
+RUN python posters/fetch_logos.py
 RUN python posters/make_posters.py --all --keep collection-images --out collection-images
 
 FROM python:3.13-slim

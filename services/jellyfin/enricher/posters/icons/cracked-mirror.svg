@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A psychological thriller: a hand mirror whose glass has cracked out from one point. -->
+  <ellipse cx="50" cy="40" rx="30" ry="34"/>
+  <ellipse cx="50" cy="40" rx="24" ry="28" stroke-opacity="0.45"/>
+  <path d="M46 74 L44 94 L56 94 L54 74"/>
+  <path d="M56 32 L50 12 M56 32 L72 20 M56 32 L74 44 M56 32 L60 64 M56 32 L30 52 M56 32 L28 28" stroke-opacity="0.8"/>
+  <path d="M56 32 L63 26 L68 34 L60 39 Z" stroke-opacity="0.8"/>
+</svg>

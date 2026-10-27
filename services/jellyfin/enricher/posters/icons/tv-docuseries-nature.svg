@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- TV: the retro set showing a nature documentary, mountains under the sun with birds. -->
+  <rect x="8" y="26" width="84" height="60" rx="6"/>
+  <rect x="15" y="32" width="56" height="48" rx="5"/>
+  <circle cx="81" cy="42" r="4"/>
+  <circle cx="81" cy="56" r="4" stroke-opacity="0.7"/>
+  <path d="M77 67 L85 67 M77 72 L85 72 M77 77 L85 77" stroke-opacity="0.5"/>
+  <path d="M50 26 L38 8 M50 26 L62 8"/>
+  <path d="M20 86 L16 94 M80 86 L84 94"/>
+
+  <path d="M18 76 L32 54 L40 64 L50 48 L68 76 Z"/>
+  <path d="M46 54 L50 48 L54 54" stroke-opacity="0.6"/>
+  <circle cx="60" cy="42" r="5"/>
+  <path d="M24 42 L27 45 L30 42 M33 38 L35.5 40.5 L38 38" stroke-opacity="0.7"/>
+</svg>

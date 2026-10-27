@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A speeding car in profile with speed lines, and a flashing police light chasing it. -->
+  <path d="M30 70 L30 60 L38 56 L48 44 L72 44 L82 56 L94 59 L95 70 Z"/>
+  <path d="M51 47 L47 55 L62 55 L62 47 Z M66 47 L66 55 L78 55 L72 47 Z" stroke-opacity="0.75"/>
+  <circle cx="44" cy="71" r="7"/><circle cx="83" cy="71" r="7"/>
+  <path d="M6 52 L24 52 M2 61 L22 61 M8 70 L22 70" stroke-opacity="0.5"/>
+  <path d="M10 34 C10 28 20 28 20 34 L20 38 L10 38 Z"/>
+  <path d="M4 26 L8 29 M15 20 L15 25 M26 26 L22 29" stroke-opacity="0.6"/>
+</svg>

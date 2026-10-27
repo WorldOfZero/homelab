@@ -110,17 +110,39 @@ LOGO_BOX = (130, 230, 740, 440)  # x, y, width, height the logo is fitted into
 def logo_markup(name, tint, box=LOGO_BOX):
     """An <image> of logos/<name>.svg (or .png/.jpg), embedded and fitted into `box` (x, y, width,
     height). With `tint`, it is recoloured in the accent colour, for logos that are black."""
-    for ext, mime in LOGO_TYPES.items():
-        path = os.path.join(HERE, "logos", name + ext)
-        if os.path.exists(path):
-            break
-    else:
+    def find():
+        for ext, mime in LOGO_TYPES.items():
+            path = os.path.join(HERE, "logos", name + ext)
+            if os.path.exists(path):
+                return path, mime
+        return None, None
+
+    path, mime = find()
+    if path is None:  # logos aren't kept in git; download it (logos/sources.yaml)
+        import fetch_logos
+        fetch_logos.ensure([name])
+        path, mime = find()
+    if path is None:
         raise FileNotFoundError(f"no logos/{name}.svg, .png or .jpg")
     with open(path, "rb") as f:
         data = base64.b64encode(f.read()).decode()
     x, y, w, h = box
     return (f'<image x="{x}" y="{y}" width="{w}" height="{h}" preserveAspectRatio="xMidYMid meet"'
             f'{' filter="url(#tint)"' if tint else ""} href="data:{mime};base64,{data}"/>')
+
+
+def backdrop_markup(settings):
+    """What sits behind the poster: a flag, or a logo drawn large and faded (`backdrop_logo`,
+    `backdrop_box`, `backdrop_opacity`), with the dark fade over it so the title stays readable."""
+    if settings.get("flag"):
+        art = svg_markup("flags", settings["flag"])
+    elif settings.get("backdrop_logo"):
+        art = (f'<g opacity="{settings.get("backdrop_opacity", 0.35)}">'
+               + logo_markup(str(settings["backdrop_logo"]), settings.get("backdrop_tint", True),
+                             settings.get("backdrop_box", [-100, 40, 1200, 1200])) + "</g>")
+    else:
+        return ""
+    return art + '<rect width="1000" height="1500" fill="url(#shade)"/>'
 
 
 def poster_svg(name, settings, template, title_font):
@@ -143,8 +165,7 @@ def poster_svg(name, settings, template, title_font):
         art=svg_markup("art", settings["art"]) if settings.get("art") else "",
         logo=(logo_markup(settings["logo"], settings.get("logo_tint", True), settings.get("logo_box", LOGO_BOX))
               if settings.get("logo") else ""),
-        backdrop=(svg_markup("flags", settings["flag"]) + '<rect width="1000" height="1500" fill="url(#shade)"/>'
-                  if settings.get("flag") else ""),
+        backdrop=backdrop_markup(settings),
         label=escape(settings.get("label", "COLLECTION").upper()),
         title_x=title_x,
         rule_y=f"{title_top - 56:.0f}",
@@ -154,7 +175,9 @@ def poster_svg(name, settings, template, title_font):
 
 
 def render(svg, path):
-    png = resvg_py.svg_to_bytes(svg_string=svg, skip_system_fonts=True, font_dirs=[FONTS])
+    # Relative image references resolve in flags/, e.g. the Mexican flag's coat of arms.
+    png = resvg_py.svg_to_bytes(svg_string=svg, skip_system_fonts=True, font_dirs=[FONTS],
+                                resources_dir=os.path.join(HERE, "flags"))
     Image.open(io.BytesIO(bytes(png))).convert("RGB").save(path, quality=90, optimize=True)
 
 

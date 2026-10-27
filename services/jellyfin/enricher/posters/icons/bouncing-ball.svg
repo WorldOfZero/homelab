@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- The animator's bouncing ball: a ball along its arcs, stretched as it falls and squashed where it lands, with a pencil. -->
+  <path d="M14 22 Q28 30 36 74 Q44 30 60 30" stroke-opacity="0.35" stroke-dasharray="3 5"/>
+  <ellipse cx="14" cy="22" rx="5" ry="5" stroke-opacity="0.35"/><ellipse cx="26" cy="44" rx="4.5" ry="6" stroke-opacity="0.5"/><ellipse cx="36" cy="74" rx="7.5" ry="4" stroke-opacity="0.7"/><ellipse cx="48" cy="44" rx="4.5" ry="6" stroke-opacity="0.85"/><ellipse cx="60" cy="30" rx="6" ry="6" stroke-opacity="1"/>
+  <path d="M6 80 L66 80" stroke-opacity="0.6"/>
+  <g transform="rotate(35 82 56)">
+    <path d="M77 22 L87 22 L87 78 L82 88 L77 78 Z"/>
+    <path d="M77 30 L87 30 M77 78 L87 78" stroke-opacity="0.6"/>
+  </g>
+</svg>

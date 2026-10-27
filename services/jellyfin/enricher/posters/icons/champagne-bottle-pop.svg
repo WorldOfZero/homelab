@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A champagne bottle tilted as its cork pops, with a spray and confetti. -->
+  <g transform="rotate(-28 50 62)">
+    <path d="M40 96 L40 56 C40 46 45 42 45 34 L45 24 L55 24 L55 34 C55 42 60 46 60 56 L60 96 Z"/>
+    <path d="M45 32 L55 32" stroke-opacity="0.6"/>
+    <rect x="40" y="66" width="20" height="16" stroke-opacity="0.7"/>
+    <rect x="45" y="8" width="10" height="8" rx="2"/>
+    <path d="M44 20 L38 12 M50 20 L50 18 M56 20 L62 12" stroke-opacity="0.7"/>
+  </g>
+  <path d="M60 10 L66 6 M72 16 L80 14 M68 26 L76 28 M84 8 L88 4 M80 30 L84 36" stroke-opacity="0.6"/>
+  <circle cx="74" cy="6" r="1.6" stroke-opacity="0.6"/><circle cx="88" cy="22" r="1.6" stroke-opacity="0.6"/>
+</svg>

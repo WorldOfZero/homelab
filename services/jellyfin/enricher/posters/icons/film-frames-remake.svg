@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A remake: an old film frame and a new one overlapping, with an arrow from one to the other. -->
+  <rect x="8" y="14" width="46" height="40" rx="2" stroke-opacity="0.5"/>
+  <path d="M14 14 L14 54 M48 14 L48 54" stroke-opacity="0.35"/>
+  <rect x="40" y="44" width="52" height="44" rx="2"/>
+  <path d="M47 44 L47 88 M85 44 L85 88" stroke-opacity="0.7"/>
+  <path d="M41 50 L46 50 M41 58 L46 58 M41 66 L46 66 M41 74 L46 74 M41 82 L46 82 M86 50 L91 50 M86 58 L91 58 M86 66 L91 66 M86 74 L91 74 M86 82 L91 82" stroke-opacity="0.6"/>
+  <path d="M60 12 C76 12 84 22 84 34"/>
+  <path d="M78 30 L84 36 L90 30"/>
+</svg>

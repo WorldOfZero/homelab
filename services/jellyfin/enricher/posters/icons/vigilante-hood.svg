@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A vigilante: a hooded figure from the shoulders up, the face in shadow behind a domino mask. -->
+  <path d="M6 94 C10 80 20 74 28 72 C24 60 24 40 30 28 C36 16 44 10 50 10 C56 10 64 16 70 28 C76 40 76 60 72 72
+           C80 74 90 80 94 94"/>
+  <path d="M36 70 C34 56 36 38 50 32 C64 38 66 56 64 70 C60 76 40 76 36 70 Z" stroke-opacity="0.55"/>
+  <path d="M34 50 C40 45 46 46 50 50 C54 46 60 45 66 50 C64 58 56 59 50 55 C44 59 36 58 34 50 Z"/>
+  <path d="M39 51 L46 52 M61 51 L54 52"/>
+</svg>

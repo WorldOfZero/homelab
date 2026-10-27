@@ -1,0 +1,59 @@
+# Studio, franchise and format logos for the collection posters. They are their owners'
+# trademarks, and the ones marked `wiki: en` are non-free files from English Wikipedia, so the
+# image files are never kept in git: fetch_logos.py downloads them from upload.wikimedia.org into
+# this folder while the enricher's image builds, and make_posters.py runs it for any missing logo.
+#
+#   <name>: the logo's name in posters.yaml (logo: <name>)
+#     file: the file's name on Wikimedia
+#     wiki: commons (default) or en, where the file is hosted
+#     fix:  strip_units - drop pt/mm units from the SVG's width and height, which resvg can't size
+#           white_to_alpha - make the white background transparent (saved as PNG), so the logo
+#           keeps its shape when it is recoloured
+a24: {file: A24 logo.svg}
+aardman: {file: Aardman Animations 2022.svg}
+blumhouse: {file: Blumhouse Productions logo.svg}
+dc: {file: DC Comics 2024.svg}
+hammer: {file: 68-hammer-film-productions.png}
+laika: {file: Laika logo.svg}
+pixar: {file: Pixar logo.svg}
+shudder: {file: Shudder 2017.svg}
+"007": {file: 007 Logo.svg}
+babylon5: {file: Babylon 5 1994 logo (2).svg}
+dolby-vision: {file: Dolby Vision 2021 logo.svg, fix: strip_units}
+marvel: {file: Marvel Logo.svg}
+amblin: {file: Amblin Partners logo.svg, fix: strip_units}
+disney: {file: Disney wordmark.svg}
+dreamworks: {file: DreamWorks Pictures.svg}
+godzilla: {file: Godzilla English Logo.png}
+stargate: {file: Stargate-Logo.svg, fix: strip_units}
+startrek: {file: Star Trek TOS logo.svg}
+starwars: {file: Star wars2.svg}
+universal-monsters: {file: Universal Classic Monsters logo.jpg, fix: white_to_alpha}
+ghibli: {file: Studio Ghibli logo.svg, wiki: en}
+troma: {file: TromaLogo.png, wiki: en}
+dolby-atmos: {file: Dolby Atmos (logo).svg, wiki: en}
+shaw-brothers: {file: Shaw Brothers.png, wiki: en}
+cannon: {file: Cannon Films logo.png, wiki: en}
+pokemon: {file: International Pokémon logo.svg}
+lotr: {file: The Lord of the Rings film trilogy logo.svg, wiki: en}
+fast-furious: {file: Fast-furious-logo-fast-furious.png}
+xmen: {file: Logo X-Men films.svg}
+alien-franchise: {file: Alien (franchise) logo.png}
+indiana-jones: {file: Indiana Jones logo.svg}
+matrix: {file: The Matrix (franchise logo).svg}
+evangelion: {file: Evangelion logo.png}
+resident-evil: {file: Resident Evil (Movie logo).svg}
+umbrella: {file: Umbrella Corporation logo.svg}
+pirates-caribbean: {file: Pirates of the Caribbean logo.svg}
+godfather: {file: Godfather logo.svg}
+back-to-the-future: {file: Back-to-the-future-logo.svg}
+saw: {file: Saw film logo.png, wiki: en}
+ghost-in-the-shell: {file: Ghost in the Shell logo (1995 film).svg}
+dune: {file: Dune Frank Herbert logo (cropped).svg}
+john-wick: {file: John Wick (franchise logo).png, wiki: en}
+rocky: {file: Rocky Logo.svg}
+jurassic-park: {file: Jurassic Park (franchise logo).png, wiki: en}
+planet-of-the-apes: {file: Planet of the Apes (logo).svg}
+predator: {file: Predator (franchise) logo.png, wiki: en}
+terminator: {file: Terminator (franchise logo).svg, fix: strip_units}
+mission-impossible: {file: Mission Impossible - film logo.svg}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A treasure map: a scroll with curled ends, hills, a dotted trail, and an X marking the spot. -->
+  <path d="M16 22 L84 22 L84 78 L16 78 Z"/>
+  <path d="M16 22 C10 22 10 30 16 30 M84 78 C90 78 90 70 84 70" stroke-opacity="0.8"/>
+  <path d="M24 70 L32 58 L40 70 M34 70 L42 60 L50 70" stroke-opacity="0.55"/>
+  <path d="M28 40 C36 34 42 46 50 42 C58 38 58 54 66 52" stroke-dasharray="1 5" stroke-opacity="0.85"/>
+  <path d="M68 46 L78 56 M78 46 L68 56"/>
+  <path d="M72 30 L72 36 M69 33 L75 33" stroke-opacity="0.5"/>
+</svg>

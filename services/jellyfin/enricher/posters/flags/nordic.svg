@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Nordic: the five Nordic cross flags as tiles in their own proportions, Denmark, Sweden and Norway above Finland and Iceland, on dark blue; each cross is placed as on the real flag. -->
+  <rect width="1000" height="1500" fill="#0b1a2e"/>
+  <g transform="translate(30 60)"><rect width="290" height="205" fill="#c8102e"/><rect x="94.1" width="31.4" height="205" fill="#ffffff"/><rect y="87.9" width="290" height="29.3" fill="#ffffff"/></g>
+  <g transform="translate(355 60)"><rect width="290" height="205" fill="#006aa7"/><rect x="90.6" width="36.2" height="205" fill="#fecc02"/><rect y="82.0" width="290" height="41.0" fill="#fecc02"/></g>
+  <g transform="translate(680 60)"><rect width="290" height="205" fill="#ba0c2f"/><rect x="79.1" width="52.7" height="205" fill="#ffffff"/><rect y="76.9" width="290" height="51.2" fill="#ffffff"/><rect x="92.3" width="26.4" height="205" fill="#00205b"/><rect y="89.7" width="290" height="25.6" fill="#00205b"/></g>
+  <g transform="translate(192 300)"><rect width="290" height="205" fill="#ffffff"/><rect x="80.6" width="48.3" height="205" fill="#002f6c"/><rect y="74.5" width="290" height="55.9" fill="#002f6c"/></g>
+  <g transform="translate(517 300)"><rect width="290" height="205" fill="#02529c"/><rect x="81.2" width="46.4" height="205" fill="#ffffff"/><rect y="79.7" width="290" height="45.6" fill="#ffffff"/><rect x="92.8" width="23.2" height="205" fill="#dc1e35"/><rect y="91.1" width="290" height="22.8" fill="#dc1e35"/></g>
+</svg>

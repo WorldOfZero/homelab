@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A heart-shaped padlock with its shackle and keyhole, and a sparkle. -->
+  <path d="M36 42 L36 28 C36 14 64 14 64 28 L64 42"/>
+  <path d="M50 92 C30 78 16 66 16 53 C16 43 24 37 32 37 C40 37 46 41 50 47 C54 41 60 37 68 37 C76 37 84 43 84 53 C84 66 70 78 50 92 Z"/>
+  <circle cx="50" cy="58" r="5"/>
+  <path d="M47 62 L45 73 L55 73 L53 62" />
+  <path d="M84 16 L84 24 M80 20 L88 20" stroke-opacity="0.6"/>
+</svg>

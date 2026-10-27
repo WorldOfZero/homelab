@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An oval portrait in a frame, a head-and-shoulders profile inside, with a quill pen across the corner. -->
+  <rect x="14" y="8" width="60" height="76" rx="3"/>
+  <ellipse cx="44" cy="46" rx="22" ry="30" stroke-opacity="0.7"/>
+  <path d="M46 26 C38 26 34 32 35 39 L32 44 L35 45 C35 50 38 53 43 53 L42 58 C34 60 28 64 26 70 L62 70 C60 64 54 60 48 58 L49 52 C54 48 56 40 54 33 C53 29 50 26 46 26 Z"/>
+  <path d="M94 50 C82 52 72 64 66 80 C74 72 86 64 94 50 Z M66 80 L60 94"/>
+</svg>

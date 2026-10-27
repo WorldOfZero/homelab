@@ -16,6 +16,8 @@ defaults:
 #   logo:       a file in logos/ (without .svg/.png), shown in place of the icon; recoloured in
 #               the accent colour unless logo_tint: false (for logos that have their own colours);
 #               logo_box: [x, y, width, height] moves or enlarges it (default [130, 230, 740, 440])
+#   backdrop_logo: a logo drawn large and faded behind the poster, under the dark fade; with
+#               backdrop_box [x, y, width, height], backdrop_opacity (0.35) and backdrop_tint (true)
 #   art:        a file in art/: line art over the whole poster, in the accent colour
 #   flag:       a file in flags/, drawn full-bleed behind the poster with a dark fade towards the
 #               title; the accent colours the label and rule
@@ -177,6 +179,7 @@ posters:
   4K Movies: {title: "4K", label: "Movies in", icon: tv-4k, background: "#101a24", accent: "#5cc8ff"}
 
   # Franchises, formats and Roger Corman.
+  DC Movies: {logo: dc, logo_tint: false, icon: none, label: Studio, background: "#0a1a3a", accent: "#2f7bff"}
   Marvel Movies: {logo: marvel, logo_tint: false, logo_box: [110, 250, 780, 400], icon: none, label: Studio, background: "#2a0b0d", accent: "#ec1d24"}
   Streamed Collection: {icon: live-stream, background: "#1e1433", accent: "#a970ff"}
   Actual Play Collection: {icon: d20, background: "#0e2a2a", accent: "#4fd6c8"}
@@ -185,6 +188,117 @@ posters:
   Dolby Vision Movies: {logo: dolby-vision, icon: none, label: Format, background: "#101820", accent: "#f2f2f2"}
   Dolby Atmos Movies: {logo: dolby-atmos, logo_box: [70, 300, 860, 300], icon: none, label: Format, background: "#101820", accent: "#7cc4ff"}
   Roger Corman Collection: {icon: giant-crab, background: "#1c2a1a", accent: "#e85d3a"}
+
+  # More countries and Foreign Language.
+  Australian Cinema: {flag: australia, icon: none, accent: "#ffcd00"}
+  Spanish Cinema: {flag: spain, icon: none, accent: "#f1bf00"}
+  Mexican Cinema: {flag: mexico, icon: none, accent: "#3fcf86"}
+  Chinese Cinema: {flag: china, icon: none, accent: "#ffde00"}
+  Taiwanese Cinema: {flag: taiwan, icon: none, accent: "#ff6b6b"}
+  Thai Cinema: {flag: thailand, icon: none, accent: "#8fa8ff"}
+  Canadian Cinema: {flag: canada, icon: none, accent: "#ff5a5a"}
+  Nordic Cinema: {flag: nordic, icon: none, accent: "#7fb2ff"}
+  Foreign Language Movies: {icon: speech-bubbles-scripts, background: "#1a2233", accent: "#7fe0d0"}
+
+  # Film history, genres and forms.
+  Silent Era: {icon: bowler-cane, label: "Film history", background: "#1e1b18", accent: "#e6dcc6"}
+  Pre-Code Hollywood: {icon: champagne-coupe, label: "Film history", background: "#14212b", accent: "#e8c26a"}
+  Black and White Movies: {title: ["Black and", "White"], icon: bw-film-frame, background: "#161616", accent: "#e6e6e6", foreground: "#f2f2f2"}
+  Concert Films: {icon: concert-stage, background: "#1d0f2e", accent: "#ff5fd2"}
+  Musicals Collection: {icon: top-hat-notes, background: "#2b0f19", accent: "#ffcf5a"}
+  Animation Collection: {icon: bouncing-ball, background: "#102a33", accent: "#ffb347"}
+  Film Noir Collection: {icon: noir-streetlight, background: "#121418", accent: "#c9d1db"}
+  Biopics Collection: {icon: portrait-quill, background: "#26201a", accent: "#d9b98a"}
+  Western Collection: {icon: cowboy-hat, background: "#2e1a0e", accent: "#e09a4f"}
+  Family Movies: {icon: family-house, background: "#13283a", accent: "#7fd6a8"}
+
+  # Themes and viewing.
+  Car Chase Collection: {icon: car-chase, background: "#1d1a24", accent: "#ffb000"}
+  Treasure Hunt Collection: {icon: treasure-map, background: "#2b2013", accent: "#e8c46a"}
+  Vigilante Collection: {icon: vigilante-hood, background: "#121822", accent: "#9fb7d6"}
+  Kung Fu Collection: {icon: nunchaku, background: "#2a0e0e", accent: "#ffcc33"}
+  Erotic Thriller Collection: {icon: lips-dagger, background: "#2a0b16", accent: "#ff4f7b"}
+  Psychological Thriller Collection: {icon: cracked-mirror, background: "#161a22", accent: "#c9d1e0"}
+  Creature Feature Collection: {icon: claw-marks, background: "#10221a", accent: "#8ee07a"}
+  Racing Collection: {icon: chequered-flag, background: "#1a1a1a", accent: "#f2f2f2"}
+  Under 90 Minutes: {icon: dial-under-90, label: Library, background: "#13202e", accent: "#6fc3ff"}
+  Tight 90: {icon: dial-tight-90, label: Library, background: "#20142a", accent: "#c39bff"}
+  Started Movies: {icon: progress-play, label: Library, background: "#10241f", accent: "#4fe0b0"}
+  Rewatch Favorites: {icon: replay-heart, label: Library, background: "#2a1218", accent: "#ff7a90"}
+
+  # Hypnosis and mind control.
+  Hypnosis Collection: {icon: pocket-watch-swing, background: "#1d1433", accent: "#c79bff"}
+  Mind Control Collection: {icon: marionette-head, background: "#0f2228", accent: "#6fe3d0"}
+
+  # Holidays, cult, remakes, possession, military, plays and dark comedy.
+  Valentine's Day Collection: {icon: heart-padlock, background: "#3a0d1e", accent: "#ff6b8a"}
+  Thanksgiving Collection: {icon: turkey-fan, background: "#2b1a0c", accent: "#f0a04b"}
+  New Year's Collection: {icon: champagne-bottle-pop, background: "#121630", accent: "#f5d06b"}
+  Independence Day Collection: {icon: fireworks-burst, background: "#0f1a33", accent: "#ff5a5f"}
+  Cult Classics: {icon: midnight-ticket, background: "#1f1030", accent: "#b47cff"}
+  Remakes: {icon: film-frames-remake, background: "#102a2a", accent: "#6fe3c8"}
+  Possession Collection: {icon: inverted-cross, background: "#1a1414", accent: "#d8c7a0"}
+  Military Collection: {icon: dog-tags, background: "#1c2416", accent: "#b8c48a"}
+  Based on a Play Collection: {icon: proscenium-curtains, background: "#2a0d10", accent: "#e8b04a"}
+  Dark Comedy Collection: {icon: comedy-mask-crack, background: "#141a1a", accent: "#9be07a"}
+
+  # TV.
+  Miniseries: {icon: tv-miniseries, label: TV, background: "#1b2236", accent: "#8fb8ff"}
+  Sitcoms: {icon: tv-sitcom-couch, label: TV, background: "#2b1f12", accent: "#ffc65a"}
+  Anime Series: {icon: tv-anime-sparkle, label: TV, background: "#2a1233", accent: "#ff7ad9"}
+  Ended Shows: {icon: tv-the-end, label: TV, background: "#1c1c1f", accent: "#d6d6dc"}
+  Running Shows: {icon: tv-on-air, label: TV, background: "#0f2620", accent: "#5ee6a8"}
+
+  # Weddings and holidays.
+  Weddings: {icon: wedding-rings, background: "#2a1e24", accent: "#f0d6a8"}
+  Holidays: {icon: gift-box, background: "#14283a", accent: "#ff6f6f"}
+
+  # Franchises and studios: their own logos (see logos/SOURCES.md).
+  Star Wars: {logo: starwars, icon: none, label: Franchise, background: "#0a0a12", accent: "#ffe81f"}
+  Star Trek: {logo: startrek, logo_tint: false, logo_box: [80, 280, 840, 340], icon: none, label: Franchise, background: "#0d1a33", accent: "#f4d03f"}
+  Stargate: {logo: stargate, logo_box: [60, 300, 880, 300], icon: none, label: Franchise, background: "#0f1c24", accent: "#9ad7ff"}
+  Godzilla: {logo: godzilla, logo_tint: false, icon: none, label: Franchise, background: "#1a0a0a", accent: "#ff4b2b"}
+  Universal Monsters: {logo: universal-monsters, icon: none, label: Franchise, background: "#141414", accent: "#c9d4a4"}
+  Disney: {logo: disney, icon: none, label: Studio, background: "#0b1e4a", accent: "#d7e6ff"}
+  DreamWorks: {logo: dreamworks, icon: none, label: Studio, background: "#0e2142", accent: "#9ec9ff"}
+  Amblin: {logo: amblin, icon: none, label: Studio, background: "#101525", accent: "#f2f2f2"}
+  Shaw Brothers: {logo: shaw-brothers, logo_tint: false, icon: none, label: Studio, background: "#1c1308", accent: "#f0a830"}
+  Cannon Films: {logo: cannon, icon: none, label: Studio, background: "#1a1a1a", accent: "#e8e8e8"}
+
+  # Horror and comedy themes, Reality TV and Docuseries.
+  Haunted House Collection: {icon: haunted-house, background: "#1a1626", accent: "#ffb347"}
+  Survival Horror Collection: {icon: barricaded-door, background: "#121212", accent: "#e8e2c0"}
+  Alien Invasion Collection: {icon: saucer-invasion, background: "#0d1626", accent: "#5ce1ff"}
+  Feel-Good Movies: {icon: hot-air-balloon, background: "#2a1f10", accent: "#ffc857"}
+  Tearjerkers: {icon: eye-tear, background: "#142030", accent: "#8ec5ff"}
+  Stoner Comedy Collection: {icon: cannabis-leaf, background: "#0f2614", accent: "#5fd35a"}
+  Slapstick Collection: {icon: cream-pie, background: "#2a2410", accent: "#ffe14d"}
+  Reality TV: {icon: tv-reality-confessional, label: TV, background: "#2a1416", accent: "#ff5f5f"}
+  Docuseries: {icon: tv-docuseries-nature, label: TV, background: "#102a20", accent: "#7fe0a0"}
+
+  # Film and TV franchises: their own logos, downloaded at build time (logos/sources.yaml).
+  Pokémon: {logo: pokemon, logo_tint: false, icon: none, label: Franchise, background: "#13306b", accent: "#ffcb05"}
+  Middle-earth: {logo: lotr, logo_tint: false, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#1e1a12", accent: "#d9a73a"}
+  Fast & Furious: {logo: fast-furious, icon: none, label: Franchise, background: "#141414", accent: "#e8e8e8"}
+  X-Men: {logo: xmen, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#101c33", accent: "#ffcc33"}
+  Alien Franchise: {title: ["Alien"], logo: alien-franchise, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#0c1410", accent: "#b8e6c8"}
+  Indiana Jones: {logo: indiana-jones, logo_tint: false, icon: none, label: Franchise, background: "#2b1a0c", accent: "#f2a93b"}
+  The Matrix: {logo: matrix, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#05140a", accent: "#3bff6b"}
+  Neon Genesis Evangelion: {logo: evangelion, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#1c0f2e", accent: "#8bd94a"}
+  Resident Evil: {logo: resident-evil, logo_box: [60, 240, 880, 420], icon: none, label: Franchise, background: "#120707", accent: "#f2f2f2", backdrop_logo: umbrella, backdrop_tint: false, backdrop_opacity: 0.45, backdrop_box: [100, 60, 800, 800]}
+  Pirates of the Caribbean: {logo: pirates-caribbean, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#0f1a1f", accent: "#d9c79a"}
+  The Godfather: {logo: godfather, icon: none, label: Franchise, background: "#120c0c", accent: "#e8e2d0"}
+  Back to the Future: {logo: back-to-the-future, logo_tint: false, icon: none, label: Franchise, background: "#101826", accent: "#ff8a1f"}
+  Saw: {logo: saw, logo_tint: false, logo_box: [80, 150, 840, 560], icon: none, label: Franchise, background: "#4a3f2b", accent: "#e6d6a8"}
+  Ghost in the Shell: {logo: ghost-in-the-shell, logo_tint: false, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#0b1a1f", accent: "#7fd6e6"}
+  Dune: {logo: dune, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#2e1d0c", accent: "#e8b46a"}
+  John Wick: {logo: john-wick, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#111317", accent: "#d8d8d8"}
+  Rocky: {logo: rocky, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#2a0c0c", accent: "#f2f2f2"}
+  Jurassic Park: {logo: jurassic-park, logo_tint: false, icon: none, label: Franchise, background: "#13230f", accent: "#ffcc00"}
+  Planet of the Apes: {logo: planet-of-the-apes, icon: none, label: Franchise, background: "#2a2214", accent: "#e8d4a8"}
+  Predator: {logo: predator, logo_tint: false, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#0f1a10", accent: "#ff4a3a"}
+  Terminator: {logo: terminator, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#0d1622", accent: "#7fb8ff"}
+  "Mission: Impossible": {logo: mission-impossible, logo_tint: false, logo_box: [75, 200, 850, 480], icon: none, label: Franchise, background: "#141414", accent: "#ff4040"}
 
 # Extra collections that --preview renders alongside the ones above, to check the defaults on
 # long, short and awkward titles while the template changes.

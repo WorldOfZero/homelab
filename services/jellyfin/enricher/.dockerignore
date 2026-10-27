@@ -2,3 +2,6 @@
 posters/preview/
 **/__pycache__/
 posters/batch-*.yaml
+# Logos are downloaded during the build (posters/fetch_logos.py), never copied from a checkout.
+posters/logos/*
+!posters/logos/sources.yaml

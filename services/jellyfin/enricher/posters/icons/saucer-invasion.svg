@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Alien invasion: a flying saucer over a city skyline, its beam lifting a person off the street. -->
+  <ellipse cx="50" cy="20" rx="30" ry="8"/>
+  <path d="M38 15 C40 5 60 5 62 15"/>
+  <path d="M30 22 L32 22 M44 25 L46 25 M56 25 L58 25 M68 22 L70 22" stroke-opacity="0.7"/>
+  <path d="M40 28 L30 86 M60 28 L70 86" stroke-opacity="0.45"/>
+  <circle cx="50" cy="46" r="3.5"/>
+  <path d="M50 50 L50 62 M50 54 L43 50 M50 54 L57 50 M50 62 L45 70 M50 62 L55 70"/>
+  <path d="M4 86 L4 66 L14 66 L14 58 L24 58 L24 74 L30 74 L30 86 M70 86 L70 72 L78 72 L78 56 L88 56 L88 64 L96 64 L96 86"/>
+  <path d="M4 86 L96 86"/>
+</svg>

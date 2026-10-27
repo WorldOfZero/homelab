@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- TV: a retro set showing three numbered episode tiles and an end bar, a short complete run. -->
+  <rect x="8" y="26" width="84" height="60" rx="6"/>
+  <rect x="15" y="32" width="56" height="48" rx="5"/>
+  <circle cx="81" cy="42" r="4"/>
+  <circle cx="81" cy="56" r="4" stroke-opacity="0.7"/>
+  <path d="M77 67 L85 67 M77 72 L85 72 M77 77 L85 77" stroke-opacity="0.5"/>
+  <path d="M50 26 L38 8 M50 26 L62 8"/>
+  <path d="M20 86 L16 94 M80 86 L84 94"/>
+  <rect x="20" y="47" width="12" height="18" rx="2"/>
+  <path d="M-2 -5 L1 -7 L1 7" transform="translate(26 56) scale(0.85)"/>
+  <rect x="34" y="47" width="12" height="18" rx="2"/>
+  <path d="M-4 -4 C-4 -8 4 -8 4 -4 C4 -1 -4 3 -4 7 L4 7" transform="translate(40 56) scale(0.85)"/>
+  <rect x="48" y="47" width="12" height="18" rx="2"/>
+  <path d="M-4 -6 L4 -6 L0 -1 C5 -1 5 7 0 7 C-2 7 -4 6 -4 5" transform="translate(54 56) scale(0.85)"/>
+  <path d="M62 47 L62 65 M66 47 L66 65"/>
+  <path d="M20 72 L66 72" stroke-opacity="0.45"/>
+
+</svg>

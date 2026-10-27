@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Rewatch favourites: a heart inside a circular replay arrow. -->
+  <path d="M70.0 15.4 A40 40 0 1 1 30.0 15.4"/>
+  <path d="M29.3 27.0 L30.0 15.4 L17.2 13.6"/>
+  <path d="M50 70 C38 60 28 52 28 42 C28 34 34 30 40 30 C45 30 48 33 50 37 C52 33 55 30 60 30 C66 30 72 34 72 42
+           C72 52 62 60 50 70 Z"/>
+</svg>

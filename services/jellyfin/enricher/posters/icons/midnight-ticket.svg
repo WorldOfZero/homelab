@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A midnight-movie ticket: notched stub, perforation, a crescent moon and stars. -->
+  <path d="M8 30 L92 30 L92 44 C86 44 86 56 92 56 L92 70 L8 70 L8 56 C14 56 14 44 8 44 Z"/>
+  <path d="M68 30 L68 70" stroke-dasharray="3 3" stroke-opacity="0.7"/>
+  <path d="M42 38 A13 13 0 1 0 50 61 A10 10 0 1 1 42 38 Z"/>
+  <path d="M58 40 L58 46 M55 43 L61 43" stroke-opacity="0.7"/>
+  <path d="M80 42 L80 58" stroke-opacity="0.6"/>
+  <path d="M20 40 L20 44 M18 42 L22 42" stroke-opacity="0.5"/>
+</svg>

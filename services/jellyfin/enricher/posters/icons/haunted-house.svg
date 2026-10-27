@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A crooked Victorian house with a pointed tower, one lit window and a bat. -->
+  <path d="M8 92 L92 92" stroke-opacity="0.5"/>
+  <path d="M22 92 L22 54 L16 55 L43 30 L68 50 L62 51 L62 92"/>
+  <path d="M62 92 L62 42 L58 42 L69 16 L80 42 L76 42 L76 92"/>
+  <path d="M38 92 L38 77 C38 70 48 70 48 77 L48 92"/>
+  <rect x="28" y="59" width="9" height="11"/>
+  <rect x="50" y="59" width="8" height="11" stroke-opacity="0.6"/>
+  <rect x="66" y="50" width="6" height="10"/>
+  <path d="M69 50 L69 60 M66 55 L72 55" stroke-opacity="0.8"/>
+  <path d="M60 47 L56 45 M80 47 L84 45 M60 63 L56 65 M80 63 L84 65" stroke-opacity="0.5"/>
+  <path d="M22 22 L20 17 L23 19 L25 19 L28 17 L26 22 C30 18 36 16 40 20 C36 21 35 25 32 24 C30 27 27 26 25 29 C23 26 20 27 18 24 C15 25 14 21 10 20 C14 16 20 18 22 22 Z"/>
+</svg>

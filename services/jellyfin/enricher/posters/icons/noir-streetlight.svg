@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A man in a fedora and belted trench coat, collar up and face in shadow, under a streetlight, with venetian-blind shadows. -->
+  <path d="M8 30 L44 20 M8 39 L44 29 M8 48 L44 38 M8 57 L44 47 M8 66 L44 56 M8 75 L44 65" stroke-opacity="0.28"/>
+  <path d="M86 94 L86 14 C86 8 74 8 72 14"/>
+  <path d="M66 14 L78 14 L75 20 L69 20 Z"/>
+  <path d="M71 22 L62 52" stroke-opacity="0.35"/>
+  <path d="M30 27 L62 27 M36 27 C36 17 56 17 56 27"/>
+  <path d="M38 28 L38 36 M54 28 L54 36" stroke-opacity="0.6"/>
+  <path d="M30 92 L32 50 C32 41 37 37 46 36 C55 37 60 41 60 50 L62 92 Z"/>
+  <path d="M39 37 L46 49 L53 37" />
+  <path d="M32 64 L60 64" stroke-opacity="0.6"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A champagne coupe with rising bubbles under an art-deco sunburst. -->
+  <path d="M40.6 24.6 L25.6 19.1 M42.3 21.6 L30.1 11.3 M45.0 19.3 L37.0 5.5 M48.3 18.2 L45.5 2.4 M51.7 18.2 L54.5 2.4 M55.0 19.3 L63.0 5.5 M57.7 21.6 L69.9 11.3 M59.4 24.6 L74.4 19.1" stroke-opacity="0.4"/>
+  <path d="M20 32 L80 32 C78 46 66 54 50 54 C34 54 22 46 20 32 Z"/>
+  <path d="M26 38 L74 38" stroke-opacity="0.5"/>
+  <path d="M50 54 L50 82"/>
+  <path d="M34 88 C40 82 60 82 66 88 Z"/>
+  <circle cx="44" cy="44" r="1.8" stroke-opacity="0.7"/><circle cx="56" cy="42" r="1.8" stroke-opacity="0.7"/>
+  <circle cx="50" cy="47" r="1.5" stroke-opacity="0.7"/>
+</svg>

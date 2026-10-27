@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A cowboy hat with a pinched crown, a band and an upturned brim. -->
+  <path d="M32 54 C30 38 35 24 42 24 C46 24 47 29 50 29 C53 29 54 24 58 24 C65 24 70 38 68 54"/>
+  <path d="M33 48 C44 51 56 51 67 48" stroke-opacity="0.6"/>
+  <path d="M6 48 C12 58 30 62 50 62 C70 62 88 58 94 48 C92 62 80 72 50 72 C20 72 8 62 6 48 Z"/>
+  <path d="M50 30 L50 44" stroke-opacity="0.4"/>
+</svg>

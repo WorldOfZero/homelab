@@ -39,6 +39,7 @@ class Fake:
         self.refreshed = []    # item ids refreshed
         self.refresh_errors = set()  # item ids whose refresh answers 500
         self.collections_dir = None  # local stand-in for Jellyfin's /config/data/collections
+        self.user_filters = {}  # (user id, IsResumable/IsFavorite) -> item ids
         self.not_ready = 0     # answer /health with 503 this many more times
 
     def add(self, item_id, name, imdb=None, item_type="Movie", tags=None, **extra):
@@ -94,11 +95,17 @@ def make_handler(fake):
                             fake.on_task_done()
                 return self._send(200, {k: v for k, v in task.items() if k != "polls"})
             if u.path == "/jf/Items":
+                types = q["IncludeItemTypes"].split(",")
+                if "Filters" in q:  # per user, like Jellyfin's IsResumable and IsFavorite
+                    ids = fake.user_filters.get((q["userId"], q["Filters"]), set())
+                    found = [i for i in fake.items.values() if i["Id"] in ids and i["Type"] in types]
+                    return self._send(200, {"Items": copy.deepcopy(found), "TotalRecordCount": len(found)})
                 if q.get("userId") != "u-admin":  # Jellyfin 12 returns mostly collections without a user
                     return self._send(200, {"Items": [], "TotalRecordCount": 0})
-                types = q["IncludeItemTypes"].split(",")
                 allitems = [i for i in fake.items.values() if i["Type"] in types]
-                start, limit = int(q["StartIndex"]), int(q["Limit"])
+                if "Tags" in q:
+                    allitems = [i for i in allitems if q["Tags"].casefold() in {t.casefold() for t in i["Tags"]}]
+                start, limit = int(q.get("StartIndex", 0)), int(q.get("Limit", 100000))
                 return self._send(200, {"Items": copy.deepcopy(allitems[start:start + limit]),
                                         "TotalRecordCount": len(allitems)})
             if u.path.startswith("/jf/Items/") and u.path.endswith("/Images"):
@@ -239,6 +246,41 @@ class EnricherTest(unittest.TestCase):
         self.assertEqual(stats["items"], 1204)
         self.assertEqual(stats["no_imdb"], 1203)
         self.assertEqual(self.fake.items["x"]["Tags"], ["heist"])
+
+    def test_user_state_tags_follow_what_users_do(self):
+        self.fake.add("m1", "Heat", tags=["heist"])
+        self.fake.add("m2", "Alien")
+        self.fake.add("m3", "Jaws", tags=["In Progress", "shark"])  # finished since: the tag goes
+        self.fake.add("s1", "Lost", item_type="Series")
+        self.fake.user_filters = {("u-user", "IsResumable"): {"m1", "s1"}, ("u-admin", "IsResumable"): {"m2"},
+                                  ("u-user", "IsFavorite"): {"m2"}}
+        settings = {"item_types": ["Movie"], "tags": {"in_progress": "in progress", "favourite": "favourite"}}
+        jf = enricher.Jellyfin(f"{self.base}/jf", "key")
+        self.assertEqual(enricher.sync_user_state_tags(settings, jf, dry_run=True), 4)
+        self.assertEqual(self.fake.posts, [])
+        self.assertEqual(enricher.sync_user_state_tags(settings, jf, dry_run=False), 4)
+        self.assertEqual(self.fake.items["m1"]["Tags"], ["heist", "in progress"])
+        self.assertEqual(self.fake.items["m2"]["Tags"], ["in progress", "favourite"])
+        self.assertEqual(self.fake.items["m3"]["Tags"], ["shark"])
+        self.assertEqual(self.fake.items["s1"]["Tags"], [])  # only movies
+        self.assertEqual(self.fake.items["m1"]["Overview"], "about Heat")  # full DTO sent back
+        self.assertEqual(enricher.sync_user_state_tags(settings, jf, dry_run=False), 0)
+
+    def test_series_status_tags_follow_the_status(self):
+        self.fake.add("s1", "Seinfeld", item_type="Series", Status="Ended", tags=["sitcom"])
+        self.fake.add("s2", "Severance", item_type="Series", Status="Continuing", tags=["Ended"])  # renewed
+        self.fake.add("s3", "Unknown", item_type="Series", tags=["continuing"])  # no status any more
+        self.fake.add("m1", "Heat", Status="Ended")  # not a show
+        mapping = {"Ended": "ended", "Continuing": "continuing"}
+        jf = enricher.Jellyfin(f"{self.base}/jf", "key")
+        self.assertEqual(enricher.sync_series_status_tags(mapping, jf, dry_run=True), 3)
+        self.assertEqual(self.fake.posts, [])
+        self.assertEqual(enricher.sync_series_status_tags(mapping, jf, dry_run=False), 3)
+        self.assertEqual(self.fake.items["s1"]["Tags"], ["sitcom", "ended"])
+        self.assertEqual(self.fake.items["s2"]["Tags"], ["continuing"])
+        self.assertEqual(self.fake.items["s3"]["Tags"], [])
+        self.assertEqual(self.fake.items["m1"]["Tags"], [])
+        self.assertEqual(enricher.sync_series_status_tags(mapping, jf, dry_run=False), 0)
 
     def test_lookup_budget(self):
         for i in range(5):
@@ -534,6 +576,49 @@ class EnricherTest(unittest.TestCase):
         vicky_cristina_barcelona = {"polyamorous relationship": (3, 3), "polyamory": (3, 4), "bisexual": (1, 3)}
         self.assertEqual(tags(vicky_cristina_barcelona), {"polyamory"})  # bisexual voted down
         self.assertEqual(tags({"menage a trois": (0, 0), "open marriage": (2, 2)}), set())
+        # Themes added 2026-10-27, on excerpts of real keyword data.
+        self.assertIn("car chase", tags({"car chase": (5, 5), "police chase": (1, 1)}))  # Bullitt
+        self.assertNotIn("car chase", tags({"car chase": (0, 0), "treasure hunt": (4, 4)}))  # National Treasure
+        self.assertNotIn("racing", tags({"racing": (0, 0), "based on real person": (3, 3)}))  # The Social Network
+        self.assertIn("racing", tags({"car racing": (0, 0), "stock car racing": (0, 0)}))  # Days of Thunder
+        self.assertNotIn("musical", tags({"jazz concert": (3, 3), "concert": (2, 2), "singing": (1, 1)}))  # Whiplash
+        self.assertIn("musical", tags({"pop musical": (0, 0), "singing": (1, 1)}))  # La La Land
+        self.assertIn("film noir", tags({"neo noir": (12, 13), "vigilante": (8, 8)}))  # Taxi Driver
+        self.assertNotIn("film noir", tags({"neo noir": (1, 1), "car chase": (1, 1)}))  # Baby Driver
+        self.assertIn("black and white", tags({"black and white movie": (0, 0)}))  # Raging Bull
+        self.assertNotIn("black and white", tags({"some scenes in black and white": (0, 1),
+                                                  "color remake of black and white film": (2, 3)}))  # Airplane!
+        get_out = {"hypnosis": (13, 13), "brainwashing": (3, 3), "manipulation": (4, 4)}
+        self.assertTrue({"hypnosis", "mind control"} <= tags(get_out))
+        x2 = {"mind control": (1, 1), "hypnotized woman": (0, 0), "telepathy": (1, 1)}
+        self.assertIn("mind control", tags(x2))
+        self.assertNotIn("hypnosis", tags(x2))  # hypnotized in one scene
+        # Horror and comedy themes, 2026-10-27.
+        self.assertIn("alien invasion", tags({"alien invasion": (3, 4)}))  # Signs
+        self.assertNotIn("alien invasion", tags({"alien invasion sci fi": (0, 0), "survival horror": (16, 16)}))  # Alien
+        self.assertIn("stoner comedy", tags({"stoner comedy": (5, 5), "stoner": (3, 3)}))  # Harold & Kumar
+        self.assertNotIn("stoner comedy", tags({"stoner": (1, 1), "alien invasion": (1, 1)}))  # Attack the Block
+        self.assertIn("slapstick", tags({"slapstick comedy": (7, 7)}))  # Home Alone
+        # Weddings, 2026-10-27: the wedding films match, a wedding scene does not.
+        self.assertIn("wedding", tags({"bridesmaid": (3, 3), "wedding": (0, 0)}))  # Bridesmaids
+        self.assertIn("wedding", tags({"objection at a wedding": (3, 3), "wedding": (5, 5)}))  # Four Weddings
+        self.assertNotIn("wedding", tags({"wedding": (8, 8), "wedding reception": (3, 4)}))  # The Godfather
+        self.assertNotIn("wedding", tags({"objection at a wedding": (0, 0), "canceled wedding": (1, 1)}))  # Shrek
+        # Holidays and more, 2026-10-27.
+        self.assertIn("new year's", tags({"new year's eve": (3, 3), "new year's eve party": (2, 2)}))  # Poseidon Adventure
+        self.assertNotIn("new year's", tags({"new year's eve": (0, 0), "new year's eve party": (0, 0)}))
+        self.assertIn("cult classic", tags({"cult film": (6, 6)}))  # The Big Lebowski
+        self.assertNotIn("cult classic", tags({"cult film": (1, 2)}))  # Top Gun
+        self.assertIn("possession", tags({"exorcism": (14, 14)}))  # The Exorcist
+        self.assertNotIn("possession", tags({"possession": (0, 0), "mind control": (0, 0)}))  # Being John Malkovich
+        self.assertIn("based on a play", tags({"based on play": (0, 0)}))  # Fences
+        self.assertNotIn("dark comedy", tags({"dark comedy": (0, 0), "black comedy": (0, 0)}))  # Airplane!
+
+        def series_tags(keywords):
+            return {t for r in rules if r.matches("Series", keywords) for t in r.add["Tags"]}
+        self.assertIn("sitcom", series_tags({"sitcom comedy": (0, 0)}))  # Seinfeld
+        self.assertNotIn("sitcom", tags({"sitcom comedy": (0, 0)}))  # shows only
+        self.assertIn("miniseries", series_tags({"tv mini series": (4, 6)}))  # Chernobyl
         species = {"lesbian": (3, 6), "body horror": (0, 0), "hitman": (2, 2)}  # 2026-10-27
         self.assertEqual(tags(species), {"body horror", "assassin"})  # an even split is not enough for lesbian
         self.assertIn("lesbian", tags({"lesbian": (4, 6)}))

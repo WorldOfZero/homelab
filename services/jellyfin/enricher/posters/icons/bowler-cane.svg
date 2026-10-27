@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A silent-era tramp's bowler hat, with a walking cane leaning beside it. -->
+  <path d="M18 56 C18 34 27 24 40 24 C53 24 62 34 62 56"/>
+  <path d="M4 60 C14 53 66 53 76 60 C66 67 14 67 4 60 Z"/>
+  <path d="M18 51 C30 54 50 54 62 51" stroke-opacity="0.6"/>
+  <path d="M74 94 L84 40 C85 32 94 32 95 39"/>
+</svg>

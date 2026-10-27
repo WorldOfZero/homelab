@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Thailand: red, white, blue (double width), white and red bands in the upper 700px of the poster, clear of the label; the lower red band runs on under the title. -->
+  <rect width="1000" height="116.7" fill="#a51931"/>
+  <rect y="116.7" width="1000" height="117.2" fill="#f4f5f8"/>
+  <rect y="233.3" width="1000" height="233.8" fill="#2d2a4a"/>
+  <rect y="466.7" width="1000" height="117.2" fill="#f4f5f8"/>
+  <rect y="583.3" width="1000" height="916.7" fill="#a51931"/>
+</svg>

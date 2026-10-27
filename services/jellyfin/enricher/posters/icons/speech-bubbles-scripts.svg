@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Two overlapping speech bubbles, one holding a Latin "A" and the other the Chinese character
+       文 ("language, writing"), for films in other languages. -->
+  <path d="M8 14 L56 14 Q62 14 62 20 L62 50 Q62 56 56 56 L28 56 L16 68 L18 56 L14 56 Q8 56 8 50 L8 20 Q8 14 14 14 Z"/>
+  <path d="M24 46 L35 22 L46 46 M28 38 L42 38"/>
+  <path d="M44 44 L86 44 Q92 44 92 50 L92 80 Q92 86 86 86 L82 86 L84 96 L72 86 L50 86 Q44 86 44 80 L44 50 Q44 44 50 44 Z"
+        stroke-opacity="0.85"/>
+  <path d="M68 50 L68 54 M56 57 L80 57 M60 62 C64 72 72 78 80 80 M76 62 C72 72 64 78 56 80" stroke-opacity="0.85"/>
+</svg>

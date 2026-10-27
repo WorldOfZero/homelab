@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An erotic thriller: full parted lips above a stiletto dagger lying beneath them. -->
+  <path d="M12 38 C21 24 34 22 42 28 C46 25 54 25 58 28 C66 22 79 24 88 38 C79 56 62 62 50 62 C38 62 21 56 12 38 Z"/>
+  <path d="M12 38 C30 42 70 42 88 38" stroke-opacity="0.75"/>
+  <path d="M8 80 L18 76 L60 76 L60 84 L18 84 Z"/>
+  <path d="M60 70 L60 90 M60 80 L64 80"/>
+  <rect x="64" y="76" width="26" height="8" rx="3"/>
+  <path d="M18 80 L56 80" stroke-opacity="0.5"/>
+</svg>

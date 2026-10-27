@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- TV: a retro set showing a closing END card. -->
+  <rect x="8" y="26" width="84" height="60" rx="6"/>
+  <rect x="15" y="32" width="56" height="48" rx="5"/>
+  <circle cx="81" cy="42" r="4"/>
+  <circle cx="81" cy="56" r="4" stroke-opacity="0.7"/>
+  <path d="M77 67 L85 67 M77 72 L85 72 M77 77 L85 77" stroke-opacity="0.5"/>
+  <path d="M50 26 L38 8 M50 26 L62 8"/>
+  <path d="M20 86 L16 94 M80 86 L84 94"/>
+  <path d="M21 47 L21 63 M21 47 L30 47 M21 55 L28 55 M21 63 L30 63"/>
+  <path d="M35 63 L35 47 L45 63 L45 47"/>
+  <path d="M50 47 L50 63 L55 63 C61 63 63 59 63 55 C63 51 61 47 55 47 Z"/>
+  <path d="M21 70 L63 70" stroke-opacity="0.45"/>
+
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Possession: an inverted crucifix, cracked through, with a faint glow of rays around it. -->
+  <path d="M45 6 L55 6 L55 62 L72 62 L72 72 L55 72 L55 94 L45 94 L45 72 L28 72 L28 62 L45 62 Z"/>
+  <path d="M50 18 L47 28 L52 36 L48 46 M55 67 L60 64 L64 68" stroke-opacity="0.8"/>
+  <path d="M30 22 L22 16 M70 22 L78 16 M26 44 L16 44 M74 44 L84 44 M32 86 L24 92 M68 86 L76 92" stroke-opacity="0.4"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Mexico: green, white and red vertical bands with the coat of arms in the white band, raised
+       above the title. The coat of arms is mexico-coat-of-arms.svg, the public-domain
+       https://commons.wikimedia.org/wiki/File:Coat_of_arms_of_Mexico.svg (downloaded 2026-10-27). -->
+  <rect width="334" height="1500" fill="#006847"/>
+  <rect x="333" width="334" height="1500" fill="#ffffff"/>
+  <rect x="666" width="334" height="1500" fill="#ce1126"/>
+  <image href="mexico-coat-of-arms.svg" x="350.0" y="334.0" width="300" height="271.9"/>
+</svg>

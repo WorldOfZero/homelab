@@ -131,11 +131,27 @@ sudo install -d -o 1000 -g 1000 /mnt/Fast/Configuration/jellyfin/enricher
 
 Run it by hand: `sudo docker exec jellyfin-enricher python /app/enricher.py --once [--dry-run]`.
 
+## Playback and status tags (`user_state_tags`, `series_status_tags`)
+
+Collection rules can't see who has started or favourited a film, so the enricher keeps two tags in
+step with Jellyfin's playback data on every run:
+
+- `in progress`: a movie any user has started and not finished (Started Movies).
+- `favourite`: a movie any user has marked as a favourite (Rewatch Favorites).
+
+Show status works the same way (`series_status_tags`): each show gets `ended` or `continuing` from
+its status in Jellyfin, for the Ended Shows and Running Shows collections, and the tag changes when
+the status does.
+
+These are the only tags the enricher removes: when a movie is finished or unfavourited, or a show's
+status changes, the next run takes the old tag off. They can be up to a day behind, since the
+enricher runs nightly.
+
 ## Caveats
 
 - Added tags aren't locked. A "Replace all metadata" refresh in Jellyfin resets an item's tags to
   TMDb's, and the next nightly run adds them back.
-- Removing a rule doesn't remove tags it already added.
+- Removing a rule doesn't remove tags it already added (the playback tags are the exception).
 - Both keyword sources are unofficial. If both fail for a title, it isn't cached and is retried
   the next night. A broken source shows up as `keyword source … failed` warnings in the log.
 

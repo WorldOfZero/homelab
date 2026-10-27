@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Tearjerkers: an eye with lashes, a tear running from it. -->
+  <path d="M10 44 C24 24 76 24 90 44 C76 62 24 62 10 44 Z"/>
+  <circle cx="50" cy="44" r="12"/>
+  <circle cx="50" cy="44" r="5" stroke-opacity="0.7"/>
+  <path d="M22 32 L18 25 M34 27 L32 19 M50 25 L50 17 M66 27 L68 19 M78 32 L82 25" stroke-opacity="0.7"/>
+  <path d="M60 62 C55 70 54 76 60 79 C66 76 65 70 60 62 Z"/>
+  <path d="M60 86 L60 90" stroke-opacity="0.4"/>
+</svg>

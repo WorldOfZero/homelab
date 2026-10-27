@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Taiwan: red with the blue canton and its white sun of twelve triangular rays, a blue ring and a white disc. -->
+  <rect width="1000" height="1500" fill="#fe0000"/>
+  <rect width="500" height="420" fill="#000095"/>
+  <path d="M250.0 60.0 L271.2 130.8 L325.0 80.1 L308.0 152.0 L379.9 135.0 L329.2 188.8 L400.0 210.0 L329.2 231.2 L379.9 285.0 L308.0 268.0 L325.0 339.9 L271.2 289.2 L250.0 360.0 L228.8 289.2 L175.0 339.9 L192.0 268.0 L120.1 285.0 L170.8 231.2 L100.0 210.0 L170.8 188.8 L120.1 135.0 L192.0 152.0 L175.0 80.1 L228.8 130.8 Z" fill="#ffffff"/>
+  <circle cx="250.0" cy="210.0" r="80" fill="#000095"/>
+  <circle cx="250.0" cy="210.0" r="70" fill="#ffffff"/>
+</svg>

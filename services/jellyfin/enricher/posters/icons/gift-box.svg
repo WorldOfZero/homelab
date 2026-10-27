@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Holidays: a wrapped gift with a ribbon and bow, and sparkles around it. -->
+  <rect x="20" y="44" width="60" height="44" rx="2"/>
+  <rect x="14" y="32" width="72" height="12" rx="2"/>
+  <path d="M50 32 L50 88"/>
+  <path d="M50 32 C40 18 26 20 30 28 C33 33 44 32 50 32 C56 32 67 33 70 28 C74 20 60 18 50 32 Z"/>
+  <path d="M20 62 L80 62" stroke-opacity="0.4"/>
+  <path d="M14 14 L14 22 M10 18 L18 18 M86 10 L86 16 M83 13 L89 13 M88 50 L88 55 M85.5 52.5 L90.5 52.5" stroke-opacity="0.6"/>
+</svg>
