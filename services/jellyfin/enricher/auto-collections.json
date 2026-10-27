@@ -115,7 +115,7 @@
     },
     {
       "CollectionName": "Romcom Collection",
-      "Expression": "TAG \"romcom\"",
+      "Expression": "TAG \"romcom\" OR (GENRE \"Romance\" AND GENRE \"Comedy\")",
       "CaseSensitive": false,
       "SortBy": 2,
       "SortOrder": 0
