@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 2000s: an open flip phone: screen, hinge, navigation key and keypad. -->
+  <rect x="31" y="4" width="38" height="40" rx="6"/>
+  <rect x="37" y="10" width="26" height="24" rx="2" stroke-opacity="0.6"/>
+  <rect x="33" y="44" width="34" height="6" rx="3"/>
+  <path d="M31 51 L69 51 L67 92 Q67 96 63 96 L37 96 Q33 96 33 92 Z"/>
+  <circle cx="50" cy="59" r="3.5"/>
+  <g stroke-opacity="0.7"><circle cx="41" cy="69" r="2"/><circle cx="50" cy="69" r="2"/><circle cx="59" cy="69" r="2"/>
+    <circle cx="41" cy="77" r="2"/><circle cx="50" cy="77" r="2"/><circle cx="59" cy="77" r="2"/>
+    <circle cx="41" cy="85" r="2"/><circle cx="50" cy="85" r="2"/><circle cx="59" cy="85" r="2"/></g>
+</svg>

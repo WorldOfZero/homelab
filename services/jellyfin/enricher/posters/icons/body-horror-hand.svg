@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An open hand with an eye in its palm and stitches across the wrist. -->
+  <path d="M34 90 L34 70 C30 66 22 58 18 52 C16 48 19 44 23 47 L32 55 L32 26 C32 22 38 22 38 26 L38 46 L40 46
+           L40 18 C40 14 46 14 46 18 L46 46 L48 46 L48 20 C48 16 54 16 54 20 L54 48 L56 48 L56 30 C56 26 62 26 62 30
+           L62 66 C62 72 60 76 58 78 L58 90"/>
+  <path d="M36 60 C40 52 52 52 56 60 C52 68 40 68 36 60 Z"/>
+  <circle cx="46" cy="60" r="4"/>
+  <path d="M34 84 L58 84 M38 81 L38 87 M44 81 L44 87 M50 81 L50 87 M56 81 L56 87" stroke-opacity="0.6"/>
+  <path d="M42 30 L44 36 L41 40" stroke-opacity="0.45"/>
+</svg>

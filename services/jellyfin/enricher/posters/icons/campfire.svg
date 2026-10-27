@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A campfire: flames over crossed logs, sparks rising. -->
+  <path d="M50 14 C58 28 72 36 70 54 C69 66 60 72 50 72 C40 72 31 66 30 54 C29 44 36 38 40 30 C42 38 46 40 48 40 C48 30 46 22 50 14 Z"/>
+  <path d="M50 44 C55 50 58 54 57 60 C56 66 53 68 50 68 C47 68 44 66 43 60 C43 54 46 52 50 44 Z" stroke-opacity="0.6"/>
+  <path d="M18 72 L82 90 M18 90 L82 72"/>
+  <path d="M28 10 L28 14 M72 8 L72 12 M80 22 L80 25" stroke-opacity="0.55"/>
+</svg>

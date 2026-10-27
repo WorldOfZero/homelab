@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Martial arts: a black belt tied around the waist, seen from slightly above: the loop of the belt,
+       the square knot at the front, and the two tails hanging down with their rank stripes. -->
+  <path d="M6 36 C6 26 94 26 94 36 C94 46 6 46 6 36 Z" stroke-opacity="0.55"/>
+  <path d="M6 36 L6 46 C6 56 38 58 40 58 M94 36 L94 46 C94 56 62 58 60 58"/>
+  <path d="M38 44 L62 44 L60 64 L40 64 Z"/>
+  <path d="M40 54 L60 54" stroke-opacity="0.4"/>
+  <path d="M43 64 L33 94 L44 96 L50 68 L56 96 L67 94 L57 64"/>
+  <path d="M35 87 L45 89 M65 87 L55 89" stroke-opacity="0.6"/>
+</svg>

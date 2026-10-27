@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 1990s: a classic handheld console: screen, D-pad, A and B buttons and speaker grille. -->
+  <path d="M25 6 L75 6 Q79 6 79 10 L79 80 Q79 94 65 94 L25 94 Q21 94 21 90 L21 10 Q21 6 25 6 Z"/>
+  <rect x="28" y="13" width="44" height="36" rx="3"/>
+  <rect x="35" y="19" width="30" height="24" stroke-opacity="0.55"/>
+  <path d="M32 62 L36 62 L36 58 L40 58 L40 62 L44 62 L44 66 L40 66 L40 70 L36 70 L36 66 L32 66 Z"/>
+  <circle cx="60" cy="67" r="3.8"/><circle cx="69" cy="61" r="3.8"/>
+  <path d="M40 80 L45 78 M49 80 L54 78" stroke-opacity="0.6"/>
+  <path d="M62 88 L68 82 M66 90 L72 84 M70 91 L75 86" stroke-opacity="0.5"/>
+</svg>

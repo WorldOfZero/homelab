@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Romcom: a heart pierced by Cupid's arrow. -->
+  <path d="M50 84 C26 68 14 54 14 38 C14 26 24 18 34 18 C42 18 48 24 50 30 C52 24 58 18 66 18 C76 18 86 26 86 38 C86 54 74 68 50 84 Z"/>
+  <path d="M8 76 L24 66 M78 34 L93 24"/>
+  <path d="M93 24 L83 24.5 M93 24 L89 33"/>
+  <path d="M8 76 L5 68 M8 76 L0 77 M13 73 L10 65 M13 73 L5 74" stroke-opacity="0.7"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A bribe: an envelope stuffed with banknotes, a dollar sign on the top note. -->
+  <path d="M22 30 L74 22 L78 50 L26 58 Z" stroke-opacity="0.55"/>
+  <path d="M18 36 L72 32 L74 60 L20 64 Z"/>
+  <circle cx="46" cy="48" r="8" stroke-opacity="0.8"/>
+  <path d="M49 44 C47 42 43 43 43 46 C43 49 49 48 49 51 C49 54 45 54 43 52 M46 40 L46 56" stroke-width="1.8"/>
+  <path d="M10 50 L90 50 L90 90 L10 90 Z"/>
+  <path d="M10 50 L50 74 L90 50"/>
+</svg>

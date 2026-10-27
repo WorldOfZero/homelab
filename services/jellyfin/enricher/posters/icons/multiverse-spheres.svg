@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- The multiverse: overlapping globe-like universes receding into the distance. -->
+  <g stroke-opacity="1"><circle cx="40" cy="58" r="30"/><ellipse cx="40" cy="58" rx="30" ry="9.6" stroke-opacity="0.45"/><ellipse cx="40" cy="58" rx="12.0" ry="30" stroke-opacity="0.35"/></g>
+  <g stroke-opacity="0.8"><circle cx="71" cy="37" r="19"/><ellipse cx="71" cy="37" rx="19" ry="6.1" stroke-opacity="0.45"/><ellipse cx="71" cy="37" rx="7.6" ry="19" stroke-opacity="0.35"/></g>
+  <g stroke-opacity="0.6"><circle cx="86" cy="20" r="10"/><ellipse cx="86" cy="20" rx="10" ry="3.2" stroke-opacity="0.45"/><ellipse cx="86" cy="20" rx="4.0" ry="10" stroke-opacity="0.35"/></g>
+  <circle cx="16" cy="18" r="1.6" stroke-opacity="0.6"/><circle cx="90" cy="70" r="1.6" stroke-opacity="0.6"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A tornado: a funnel of stacked swirls narrowing to the ground, debris around it. -->
+  <path d="M10 14 C10 8 90 8 90 14 C90 20 10 20 10 14 Z"/>
+  <path d="M18 30 C24 24 82 24 84 30 C82 36 24 36 18 30" stroke-opacity="0.9"/>
+  <path d="M28 46 C32 41 74 41 74 46 C72 51 34 51 28 46" stroke-opacity="0.85"/>
+  <path d="M38 61 C40 57 64 57 64 61 C62 65 42 65 38 61" stroke-opacity="0.8"/>
+  <path d="M46 74 C47 71 58 71 58 74 C57 77 48 77 46 74" stroke-opacity="0.75"/>
+  <path d="M51 80 C52 84 50 88 52 92"/>
+  <path d="M10 14 C20 38 38 62 47 76 M90 14 C82 38 66 60 58 76" stroke-opacity="0.35"/>
+  <path d="M22 88 L28 86 M76 82 L80 86 M30 70 L32 74" stroke-opacity="0.5"/>
+</svg>

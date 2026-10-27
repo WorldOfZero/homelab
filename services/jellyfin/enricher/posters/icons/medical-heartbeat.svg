@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A medical cross with a heartbeat line running through it. -->
+  <path d="M38 10 L62 10 L62 38 L90 38 L90 62 L62 62 L62 90 L38 90 L38 62 L10 62 L10 38 L38 38 Z"/>
+  <path d="M2 52 L28 52 L34 40 L42 66 L50 28 L58 60 L64 52 L98 52" stroke-opacity="0.75"/>
+</svg>

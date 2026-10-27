@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A slasher's hockey mask: eye holes, rows of breathing holes, chevrons and strap ends. -->
+  <path d="M50 8 C30 8 20 24 20 44 C20 70 34 92 50 92 C66 92 80 70 80 44 C80 24 70 8 50 8 Z"/>
+  <path d="M28 41 C32 34 40 34 45 41 C40 46 32 46 28 41 Z M72 41 C68 34 60 34 55 41 C60 46 68 46 72 41 Z"/>
+  <g stroke-opacity="0.7"><circle cx="44" cy="22" r="1.8"/><circle cx="50" cy="22" r="1.8"/><circle cx="56" cy="22" r="1.8"/><circle cx="40" cy="28" r="1.8"/><circle cx="47" cy="28" r="1.8"/><circle cx="53" cy="28" r="1.8"/><circle cx="60" cy="28" r="1.8"/><circle cx="42" cy="56" r="1.8"/><circle cx="50" cy="56" r="1.8"/><circle cx="58" cy="56" r="1.8"/><circle cx="38" cy="64" r="1.8"/><circle cx="46" cy="64" r="1.8"/><circle cx="54" cy="64" r="1.8"/><circle cx="62" cy="64" r="1.8"/><circle cx="42" cy="72" r="1.8"/><circle cx="50" cy="72" r="1.8"/><circle cx="58" cy="72" r="1.8"/><circle cx="46" cy="80" r="1.8"/><circle cx="54" cy="80" r="1.8"/></g>
+  <path d="M46 13 L54 13 L50 18 Z M25 51 L31 55 L25 59 Z M75 51 L69 55 L75 59 Z" stroke-opacity="0.85"/>
+  <path d="M20 36 L8 32 M80 36 L92 32" stroke-opacity="0.5"/>
+</svg>

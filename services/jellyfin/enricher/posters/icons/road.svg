@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A road running to the horizon, its centre line dashed, under a setting sun between mountains. -->
+  <path d="M4 44 L96 44" stroke-opacity="0.5"/>
+  <path d="M34 44 A16 16 0 0 1 66 44"/>
+  <path d="M50 22 L50 16 M36 28 L32 24 M64 28 L68 24 M30 38 L24 37 M70 38 L76 37" stroke-opacity="0.5"/>
+  <path d="M4 44 L16 32 L26 42 M74 42 L84 32 L96 44" stroke-opacity="0.65"/>
+  <path d="M12 88 L46 44 M88 88 L54 44"/>
+  <path d="M50 86 L50 77 M50 70 L50 63 M50 58 L50 53 M50 50 L50 47"/>
+</svg>

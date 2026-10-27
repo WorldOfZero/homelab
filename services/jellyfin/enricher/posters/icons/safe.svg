@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A safe with its door swung open: the body and opening, a shelf, gold bars inside, and the
+       door in perspective with its dial and handle. -->
+  <rect x="8" y="12" width="64" height="72" rx="3"/>
+  <rect x="15" y="19" width="50" height="58" stroke-opacity="0.6"/>
+  <path d="M15 46 L65 46" stroke-opacity="0.5"/>
+  <path d="M20 77 L23 69 L35 69 L38 77 Z M42 77 L45 69 L57 69 L60 77 Z M31 69 L34 61 L46 61 L49 69 Z"/>
+  <path d="M72 14 L92 6 L92 92 L72 84 Z"/>
+  <ellipse cx="82" cy="40" rx="4.5" ry="9"/>
+  <path d="M82 36 L82 40" stroke-opacity="0.7"/>
+  <path d="M82 58 L82 70"/>
+  <path d="M14 84 L14 92 M66 84 L66 92"/>
+  <path d="M28 30 L28 36 M25 33 L31 33 M50 27 L50 31 M48 29 L52 29" stroke-opacity="0.6"/>
+</svg>

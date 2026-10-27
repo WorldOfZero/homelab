@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Virtual reality: a VR headset from the front, with its nose cut-out, sensors and strap. -->
+  <path d="M18 34 C24 18 76 18 82 34" stroke-opacity="0.55"/>
+  <path d="M22 34 L78 34 C86 34 90 40 90 47 L90 58 C90 66 86 70 78 70 L61 70 C59 64 55 60 50 60 C45 60 41 64 39 70
+           L22 70 C14 70 10 66 10 58 L10 47 C10 40 14 34 22 34 Z"/>
+  <path d="M10 52 L3 52 M90 52 L97 52" stroke-opacity="0.6"/>
+  <circle cx="24" cy="45" r="2.2" stroke-opacity="0.75"/><circle cx="76" cy="45" r="2.2" stroke-opacity="0.75"/>
+  <path d="M34 42 L48 42" stroke-opacity="0.4"/>
+</svg>

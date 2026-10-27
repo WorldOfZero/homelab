@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 2020s: a laptop on a video call, a grid of four faces. -->
+  <rect x="14" y="15" width="72" height="51" rx="3"/>
+  <path d="M4 72 L96 72 L90 80 L10 80 Z"/>
+  <path d="M42 72 L44 75 L56 75 L58 72" stroke-opacity="0.6"/>
+  <g stroke-opacity="0.75"><rect x="20" y="21" width="29" height="19" rx="2"/><circle cx="34.5" cy="29" r="3.5"/><path d="M27 40 C28 34 41 34 42 40"/><rect x="51" y="21" width="29" height="19" rx="2"/><circle cx="65.5" cy="29" r="3.5"/><path d="M58 40 C59 34 72 34 73 40"/><rect x="20" y="43" width="29" height="19" rx="2"/><circle cx="34.5" cy="51" r="3.5"/><path d="M27 62 C28 56 41 56 42 62"/><rect x="51" y="43" width="29" height="19" rx="2"/><circle cx="65.5" cy="51" r="3.5"/><path d="M58 62 C59 56 72 56 73 62"/></g>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A battered film reel unspooling a strip, with scratches. -->
+  <circle cx="46" cy="42" r="34"/>
+  <circle cx="46" cy="42" r="5"/>
+  <circle cx="46.0" cy="23.0" r="7"/><circle cx="64.1" cy="36.1" r="7"/><circle cx="57.2" cy="57.4" r="7"/><circle cx="34.8" cy="57.4" r="7"/><circle cx="27.9" cy="36.1" r="7"/>
+  <path d="M78 54 C88 64 92 76 86 92 M70 66 C78 74 80 84 76 96"/>
+  <path d="M83 66 L77 70 M86 76 L79 78 M86 86 L79 86" stroke-opacity="0.6"/>
+  <path d="M14 14 L20 30 M70 8 L66 18" stroke-opacity="0.3"/>
+</svg>

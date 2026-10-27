@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 1980s: a cassette tape: label, reel window and the head opening at the bottom. -->
+  <rect x="8" y="22" width="84" height="56" rx="4"/>
+  <rect x="17" y="29" width="66" height="27" rx="2" stroke-opacity="0.6"/>
+  <rect x="29" y="35" width="42" height="14" rx="7"/>
+  <circle cx="37" cy="42" r="3.5"/><circle cx="63" cy="42" r="3.5"/>
+  <path d="M26 78 L30 66 L70 66 L74 78"/>
+  <circle cx="40" cy="72" r="1.6" stroke-opacity="0.6"/><circle cx="60" cy="72" r="1.6" stroke-opacity="0.6"/>
+</svg>

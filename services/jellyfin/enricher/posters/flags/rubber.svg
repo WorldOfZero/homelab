@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Rubber Pride flag (Peter Tolos and Scott Moats, 1994). -->
+  <rect width="1000" height="1500" fill="#000000"/>
+  <polyline points="-40,560 260,400 480,560 720,400 1040,560" fill="none" stroke="#d32011" stroke-width="150" stroke-linejoin="miter"/>
+  <polyline points="-40,560 260,400 480,560 720,400 1040,560" fill="none" stroke="#fcc800" stroke-width="104" stroke-linejoin="miter"/>
+  <polyline points="-40,730 260,570 480,730 720,570 1040,730" fill="none" stroke="#d32011" stroke-width="30" stroke-linejoin="miter"/>
+</svg>

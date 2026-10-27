@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A katana in front of a rising sun: curved blade, round tsuba and a wrapped handle. -->
+  <circle cx="54" cy="44" r="32" stroke-opacity="0.4"/>
+  <path d="M29 71 C48 54 68 34 92 9 C80 38 60 62 38 80 Z"/>
+  <path d="M37 72 C54 56 70 38 87 17" stroke-opacity="0.45"/>
+  <circle cx="31" cy="77" r="6"/>
+  <g transform="translate(28 80) rotate(45)">
+    <rect x="-3.5" y="0" width="7" height="20" rx="1.5"/>
+    <path d="M-3.5 5 L3.5 9 M-3.5 9 L3.5 5 M-3.5 13 L3.5 17 M-3.5 17 L3.5 13" stroke-opacity="0.6"/>
+  </g>
+</svg>

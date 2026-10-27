@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A Second World War M1 helmet in profile: dome, brim, netting and a chinstrap hanging loose on one side. -->
+  <path d="M18 62 C18 36 33 22 50 22 C67 22 82 36 82 62"/>
+  <path d="M8 63 C30 58 70 58 92 63 C90 70 10 70 8 63 Z"/>
+  <path d="M25 48 C36 42 64 42 75 48 M31 34 C42 30 58 30 69 34" stroke-opacity="0.4"/>
+  <path d="M38 24 L30 60 M50 22 L50 59 M62 24 L70 60" stroke-opacity="0.3"/>
+  <path d="M74 68 C76 76 74 82 68 86" stroke-opacity="0.6"/>
+  <rect x="64" y="84" width="6" height="5" rx="1" stroke-opacity="0.6"/>
+</svg>

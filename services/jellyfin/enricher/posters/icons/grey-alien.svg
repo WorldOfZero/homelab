@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A grey alien's head: a wide dome tapering to a narrow chin, with huge slanted eyes. -->
+  <path d="M50 10 C72 10 86 26 84 46 C82 64 64 84 50 90 C36 84 18 64 16 46 C14 26 28 10 50 10 Z"/>
+  <path d="M24 44 C28 34 42 36 46 50 C40 56 28 54 24 44 Z M76 44 C72 34 58 36 54 50 C60 56 72 54 76 44 Z"/>
+  <path d="M48 64 L48 65 M52 64 L52 65" stroke-opacity="0.7"/>
+  <path d="M45 74 L55 74" stroke-opacity="0.7"/>
+</svg>

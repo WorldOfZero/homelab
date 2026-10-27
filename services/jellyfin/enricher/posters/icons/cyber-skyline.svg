@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A cyberpunk skyline: jagged neon towers with lit windows, a spire, and rain. -->
+  <path d="M6 90 L6 50 L16 50 L16 34 L26 34 L26 56 L34 56 L34 18 L40 11 L46 18 L46 60 L54 60 L54 28 L66 28 L66 46
+           L74 46 L74 22 L80 22 L81 8 L82 22 L88 22 L88 52 L94 52 L94 90 Z"/>
+  <path d="M9 56 L13 56 M9 64 L13 64 M9 72 L13 72 M9 80 L13 80 M19 40 L23 40 M19 48 L23 48 M19 56 L23 56 M37 26 L43 26 M37 34 L43 34 M37 42 L43 42 M37 50 L43 50 M37 58 L43 58 M37 66 L43 66 M57 36 L63 36 M57 44 L63 44 M57 52 L63 52 M77 30 L85 30 M77 38 L85 38 M77 46 L85 46 M77 54 L85 54 M77 62 L85 62 M89 58 L91 58 M89 66 L91 66" stroke-opacity="0.6"/>
+  <path d="M14 8 L11 15 M30 14 L27 21 M52 6 L49 13 M62 16 L59 23 M92 10 L89 17 M22 26 L19 33 M70 4 L67 11" stroke-opacity="0.35"/>
+  <path d="M2 90 L98 90" stroke-opacity="0.5"/>
+</svg>

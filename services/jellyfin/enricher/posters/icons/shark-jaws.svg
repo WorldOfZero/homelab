@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A shark lunging face on: the pointed snout and broad head, an eye on each side, nostrils, gill slits, and the
+       wide open mouth with a row of teeth along each jaw. -->
+  <path d="M50 2 C56 2 72 16 84 36 C92 50 91 68 81 81 C73 91 62 96 50 96 C38 96 27 91 19 81 C9 68 8 50 16 36
+           C28 16 44 2 50 2 Z"/>
+  <path d="M8 52 L3 60 M9 60 L4 68 M11 68 L7 75 M92 52 L97 60 M91 60 L96 68 M89 68 L93 75" stroke-opacity="0.55"/>
+  <path d="M18 54 Q50 34 82 54 Q50 104 18 54 Z"/>
+  <path d="M18.0 54.0 L22.0 60.7 L26.0 49.6 M26.0 49.6 L30.0 56.9 L34.0 46.5 M34.0 46.5 L38.0 54.4 L42.0 44.6 M42.0 44.6 L46.0 53.2 L50.0 44.0 M50.0 44.0 L54.0 53.2 L58.0 44.6 M58.0 44.6 L62.0 54.4 L66.0 46.5 M66.0 46.5 L70.0 56.9 L74.0 49.6 M74.0 49.6 L78.0 60.7 L82.0 54.0" stroke-linejoin="miter"/>
+  <path d="M22.0 60.0 L26.0 56.8 L30.0 68.8 M30.0 68.8 L34.0 64.1 L38.0 74.7 M38.0 74.7 L42.0 68.5 L46.0 77.6 M46.0 77.6 L50.0 70.0 L54.0 77.6 M54.0 77.6 L58.0 68.5 L62.0 74.7 M62.0 74.7 L66.0 64.1 L70.0 68.8 M70.0 68.8 L74.0 56.8 L78.0 60.0" stroke-linejoin="miter"/>
+  <path d="M19 33 L27 36 L20 39 Z M81 33 L73 36 L80 39 Z"/>
+  <path d="M42 18 L45 22 M58 18 L55 22" stroke-opacity="0.6"/>
+</svg>

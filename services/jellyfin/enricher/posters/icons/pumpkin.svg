@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A jack-o'-lantern: ribbed pumpkin, curled stem, triangle eyes and nose, a toothy grin. -->
+  <path d="M50 30 C30 24 10 34 10 58 C10 80 28 90 50 88 C72 90 90 80 90 58 C90 34 70 24 50 30 Z"/>
+  <path d="M32 29 C20 42 20 76 32 87 M68 29 C80 42 80 76 68 87" stroke-opacity="0.45"/>
+  <path d="M46 30 L47 19 L54 17 L54 30"/>
+  <path d="M54 19 C62 12 69 19 62 23" stroke-opacity="0.7"/>
+  <path d="M29 51 L37 41 L44 51 Z M56 51 L63 41 L71 51 Z M47 59 L50 55 L53 59 Z"/>
+  <path d="M27 64 L33 67 L38 63 L44 68 L50 64 L56 68 L62 63 L67 67 L73 64 C66 79 34 79 27 64 Z"/>
+</svg>

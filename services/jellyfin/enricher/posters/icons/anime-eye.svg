@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An anime eye: a heavy upper lid with lashes, a tall iris with two highlights, a brow and a sparkle. -->
+  <path d="M24 22 C40 14 60 14 74 20" stroke-opacity="0.5"/>
+  <path d="M10 52 C24 30 62 24 90 40 M90 40 L97 33 M85 35 L90 27"/>
+  <path d="M18 60 C36 72 66 72 82 56" stroke-opacity="0.7"/>
+  <ellipse cx="52" cy="52" rx="15" ry="19"/>
+  <ellipse cx="53" cy="55" rx="7" ry="9" stroke-opacity="0.6"/>
+  <circle cx="46" cy="45" r="4.5"/><circle cx="58" cy="62" r="2"/>
+  <path d="M84 8 L84 20 M78 14 L90 14" stroke-opacity="0.6"/>
+</svg>

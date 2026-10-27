@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Epics: an hourglass with the sand running. -->
+  <path d="M22 8 L78 8 M22 92 L78 92"/>
+  <path d="M30 8 C30 34 46 42 46 50 C46 58 30 66 30 92 M70 8 C70 34 54 42 54 50 C54 58 70 66 70 92"/>
+  <path d="M38 24 L62 24 C58 34 53 40 50 44 C47 40 42 34 38 24 Z" stroke-opacity="0.65"/>
+  <path d="M50 52 L50 78" stroke-opacity="0.5"/>
+  <path d="M35 90 C40 77 60 77 65 90" stroke-opacity="0.75"/>
+</svg>

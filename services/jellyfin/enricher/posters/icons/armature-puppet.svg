@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A stop-motion armature puppet: a ball-jointed wire figure waving, feet on tie-down plates. -->
+  <circle cx="50" cy="15" r="8"/>
+  <path d="M50 24 L50 54 M40 30 L60 30 M40 30 L31 44 L27 58 M60 30 L71 38 L82 28 M44 56 L56 56 M44 56 L40 72 L38 86 M56 56 L60 72 L62 86"/>
+  <circle cx="40" cy="30" r="3.2"/><circle cx="60" cy="30" r="3.2"/><circle cx="31" cy="44" r="3.2"/><circle cx="71" cy="38" r="3.2"/><circle cx="44" cy="56" r="3.2"/><circle cx="56" cy="56" r="3.2"/><circle cx="40" cy="72" r="3.2"/><circle cx="60" cy="72" r="3.2"/>
+  <path d="M30 88 L44 88 M56 88 L70 88"/>
+  <path d="M14 94 L86 94" stroke-opacity="0.4"/>
+</svg>

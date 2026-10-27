@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- The Wilhelm scream as a sound wave: a sharp peak in the middle of a waveform. -->
+  <path d="M8 47 L8 53 M15 45 L15 55 M22 41 L22 59 M29 44 L29 56 M36 36 L36 64 M43 27 L43 73 M50 10 L50 90 M57 27 L57 73 M64 36 L64 64 M71 44 L71 56 M78 41 L78 59 M85 45 L85 55 M92 47 L92 53"/>
+  <path d="M4 50 L96 50" stroke-opacity="0.3"/>
+</svg>

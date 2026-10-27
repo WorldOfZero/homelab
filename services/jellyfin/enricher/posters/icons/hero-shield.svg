@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Superhero: a crest-shaped emblem with an inner border and a lightning bolt. -->
+  <path d="M50 8 L86 20 C86 52 72 76 50 92 C28 76 14 52 14 20 Z"/>
+  <path d="M50 16 L78 25.5 C78 50 67 69 50 82 C33 69 22 50 22 25.5 Z" stroke-opacity="0.45"/>
+  <path d="M57 24 L37 54 L49 54 L43 76 L65 43 L53 43 L59 24 Z"/>
+</svg>

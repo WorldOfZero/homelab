@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Germany: black, red and gold bands, in the upper part of the poster so the gold stays bright; gold runs on under the title. -->
+  <rect width="1000" height="340" fill="#000000"/>
+  <rect y="340" width="1000" height="340" fill="#dd0000"/>
+  <rect y="680" width="1000" height="820" fill="#ffce00"/>
+</svg>

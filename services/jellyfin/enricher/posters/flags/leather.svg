@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Leather Pride flag (Tony DeBlase, 1989): black and blue stripes, a white centre stripe, a red heart in the upper hoist. -->
+  <rect y="0.0" width="1000" height="167.7" fill="#000000"/>
+  <rect y="166.7" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="333.3" width="1000" height="167.7" fill="#000000"/>
+  <rect y="500.0" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="666.7" width="1000" height="167.7" fill="#ffffff"/>
+  <rect y="833.3" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="1000.0" width="1000" height="167.7" fill="#000000"/>
+  <rect y="1166.7" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="1333.3" width="1000" height="167.7" fill="#000000"/>
+  <path transform="translate(70 70) scale(2.6)" d="M50 88 C20 66 4 48 4 30 C4 16 15 6 28 6 C38 6 46 12 50 20 C54 12 62 6 72 6 C85 6 96 16 96 30 C96 48 80 66 50 88 Z" fill="#d0101b"/>
+</svg>

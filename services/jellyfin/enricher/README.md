@@ -75,7 +75,8 @@ To add a theme collection: add a `rules:` entry in `config.yaml` that produces t
 ### Collection images (`collection-images/`)
 
 To give a collection its own primary image, add a file named after it to `collection-images/`,
-for example `Aviation Collection.jpg`, and redeploy. Collections without a file keep whatever
+for example `Aviation Collection.jpg`, and redeploy. `posters/` renders matching posters from a template; see
+`posters/README.md`. Collections without a file keep whatever
 image Jellyfin gives them. On each run (dry runs only log):
 
 1. If the run started the plugin's task, the enricher waits for it to finish, up to

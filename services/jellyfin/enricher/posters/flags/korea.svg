@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- South Korea: the Taegukgi, a red and blue taegeuk with a trigram on each diagonal, at the flag's own angles and raised above the title. -->
+  <rect width="1000" height="1500" fill="#ffffff"/>
+  <g transform="translate(500 430) rotate(33.7)"><circle r="190" fill="#0047a0"/><path d="M-190 0 A190 190 0 0 1 190 0 A95.0 95.0 0 0 0 0 0 A95.0 95.0 0 0 1 -190 0 Z" fill="#cd2e3a"/></g>
+  <g transform="translate(217.1 241.4) rotate(303.7)" fill="#000000"><rect x="-95.0" y="-62.0" width="190" height="30"/><rect x="-95.0" y="-15.0" width="190" height="30"/><rect x="-95.0" y="32.0" width="190" height="30"/></g>
+  <g transform="translate(782.9 241.4) rotate(56.3)" fill="#000000"><rect x="-95.0" y="-62.0" width="85.0" height="30"/><rect x="10.0" y="-62.0" width="85.0" height="30"/><rect x="-95.0" y="-15.0" width="190" height="30"/><rect x="-95.0" y="32.0" width="85.0" height="30"/><rect x="10.0" y="32.0" width="85.0" height="30"/></g>
+  <g transform="translate(217.1 618.6) rotate(236.3)" fill="#000000"><rect x="-95.0" y="-62.0" width="190" height="30"/><rect x="-95.0" y="-15.0" width="85.0" height="30"/><rect x="10.0" y="-15.0" width="85.0" height="30"/><rect x="-95.0" y="32.0" width="190" height="30"/></g>
+  <g transform="translate(782.9 618.6) rotate(123.7)" fill="#000000"><rect x="-95.0" y="-62.0" width="85.0" height="30"/><rect x="10.0" y="-62.0" width="85.0" height="30"/><rect x="-95.0" y="-15.0" width="85.0" height="30"/><rect x="10.0" y="-15.0" width="85.0" height="30"/><rect x="-95.0" y="32.0" width="85.0" height="30"/><rect x="10.0" y="32.0" width="85.0" height="30"/></g>
+</svg>

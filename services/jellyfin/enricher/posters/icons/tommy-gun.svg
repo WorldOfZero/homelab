@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A Tommy gun: wooden stock, receiver, pistol grip, drum magazine, front grip and a finned
+       barrel with its compensator, tilted up slightly. -->
+  <g transform="translate(50 48) scale(1.12) rotate(-10) translate(-50 -50)">
+    <path d="M30 38 L6 41 C4 41 3 43 3 45 L3 54 C3 56 5 57 7 57 L30 51 Z"/>
+    <rect x="30" y="35" width="28" height="16" rx="2"/>
+    <path d="M36 51 L32 68 L41 68 L44 51"/>
+    <path d="M46 51 C46 56 50 58 52 56" stroke-opacity="0.6"/>
+    <circle cx="56" cy="63" r="11"/>
+    <circle cx="56" cy="63" r="4" stroke-opacity="0.6"/>
+    <path d="M58 39 L88 39 L88 47 L58 47"/>
+    <path d="M62 39 L62 47 M66 39 L66 47 M70 39 L70 47 M74 39 L74 47 M78 39 L78 47" stroke-opacity="0.5"/>
+    <rect x="88" y="37" width="8" height="12" rx="1"/>
+    <path d="M74 47 L73 60 L80 60 L80 47"/>
+    <path d="M40 35 L42 31 L46 31 L48 35 M84 39 L85 35 L87 35 L88 39" stroke-opacity="0.7"/>
+  </g>
+</svg>

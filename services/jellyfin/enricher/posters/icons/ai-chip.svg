@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Artificial intelligence: a microchip with pins on every side and a small neural network inside. -->
+  <rect x="26" y="26" width="48" height="48" rx="4"/>
+  <path d="M34 26 L34 17 M34 74 L34 83 M26 34 L17 34 M74 34 L83 34 M42 26 L42 17 M42 74 L42 83 M26 42 L17 42 M74 42 L83 42 M50 26 L50 17 M50 74 L50 83 M26 50 L17 50 M74 50 L83 50 M58 26 L58 17 M58 74 L58 83 M26 58 L17 58 M74 58 L83 58 M66 26 L66 17 M66 74 L66 83 M26 66 L17 66 M74 66 L83 66"/>
+  <path d="M38.9 40.7 L47.1 37.3 M38.8 43.6 L47.2 48.4 M37.7 44.7 L48.3 61.3 M37.7 55.3 L48.3 38.7 M38.8 56.4 L47.2 51.6 M38.9 59.3 L47.1 62.7 M52.9 37.3 L61.1 40.7 M52.8 48.4 L61.2 43.6 M51.7 61.3 L62.3 44.7 M51.7 38.7 L62.3 55.3 M52.8 51.6 L61.2 56.4 M52.9 62.7 L61.1 59.3" stroke-opacity="0.45" stroke-width="1.6"/>
+  <circle cx="36" cy="42" r="3.2"/><circle cx="36" cy="58" r="3.2"/><circle cx="50" cy="36" r="3.2"/><circle cx="50" cy="50" r="3.2"/><circle cx="50" cy="64" r="3.2"/><circle cx="64" cy="42" r="3.2"/><circle cx="64" cy="58" r="3.2"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 1950s: an arched jukebox with a record in its window and a grille below. -->
+  <path d="M24 92 L24 40 C24 18 36 8 50 8 C64 8 76 18 76 40 L76 92 Z"/>
+  <path d="M32 48 L32 40 C32 26 40 18 50 18 C60 18 68 26 68 40 L68 48 Z" stroke-opacity="0.7"/>
+  <path d="M38 48 A12 12 0 0 1 62 48" />
+  <circle cx="50" cy="48" r="2.5"/>
+  <path d="M24 56 L76 56"/>
+  <path d="M37 63 L37 84 M45 63 L45 84 M55 63 L55 84 M63 63 L63 84" stroke-opacity="0.55"/>
+  <path d="M18 92 L82 92"/>
+</svg>

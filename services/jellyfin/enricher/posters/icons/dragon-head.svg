@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A dragon's head in profile: a long snout with a toothed mouth line, a slit eye, swept-back horns and spines down its neck. -->
+  <path d="M8 47 C18 42 28 40 36 36 C42 30 50 29 56 30 C62 31 66 34 68 40 C72 50 78 66 82 92 L62 92 C60 78 56 66 50 60
+           C40 58 24 57 12 54 C8 53 7 50 8 47 Z"/>
+  <path d="M54 31 C62 24 72 16 88 10 C78 20 70 28 64 36 Z"/>
+  <path d="M60 32 C70 28 80 26 94 26 C84 30 74 34 66 38" stroke-opacity="0.55"/>
+  <path d="M10 51 C20 51 30 50 40 52 L44 50"/>
+  <path d="M18 51 L19 54 L20 51 M26 51 L27 54 L28 51" stroke-opacity="0.7"/>
+  <path d="M38 40 C41 37 45 37 47 40 C44 42 41 42 38 40 Z"/>
+  <path d="M13 46 L16 45" stroke-opacity="0.8"/>
+  <path d="M70 44 L80 40 L74 52 M75 58 L86 56 L78 68 M79 74 L90 74 L82 84" stroke-opacity="0.75"/>
+</svg>

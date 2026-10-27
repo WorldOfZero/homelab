@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A terminal window: title bar with buttons, a prompt and cursor, and lines of code. -->
+  <rect x="8" y="16" width="84" height="68" rx="4"/>
+  <path d="M8 28 L92 28"/>
+  <circle cx="16" cy="22" r="2"/><circle cx="23" cy="22" r="2"/><circle cx="30" cy="22" r="2"/>
+  <path d="M18 42 L28 50 L18 58"/>
+  <path d="M34 60 L48 60"/>
+  <path d="M18 70 L44 70 M50 70 L60 70 M60 42 L82 42 M66 50 L82 50" stroke-opacity="0.45"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A magnifying glass over a question mark. -->
+  <circle cx="42" cy="42" r="28"/>
+  <circle cx="42" cy="42" r="22" stroke-opacity="0.35"/>
+  <path d="M62 62 L88 88"/>
+  <path d="M60 60 L66 54 L92 80 L86 86 Z" stroke-opacity="0.6"/>
+  <path d="M34 36 C34 28 50 28 50 36 C50 43 42 43 42 50"/>
+  <circle cx="42" cy="58" r="1.6"/>
+</svg>

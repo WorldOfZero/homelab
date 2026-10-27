@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Shoujo: a rose with leaves, surrounded by sparkles and bubbles. -->
+  <path d="M30 38 C30 26 40 20 50 22 C60 20 70 26 70 38"/>
+  <path d="M30 38 C30 56 40 64 50 64 C60 64 70 56 70 38"/>
+  <path d="M50 27 C40 27 36 37 44 41 C52 45 59 37 53 32" stroke-opacity="0.8"/>
+  <path d="M36 46 C42 52 58 52 64 46" stroke-opacity="0.6"/>
+  <path d="M50 64 L50 92"/>
+  <path d="M50 81 C40 79 34 73 32 66 C40 66 48 70 50 81 Z M50 75 C60 73 66 67 68 60 C60 60 52 64 50 75 Z"/>
+  <path d="M14 18 Q16 24 22 26 Q16 28 14 34 Q12 28 6 26 Q12 24 14 18 Z M85 34 Q86 38 90 39 Q86 40 85 44 Q84 40 80 39 Q84 38 85 34 Z" stroke-opacity="0.75"/>
+  <circle cx="18" cy="62" r="2.5" stroke-opacity="0.5"/><circle cx="84" cy="70" r="3" stroke-opacity="0.5"/><circle cx="80" cy="14" r="1.8" stroke-opacity="0.5"/>
+</svg>

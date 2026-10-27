@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A T. rex footprint: one chunky outline of a rounded heel and three thick toes, each ending in
+       a short claw, with a few cracks in the ground. -->
+  <path d="M50 90 C34 90 28 80 28 70 C24 62 16 52 12 42 L7 31 L18 37 C25 46 32 52 38 54 C38 40 40 26 44 16
+           L50 4 L56 16 C60 26 62 40 62 54 C68 52 75 46 82 37 L93 31 L88 42 C84 52 76 62 72 70
+           C72 80 66 90 50 90 Z"/>
+  <path d="M8 94 L20 90 L26 96 M74 96 L82 90 L94 94" stroke-opacity="0.45"/>
+</svg>

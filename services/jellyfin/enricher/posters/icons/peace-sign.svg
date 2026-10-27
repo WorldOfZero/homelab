@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 1960s: a peace sign. -->
+  <circle cx="50" cy="50" r="40"/>
+  <path d="M50 10 L50 90 M50 50 L22 78 M50 50 L78 78"/>
+</svg>

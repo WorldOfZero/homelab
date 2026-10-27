@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An anthology as a film strip of three frames, each a different story: moon, eye, dagger. -->
+  <rect x="20" y="4" width="60" height="92" rx="3"/>
+  <g stroke-opacity="0.5"><rect x="24" y="8" width="4" height="4" rx="1"/><rect x="72" y="8" width="4" height="4" rx="1"/><rect x="24" y="17" width="4" height="4" rx="1"/><rect x="72" y="17" width="4" height="4" rx="1"/><rect x="24" y="26" width="4" height="4" rx="1"/><rect x="72" y="26" width="4" height="4" rx="1"/><rect x="24" y="35" width="4" height="4" rx="1"/><rect x="72" y="35" width="4" height="4" rx="1"/><rect x="24" y="44" width="4" height="4" rx="1"/><rect x="72" y="44" width="4" height="4" rx="1"/><rect x="24" y="53" width="4" height="4" rx="1"/><rect x="72" y="53" width="4" height="4" rx="1"/><rect x="24" y="62" width="4" height="4" rx="1"/><rect x="72" y="62" width="4" height="4" rx="1"/><rect x="24" y="71" width="4" height="4" rx="1"/><rect x="72" y="71" width="4" height="4" rx="1"/><rect x="24" y="80" width="4" height="4" rx="1"/><rect x="72" y="80" width="4" height="4" rx="1"/><rect x="24" y="89" width="4" height="4" rx="1"/><rect x="72" y="89" width="4" height="4" rx="1"/></g>
+  <rect x="32" y="8" width="36" height="26" rx="2"/>
+  <rect x="32" y="37" width="36" height="26" rx="2"/>
+  <rect x="32" y="66" width="36" height="26" rx="2"/>
+  <path d="M55 13 A9 9 0 1 0 60 28 A7 7 0 1 1 55 13 Z"/>
+  <path d="M38 50 Q50 41 62 50 Q50 59 38 50 Z"/><circle cx="50" cy="50" r="3"/>
+  <path d="M50 70 L53 82 L50 85 L47 82 Z M43 82 L57 82 M50 85 L50 89"/>
+</svg>

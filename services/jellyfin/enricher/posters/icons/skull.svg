@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A Jolly Roger: a skull over crossed bones. -->
+  <path d="M50 10 C32 10 22 22 22 38 C22 48 28 54 34 56 L34 64 L66 64 L66 56 C72 54 78 48 78 38 C78 22 68 10 50 10 Z"/>
+  <ellipse cx="39" cy="38" rx="7" ry="8"/><ellipse cx="61" cy="38" rx="7" ry="8"/>
+  <path d="M47 51 L50 46 L53 51 Z"/>
+  <path d="M42 58 L42 64 M50 58 L50 64 M58 58 L58 64" stroke-opacity="0.6"/>
+  <path d="M18.0 72.0 L82.0 92.0"/><circle cx="17.6" cy="68.2" r="3.8"/><circle cx="15.5" cy="74.9" r="3.8"/><circle cx="84.5" cy="89.1" r="3.8"/><circle cx="82.4" cy="95.8" r="3.8"/>
+  <path d="M82.0 72.0 L18.0 92.0"/><circle cx="84.5" cy="74.9" r="3.8"/><circle cx="82.4" cy="68.2" r="3.8"/><circle cx="17.6" cy="95.8" r="3.8"/><circle cx="15.5" cy="89.1" r="3.8"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A clapperboard with its striped clapper open, and chalk lines on the slate. -->
+  <rect x="14" y="40" width="72" height="46" rx="2"/>
+  <path d="M14 40 L86 40 L86 30 L14 30 Z"/>
+  <path d="M24 30 L32 40 M40 30 L48 40 M56 30 L64 40 M72 30 L80 40" stroke-opacity="0.7"/>
+  <path d="M14 30 L80 12 L83 22 L17 40" />
+  <path d="M28 26 L34 17 M44 22 L50 13 M60 18 L66 9" stroke-opacity="0.7"/>
+  <path d="M24 54 L58 54 M24 64 L50 64 M24 74 L66 74" stroke-opacity="0.5"/>
+</svg>

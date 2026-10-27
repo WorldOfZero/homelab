@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A comic-book impact burst: a jagged starburst, a second burst inside and an exclamation mark. -->
+  <path d="M50.0 8.2 L58.8 18.8 L72.0 13.8 L69.8 31.2 L88.1 29.1 L82.8 41.6 L94.0 50.0 L77.0 56.9 L88.1 70.9 L74.0 72.8 L72.0 86.2 L57.2 75.7 L50.0 91.8 L41.2 81.2 L28.0 86.2 L30.2 68.8 L11.9 70.9 L17.2 58.4 L6.0 50.0 L23.0 43.1 L11.9 29.1 L26.0 27.2 L28.0 13.8 L42.8 24.3 Z"/>
+  <path d="M54.5 24.4 L59.7 34.8 L71.3 35.1 L67.6 46.1 L75.6 54.5 L65.2 59.7 L64.9 71.3 L53.9 67.6 L45.5 75.6 L40.3 65.2 L28.7 64.9 L32.4 53.9 L24.4 45.5 L34.8 40.3 L35.1 28.7 L46.1 32.4 Z" stroke-opacity="0.5"/>
+  <path d="M50 38 L50 55"/><circle cx="50" cy="63" r="2.5"/>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- The Leather Pride flag (upper left) and the Rubber Pride flag (lower right), split on the diagonal. -->
+  <defs>
+    <clipPath id="leather-half"><polygon points="0,0 1000,0 0,1500"/></clipPath>
+    <clipPath id="rubber-half"><polygon points="1000,0 1000,1500 0,1500"/></clipPath>
+  </defs>
+  <g clip-path="url(#leather-half)">
+  <rect y="0.0" width="1000" height="167.7" fill="#000000"/>
+  <rect y="166.7" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="333.3" width="1000" height="167.7" fill="#000000"/>
+  <rect y="500.0" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="666.7" width="1000" height="167.7" fill="#ffffff"/>
+  <rect y="833.3" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="1000.0" width="1000" height="167.7" fill="#000000"/>
+  <rect y="1166.7" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="1333.3" width="1000" height="167.7" fill="#000000"/>
+  <path transform="translate(70 70) scale(2.6)" d="M50 88 C20 66 4 48 4 30 C4 16 15 6 28 6 C38 6 46 12 50 20 C54 12 62 6 72 6 C85 6 96 16 96 30 C96 48 80 66 50 88 Z" fill="#d0101b"/>
+  </g>
+  <g clip-path="url(#rubber-half)">
+  <rect width="1000" height="1500" fill="#000000"/>
+  <polyline points="-40,560 260,400 480,560 720,400 1040,560" fill="none" stroke="#d32011" stroke-width="150" stroke-linejoin="miter"/>
+  <polyline points="-40,560 260,400 480,560 720,400 1040,560" fill="none" stroke="#fcc800" stroke-width="104" stroke-linejoin="miter"/>
+  <polyline points="-40,730 260,570 480,730 720,570 1040,730" fill="none" stroke="#d32011" stroke-width="30" stroke-linejoin="miter"/>
+  </g>
+  <path d="M1000 0 L0 1500" stroke="#ffffff" stroke-width="10"/>
+</svg>

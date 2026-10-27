@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A sheet ghost: domed head, raised arms, oval eyes and mouth, and a wavy hem. -->
+  <path d="M26 86 L26 40 C26 22 37 12 50 12 C63 12 74 22 74 40 L74 86 Q70 80 66 86 Q62 92 58 86 Q54 80 50 86
+           Q46 92 42 86 Q38 80 34 86 Q30 92 26 86 Z"/>
+  <path d="M26 54 C18 54 13 48 15 41 M74 54 C82 54 87 48 85 41" stroke-opacity="0.7"/>
+  <ellipse cx="42" cy="38" rx="4" ry="6"/><ellipse cx="58" cy="38" rx="4" ry="6"/>
+  <ellipse cx="50" cy="55" rx="4" ry="6" stroke-opacity="0.8"/>
+</svg>

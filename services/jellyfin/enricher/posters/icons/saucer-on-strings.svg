@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A B-movie flying saucer hanging on visible strings, rim lights glowing, a beam below. -->
+  <path d="M30 47 L30 3 M70 47 L70 3" stroke-opacity="0.45"/>
+  <path d="M37 47 C37 33 63 33 63 47"/>
+  <ellipse cx="50" cy="53" rx="38" ry="9"/>
+  <g stroke-opacity="0.7"><circle cx="24" cy="54" r="2"/><circle cx="37" cy="57" r="2"/><circle cx="50" cy="58" r="2"/><circle cx="63" cy="57" r="2"/><circle cx="76" cy="54" r="2"/></g>
+  <path d="M40 63 L26 94 M60 63 L74 94" stroke-opacity="0.35"/>
+</svg>

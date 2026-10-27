@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A kaiju's spined head and neck roaring over a city skyline. -->
+  <path d="M18 34 L40 28 L52 26 C60 28 66 34 70 42 C74 50 76 60 78 70"/>
+  <path d="M18 34 L20 39 L36 42 L22 48 L24 53 L42 52 C48 58 52 64 54 70"/>
+  <path d="M54 27 L58 18 L62 30 M64 34 L71 26 L71 40 M70 44 L80 40 L75 52 M74 56 L84 56 L77 64" stroke-opacity="0.75"/>
+  <path d="M40 33 L45 33" />
+  <path d="M24 39 L24 42 M30 40 L30 43" stroke-opacity="0.5"/>
+  <path d="M4 92 L4 76 L12 76 L12 68 L20 68 L20 80 L28 80 L28 72 L36 72 L36 84 L46 84 L46 70 L58 70 L58 78
+           L66 78 L66 72 L80 72 L80 82 L88 82 L88 74 L96 74 L96 92"/>
+  <path d="M7 82 L9 82 M15 74 L17 74 M15 80 L17 80 M49 76 L51 76 M53 76 L55 76 M49 82 L51 82 M70 78 L72 78 M74 78 L76 78" stroke-opacity="0.5"/>
+</svg>

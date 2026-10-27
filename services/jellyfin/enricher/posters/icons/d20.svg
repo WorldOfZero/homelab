@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A twenty-sided die seen face on: the hexagon outline, the front face, and the edges of the faces
+       around it. -->
+  <path d="M50 4 L89 27 L89 73 L50 96 L11 73 L11 27 Z"/>
+  <path d="M50 26 L78 69 L22 69 Z"/>
+  <path d="M50 4 L50 26 M11 27 L50 26 L89 27 M11 27 L22 69 L11 73 M89 27 L78 69 L89 73 M22 69 L50 96 L78 69"
+        stroke-opacity="0.6"/>
+</svg>

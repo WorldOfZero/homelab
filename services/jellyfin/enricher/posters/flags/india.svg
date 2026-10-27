@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- India: saffron, white and green bands with the Ashoka Chakra, a 24-spoke navy wheel; the bands are in the upper part of the poster so the wheel stays clear of the title. -->
+  <rect width="1000" height="360" fill="#ff9933"/>
+  <rect y="360" width="1000" height="360" fill="#ffffff"/>
+  <rect y="720" width="1000" height="780" fill="#138808"/>
+  <g transform="translate(500 540)" fill="none" stroke="#000080" stroke-width="8">
+    <circle r="138" stroke-width="14"/><circle r="20" fill="#000080"/>
+    <path d="M0 0 L128.0 0.0"/><path d="M0 0 L123.6 33.1"/><path d="M0 0 L110.9 64.0"/><path d="M0 0 L90.5 90.5"/><path d="M0 0 L64.0 110.9"/><path d="M0 0 L33.1 123.6"/><path d="M0 0 L0.0 128.0"/><path d="M0 0 L-33.1 123.6"/><path d="M0 0 L-64.0 110.9"/><path d="M0 0 L-90.5 90.5"/><path d="M0 0 L-110.9 64.0"/><path d="M0 0 L-123.6 33.1"/><path d="M0 0 L-128.0 0.0"/><path d="M0 0 L-123.6 -33.1"/><path d="M0 0 L-110.9 -64.0"/><path d="M0 0 L-90.5 -90.5"/><path d="M0 0 L-64.0 -110.9"/><path d="M0 0 L-33.1 -123.6"/><path d="M0 0 L-0.0 -128.0"/><path d="M0 0 L33.1 -123.6"/><path d="M0 0 L64.0 -110.9"/><path d="M0 0 L90.5 -90.5"/><path d="M0 0 L110.9 -64.0"/><path d="M0 0 L123.6 -33.1"/>
+  </g>
+</svg>

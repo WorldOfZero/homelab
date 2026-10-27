@@ -95,8 +95,10 @@ rules:
     add: {tags: [polyamory]}
   - match: {imdb_keywords: [bdsm, sadomasochism, kink]}
     add: {tags: [bdsm]}
-  - match: {imdb_keywords: [leather, latex]}
+  - match: {imdb_keywords: [leather]}
     add: {tags: [leather]}
+  - match: {imdb_keywords: [latex, latex fetish, rubber fetish]}
+    add: {tags: [latex]}
   - match: {imdb_keywords: [independent film], min_relevant: 1}
     add: {tags: [independent film]}
   - match: {imdb_keywords: [anime]}
@@ -183,7 +185,8 @@ rules:
     add: {tags: [multiverse]}
   - match: {imdb_keywords: [virtual reality, simulated reality]}
     add: {tags: [virtual reality]}
-  - match: {imdb_keywords: [dinosaur]}
+  - match: {imdb_keywords: [dinosaur, dinosaurs, dinosaur feature, dinosaur attack, tyrannosaurus rex,
+                            velociraptor, triceratops, stegosaurus, brontosaurus, pterodactyl]}
     add: {tags: [dinosaur]}
   - match: {imdb_keywords: [kaiju, giant monster]}
     add: {tags: [kaiju]}
@@ -207,6 +210,10 @@ rules:
     add: {tags: [killer animal]}
   - match: {imdb_keywords: [cult, cult leader, religious cult]}
     add: {tags: [cult]}
+  # Not octopus or squid: IMDb adds them for a seafood dinner or an aquarium scene.
+  - match: {imdb_keywords: [tentacle, tentacles, tentacled creature, tentacled monster, tentacle monster,
+                            giant octopus, giant squid, kraken]}
+    add: {tags: [tentacles]}
 
   # --- Crime, thriller & drama ---
   - match: {imdb_keywords: [serial killer]}

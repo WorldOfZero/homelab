@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Chick flicks: a striped popcorn bucket, piled high, with a heart on the front. -->
+  <path d="M26 44 L74 44 L66 90 L34 90 Z"/>
+  <path d="M37 44 L40 90 M63 44 L60 90" stroke-opacity="0.5"/>
+  <path d="M24 44 C19 36 27 27 34 31 C34 21 46 19 50 27 C54 19 66 21 66 31 C73 27 81 36 76 44"/>
+  <path d="M40 31 C42 26 47 26 49 30 M55 34 C57 29 62 30 63 34" stroke-opacity="0.5"/>
+  <path d="M50 78 C43 73 40 69 40 64 C40 61 42.5 59 45 59 C47.5 59 49 60.5 50 62.5 C51 60.5 52.5 59 55 59 C57.5 59 60 61 60 64 C60 69 57 73 50 78 Z"/>
+</svg>

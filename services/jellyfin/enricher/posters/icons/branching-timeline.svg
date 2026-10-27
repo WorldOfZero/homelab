@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Alternate history: a timeline that forks at a turning point, the original fading on as dashes. -->
+  <path d="M6 60 L38 60"/>
+  <circle cx="14" cy="60" r="3.2"/><circle cx="26" cy="60" r="3.2"/>
+  <circle cx="44" cy="60" r="6"/><circle cx="44" cy="60" r="2" stroke-opacity="0.8"/>
+  <path d="M50 60 L94 60" stroke-opacity="0.4" stroke-dasharray="5 5"/>
+  <path d="M48 56 C58 50 60 36 72 32 L88 28"/>
+  <path d="M82 22 L90 28 L83 35"/>
+  <circle cx="68" cy="34" r="3.2"/>
+  <path d="M48 64 C58 70 60 80 72 82 L88 84" stroke-opacity="0.6"/>
+  <path d="M82 78 L90 84 L83 90" stroke-opacity="0.6"/>
+</svg>

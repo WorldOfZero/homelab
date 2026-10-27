@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Isekai: a glowing gateway to another world: a double arch with a swirling vortex inside, light
+       spilling out across the ground, and stars around it. -->
+  <path d="M26 84 L26 40 C26 21 37 10 50 10 C63 10 74 21 74 40 L74 84"/>
+  <path d="M33 84 L33 42 C33 27 41 18 50 18 C59 18 67 27 67 42 L67 84" stroke-opacity="0.5"/>
+  <path d="M50 52 a2 2 0 1 1 4 0 a6 6 0 1 1 -12 0 a10 10 0 1 1 20 0 a13 13 0 1 1 -26 0" stroke-opacity="0.8"/>
+  <path d="M33 84 L18 96 M67 84 L82 96 M44 84 L40 96 M56 84 L60 96" stroke-opacity="0.45"/>
+  <path d="M10 18 L10 28 M5 23 L15 23 M89 30 L89 38 M85 34 L93 34 M88 62 L88 68 M85 65 L91 65" stroke-opacity="0.6"/>
+</svg>

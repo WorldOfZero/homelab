@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Polyamory pride flag: blue, red and black bands with a gold heart whose centre ties an
+       infinity loop. The bands sit in the upper part so the emblem stays clear of the title;
+       black runs on underneath. -->
+  <rect width="1000" height="360" fill="#1b3fb5"/>
+  <rect y="360" width="1000" height="360" fill="#d4001f"/>
+  <rect y="720" width="1000" height="780" fill="#000000"/>
+  <g transform="translate(340 380) scale(3.2)" fill="none" stroke="#f5c518" stroke-width="6" stroke-linejoin="round"><path d="M50 82 C26 66 14 52 14 36 C14 24 24 16 34 16 C42 16 48 22 50 28 C52 22 58 16 66 16 C76 16 86 24 86 36 C86 52 74 66 50 82 Z"/><path d="M50 50 C44 42 32 42 32 50 C32 58 44 58 50 50 C56 42 68 42 68 50 C68 58 56 58 50 50 Z" stroke-width="5"/></g>
+</svg>

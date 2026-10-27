@@ -212,6 +212,20 @@
       "SortOrder": 0
     },
     {
+      "CollectionName": "Leather Collection",
+      "Expression": "TAG \"leather\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Latex Collection",
+      "Expression": "TAG \"latex\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
       "CollectionName": "Independent Collection",
       "Expression": "TAG \"independent film\"",
       "CaseSensitive": false,
@@ -391,6 +405,13 @@
       "Expression": "YEAR \">2019\" AND YEAR \"<2030\"",
       "CaseSensitive": false,
       "SortBy": 0,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Tentacles Collection",
+      "Expression": "TAG \"tentacles\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
       "SortOrder": 0
     },
     {
@@ -907,6 +928,27 @@
     {
       "CollectionName": "British Cinema",
       "Expression": "MOVIE AND COUNTRY \"United Kingdom\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "Italian Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Italy\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "German Cinema",
+      "Expression": "MOVIE AND COUNTRY \"Germany\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
+      "CollectionName": "United States Cinema",
+      "Expression": "MOVIE AND COUNTRY \"United States of America\"",
       "CaseSensitive": false,
       "SortBy": 2,
       "SortOrder": 0

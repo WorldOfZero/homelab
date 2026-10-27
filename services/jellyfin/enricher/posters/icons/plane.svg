@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g transform="rotate(35 50 50)">
+    <path d="M50 6 C54 6 56 12 56 18 L56 40 L93 59 L93 65 L56 55 L56 77 L67 85 L67 90 L50 86 L33 90 L33 85 L44 77
+             L44 55 L7 65 L7 59 L44 40 L44 18 C44 12 46 6 50 6 Z"/>
+    <path d="M50 92 L50 99" stroke-opacity="0.5"/>
+    <path d="M30 94 L30 99 M70 94 L70 99" stroke-opacity="0.3"/>
+  </g>
+</svg>

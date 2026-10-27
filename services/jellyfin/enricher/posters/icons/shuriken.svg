@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A spinning shuriken: a four-pointed throwing star with a hole, and motion lines. -->
+  <path d="M67.7 12.4 L64.0 45.4 L91.6 63.7 L58.6 60.0 L40.3 87.6 L44.0 54.6 L16.4 36.3 L49.4 40.0 Z"/>
+  <circle cx="54" cy="50" r="5"/>
+  <path d="M4 38 L16 38 M2 52 L12 52 M6 66 L16 66" stroke-opacity="0.5"/>
+</svg>

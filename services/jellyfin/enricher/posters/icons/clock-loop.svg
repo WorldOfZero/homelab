@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A time loop: a clock face with its hands, ringed by an arrow that loops back on itself. -->
+  <circle cx="50" cy="52" r="28"/>
+  <path d="M72.0 52.0 L76.0 52.0 M69.1 63.0 L72.5 65.0 M61.0 71.1 L63.0 74.5 M50.0 74.0 L50.0 78.0 M39.0 71.1 L37.0 74.5 M30.9 63.0 L27.5 65.0 M28.0 52.0 L24.0 52.0 M30.9 41.0 L27.5 39.0 M39.0 32.9 L37.0 29.5 M50.0 30.0 L50.0 26.0 M61.0 32.9 L63.0 29.5 M69.1 41.0 L72.5 39.0" stroke-opacity="0.6"/>
+  <path d="M50 52 L50 34 M50 52 L62 58"/>
+  <circle cx="50" cy="52" r="2.2"/>
+  <path d="M63.7 14.4 A40 40 0 1 1 27.1 19.2"/>
+  <path d="M23.9 28.7 L29.5 17.5 L17.1 18.9"/>
+</svg>

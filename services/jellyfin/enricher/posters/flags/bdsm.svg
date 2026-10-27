@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- BDSM Rights flag (Tanos): black and blue stripes with the BDSM emblem, a triskelion in a disc, its arms reaching the ring. -->
+  <rect y="0.0" width="1000" height="167.7" fill="#000000"/>
+  <rect y="166.7" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="333.3" width="1000" height="167.7" fill="#000000"/>
+  <rect y="500.0" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="666.7" width="1000" height="167.7" fill="#000000"/>
+  <rect y="833.3" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="1000.0" width="1000" height="167.7" fill="#000000"/>
+  <rect y="1166.7" width="1000" height="167.7" fill="#1f3a93"/>
+  <rect y="1333.3" width="1000" height="167.7" fill="#000000"/>
+  <g transform="translate(500 560)">
+    <circle r="230" fill="#ffffff"/>
+    <circle r="190" fill="none" stroke="#d0101b" stroke-width="22"/>
+    <g transform="rotate(0)"><path d="M0 0 C60 -70 170 -70 186 24" fill="none" stroke="#d0101b" stroke-width="30" stroke-linecap="round"/></g>
+    <g transform="rotate(120)"><path d="M0 0 C60 -70 170 -70 186 24" fill="none" stroke="#d0101b" stroke-width="30" stroke-linecap="round"/></g>
+    <g transform="rotate(240)"><path d="M0 0 C60 -70 170 -70 186 24" fill="none" stroke="#d0101b" stroke-width="30" stroke-linecap="round"/></g>
+    <circle r="26" fill="#d0101b"/>
+  </g>
+</svg>

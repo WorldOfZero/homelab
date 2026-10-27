@@ -1,0 +1,199 @@
+# Poster settings for make_posters.py. Every key is optional.
+#
+# defaults apply to each poster. Without a background or accent, a poster gets colours from a hue
+# derived from its collection name, so collections differ without being listed here.
+defaults:
+  foreground: "#f4f1ea"
+  label: COLLECTION
+  icon: rings          # a file in icons/, without .svg
+
+# Per collection, by CollectionName in ../auto-collections.json:
+#   title:      text, or a list of lines to break the title yourself (default: the name without
+#               a trailing "Collection", wrapped to fit)
+#   label:      the small text above the title
+#   title_inset: pixels to narrow the title box by on each side, to keep it clear of art
+#   icon:       a file in icons/, or none
+#   logo:       a file in logos/ (without .svg/.png), shown in place of the icon; recoloured in
+#               the accent colour unless logo_tint: false (for logos that have their own colours);
+#               logo_box: [x, y, width, height] moves or enlarges it (default [130, 230, 740, 440])
+#   art:        a file in art/: line art over the whole poster, in the accent colour
+#   flag:       a file in flags/, drawn full-bleed behind the poster with a dark fade towards the
+#               title; the accent colours the label and rule
+#   background, accent, foreground: colours
+posters:
+  Aviation Collection: {icon: plane, background: "#16314f", accent: "#7cc4ff"}
+  Vampires Collection: {icon: fangs, background: "#3a0d14", accent: "#ff5a5f"}
+  Lego Collection: {icon: brick, background: "#5c0a0a", accent: "#ffcf00"}
+  Sword & Sorcery Collection: {icon: sword-staff, background: "#2b1d4a", accent: "#c9a2ff"}
+  Lovecraftian Horror Collection: {icon: cthulhu, background: "#0f2a2a", accent: "#7fe0b8"}
+  Tentacles Collection: {art: tentacles, icon: none, title_inset: 70, background: "#14213d", accent: "#ff7a9c"}
+  Based on a Video Game Collection: {icon: nes, background: "#2a2a33", accent: "#e8484e"}
+  Halloween Collection: {icon: pumpkin, background: "#2a1405", accent: "#ff8a1f"}
+  Christmas Collection: {icon: tree, background: "#0d3324", accent: "#f2c14e"}
+  Road Trip Collection: {icon: road, background: "#3b1f3f", accent: "#ffb347"}
+  Pirate Collection: {icon: skull, background: "#101820", accent: "#d9c27a"}
+  Samurai Collection: {icon: katana, background: "#2b0d0d", accent: "#ff4b3e"}
+  Ninja Collection: {icon: shuriken, background: "#111518", accent: "#9fb4c7"}
+  Ghost Collection: {icon: ghost, background: "#1d2235", accent: "#cfe3ff"}
+  Witch Collection: {icon: witch-hat, background: "#1f1433", accent: "#9be564"}
+  Slasher Collection: {icon: hockey-mask, background: "#1a1a1a", accent: "#e83a3a"}
+  Dinosaur Collection: {icon: trex-footprint, background: "#1e2a14", accent: "#c8e06a"}
+  # Studios: their own logos (see logos/SOURCES.md).
+  A24: {logo: a24, icon: none, label: Studio, background: "#1b1b1b", accent: "#f2f2f2"}
+  Shudder Originals: {logo: shudder, logo_tint: false, icon: none, label: Studio, background: "#140808", accent: "#e01e1e"}
+  Pixar: {logo: pixar, icon: none, label: Studio, background: "#12324a", accent: "#ffffff"}
+  Studio Ghibli: {logo: ghibli, logo_box: [40, 70, 920, 780], icon: none, label: Studio, background: "#1d3a57", accent: "#e8f1fa"}
+  Blumhouse: {logo: blumhouse, icon: none, label: Studio, background: "#111111", accent: "#d8d8d8"}
+  Hammer Horror: {logo: hammer, logo_tint: false, icon: none, label: Studio, background: "#160b0b", accent: "#c9343a"}
+  Laika: {logo: laika, icon: none, label: Studio, background: "#252a33", accent: "#f2c94c"}
+  Aardman: {logo: aardman, logo_tint: false, icon: none, label: Studio, background: "#1f1530", accent: "#ef3e5c"}
+  Troma: {logo: troma, logo_tint: false, icon: none, label: Studio, background: "#16210b", accent: "#c7e23d"}
+  # Countries: their national flags.
+  Japanese Cinema: {flag: japan, icon: none, accent: "#ff4d6d"}
+  Korean Cinema: {flag: korea, icon: none, accent: "#5b8def"}
+  Hong Kong Cinema: {flag: hong-kong, icon: none, accent: "#ffffff"}
+  French Cinema: {flag: france, icon: none, accent: "#6fa8ff"}
+  Indian Cinema: {flag: india, icon: none, accent: "#ff9933"}
+  British Cinema: {flag: uk, icon: none, accent: "#ff4d5e"}
+  Italian Cinema: {flag: italy, icon: none, accent: "#4cd38a"}
+  German Cinema: {flag: germany, icon: none, accent: "#ffce00"}
+  United States Cinema: {title: ["United States", "Cinema"], flag: usa, icon: none, accent: "#ff5a6a"}
+  Heist Collection: {icon: safe, background: "#1f2a24", accent: "#e8c35a"}
+  Swindler's and Con People Collection: {title: ["Swindlers", "& Con People"], icon: mask}
+
+  # Pride flags. The kink flags have no official colour specification; these follow common renderings.
+  Queer Collection: {flag: progress, icon: none, accent: "#ffed00"}
+  Gay Collection: {flag: gay, icon: none, accent: "#98e8c1"}
+  Lesbian Collection: {flag: lesbian, icon: none, accent: "#ff9a56"}
+  Trans Collection: {flag: trans, icon: none, accent: "#5bcefa"}
+  BDSM Collection: {title: ["Kink & BDSM"], flag: bdsm, icon: none, accent: "#ff3b3b"}
+  Leather and Latex Collection: {title: ["Leather", "& Latex"], flag: leather-rubber, icon: none, accent: "#fcc800"}
+  Leather Collection: {flag: leather, icon: none, accent: "#6f8ff0"}
+  Latex Collection: {flag: rubber, icon: none, accent: "#fcc800"}
+
+  # Horror and creatures.
+  Zombie Collection: {icon: zombie-hand, background: "#1c2617", accent: "#9acd5a"}
+  Werewolf Collection: {icon: werewolf-moon, background: "#141c2e", accent: "#cfd8ea"}
+  Monster Collection: {icon: frankenstein, background: "#16221a", accent: "#7fd18b"}
+  Demon Collection: {icon: demon-horns, background: "#2a0a0a", accent: "#ff5533"}
+  Body Horror Collection: {icon: body-horror-hand, background: "#2a1218", accent: "#ff8a9a"}
+  Kaiju Collection: {icon: kaiju-city, background: "#0e1f26", accent: "#5ee0d0"}
+  Dragon Collection: {icon: dragon-head, background: "#2a1206", accent: "#ffb03b"}
+  Alien Collection: {icon: grey-alien, background: "#0c1f17", accent: "#7dff9a"}
+  Found Footage Collection: {icon: found-footage-camera, background: "#141414", accent: "#f0f0f0"}
+  Folk Horror Collection: {icon: wicker-man, background: "#2a2210", accent: "#e0b860"}
+  Killer Animal Collection: {icon: shark-jaws, background: "#08202e", accent: "#8fd3ff"}
+  Splatter and Gore Collection: {icon: chainsaw, background: "#1a0606", accent: "#ff2a2a"}
+  Serial Killer Collection: {icon: serial-killer-knife, background: "#121418", accent: "#d0d4da"}
+  Cult Collection: {icon: cult-hood, background: "#1d0f24", accent: "#e3b24f"}
+
+  # Crime, thriller and drama.
+  Spy Collection: {icon: spy-fedora, background: "#1a1f2b", accent: "#c9b37e"}
+  Whodunit Collection: {icon: magnifier-question, background: "#2a2118", accent: "#e6c27a"}
+  Mafia Collection: {icon: tommy-gun, background: "#1c0f0f", accent: "#d64545"}
+  Hacking Collection: {icon: terminal-prompt, background: "#08180e", accent: "#39ff88"}
+  Caper Collection: {icon: diamond-gem, background: "#161a33", accent: "#8fd3ff"}
+  Corruption Collection: {icon: bribe-envelope, background: "#1b2215", accent: "#a9d86e"}
+  Assassin Collection: {icon: crosshair, background: "#141414", accent: "#ff4040"}
+  Revenge Collection: {icon: dagger-drip, background: "#2a0a10", accent: "#ff5c6c"}
+  Prison Collection: {icon: barred-window, background: "#20232a", accent: "#f2a33a"}
+  Courtroom Collection: {icon: justice-scales, background: "#241a10", accent: "#e0b76a"}
+  Conspiracy Collection: {icon: eye-pyramid, background: "#0f1f1a", accent: "#7ee0b0"}
+  Survival Collection: {icon: campfire, background: "#1a1408", accent: "#ff9a3c"}
+  Disaster Collection: {icon: tornado, background: "#1e2229", accent: "#b9c7d8"}
+  Based on a True Story Collection: {icon: newspaper, background: "#24221e", accent: "#ece4d0"}
+  Medical Collection: {icon: medical-heartbeat, background: "#0d2230", accent: "#5fd0e8"}
+
+  # Science fiction and fantasy.
+  Magic Collection: {icon: magic-wand, background: "#2a1840", accent: "#f5c542"}
+  Mythology Collection: {icon: greek-temple, background: "#1c2b3a", accent: "#e6d3a3"}
+  Steampunk Collection: {icon: steampunk-goggles, background: "#2b1d10", accent: "#d9a066"}
+  Mecha Collection: {icon: mecha-head, background: "#1a2233", accent: "#ffcc33"}
+  Cyberpunk Collection: {icon: cyber-skyline, background: "#140a2a", accent: "#ff2bd6"}
+  Post-Apocalyptic Collection: {title: ["Post-", "Apocalyptic"], icon: gas-mask, background: "#2a2416", accent: "#c9b458"}
+  Mind Bending Collection: {icon: mind-spiral, background: "#1e1036", accent: "#b18cff"}
+  Time Travel Collection: {icon: hourglass-vortex, background: "#0d1f2d", accent: "#4fd1ff"}
+  Time Loop Collection: {icon: clock-loop, background: "#20142a", accent: "#ffa94d"}
+  Dystopia Collection: {icon: cctv-camera, background: "#1b1d1f", accent: "#ff5c39"}
+  Space Collection: {icon: ringed-planet, background: "#0b1026", accent: "#9ec5ff"}
+  Artificial Intelligence Collection: {icon: ai-chip, background: "#0c2420", accent: "#3df2c4"}
+  Superhero Collection: {icon: hero-shield, background: "#0f1d4a", accent: "#ffd23f"}
+  Alternate History Collection: {icon: branching-timeline, background: "#2a1f1a", accent: "#e8c07a"}
+  Multiverse Collection: {icon: multiverse-spheres, background: "#16112e", accent: "#7cf2ff"}
+  Virtual Reality Collection: {icon: vr-headset, background: "#0f2018", accent: "#8cff66"}
+  Fairy Tale Collection: {icon: fairy-castle, background: "#24163a", accent: "#ffb3e6"}
+
+  # Anime, romance, youth and sport.
+  Anime Collection: {icon: anime-eye, background: "#1a1d3a", accent: "#ff6fae"}
+  Isekai: {icon: isekai-portal, background: "#16132e", accent: "#8be9fd"}
+  Slice of Life: {icon: teacup-steam, background: "#2a2118", accent: "#f4d6a0"}
+  Iyashikei: {icon: sprout, background: "#13281f", accent: "#9ee6b5"}
+  Yuri: {icon: lily-flower, background: "#3a1430", accent: "#ffb3d9"}
+  Shounen: {icon: power-burst, background: "#2a1206", accent: "#ff9f1c"}
+  Shoujo: {icon: shoujo-rose, background: "#3a1426", accent: "#ff8fc6"}
+  Seinen: {icon: seinen-skyline, background: "#101418", accent: "#b8c4d6"}
+  Josei: {icon: wine-glass, background: "#2a1020", accent: "#e88fb4"}
+  Romcom Collection: {icon: heart-arrow, background: "#3a0f1e", accent: "#ff5c8a"}
+  Chick Flicks: {icon: popcorn-heart, background: "#2e1530", accent: "#ff9ecd"}
+  Polyamory Collection: {flag: polyamory, icon: none, accent: "#f5c518"}
+  Coming of Age Collection: {icon: bicycle, background: "#1b2b3a", accent: "#ffd166"}
+  High School Collection: {icon: mortarboard, background: "#14213d", accent: "#fca311"}
+  Sports Collection: {icon: trophy, background: "#0f2a1a", accent: "#ffd23f"}
+  Martial Arts Collection: {icon: belt-knot, background: "#2a0d0d", accent: "#e9e2d0"}
+  Documentary Collection: {icon: film-camera, background: "#1c1c1c", accent: "#d9d4c7"}
+
+  # Form, tone and history.
+  Parody Collection: {icon: parody-glasses, background: "#2b1a3d", accent: "#ffd166"}
+  Mockumentary Collection: {icon: camcorder, background: "#1f2b2e", accent: "#ff6b6b"}
+  Stop Motion Collection: {icon: armature-puppet, background: "#3a2416", accent: "#ffb26b"}
+  Satirical Movies Collection: {icon: jester-hat, background: "#2a1238", accent: "#e6c229"}
+  B-Movies Collection: {icon: saucer-on-strings, background: "#0f2a1f", accent: "#7dff9a"}
+  Grindhouse Collection: {icon: film-reel, background: "#2a0f08", accent: "#ff7a3d"}
+  Independent Collection: {icon: clapperboard, background: "#1a2230", accent: "#e7c873"}
+  Anthology: {icon: anthology-filmstrip, background: "#1d1424", accent: "#c3a6ff"}
+  Wilhelm Scream Collection: {icon: scream-waveform, background: "#24201a", accent: "#f4d35e"}
+  Based on a Book Collection: {icon: open-book, background: "#2b1d12", accent: "#f0d9a8"}
+  Based on a Comic Collection: {icon: comic-burst, background: "#14284b", accent: "#ffd23f"}
+  World War II Collection: {icon: ww2-helmet, background: "#2a2f1f", accent: "#c2b280"}
+  Cold War Collection: {icon: sputnik, background: "#2a0d0d", accent: "#ff5a4f"}
+
+  # Decades and library.
+  1950's Movies: {title: "1950–59", label: "Movies from", icon: jukebox, background: "#173236", accent: "#7fd8c9"}
+  1960's Movies: {title: "1960–69", label: "Movies from", icon: peace-sign, background: "#2b1d3a", accent: "#ff9f43"}
+  1970's Movies: {title: "1970–79", label: "Movies from", icon: disco-ball, background: "#2e1a12", accent: "#f5c542"}
+  1980's Movies: {title: "1980–89", label: "Movies from", icon: cassette, background: "#1a1033", accent: "#ff4fa3"}
+  1990's Movies: {title: "1990–99", label: "Movies from", icon: gameboy, background: "#16212b", accent: "#9b7bff"}
+  2000's Movies: {title: "2000–09", label: "Movies from", icon: flip-phone, background: "#14202e", accent: "#9ad0ff"}
+  2010's Movies: {title: "2010–19", label: "Movies from", icon: smartphone, background: "#13241d", accent: "#5ad1a0"}
+  2020's Movies: {title: "2020–29", label: "Movies from", icon: laptop-call, background: "#22161a", accent: "#ff7a59"}
+  Short Films: {icon: stopwatch, label: Library, background: "#1b2530", accent: "#7fc8ff"}
+  Epics (3 Hours+): {title: "Epics", label: "Three hours or more", icon: hourglass, background: "#2a2013", accent: "#e9b867"}
+  Audience Highly Rated: {title: ["Audience", "Favourites"], label: Library, icon: rating-stars, background: "#2d1414", accent: "#ff6b5e"}
+  Critics Highly Rated: {title: ["Critics'", "Favourites"], label: Library, icon: laurel, background: "#1d1d12", accent: "#e8cf6a"}
+  Unwatched Gems: {icon: treasure-chest, label: Library, background: "#13232b", accent: "#6fe3e0"}
+  Released in the Past Year: {title: ["Released in", "the Past Year"], label: Library, icon: calendar, background: "#1b1f2e", accent: "#8fa8ff"}
+  Recently Added: {icon: film-plus, label: Library, background: "#1a2618", accent: "#9be37a"}
+  Movies with Commentary: {title: ["With", "Commentary"], label: Library, icon: microphone, background: "#251a2b", accent: "#d39bff"}
+  4K Movies: {title: "4K", label: "Movies in", icon: tv-4k, background: "#101a24", accent: "#5cc8ff"}
+
+  # Franchises, formats and Roger Corman.
+  Marvel Movies: {logo: marvel, logo_tint: false, logo_box: [110, 250, 780, 400], icon: none, label: Studio, background: "#2a0b0d", accent: "#ec1d24"}
+  Streamed Collection: {icon: live-stream, background: "#1e1433", accent: "#a970ff"}
+  Actual Play Collection: {icon: d20, background: "#0e2a2a", accent: "#4fd6c8"}
+  James Bond Collection: {logo: "007", logo_box: [130, 260, 740, 380], icon: none, label: Franchise, background: "#121212", accent: "#e8e2d0"}
+  Babylon 5 Universe: {logo: babylon5, logo_tint: false, logo_box: [80, 180, 840, 560], icon: none, label: Universe, background: "#6f819e", accent: "#f0d878"}
+  Dolby Vision Movies: {logo: dolby-vision, icon: none, label: Format, background: "#101820", accent: "#f2f2f2"}
+  Dolby Atmos Movies: {logo: dolby-atmos, logo_box: [70, 300, 860, 300], icon: none, label: Format, background: "#101820", accent: "#7cc4ff"}
+  Roger Corman Collection: {icon: giant-crab, background: "#1c2a1a", accent: "#e85d3a"}
+
+# Extra collections that --preview renders alongside the ones above, to check the defaults on
+# long, short and awkward titles while the template changes.
+preview:
+  - Sword & Sorcery Collection
+  - 1950's Movies
+  - Based on a Video Game Collection
+  - Post-Apocalyptic Collection
+  - Roger Corman Collection
+  - Lego Collection
+  - Lovecraftian Horror Collection
+  - Wilhelm Scream Collection

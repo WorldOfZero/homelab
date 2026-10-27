@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A spy: a fedora with its band, over dark glasses and a turned-up trench-coat collar. -->
+  <path d="M30 40 C30 22 38 14 50 18 C62 14 70 22 70 40"/>
+  <path d="M12 44 C22 38 78 38 88 44 C78 48 22 48 12 44 Z"/>
+  <path d="M31 35 C44 32 56 32 69 35" stroke-opacity="0.6"/>
+  <path d="M28 54 L46 54 C46 62 40 66 34 64 C30 63 28 59 28 54 Z M54 54 L72 54 C72 59 70 63 66 64 C60 66 54 62 54 54 Z"/>
+  <path d="M46 56 C48 54 52 54 54 56"/>
+  <path d="M24 92 L34 70 L50 84 L66 70 L76 92" stroke-opacity="0.7"/>
+</svg>

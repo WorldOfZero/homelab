@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1500" viewBox="0 0 1000 1500">
+  <!-- make_posters.py fills in the placeholders that start with a dollar sign. Fonts: Bebas Neue (title), Barlow Condensed (label). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="${background}"/>
+      <stop offset="1" stop-color="${background_dark}"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.32" r="0.6">
+      <stop offset="0" stop-color="${accent}" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="${accent}" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Darkens a flag towards the bottom so the title stays readable on light stripes. -->
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0.15"/>
+      <stop offset="0.45" stop-color="#000" stop-opacity="0.35"/>
+      <stop offset="0.72" stop-color="#000" stop-opacity="0.82"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.92"/>
+    </linearGradient>
+    <!-- Recolours a logo in the accent colour, keeping only its shape. -->
+    <filter id="tint" x="0" y="0" width="1" height="1">
+      <feFlood flood-color="${accent}"/>
+      <feComposite in2="SourceAlpha" operator="in"/>
+    </filter>
+  </defs>
+  <rect width="1000" height="1500" fill="url(#bg)"/>
+  <rect width="1000" height="1500" fill="url(#glow)"/>
+  <!-- A flag from flags/ with the shade over it, when the poster has one. -->
+  $backdrop
+
+  <!-- Icon: drawn in a 100x100 box (icons/*.svg), shown 600px wide in the upper part. -->
+  <g transform="translate(200 150) scale(6)" fill="none" stroke="${accent}" stroke-width="2.4"
+     stroke-linecap="round" stroke-linejoin="round">${icon}</g>
+
+  <!-- A studio logo from logos/, fitted into the upper part, when the poster has one. -->
+  ${logo}
+
+  <!-- Line art: drawn on the whole 1000x1500 poster (art/*.svg), in the icon's style. -->
+  <g fill="none" stroke="${accent}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">${art}</g>
+
+  <rect x="40" y="40" width="920" height="1420" fill="none" stroke="${foreground}" stroke-opacity="0.16" stroke-width="2"/>
+
+  <text x="${title_x}" y="${label_y}" font-family="Barlow Condensed" font-weight="600" font-size="38"
+        letter-spacing="9" fill="${accent}">${label}</text>
+  <rect x="${title_x}" y="${rule_y}" width="110" height="8" fill="${accent}"/>
+  <!-- Title lines, fitted to the width by make_posters.py, last line's baseline at y=1370. -->
+  <g font-family="Bebas Neue" fill="${foreground}">${title}</g>
+</svg>

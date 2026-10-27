@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Iyashikei: a young sprout with two leaves in soft ground, with a small sparkle. -->
+  <path d="M50 88 C50 72 50 60 48 47"/>
+  <path d="M48 53 C34 53 22 43 19 28 C34 28 46 38 48 53 Z"/>
+  <path d="M49 45 C56 31 70 23 85 25 C83 39 69 48 49 45 Z"/>
+  <path d="M47 51 C38 45 30 38 24 31 M51 44 C60 37 70 31 80 28" stroke-opacity="0.45"/>
+  <path d="M22 88 C36 83 64 83 78 88" stroke-opacity="0.6"/>
+  <path d="M80 60 L80 70 M75 65 L85 65" stroke-opacity="0.5"/>
+</svg>

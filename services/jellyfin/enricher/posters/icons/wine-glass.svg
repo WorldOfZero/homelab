@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Josei: a glass of wine with a small floating heart. -->
+  <path d="M34 14 L66 14 C68 34 62 48 50 50 C38 48 32 34 34 14 Z"/>
+  <path d="M35 28 C42 31 58 31 65 28" stroke-opacity="0.7"/>
+  <path d="M50 50 L50 82"/>
+  <ellipse cx="50" cy="84" rx="15" ry="3.5"/>
+  <path d="M80 40 C75 36 72 33 72 30 C72 28 73.5 26.5 75.5 26.5 C77 26.5 79 27.5 80 29 C81 27.5 83 26.5 84.5 26.5 C86.5 26.5 88 28 88 30 C88 33 85 36 80 40 Z" stroke-opacity="0.7"/>
+</svg>

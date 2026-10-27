@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 4K: a widescreen television showing 4K. -->
+  <rect x="8" y="16" width="84" height="58" rx="4"/>
+  <path d="M40 74 L36 86 L64 86 L60 74"/>
+  <path d="M40 60 L40 30 L24 50 L46 50"/>
+  <path d="M55 30 L55 60 M74 30 L58 46 L74 60"/>
+</svg>

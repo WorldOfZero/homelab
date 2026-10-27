@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sputnik 1: a sphere trailing four long antennas across a faint orbit, with stars. -->
+  <ellipse cx="50" cy="52" rx="47" ry="15" transform="rotate(-18 50 52)" stroke-opacity="0.3"/>
+  <circle cx="36" cy="38" r="16"/>
+  <path d="M21 41 C28 48 46 48 51 40" stroke-opacity="0.5"/>
+  <path d="M47 50 L93 86 M43 53 L80 97 M51 45 L97 70 M38 54 L60 98"/>
+  <path d="M80 14 L80 22 M76 18 L84 18 M12 72 L12 78 M9 75 L15 75" stroke-opacity="0.6"/>
+</svg>

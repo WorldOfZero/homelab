@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A werewolf's head, face on, under a full moon: tall pointed ears, fur tufts at the cheeks,
+       slanted eyes, a long muzzle with its nose, and small fangs. -->
+  <circle cx="50" cy="44" r="44" stroke-opacity="0.25"/>
+  <path d="M22 8 L37 30 L50 26 L63 30 L78 8 L81 38 L92 52 L80 56 L85 66 L68 70 L58 88 L50 92 L42 88 L32 70
+           L15 66 L20 56 L8 52 L19 38 Z"/>
+  <path d="M27 17 L34 30 M73 17 L66 30" stroke-opacity="0.6"/>
+  <path d="M33 45 L45 50 L36 53 Z M67 45 L55 50 L64 53 Z"/>
+  <path d="M46 53 L44 75 M54 53 L56 75" stroke-opacity="0.55"/>
+  <path d="M44 75 L56 75 L50 81 Z"/>
+  <path d="M45 84 L46.5 89 M55 84 L53.5 89" stroke-opacity="0.8"/>
+</svg>

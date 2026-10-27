@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Released this past year: a wall calendar with one day circled. -->
+  <rect x="14" y="18" width="72" height="72" rx="5"/>
+  <path d="M14 34 L86 34"/>
+  <path d="M32 10 L32 24 M68 10 L68 24"/>
+  <g stroke-opacity="0.45"><rect x="24" y="46" width="7" height="6" rx="1"/><rect x="36" y="46" width="7" height="6" rx="1"/><rect x="48" y="46" width="7" height="6" rx="1"/><rect x="60" y="46" width="7" height="6" rx="1"/><rect x="72" y="46" width="7" height="6" rx="1"/><rect x="24" y="58" width="7" height="6" rx="1"/><rect x="36" y="58" width="7" height="6" rx="1"/><rect x="48" y="58" width="7" height="6" rx="1"/><rect x="72" y="58" width="7" height="6" rx="1"/><rect x="24" y="70" width="7" height="6" rx="1"/><rect x="36" y="70" width="7" height="6" rx="1"/><rect x="48" y="70" width="7" height="6" rx="1"/><rect x="60" y="70" width="7" height="6" rx="1"/><rect x="72" y="70" width="7" height="6" rx="1"/></g>
+  <circle cx="63.5" cy="61" r="6.5"/>
+</svg>

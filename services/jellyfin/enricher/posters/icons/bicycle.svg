@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Coming of age: a bicycle. -->
+  <circle cx="23" cy="66" r="17"/><circle cx="77" cy="66" r="17"/>
+  <circle cx="23" cy="66" r="2" stroke-opacity="0.6"/><circle cx="77" cy="66" r="2" stroke-opacity="0.6"/>
+  <path d="M23 66 L47 66 L39 40 Z M39 40 L67 40 L47 66 M67 40 L77 66"/>
+  <path d="M67 40 L64 30 L73 28"/>
+  <path d="M33 37 L45 37"/>
+  <circle cx="47" cy="66" r="4"/>
+  <path d="M47 66 L52 74 M49 74 L55 74" stroke-opacity="0.7"/>
+</svg>

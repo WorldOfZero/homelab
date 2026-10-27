@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A mecha's head: a wide V-fin spreading from the forehead gem, a broad angular helmet with
+       cheek vents, slanted visor eyes and a vented chin plate. -->
+  <path d="M50 31 L6 13 L9 8 L50 23 L91 8 L94 13 Z"/>
+  <path d="M28 31 L72 31 L80 44 L80 62 L70 80 L58 88 L42 88 L30 80 L20 62 L20 44 Z"/>
+  <rect x="45" y="30" width="10" height="7" rx="1"/>
+  <path d="M29 47 L45 51 L45 56 L31 54 Z M71 47 L55 51 L55 56 L69 54 Z"/>
+  <path d="M43 72 L57 72 L55 82 L45 82 Z"/>
+  <path d="M46 77 L54 77" stroke-opacity="0.6"/>
+  <path d="M34 64 L42 66 M66 64 L58 66" stroke-opacity="0.5"/>
+  <path d="M13 46 L20 46 M13 52 L20 52 M13 58 L20 58 M80 46 L87 46 M80 52 L87 52 M80 58 L87 58" stroke-opacity="0.55"/>
+</svg>

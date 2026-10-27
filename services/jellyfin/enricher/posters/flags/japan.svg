@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Japan: the Hinomaru, a red disc on white, raised above the title. -->
+  <rect width="1000" height="1500" fill="#ffffff"/>
+  <circle cx="500" cy="460" r="280" fill="#bc002d"/>
+</svg>

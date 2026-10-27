@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- Progress Pride flag (Daniel Quasar, 2018), turned 90 degrees so the chevron comes from the top. -->
+  <rect x="0.0" width="167.7" height="1500" fill="#732982"/>
+  <rect x="166.7" width="167.7" height="1500" fill="#24408e"/>
+  <rect x="333.3" width="167.7" height="1500" fill="#008026"/>
+  <rect x="500.0" width="167.7" height="1500" fill="#ffed00"/>
+  <rect x="666.7" width="167.7" height="1500" fill="#ff8c00"/>
+  <rect x="833.3" width="167.7" height="1500" fill="#e40303"/>
+  <polygon points="0,-10 0,190 500,690 1000,190 1000,-10" fill="#000000"/>
+  <polygon points="0,-10 0,80 500,580 1000,80 1000,-10" fill="#613915"/>
+  <polygon points="0,-10 0,-30 500,470 1000,-30 1000,-10" fill="#5bcefa"/>
+  <polygon points="0,-10 0,-140 500,360 1000,-140 1000,-10" fill="#f5a9b8"/>
+  <polygon points="0,-10 0,-250 500,250 1000,-250 1000,-10" fill="#ffffff"/>
+</svg>

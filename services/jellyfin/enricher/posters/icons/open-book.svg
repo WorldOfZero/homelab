@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An open book: two curved pages over the cover, lines of text and a ribbon bookmark. -->
+  <path d="M8 32 L8 80 C24 76 40 78 50 84 C60 78 76 76 92 80 L92 32" stroke-opacity="0.5"/>
+  <path d="M50 30 C40 24 24 22 13 26 L13 76 C24 72 40 74 50 80 Z"/>
+  <path d="M50 30 C60 24 76 22 87 26 L87 76 C76 72 60 74 50 80 Z"/>
+  <path d="M20 36 C28 34 36 35 44 38 M20 45 C28 43 36 44 44 47 M20 54 C28 52 36 53 44 56 M20 63 C28 61 36 62 44 65
+           M56 38 C64 35 72 34 80 36 M56 47 C64 44 72 43 80 45 M56 56 C64 53 72 52 80 54" stroke-opacity="0.45"/>
+  <path d="M72 24 L72 42 L75.5 38 L79 42 L79 23"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A cut diamond with its facets and a sparkle. -->
+  <path d="M30 22 L70 22 L88 42 L50 88 L12 42 Z"/>
+  <path d="M12 42 L88 42"/>
+  <path d="M30 22 L38 42 L50 22 L62 42 L70 22" stroke-opacity="0.6"/>
+  <path d="M38 42 L50 88 L62 42" stroke-opacity="0.6"/>
+  <path d="M84 10 L84 20 M79 15 L89 15" stroke-opacity="0.7"/>
+</svg>

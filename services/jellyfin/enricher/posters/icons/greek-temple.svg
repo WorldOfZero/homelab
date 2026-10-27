@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A Greek temple front: pediment, entablature, five columns and steps. -->
+  <path d="M8 34 L50 11 L92 34 Z"/>
+  <circle cx="50" cy="26" r="3.5" stroke-opacity="0.6"/>
+  <rect x="10" y="34" width="80" height="8"/>
+  <rect x="15.5" y="42" width="7" height="34"/><rect x="31.0" y="42" width="7" height="34"/><rect x="46.5" y="42" width="7" height="34"/><rect x="62.0" y="42" width="7" height="34"/><rect x="77.5" y="42" width="7" height="34"/>
+  <rect x="7" y="76" width="86" height="6"/>
+  <rect x="3" y="82" width="94" height="7"/>
+</svg>

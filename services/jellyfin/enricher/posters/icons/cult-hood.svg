@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A hooded, robed cultist holding a candle, a candle burning either side. -->
+  <path d="M50 8 C36 14 30 28 30 42 C30 52 26 70 20 92 L80 92 C74 70 70 52 70 42 C70 28 64 14 50 8 Z"/>
+  <path d="M38 44 C38 32 44 24 50 22 C56 24 62 32 62 44 C58 50 42 50 38 44 Z"/>
+  <path d="M44 38 L47 40 M56 38 L53 40" stroke-opacity="0.6"/>
+  <path d="M40 66 C44 62 56 62 60 66 L60 72 L40 72 Z"/>
+  <path d="M47 62 L47 54 L53 54 L53 62 M50 54 C48 50 50 47 50 45 C50 47 52 50 50 54" />
+  <path d="M8 92 L8 72 L14 72 L14 92 M11 72 C9 68 11 65 11 63 C11 65 13 68 11 72 M86 92 L86 72 L92 72 L92 92 M89 72 C87 68 89 65 89 63 C89 65 91 68 89 72" stroke-opacity="0.65"/>
+</svg>

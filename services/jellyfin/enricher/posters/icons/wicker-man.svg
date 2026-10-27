@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- The wicker man: a towering woven figure, arms out, its body a lattice of crossed withies. -->
+  <circle cx="50" cy="16" r="8"/>
+  <path d="M38 28 L62 28 L76 38 L72 44 L62 38 L62 64 L66 94 L56 94 L50 70 L44 94 L34 94 L38 64 L38 38 L28 44 L24 38 Z"/>
+  <path d="M38 34 L62 58 M38 46 L62 70 M38 58 L58 78 M62 34 L38 58 M62 46 L38 70 M62 58 L42 78" stroke-opacity="0.45"/>
+  <path d="M43 13 L57 13 M42 18 L58 18" stroke-opacity="0.45"/>
+</svg>

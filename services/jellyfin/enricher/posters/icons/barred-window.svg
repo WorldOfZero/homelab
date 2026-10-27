@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A prison cell window: a stone frame with five bars and a cross bar, light beyond. -->
+  <rect x="14" y="12" width="72" height="76" rx="3"/>
+  <rect x="20" y="18" width="60" height="64" stroke-opacity="0.45"/>
+  <path d="M30 18 L30 82 M40 18 L40 82 M50 18 L50 82 M60 18 L60 82 M70 18 L70 82"/>
+  <path d="M20 50 L80 50"/>
+  <path d="M8 96 L92 96" stroke-opacity="0.4"/>
+</svg>

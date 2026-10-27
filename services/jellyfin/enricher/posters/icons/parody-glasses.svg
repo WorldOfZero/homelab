@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Groucho glasses: round lenses, bushy brows, a big nose and a moustache. -->
+  <path d="M19 24 Q31 15 44 25 M56 25 Q69 15 81 24"/>
+  <circle cx="32" cy="40" r="12"/><circle cx="68" cy="40" r="12"/>
+  <path d="M44 40 Q50 35 56 40"/>
+  <path d="M20 38 L7 33 M80 38 L93 33" stroke-opacity="0.6"/>
+  <path d="M47 42 C42 53 38 63 44 67 C50 71 58 68 56 62 C55 56 53 48 53 42"/>
+  <path d="M50 72 C44 69 33 69 24 78 C33 76 42 78 50 76 C58 78 67 76 76 78 C67 69 56 69 50 72 Z"/>
+</svg>

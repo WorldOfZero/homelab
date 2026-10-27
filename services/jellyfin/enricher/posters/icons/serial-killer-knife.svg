@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A chef's knife angled over tally marks scratched into a wall, counting. -->
+  <g transform="translate(10 26) rotate(35)">
+    <path d="M0 0 L64 -12 L64 6 C44 8 20 6 0 0 Z"/>
+    <path d="M10 -3 L58 -10" stroke-opacity="0.4"/>
+    <rect x="64" y="-13" width="5" height="20" rx="1"/>
+    <rect x="69" y="-10" width="30" height="14" rx="3"/>
+    <circle cx="78" cy="-3" r="1.6" stroke-opacity="0.7"/><circle cx="90" cy="-3" r="1.6" stroke-opacity="0.7"/>
+  </g>
+  <path d="M14 66 L14 92 M22 66 L22 92 M30 66 L30 92 M38 66 L38 92 M8 74 L44 86" stroke-opacity="0.5"/>
+</svg>

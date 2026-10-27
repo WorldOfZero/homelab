@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500">
+  <!-- United Kingdom: the Union Jack, its saltires running corner to corner on the portrait poster. -->
+  <rect width="1000" height="1500" fill="#012169"/>
+  <rect x="-1000" y="-75.0" width="2000" height="150" fill="#ffffff" transform="translate(500 750) rotate(56.31)"/><rect x="-1000" y="-75.0" width="2000" height="150" fill="#ffffff" transform="translate(500 750) rotate(123.69)"/>
+  <rect x="0" y="0.0" width="1000" height="50" fill="#c8102e" transform="translate(500 750) rotate(56.31)"/><rect x="0" y="0.0" width="1000" height="50" fill="#c8102e" transform="translate(500 750) rotate(236.31)"/><rect x="0" y="0.0" width="1000" height="50" fill="#c8102e" transform="translate(500 750) rotate(123.69)"/><rect x="0" y="0.0" width="1000" height="50" fill="#c8102e" transform="translate(500 750) rotate(-56.31)"/>
+  <rect x="375" width="250" height="1500" fill="#ffffff"/><rect y="625" width="1000" height="250" fill="#ffffff"/>
+  <rect x="425" width="150" height="1500" fill="#c8102e"/><rect y="675" width="1000" height="150" fill="#c8102e"/>
+</svg>

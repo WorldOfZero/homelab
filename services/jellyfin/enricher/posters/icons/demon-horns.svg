@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A demon's face: curved horns, pointed ears, slanted eyes and a fanged grin. -->
+  <path d="M30 40 C30 30 38 22 50 22 C62 22 70 30 70 40 L70 56 C70 70 60 82 50 89 C40 82 30 70 30 56 Z"/>
+  <path d="M33 30 C24 22 20 12 25 4 C29 14 35 19 42 23 M67 30 C76 22 80 12 75 4 C71 14 65 19 58 23"/>
+  <path d="M30 42 L18 34 L30 56 M70 42 L82 34 L70 56" stroke-opacity="0.7"/>
+  <path d="M36 45 L47 50 L38 53 Z M64 45 L53 50 L62 53 Z"/>
+  <path d="M39 67 C45 72 55 72 61 67"/>
+  <path d="M44 69.5 L45.5 75 L47.5 70.5 M56 69.5 L54.5 75 L52.5 70.5"/>
+</svg>

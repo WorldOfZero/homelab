@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A giant crab, after Roger Corman's Attack of the Crab Monsters: claws raised, eyes on stalks,
+       legs splayed over a tiny city skyline. -->
+  <ellipse cx="50" cy="56" rx="24" ry="14"/>
+  <path d="M44 43 L41 34 M56 43 L59 34"/>
+  <circle cx="41" cy="31" r="3"/><circle cx="59" cy="31" r="3"/>
+  <path d="M29 50 C20 46 17 38 20 30 M71 50 C80 46 83 38 80 30"/>
+  <path d="M20 30 C9 27 7 14 15 8 C17 16 21 19 26 17 C28 24 26 29 20 30 Z"/>
+  <path d="M80 30 C91 27 93 14 85 8 C83 16 79 19 74 17 C72 24 74 29 80 30 Z"/>
+  <path d="M28 60 L15 63 L9 72 M30 65 L19 72 L15 81 M35 68 L28 78 L26 86
+           M72 60 L85 63 L91 72 M70 65 L81 72 L85 81 M65 68 L72 78 L74 86"/>
+  <path d="M2 98 L2 92 L7 92 L7 88 L12 88 L12 94 L17 94 L17 98 M83 98 L83 93 L88 93 L88 89 L93 89 L93 94 L98 94 L98 98"
+        stroke-opacity="0.5"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Default icon for collections without one. -->
+  <circle cx="50" cy="50" r="12"/>
+  <circle cx="50" cy="50" r="24" stroke-opacity="0.7"/>
+  <circle cx="50" cy="50" r="36" stroke-opacity="0.45"/>
+  <circle cx="50" cy="50" r="48" stroke-opacity="0.25"/>
+</svg>

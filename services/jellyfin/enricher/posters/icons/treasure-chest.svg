@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A treasure chest with its lid open, gems gleaming inside. -->
+  <path d="M14 50 L86 50 L86 86 L14 86 Z"/>
+  <path d="M14 50 L20 28 C30 18 70 18 80 28 L86 50"/>
+  <path d="M20 28 L80 28" stroke-opacity="0.5"/>
+  <path d="M14 62 L86 62" stroke-opacity="0.6"/>
+  <rect x="44" y="56" width="12" height="12" rx="2"/>
+  <path d="M30 50 L36 42 L42 50 M54 50 L60 40 L66 50" stroke-opacity="0.8"/>
+  <path d="M60 22 L60 30 M56 26 L64 26 M76 34 L76 40 M73 37 L79 37 M46 28 L46 34 M43 31 L49 31" stroke-opacity="0.65"/>
+</svg>

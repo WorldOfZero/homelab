@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- The scales of justice: a central pillar, a beam and two hanging pans. -->
+  <path d="M50 10 L50 82"/>
+  <path d="M34 90 L66 90 M40 82 L60 82"/>
+  <circle cx="50" cy="12" r="3"/>
+  <path d="M14 24 L86 24"/>
+  <path d="M20 24 L8 54 M20 24 L32 54 M80 24 L68 54 M80 24 L92 54" stroke-opacity="0.6"/>
+  <path d="M6 54 C10 66 30 66 34 54 Z M66 54 C70 66 90 66 94 54 Z"/>
+</svg>

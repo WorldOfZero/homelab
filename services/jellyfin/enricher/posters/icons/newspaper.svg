@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A folded newspaper: masthead, a big headline, a photo and columns of text. -->
+  <path d="M12 16 L80 16 L80 86 L20 86 C15 86 12 83 12 78 Z"/>
+  <path d="M80 30 L90 30 L90 80 C90 84 86 86 82 86" stroke-opacity="0.6"/>
+  <path d="M20 26 L72 26"/>
+  <path d="M20 36 L72 36 M20 42 L60 42"/>
+  <rect x="20" y="50" width="24" height="18" stroke-opacity="0.8"/>
+  <path d="M50 52 L72 52 M50 58 L72 58 M50 64 L72 64 M20 76 L72 76" stroke-opacity="0.45"/>
+</svg>

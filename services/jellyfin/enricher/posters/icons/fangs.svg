@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Vampire fangs: the upper lip and its two fangs as one closed outline, like the mask icon,
+       with a drop of blood falling from the left fang. -->
+  <path d="M8 40 C22 28 40 30 50 37 C60 30 78 28 92 40 C86 46 81 47 76 47 L70 47 Q68 58 65 72 Q62 58 60 47
+           L40 47 Q38 58 35 72 Q32 58 30 47 L24 47 C19 47 14 46 8 40 Z"/>
+  <path d="M45 47 L45 52 M50 47 L50 52 M55 47 L55 52" stroke-opacity="0.55"/>
+  <path d="M35 80 C32.5 84 32.5 87 35 87 C37.5 87 37.5 84 35 80 Z" stroke-opacity="0.8"/>
+</svg>
