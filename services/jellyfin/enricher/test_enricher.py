@@ -1,4 +1,3 @@
-import base64
 import copy
 import json
 import os
@@ -36,8 +35,10 @@ class Fake:
         self.started_tasks = []
         self.task_polls = 2    # a started task reports Running this many times before it finishes
         self.on_task_done = None
-        self.images = {}       # item id -> (content type, decoded bytes) of uploaded primary images
-        self.image_errors = set()  # item ids whose image upload answers 500
+        self.uploads = []      # image uploads: the enricher must never make one
+        self.refreshed = []    # item ids refreshed
+        self.refresh_errors = set()  # item ids whose refresh answers 500
+        self.collections_dir = None  # local stand-in for Jellyfin's /config/data/collections
         self.not_ready = 0     # answer /health with 503 this many more times
 
     def add(self, item_id, name, imdb=None, item_type="Movie", tags=None, **extra):
@@ -100,6 +101,8 @@ def make_handler(fake):
                 start, limit = int(q["StartIndex"]), int(q["Limit"])
                 return self._send(200, {"Items": copy.deepcopy(allitems[start:start + limit]),
                                         "TotalRecordCount": len(allitems)})
+            if u.path.startswith("/jf/Items/") and u.path.endswith("/Images"):
+                return self._send(200, copy.deepcopy(fake.items[u.path.split("/")[3]].get("ImageInfos", [])))
             if u.path.startswith("/jf/Items/"):
                 assert q.get("userId") == "u-admin"
                 return self._send(200, copy.deepcopy(fake.items[u.path.rsplit("/", 1)[1]]))
@@ -121,12 +124,21 @@ def make_handler(fake):
             u = urllib.parse.urlparse(self.path)
             length = int(self.headers.get("Content-Length") or 0)
             raw = self.rfile.read(length)
-            if u.path.endswith("/Images/Primary"):
+            if "/Images/" in u.path:
+                fake.uploads.append(u.path)
+                return self._send(500, b"Read-only file system", "text/plain")
+            if u.path.endswith("/Refresh"):
                 item_id = u.path.split("/")[3]
-                if item_id in fake.image_errors:
-                    return self._send(500, b"System.IO.IOException: The process cannot access the file", "text/plain")
-                fake.images[item_id] = (self.headers["Content-Type"], base64.b64decode(raw, validate=True))
-                fake.items[item_id]["ImageTags"] = {"Primary": f"tag-{len(fake.images)}-{item_id}"}
+                if item_id in fake.refresh_errors:
+                    return self._send(500, b"Error processing request.", "text/plain")
+                fake.refreshed.append(item_id)
+                # Like Jellyfin's ItemImageProvider.MergeImages: a poster file in the item's folder
+                # becomes its primary image, and nothing is deleted.
+                item = fake.items[item_id]
+                folder = os.path.join(fake.collections_dir, item["Path"].split("/config/data/collections/", 1)[1])
+                posters = sorted(f for f in os.listdir(folder) if f.startswith("poster."))
+                if posters:
+                    item["ImageInfos"] = [{"ImageType": "Primary", "Path": f"{item['Path']}/{posters[0]}"}]
                 return self._send(204)
             body = json.loads(raw) if length else None
             if u.path.startswith("/jf/ScheduledTasks/Running/"):
@@ -291,52 +303,88 @@ class EnricherTest(unittest.TestCase):
             f.write(data)
         return directory
 
+    def boxset(self, item_id, name, image=None):
+        """A collection with its folder, as the plugin creates it; `image` is its current primary
+        image path, e.g. a movie's poster that the plugin borrowed."""
+        self.fake.collections_dir = os.path.join(self.tmp.name, "collections")
+        os.makedirs(os.path.join(self.fake.collections_dir, f"{name} [boxset]"), exist_ok=True)
+        infos = [{"ImageType": "Primary", "Path": image}] if image else []
+        self.fake.add(item_id, name, item_type="BoxSet", Path=f"/config/data/collections/{name} [boxset]",
+                      ImageInfos=infos)
+
+    def poster(self, name, filename="poster.jpg"):
+        path = os.path.join(self.fake.collections_dir, f"{name} [boxset]", filename)
+        with open(path, "rb") as f:
+            return f.read()
+
     def apply_images(self, dry_run=False):
         return enricher.apply_collection_images(os.path.join(self.tmp.name, "images"), self.jf(),
-                                                os.path.join(self.tmp.name, "images.json"), dry_run)
+                                                os.path.join(self.tmp.name, "collections"), dry_run)
 
-    def test_collection_images_upload_once_per_change(self):
-        self.fake.add("c1", "Aviation Collection", item_type="BoxSet", ImageTags={"Primary": "generated"})
-        self.fake.add("c2", "Heist Collection", item_type="BoxSet")
+    def test_collection_images_are_written_to_the_folder_and_never_uploaded(self):
+        # The plugin pointed the collection at a movie's poster; replacing it must not touch that file.
+        self.boxset("c1", "Aviation Collection", image="/media/Movies/Top Gun (1986)/poster.jpg")
+        self.boxset("c2", "Heist Collection")
         self.write_image("aviation collection.JPG")  # names and extensions match in any case
         self.write_image("README.md", b"not an image")
-        self.assertEqual(self.apply_images()["uploaded"], 1)
-        self.assertEqual(self.fake.images, {"c1": ("image/jpeg", b"\xff\xd8poster")})
-        self.assertEqual(self.apply_images(), {"uploaded": 0, "unchanged": 1, "no_collection": 0, "failed": 0})
-        self.write_image("aviation collection.JPG", b"\xff\xd8new poster")  # file changed
-        self.assertEqual(self.apply_images()["uploaded"], 1)
-        self.assertEqual(self.fake.images["c1"][1], b"\xff\xd8new poster")
-        self.fake.items["c1"]["ImageTags"] = {"Primary": "refreshed"}  # Jellyfin replaced the image
-        self.assertEqual(self.apply_images()["uploaded"], 1)
-        del self.fake.items["c1"]  # the plugin recreated the collection under a new id
-        self.fake.add("c3", "Aviation Collection", item_type="BoxSet")
-        self.assertEqual(self.apply_images()["uploaded"], 1)
-        self.assertEqual(set(self.fake.images), {"c1", "c3"})
+        stats = self.apply_images()
+        self.assertEqual(stats, {"written": 1, "refreshed": 1, "unchanged": 0, "no_collection": 0, "failed": 0})
+        self.assertEqual(self.poster("Aviation Collection"), b"\xff\xd8poster")
+        self.assertEqual(self.fake.items["c1"]["ImageInfos"][0]["Path"],
+                         "/config/data/collections/Aviation Collection [boxset]/poster.jpg")
+        self.assertEqual(self.fake.uploads, [])
+        # Second run: file and image already match, so nothing is written or refreshed.
+        self.assertEqual(self.apply_images()["unchanged"], 1)
+        self.assertEqual(self.fake.refreshed, ["c1"])
+        # A changed design is written and refreshed again.
+        self.write_image("aviation collection.JPG", b"\xff\xd8new poster")
+        self.assertEqual(self.apply_images()["written"], 1)
+        self.assertEqual(self.poster("Aviation Collection"), b"\xff\xd8new poster")
+        # Something else pointed the collection elsewhere: refresh again, without rewriting the file.
+        self.fake.items["c1"]["ImageInfos"] = [{"ImageType": "Primary", "Path": "/media/Movies/X/poster.jpg"}]
+        stats = self.apply_images()
+        self.assertEqual((stats["written"], stats["refreshed"]), (0, 1))
+        self.assertEqual(self.fake.uploads, [])
 
-    def test_collection_images_dry_run_and_missing_collection(self):
-        self.fake.add("c1", "Aviation Collection", item_type="BoxSet")
-        self.write_image("Aviation Collection.png")
+    def test_collection_images_dry_run_missing_collection_and_format_change(self):
+        self.boxset("c1", "Aviation Collection")
+        self.write_image("Aviation Collection.jpg")
         self.write_image("Polyamory Collection.webp")
         stats = self.apply_images(dry_run=True)
-        self.assertEqual(stats, {"uploaded": 1, "unchanged": 0, "no_collection": 1, "failed": 0})
-        self.assertEqual(self.fake.images, {})
-        self.assertFalse(os.path.exists(os.path.join(self.tmp.name, "images.json")))
+        self.assertEqual(stats, {"written": 0, "refreshed": 1, "unchanged": 0, "no_collection": 1, "failed": 0})
+        self.assertEqual(os.listdir(os.path.join(self.fake.collections_dir, "Aviation Collection [boxset]")), [])
+        self.assertEqual(self.fake.refreshed, [])
         self.apply_images()
-        self.assertEqual(self.fake.images["c1"][0], "image/png")
+        os.remove(os.path.join(self.tmp.name, "images", "Aviation Collection.jpg"))
+        self.write_image("Aviation Collection.png", b"png")
+        self.apply_images()  # the old poster.jpg is removed so it cannot compete with poster.png
+        self.assertEqual(sorted(os.listdir(os.path.join(self.fake.collections_dir, "Aviation Collection [boxset]"))),
+                         ["poster.png"])
 
     def test_one_failing_collection_does_not_stop_the_rest(self):
         for i, name in enumerate(["1980's Movies", "1990's Movies", "2000's Movies"]):
-            self.fake.add(f"c{i}", name, item_type="BoxSet")
+            self.boxset(f"c{i}", name)
             self.write_image(f"{name}.jpg")
-        self.fake.image_errors = {"c1"}
+        self.fake.refresh_errors = {"c1"}
         with self.assertLogs(level="ERROR") as logs:
             stats = self.apply_images()
-        self.assertEqual(stats, {"uploaded": 2, "unchanged": 0, "no_collection": 0, "failed": 1})
-        self.assertEqual(set(self.fake.images), {"c0", "c2"})
+        self.assertEqual(stats["failed"], 1)
+        self.assertEqual(sorted(self.fake.refreshed), ["c0", "c2"])
         self.assertIn("1990's Movies (c1) failed: HTTP Error 500", "\n".join(logs.output))
-        self.assertIn("cannot access the file", "\n".join(logs.output))  # Jellyfin's message is logged
-        self.fake.image_errors = set()  # the failed one is retried next run; the others are unchanged
-        self.assertEqual(self.apply_images(), {"uploaded": 1, "unchanged": 2, "no_collection": 0, "failed": 0})
+        self.fake.refresh_errors = set()  # the failed one is retried next run; the others are unchanged
+        stats = self.apply_images()
+        self.assertEqual((stats["refreshed"], stats["unchanged"], stats["failed"]), (1, 2, 0))
+
+    def test_collection_outside_the_collections_folder_is_refused(self):
+        self.boxset("c1", "Aviation Collection")
+        self.fake.items["c1"]["Path"] = "/media/Movies/Top Gun (1986)"
+        self.boxset("c2", "Heist Collection")
+        self.fake.items["c2"]["Path"] = "/config/data/collections/../../../media/Movies"
+        self.write_image("Aviation Collection.jpg")
+        self.write_image("Heist Collection.jpg")
+        with self.assertLogs(level="ERROR"):
+            self.assertEqual(self.apply_images()["failed"], 2)
+        self.assertEqual((self.fake.refreshed, self.fake.uploads), ([], []))
 
     def test_two_images_for_one_collection_is_an_error(self):
         self.write_image("Aviation Collection.png")
@@ -354,7 +402,8 @@ class EnricherTest(unittest.TestCase):
             yaml.safe_dump(dict(self.cfg, auto_collections=ac,
                                 imdb_keywords={"sources": ["kometa"], "request_delay_seconds": 0}), f)
         env = {"JELLYFIN_APIKEY": "key", "JELLYFIN_URL": f"{self.base}/jf", "KOMETA_SERVICE_URL": f"{self.base}/kometa",
-               "DATA_DIR": self.tmp.name, "DRY_RUN": "false"}  # --dry-run still overrides
+               "DATA_DIR": self.tmp.name, "DRY_RUN": "false",  # --dry-run still overrides
+               "COLLECTIONS_DIR": os.path.join(self.tmp.name, "collections")}
         old = {k: os.environ.get(k) for k in [*env, "RUN_AT"]}
         os.environ.update(env)
         os.environ.pop("RUN_AT", None)
@@ -392,21 +441,21 @@ class EnricherTest(unittest.TestCase):
     def test_main_sets_images_on_collections_the_task_creates(self):
         self.fake.add("1", "Heat", "tt0113277")
         self.fake.kometa["tt0113277"] = {"keywords": {"heist": [1, 1]}}
-        self.fake.on_task_done = lambda: self.fake.add("c1", "Heist Collection", item_type="BoxSet")
+        self.fake.on_task_done = lambda: self.boxset("c1", "Heist Collection")
         self.write_image("Heist Collection.jpg")
         with mock.patch("enricher.time.sleep") as sleep:
             self.run_main(dry_run=False, images="images")
         self.assertEqual(self.fake.started_tasks, ["t-ac"])
         self.assertGreaterEqual(sleep.call_count, 2)  # polled the task until it finished
-        self.assertEqual(set(self.fake.images), {"c1"})
+        self.assertEqual(self.fake.refreshed, ["c1"])
 
     def test_main_sets_images_without_a_task_and_survives_a_missing_folder(self):
-        self.fake.add("c1", "Heist Collection", item_type="BoxSet")
+        self.boxset("c1", "Heist Collection")
         self.fake.plugin_configs["p-ac"]["ExpressionCollections"] = [self.ac("Heist Collection", 'TAG "heist"')]
         self.write_image("Heist Collection.jpg")
         self.run_main(dry_run=False, images="images")  # nothing to sync or tag, so no task is started
         self.assertEqual(self.fake.started_tasks, [])
-        self.assertEqual(set(self.fake.images), {"c1"})
+        self.assertEqual(self.fake.refreshed, ["c1"])
         with self.assertLogs(level="ERROR") as logs:
             self.run_main(dry_run=False, images="no-such-folder")
         self.assertIn("collection images: skipped", "\n".join(logs.output))

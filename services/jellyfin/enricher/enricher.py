@@ -5,9 +5,7 @@ keywords to tags/genres; matching values are appended to the item and nothing is
 """
 
 import argparse
-import base64
 import datetime as dt
-import hashlib
 import json
 import logging
 import os
@@ -64,14 +62,14 @@ class Jellyfin:
             self._user_id = (admins or users)[0]["Id"]
         return self._user_id
 
-    def items(self, item_types, page_size=500):
+    def items(self, item_types, page_size=500, fields="ProviderIds,Tags,Genres"):
         start = 0
         while True:
             page = self._call("/Items", params={
                 "userId": self.user_id(),
                 "Recursive": "true",
                 "IncludeItemTypes": ",".join(item_types),
-                "Fields": "ProviderIds,Tags,Genres",
+                "Fields": fields,
                 "StartIndex": start,
                 "Limit": page_size,
             })
@@ -83,12 +81,18 @@ class Jellyfin:
     def get_item(self, item_id):
         return self._call(f"/Items/{item_id}", params={"userId": self.user_id()})
 
-    def set_primary_image(self, item_id, data, content_type):
-        # Jellyfin decodes the request body as base64, not as raw image bytes.
-        req = urllib.request.Request(f"{self.url}/Items/{item_id}/Images/Primary", data=base64.b64encode(data),
-                                     method="POST", headers={**self.headers, "Content-Type": content_type})
-        with urllib.request.urlopen(req, timeout=60):
-            pass
+    # Never upload images (POST /Items/{id}/Images): Jellyfin then deletes the item's previous image
+    # file, and the Auto Collections plugin points a new collection at one of its movies' posters.
+    def primary_image_path(self, item_id):
+        infos = self._call(f"/Items/{item_id}/Images") or []
+        return next((i.get("Path") for i in infos if i.get("ImageType") == "Primary"), None)
+
+    def refresh_item(self, item_id):
+        """Queue a refresh that keeps existing metadata. Among other things it re-reads the item's
+        folder, and a poster file there becomes its primary image without deleting the old one."""
+        self._call(f"/Items/{item_id}/Refresh", method="POST", params={
+            "metadataRefreshMode": "Default", "imageRefreshMode": "Default",
+            "replaceAllMetadata": "false", "replaceAllImages": "false"})
 
     def update_item(self, item_id, dto):
         # POST /Items/{id} replaces the item's metadata with the DTO, so always send the full
@@ -401,24 +405,36 @@ def load_collection_images(directory):
     return out
 
 
-def apply_collection_images(directory, jellyfin, state_path, dry_run):
-    """Set each collection's primary image from its file in `directory`.
+def collection_folder(jellyfin_path, collections_dir, jellyfin_root):
+    """This container's path to a collection's folder, given its path in Jellyfin (e.g.
+    /config/data/collections/Aviation Collection [boxset]). Refuses anything outside the root."""
+    root = jellyfin_root.rstrip("/") + "/"
+    if not jellyfin_path or not jellyfin_path.startswith(root):
+        raise ValueError(f"collection folder {jellyfin_path!r} is not under {jellyfin_root}")
+    relative = jellyfin_path[len(root):]
+    if not relative or os.path.normpath(relative) != relative or relative.startswith(".."):
+        raise ValueError(f"unexpected collection folder {jellyfin_path!r}")
+    folder = os.path.join(collections_dir, relative)
+    if not os.path.isdir(folder):
+        raise FileNotFoundError(f"no folder {folder} for {jellyfin_path}")
+    return folder
 
-    Uploads only when the file changed, or when the collection's image is no longer the one
-    uploaded: the plugin recreated the collection, or a metadata refresh replaced the image.
-    The state file records the file hash and Jellyfin's image tag per collection id.
+
+def apply_collection_images(directory, jellyfin, collections_dir, dry_run, jellyfin_root="/config/data/collections"):
+    """Make each collection's primary image the file named after it in `directory`.
+
+    The image is written as poster.<ext> into the collection's own folder (Jellyfin's
+    `jellyfin_root`, mounted here at `collections_dir`), then the collection is refreshed, which
+    makes that file its primary image. Uploading through the API is not safe: Jellyfin deletes the
+    previous image file, and the Auto Collections plugin sets a new collection's image to one of
+    its movies' posters. Nothing happens for a collection whose poster file already matches and
+    is already its primary image.
     """
     images = load_collection_images(directory)
-    try:
-        with open(state_path) as f:
-            state = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        state = {}
     collections = {}
-    for c in jellyfin.items(["BoxSet"]):
+    for c in jellyfin.items(["BoxSet"], fields="Path"):
         collections.setdefault(c["Name"].casefold(), []).append(c)
-    stats = {"uploaded": 0, "unchanged": 0, "no_collection": 0, "failed": 0}
-    new_state = {}
+    stats = {"written": 0, "refreshed": 0, "unchanged": 0, "no_collection": 0, "failed": 0}
     for key, path in images.items():
         name = os.path.basename(path)
         if key not in collections:
@@ -428,34 +444,44 @@ def apply_collection_images(directory, jellyfin, state_path, dry_run):
             continue
         with open(path, "rb") as f:
             data = f.read()
-        digest = hashlib.sha256(data).hexdigest()
+        poster = "poster" + os.path.splitext(path)[1].lower()
         for c in collections[key]:
-            tag = (c.get("ImageTags") or {}).get("Primary")
-            if state.get(c["Id"]) == {"sha256": digest, "tag": tag}:
-                new_state[c["Id"]] = state[c["Id"]]
-                stats["unchanged"] += 1
-                continue
-            log.info("collection image %s: %s %s", name, "would set on" if dry_run else "setting on", c["Name"])
-            if dry_run:
-                stats["uploaded"] += 1
-                continue
             try:
-                jellyfin.set_primary_image(c["Id"], data, IMAGE_TYPES[os.path.splitext(path)[1].lower()])
-                tag = (jellyfin.get_item(c["Id"]).get("ImageTags") or {}).get("Primary")
-            except OSError as e:  # HTTPError and connection errors
-                # One collection failing must not stop the rest; with no state it is retried next run.
+                folder = collection_folder(c.get("Path"), collections_dir, jellyfin_root)
+                target = os.path.join(folder, poster)
+                try:
+                    with open(target, "rb") as f:
+                        write = f.read() != data
+                except FileNotFoundError:
+                    write = True
+                # A poster in another format, e.g. from an earlier .png, would compete with this one.
+                stale = [f for f in os.listdir(folder) if os.path.splitext(f)[0] == "poster"
+                         and os.path.splitext(f)[1].lower() in IMAGE_TYPES and f != poster]
+                pointed = jellyfin.primary_image_path(c["Id"]) == f"{c['Path'].rstrip('/')}/{poster}"
+                if not (write or stale or not pointed):
+                    stats["unchanged"] += 1
+                    continue
+                log.info("collection image %s: %s %s%s", name, "would set on" if dry_run else "setting on",
+                         c["Name"], "" if write else " (file already in place)")
+                if dry_run:
+                    stats["refreshed"] += 1
+                    continue
+                if write:
+                    tmp = os.path.join(folder, ".poster.tmp")
+                    with open(tmp, "wb") as f:
+                        f.write(data)
+                    os.replace(tmp, target)
+                    stats["written"] += 1
+                for f in stale:
+                    os.remove(os.path.join(folder, f))
+                jellyfin.refresh_item(c["Id"])
+                stats["refreshed"] += 1
+            except (OSError, ValueError) as e:  # HTTPError, connection and file errors
+                # One collection failing must not stop the rest; it is retried next run.
                 detail = e.read().decode("utf-8", "replace")[:300] if isinstance(e, urllib.error.HTTPError) else ""
                 log.error("collection image %s: setting on %s (%s) failed: %s %s",
                           name, c["Name"], c["Id"], e, detail.strip())
                 stats["failed"] += 1
-                continue
-            stats["uploaded"] += 1
-            new_state[c["Id"]] = {"sha256": digest, "tag": tag}
-    if not dry_run:
-        tmp = state_path + ".tmp"
-        with open(tmp, "w") as f:
-            json.dump(new_state, f)
-        os.replace(tmp, state_path)
     log.info("collection images: %s%s", stats, " (dry run)" if dry_run else "")
     return stats
 
@@ -526,8 +552,9 @@ def main(argv=None):
                 log.warning("collection images: %r still running after %.0f minutes; setting images anyway",
                             task["Name"], wait / 60)
             try:
-                apply_collection_images(ac["images"], jellyfin, os.path.join(data_dir, "collection_images.json"),
-                                        dry_run)
+                # Jellyfin's collection folders, mounted here so posters can be written into them.
+                apply_collection_images(ac["images"], jellyfin, os.environ.get("COLLECTIONS_DIR", "/collections"),
+                                        dry_run, os.environ.get("JELLYFIN_COLLECTIONS_PATH", "/config/data/collections"))
             except (OSError, ValueError) as e:  # HTTPError is an OSError; tagging already finished
                 log.error("collection images: skipped: %s", e)
         return stats

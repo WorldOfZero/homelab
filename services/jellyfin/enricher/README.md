@@ -77,19 +77,27 @@ To add a theme collection: add a `rules:` entry in `config.yaml` that produces t
 Every collection gets a poster rendered from `posters/` while the image builds (see
 `posters/README.md`), so editing a design and redeploying updates it in Jellyfin. To use your own
 image for a collection instead, add a file named after it to `collection-images/`, for example
-`Aviation Collection.jpg`, and redeploy: the build keeps it and skips that poster. `posters/` renders matching posters from a template; see
-`posters/README.md`. Collections without a file keep whatever
-image Jellyfin gives them. On each run (dry runs only log):
+`Aviation Collection.jpg`, and redeploy: the build keeps it and skips that poster. Collections
+without an image keep whatever image Jellyfin gives them. On each run (dry runs only log):
 
 1. If the run started the plugin's task, the enricher waits for it to finish, up to
    `auto_collections.task_wait_minutes` (default 30). That way a collection created by this run
    gets its image now.
-2. It uploads each image to the collections with that name (`POST /Items/{id}/Images/Primary`).
+2. For each collection with an image, it writes the image as `poster.jpg` (or `.png`, `.webp`)
+   into the collection's own folder. Jellyfin keeps these in `/config/data/collections/<name>
+   [boxset]/`, mounted into the enricher at `/collections`.
+3. It refreshes the collection (`POST /Items/{id}/Refresh`, keeping existing metadata), and
+   Jellyfin makes that file the collection's primary image.
 
-An image is uploaded again only when the file changes, or when the collection's image is no
-longer the uploaded one. That happens when the plugin recreates the collection, or a refresh
-replaces the image. `/data/collection_images.json` records the file hash and Jellyfin's image tag
-per collection.
+A collection is skipped when its poster file already matches and is already its primary image.
+It is refreshed again when the plugin or anything else points it at another image.
+
+**Never upload collection images through the API** (`POST /Items/{id}/Images/Primary`). Jellyfin
+deletes the previous image file when it saves the new one. The Auto Collections plugin sets a new
+collection's image to one of its movies' posters, in the movie's folder or in Jellyfin's
+metadata folder, so an upload deletes that movie's poster. This happened on 2026-10-26; the
+read-only `/media` mount stopped most of it. The enricher refuses any collection whose folder is
+outside the collections folder.
 
 A test checks that every image names a collection in `auto-collections.json`. To stop managing
 a collection's image, delete its file; the image it last got stays in Jellyfin.
@@ -105,6 +113,8 @@ Environment (set in `../docker-compose.yaml` / Portainer):
 | `JELLYFIN_WAIT_MINUTES` | `20` | How long a run waits for Jellyfin to answer `/health` (it is down during a redeploy, longer during a migration) |
 | `DRY_RUN` | `true` | Logs `would update …` without writing; compose maps `ENRICHER_DRY_RUN` |
 | `TZ`, `LOG_LEVEL`, `DATA_DIR` | `UTC`, `INFO`, `/data` | |
+| `COLLECTIONS_DIR` | `/collections` | Jellyfin's collection folders, mounted read-write |
+| `JELLYFIN_COLLECTIONS_PATH` | `/config/data/collections` | The same folder as Jellyfin sees it |
 
 ## First deploy
 

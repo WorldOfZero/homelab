@@ -115,6 +115,10 @@ services:
       - DRY_RUN=${ENRICHER_DRY_RUN:-true} # Logs intended changes only; set ENRICHER_DRY_RUN=false to write
     volumes:
       - '/mnt/Fast/Configuration/jellyfin/enricher:/data' # IMDb keyword cache; must be owned by 1000:1000
+      # Jellyfin's collection folders (/config/data/collections in Jellyfin): collection posters are
+      # written here as poster.jpg and picked up on refresh. Uploading them through the API made
+      # Jellyfin delete the movie posters the Auto Collections plugin had borrowed. See enricher/README.md.
+      - '/mnt/Fast/Configuration/jellyfin/config/data/collections:/collections'
     depends_on:
       - application
     restart: 'unless-stopped'
