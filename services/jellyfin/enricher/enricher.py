@@ -5,7 +5,9 @@ keywords to tags/genres; matching values are appended to the item and nothing is
 """
 
 import argparse
+import base64
 import datetime as dt
+import hashlib
 import json
 import logging
 import os
@@ -81,6 +83,13 @@ class Jellyfin:
     def get_item(self, item_id):
         return self._call(f"/Items/{item_id}", params={"userId": self.user_id()})
 
+    def set_primary_image(self, item_id, data, content_type):
+        # Jellyfin decodes the request body as base64, not as raw image bytes.
+        req = urllib.request.Request(f"{self.url}/Items/{item_id}/Images/Primary", data=base64.b64encode(data),
+                                     method="POST", headers={**self.headers, "Content-Type": content_type})
+        with urllib.request.urlopen(req, timeout=60):
+            pass
+
     def update_item(self, item_id, dto):
         # POST /Items/{id} replaces the item's metadata with the DTO, so always send the full
         # DTO fetched just before, with only the additive fields changed.
@@ -127,13 +136,25 @@ class Jellyfin:
         self._call(f"/Plugins/{plugin_id}/Configuration", method="POST", body=config)
 
     def start_task(self, name):
-        """Start the first scheduled task whose name contains `name` (case-insensitive)."""
+        """Start the first scheduled task whose name contains `name` (case-insensitive); returns it."""
         tasks = self._call("/ScheduledTasks")
         for task in tasks:
             if name.casefold() in task["Name"].casefold():
                 self._call(f"/ScheduledTasks/Running/{task['Id']}", method="POST")
-                return task["Name"]
+                return task
         raise LookupError(f"no scheduled task matching {name!r}; have: {sorted(t['Name'] for t in tasks)}")
+
+    def wait_for_task(self, task, timeout, interval=10):
+        """Wait until a task returned by start_task has finished: idle, with a newer last result
+        than when it was started. Returns False on timeout."""
+        before = (task.get("LastExecutionResult") or {}).get("EndTimeUtc")
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            time.sleep(interval)
+            now = self._call(f"/ScheduledTasks/{task['Id']}")
+            if now.get("State") == "Idle" and (now.get("LastExecutionResult") or {}).get("EndTimeUtc") != before:
+                return True
+        return False
 
 
 class KeywordSource:
@@ -353,11 +374,81 @@ def sync_auto_collections(settings, jellyfin, dry_run):
 
 
 def refresh_auto_collections(settings, jellyfin):
-    task = settings.get("task_name", "Auto Collection")
+    """Start the plugin's scheduled task; returns the task, or None if there is no such task."""
     try:
-        log.info("auto collections: started task %r", jellyfin.start_task(task))
+        task = jellyfin.start_task(settings.get("task_name", "Auto Collection"))
     except LookupError as e:
         log.warning("auto collections: %s (collections update on the plugin's own schedule)", e)
+        return None
+    log.info("auto collections: started task %r", task["Name"])
+    return task
+
+
+IMAGE_TYPES = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}
+
+
+def load_collection_images(directory):
+    """{casefolded collection name: file path} for the images in `directory`, each named after its
+    collection, e.g. "Aviation Collection.jpg". Other files (a README) are ignored."""
+    out = {}
+    for name in sorted(os.listdir(directory)):
+        stem, ext = os.path.splitext(name)
+        if ext.lower() not in IMAGE_TYPES:
+            continue
+        if stem.casefold() in out:
+            raise ValueError(f"two images for collection {stem!r} in {directory}")
+        out[stem.casefold()] = os.path.join(directory, name)
+    return out
+
+
+def apply_collection_images(directory, jellyfin, state_path, dry_run):
+    """Set each collection's primary image from its file in `directory`.
+
+    Uploads only when the file changed, or when the collection's image is no longer the one
+    uploaded: the plugin recreated the collection, or a metadata refresh replaced the image.
+    The state file records the file hash and Jellyfin's image tag per collection id.
+    """
+    images = load_collection_images(directory)
+    try:
+        with open(state_path) as f:
+            state = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        state = {}
+    collections = {}
+    for c in jellyfin.items(["BoxSet"]):
+        collections.setdefault(c["Name"].casefold(), []).append(c)
+    stats = {"uploaded": 0, "unchanged": 0, "no_collection": 0}
+    new_state = {}
+    for key, path in images.items():
+        name = os.path.basename(path)
+        if key not in collections:
+            # The plugin creates a collection only once something matches its expression.
+            log.info("collection image %s: no collection by that name yet", name)
+            stats["no_collection"] += 1
+            continue
+        with open(path, "rb") as f:
+            data = f.read()
+        digest = hashlib.sha256(data).hexdigest()
+        for c in collections[key]:
+            tag = (c.get("ImageTags") or {}).get("Primary")
+            if state.get(c["Id"]) == {"sha256": digest, "tag": tag}:
+                new_state[c["Id"]] = state[c["Id"]]
+                stats["unchanged"] += 1
+                continue
+            stats["uploaded"] += 1
+            log.info("collection image %s: %s %s", name, "would set on" if dry_run else "setting on", c["Name"])
+            if dry_run:
+                continue
+            jellyfin.set_primary_image(c["Id"], data, IMAGE_TYPES[os.path.splitext(path)[1].lower()])
+            tag = (jellyfin.get_item(c["Id"]).get("ImageTags") or {}).get("Primary")
+            new_state[c["Id"]] = {"sha256": digest, "tag": tag}
+    if not dry_run:
+        tmp = state_path + ".tmp"
+        with open(tmp, "w") as f:
+            json.dump(new_state, f)
+        os.replace(tmp, state_path)
+    log.info("collection images: %s%s", stats, " (dry run)" if dry_run else "")
+    return stats
 
 
 def seconds_until(run_at, tz):
@@ -403,8 +494,9 @@ def main(argv=None):
             request_delay=float(kw_cfg.get("request_delay_seconds", 1.0)),
         )
         ac = dict(cfg.get("auto_collections") or {})
-        if ac:
-            ac["file"] = os.path.join(os.path.dirname(os.path.abspath(args.config)), ac["file"])
+        for key in ("file", "images"):
+            if ac.get(key):
+                ac[key] = os.path.join(os.path.dirname(os.path.abspath(args.config)), ac[key])
         # Sync collection definitions first so new TAG rules exist before tags are added.
         config_changed = False
         if ac:
@@ -415,8 +507,20 @@ def main(argv=None):
                 log.error("auto collections: sync skipped: %s", e)
                 ac = {}
         stats = run(cfg, jellyfin, source, dry_run)
+        task = None
         if ac and not dry_run and (config_changed or stats["changed"]):
-            refresh_auto_collections(ac, jellyfin)
+            task = refresh_auto_collections(ac, jellyfin)
+        if ac.get("images"):
+            # Wait for the task so collections it creates this run get their image now, not tomorrow.
+            wait = float(ac.get("task_wait_minutes", 30)) * 60
+            if task and not jellyfin.wait_for_task(task, wait):
+                log.warning("collection images: %r still running after %.0f minutes; setting images anyway",
+                            task["Name"], wait / 60)
+            try:
+                apply_collection_images(ac["images"], jellyfin, os.path.join(data_dir, "collection_images.json"),
+                                        dry_run)
+            except (OSError, ValueError) as e:  # HTTPError is an OSError; tagging already finished
+                log.error("collection images: skipped: %s", e)
         return stats
 
     if args.once or not os.environ.get("RUN_AT"):

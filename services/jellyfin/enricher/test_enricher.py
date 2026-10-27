@@ -1,3 +1,4 @@
+import base64
 import copy
 import json
 import os
@@ -29,8 +30,13 @@ class Fake:
         self.requests = []
         self.plugins = [{"Id": "p-other", "Name": "TMDb"}, {"Id": "p-ac", "Name": "Auto Collections"}]
         self.plugin_configs = {"p-ac": {"TitleMatchPairs": [], "ExpressionCollections": [], "SomeOtherSetting": 7}}
-        self.tasks = [{"Id": "t-scan", "Name": "Scan Media Library"}, {"Id": "t-ac", "Name": "Auto Collections Update"}]
+        self.tasks = [{"Id": "t-scan", "Name": "Scan Media Library", "State": "Idle"},
+                      {"Id": "t-ac", "Name": "Auto Collections Update", "State": "Idle",
+                       "LastExecutionResult": {"EndTimeUtc": "2026-10-26T03:01:00Z"}}]
         self.started_tasks = []
+        self.task_polls = 2    # a started task reports Running this many times before it finishes
+        self.on_task_done = None
+        self.images = {}       # item id -> (content type, decoded bytes) of uploaded primary images
         self.not_ready = 0     # answer /health with 503 this many more times
 
     def add(self, item_id, name, imdb=None, item_type="Movie", tags=None, **extra):
@@ -75,6 +81,16 @@ def make_handler(fake):
                 return self._send(200, copy.deepcopy(fake.plugin_configs[pid]))
             if u.path == "/jf/ScheduledTasks":
                 return self._send(200, fake.tasks)
+            if u.path.startswith("/jf/ScheduledTasks/"):
+                task = next(t for t in fake.tasks if t["Id"] == u.path.rsplit("/", 1)[1])
+                if task["State"] == "Running":
+                    task["polls"] -= 1
+                    if task["polls"] <= 0:
+                        task["State"] = "Idle"
+                        task["LastExecutionResult"] = {"EndTimeUtc": f"end-{len(fake.started_tasks)}"}
+                        if fake.on_task_done:
+                            fake.on_task_done()
+                return self._send(200, {k: v for k, v in task.items() if k != "polls"})
             if u.path == "/jf/Items":
                 if q.get("userId") != "u-admin":  # Jellyfin 12 returns mostly collections without a user
                     return self._send(200, {"Items": [], "TotalRecordCount": 0})
@@ -103,9 +119,18 @@ def make_handler(fake):
         def do_POST(self):
             u = urllib.parse.urlparse(self.path)
             length = int(self.headers.get("Content-Length") or 0)
-            body = json.loads(self.rfile.read(length)) if length else None
+            raw = self.rfile.read(length)
+            if u.path.endswith("/Images/Primary"):
+                item_id = u.path.split("/")[3]
+                fake.images[item_id] = (self.headers["Content-Type"], base64.b64decode(raw, validate=True))
+                fake.items[item_id]["ImageTags"] = {"Primary": f"tag-{len(fake.images)}-{item_id}"}
+                return self._send(204)
+            body = json.loads(raw) if length else None
             if u.path.startswith("/jf/ScheduledTasks/Running/"):
-                fake.started_tasks.append(u.path.rsplit("/", 1)[1])
+                task_id = u.path.rsplit("/", 1)[1]
+                fake.started_tasks.append(task_id)
+                task = next(t for t in fake.tasks if t["Id"] == task_id)
+                task["State"], task["polls"] = "Running", fake.task_polls
                 return self._send(204)
             if u.path.startswith("/jf/Plugins/"):
                 fake.plugin_configs[u.path.split("/")[3]] = body
@@ -256,11 +281,60 @@ class EnricherTest(unittest.TestCase):
         with self.assertRaisesRegex(LookupError, "0.0.7.0 is NotSupported"):
             enricher.sync_auto_collections(settings, self.jf(), dry_run=False)
 
-    def run_main(self, dry_run):
+    def write_image(self, name, data=b"\xff\xd8poster"):
+        directory = os.path.join(self.tmp.name, "images")
+        os.makedirs(directory, exist_ok=True)
+        with open(os.path.join(directory, name), "wb") as f:
+            f.write(data)
+        return directory
+
+    def apply_images(self, dry_run=False):
+        return enricher.apply_collection_images(os.path.join(self.tmp.name, "images"), self.jf(),
+                                                os.path.join(self.tmp.name, "images.json"), dry_run)
+
+    def test_collection_images_upload_once_per_change(self):
+        self.fake.add("c1", "Aviation Collection", item_type="BoxSet", ImageTags={"Primary": "generated"})
+        self.fake.add("c2", "Heist Collection", item_type="BoxSet")
+        self.write_image("aviation collection.JPG")  # names and extensions match in any case
+        self.write_image("README.md", b"not an image")
+        self.assertEqual(self.apply_images()["uploaded"], 1)
+        self.assertEqual(self.fake.images, {"c1": ("image/jpeg", b"\xff\xd8poster")})
+        self.assertEqual(self.apply_images(), {"uploaded": 0, "unchanged": 1, "no_collection": 0})
+        self.write_image("aviation collection.JPG", b"\xff\xd8new poster")  # file changed
+        self.assertEqual(self.apply_images()["uploaded"], 1)
+        self.assertEqual(self.fake.images["c1"][1], b"\xff\xd8new poster")
+        self.fake.items["c1"]["ImageTags"] = {"Primary": "refreshed"}  # Jellyfin replaced the image
+        self.assertEqual(self.apply_images()["uploaded"], 1)
+        del self.fake.items["c1"]  # the plugin recreated the collection under a new id
+        self.fake.add("c3", "Aviation Collection", item_type="BoxSet")
+        self.assertEqual(self.apply_images()["uploaded"], 1)
+        self.assertEqual(set(self.fake.images), {"c1", "c3"})
+
+    def test_collection_images_dry_run_and_missing_collection(self):
+        self.fake.add("c1", "Aviation Collection", item_type="BoxSet")
+        self.write_image("Aviation Collection.png")
+        self.write_image("Polyamory Collection.webp")
+        stats = self.apply_images(dry_run=True)
+        self.assertEqual(stats, {"uploaded": 1, "unchanged": 0, "no_collection": 1})
+        self.assertEqual(self.fake.images, {})
+        self.assertFalse(os.path.exists(os.path.join(self.tmp.name, "images.json")))
+        self.apply_images()
+        self.assertEqual(self.fake.images["c1"][0], "image/png")
+
+    def test_two_images_for_one_collection_is_an_error(self):
+        self.write_image("Aviation Collection.png")
+        self.write_image("aviation collection.jpg")
+        with self.assertRaisesRegex(ValueError, "two images"):
+            self.apply_images()
+
+    def run_main(self, dry_run, images=None):
         self.write_ac([self.ac("Heist Collection", 'TAG "heist"')])
         cfg_path = os.path.join(self.tmp.name, "config.yaml")
+        ac = {"file": "ac.json", "task_name": "Auto Collection"}
+        if images:
+            ac["images"] = images
         with open(cfg_path, "w") as f:
-            yaml.safe_dump(dict(self.cfg, auto_collections={"file": "ac.json", "task_name": "Auto Collection"},
+            yaml.safe_dump(dict(self.cfg, auto_collections=ac,
                                 imdb_keywords={"sources": ["kometa"], "request_delay_seconds": 0}), f)
         env = {"JELLYFIN_APIKEY": "key", "JELLYFIN_URL": f"{self.base}/jf", "KOMETA_SERVICE_URL": f"{self.base}/kometa",
                "DATA_DIR": self.tmp.name, "DRY_RUN": "false"}  # --dry-run still overrides
@@ -298,6 +372,28 @@ class EnricherTest(unittest.TestCase):
         self.assertEqual(self.fake.started_tasks, [])
         self.assertEqual(self.fake.plugin_configs["p-ac"]["ExpressionCollections"], [])
 
+    def test_main_sets_images_on_collections_the_task_creates(self):
+        self.fake.add("1", "Heat", "tt0113277")
+        self.fake.kometa["tt0113277"] = {"keywords": {"heist": [1, 1]}}
+        self.fake.on_task_done = lambda: self.fake.add("c1", "Heist Collection", item_type="BoxSet")
+        self.write_image("Heist Collection.jpg")
+        with mock.patch("enricher.time.sleep") as sleep:
+            self.run_main(dry_run=False, images="images")
+        self.assertEqual(self.fake.started_tasks, ["t-ac"])
+        self.assertGreaterEqual(sleep.call_count, 2)  # polled the task until it finished
+        self.assertEqual(set(self.fake.images), {"c1"})
+
+    def test_main_sets_images_without_a_task_and_survives_a_missing_folder(self):
+        self.fake.add("c1", "Heist Collection", item_type="BoxSet")
+        self.fake.plugin_configs["p-ac"]["ExpressionCollections"] = [self.ac("Heist Collection", 'TAG "heist"')]
+        self.write_image("Heist Collection.jpg")
+        self.run_main(dry_run=False, images="images")  # nothing to sync or tag, so no task is started
+        self.assertEqual(self.fake.started_tasks, [])
+        self.assertEqual(set(self.fake.images), {"c1"})
+        with self.assertLogs(level="ERROR") as logs:
+            self.run_main(dry_run=False, images="no-such-folder")
+        self.assertIn("collection images: skipped", "\n".join(logs.output))
+
     def test_main_waits_for_jellyfin_to_be_ready(self):
         self.fake.add("1", "Heat", "tt0113277")
         self.fake.kometa["tt0113277"] = {"keywords": {"heist": [1, 1]}}
@@ -331,6 +427,14 @@ class EnricherTest(unittest.TestCase):
             cfg = yaml.safe_load(f)
         rule_tags = {t.casefold() for r in cfg["rules"] for t in r["add"].get("tags", [])}
         self.assertEqual(rule_tags - expr_tags, set(), "enricher adds tags no collection uses")
+
+    def test_shipped_collection_images_name_shipped_collections(self):
+        with open(os.path.join(HERE, "config.yaml")) as f:
+            folder = os.path.join(HERE, yaml.safe_load(f)["auto_collections"]["images"])
+        names = {c["CollectionName"].casefold() for c in
+                 enricher.load_auto_collections(os.path.join(HERE, "auto-collections.json"))["ExpressionCollections"]}
+        images = enricher.load_collection_images(folder)  # also fails on two images for one collection
+        self.assertEqual(sorted(set(images) - names), [], "images for collections not in auto-collections.json")
 
     def test_shipped_config_is_valid(self):
         with open(os.path.join(HERE, "config.yaml")) as f:

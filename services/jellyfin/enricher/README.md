@@ -72,6 +72,25 @@ schedule picks the changes up.
 To add a theme collection: add a `rules:` entry in `config.yaml` that produces the tag, then a
 `TAG "…"` entry in `auto-collections.json`, and redeploy.
 
+### Collection images (`collection-images/`)
+
+To give a collection its own primary image, add a file named after it to `collection-images/`,
+for example `Aviation Collection.jpg`, and redeploy. Collections without a file keep whatever
+image Jellyfin gives them. On each run (dry runs only log):
+
+1. If the run started the plugin's task, the enricher waits for it to finish, up to
+   `auto_collections.task_wait_minutes` (default 30). That way a collection created by this run
+   gets its image now.
+2. It uploads each image to the collections with that name (`POST /Items/{id}/Images/Primary`).
+
+An image is uploaded again only when the file changes, or when the collection's image is no
+longer the uploaded one. That happens when the plugin recreates the collection, or a refresh
+replaces the image. `/data/collection_images.json` records the file hash and Jellyfin's image tag
+per collection.
+
+A test checks that every image names a collection in `auto-collections.json`. To stop managing
+a collection's image, delete its file; the image it last got stays in Jellyfin.
+
 Environment (set in `../docker-compose.yaml` / Portainer):
 
 | Variable | Default | |

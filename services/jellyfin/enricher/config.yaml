@@ -15,6 +15,10 @@ auto_collections:
   file: auto-collections.json   # relative to this file
   plugin_name: Auto Collections # as listed in Dashboard -> Plugins
   task_name: Auto Collection    # substring of the plugin's scheduled task; started after changes
+  # Optional primary image per collection: a file named after the collection, e.g.
+  # "Aviation Collection.jpg" (.jpg, .png or .webp). Set after the plugin's task has finished.
+  images: collection-images     # relative to this file
+  task_wait_minutes: 30         # how long to wait for the task before setting images anyway
 
 imdb_keywords:
   sources: [kometa, imdb]   # tried in order per title; results cached on disk
