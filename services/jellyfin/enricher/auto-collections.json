@@ -94,7 +94,7 @@
     },
     {
       "CollectionName": "Documentary Collection",
-      "Expression": "TAG \"documentary\"",
+      "Expression": "GENRE \"Documentary\" OR TAG \"documentary\"",
       "CaseSensitive": false,
       "SortBy": 2,
       "SortOrder": 0
