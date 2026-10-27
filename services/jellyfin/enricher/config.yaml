@@ -227,6 +227,18 @@ rules:
     add: {tags: [world war ii]}
   - match: {imdb_keywords: [cold war]}
     add: {tags: [cold war]}
+  # Aviation: planes as a main topic. min_relevant: 1 because a plane scene is enough for IMDb to add
+  # these unvoted ("pilot" on Lost in Space). Broad words like airplane need two votes. Not airplane
+  # crash: Cast Away and Alive are about surviving one, not about flying; Sully and Flight match on pilot.
+  - match:
+      imdb_keywords: [pilot, airline pilot, airplane pilot, aircraft pilot, fighter pilot, military pilot,
+                      test pilot, aviator, naval aviator, aviation, military aviation, naval aviation,
+                      flight school, flight attendant, stewardess, air traffic control,
+                      air traffic controller, aerial combat, dogfight, airplane hijacking]
+      min_relevant: 1
+    add: {tags: [aviation]}
+  - match: {imdb_keywords: [airplane, aircraft, flying], min_relevant: 2}
+    add: {tags: [aviation]}
   - match: {imdb_keywords: [pirate, pirate ship]}
     add: {tags: [pirate]}
   - match: {imdb_keywords: [samurai, ronin]}

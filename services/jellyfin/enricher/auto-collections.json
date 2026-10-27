@@ -702,6 +702,13 @@
       "SortOrder": 0
     },
     {
+      "CollectionName": "Aviation Collection",
+      "Expression": "TAG \"aviation\"",
+      "CaseSensitive": false,
+      "SortBy": 2,
+      "SortOrder": 0
+    },
+    {
       "CollectionName": "Pirate Collection",
       "Expression": "TAG \"pirate\"",
       "CaseSensitive": false,

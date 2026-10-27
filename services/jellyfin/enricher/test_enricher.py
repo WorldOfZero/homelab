@@ -364,6 +364,13 @@ class EnricherTest(unittest.TestCase):
         vicky_cristina_barcelona = {"polyamorous relationship": (3, 3), "polyamory": (3, 4), "bisexual": (1, 3)}
         self.assertEqual(tags(vicky_cristina_barcelona), {"polyamory"})  # bisexual voted down
         self.assertEqual(tags({"menage a trois": (0, 0), "open marriage": (2, 2)}), set())
+        # Aviation (excerpts, 2026-10-27): planes as the main topic, not a plane in one scene.
+        self.assertIn("aviation", tags({"air traffic controller": (3, 3), "airplane": (1, 1)}))  # Pushing Tin
+        self.assertIn("aviation", tags({"airplane": (3, 3), "flight attendant": (0, 0)}))  # Snakes on a Plane
+        self.assertIn("aviation", tags({"airplane crash": (5, 5), "pilot": (4, 4)}))  # Flight
+        self.assertNotIn("aviation", tags({"pilot": (0, 0), "planet": (0, 0)}))  # Lost in Space
+        self.assertNotIn("aviation", tags({"airplane hijacking": (1, 3), "airplane": (0, 1)}))
+        self.assertNotIn("aviation", tags({"airplane crash": (2, 2), "airplane": (1, 1)}))
 
 
 if __name__ == "__main__":
