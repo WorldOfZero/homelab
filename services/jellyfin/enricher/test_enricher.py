@@ -37,6 +37,7 @@ class Fake:
         self.task_polls = 2    # a started task reports Running this many times before it finishes
         self.on_task_done = None
         self.images = {}       # item id -> (content type, decoded bytes) of uploaded primary images
+        self.image_errors = set()  # item ids whose image upload answers 500
         self.not_ready = 0     # answer /health with 503 this many more times
 
     def add(self, item_id, name, imdb=None, item_type="Movie", tags=None, **extra):
@@ -122,6 +123,8 @@ def make_handler(fake):
             raw = self.rfile.read(length)
             if u.path.endswith("/Images/Primary"):
                 item_id = u.path.split("/")[3]
+                if item_id in fake.image_errors:
+                    return self._send(500, b"System.IO.IOException: The process cannot access the file", "text/plain")
                 fake.images[item_id] = (self.headers["Content-Type"], base64.b64decode(raw, validate=True))
                 fake.items[item_id]["ImageTags"] = {"Primary": f"tag-{len(fake.images)}-{item_id}"}
                 return self._send(204)
@@ -299,7 +302,7 @@ class EnricherTest(unittest.TestCase):
         self.write_image("README.md", b"not an image")
         self.assertEqual(self.apply_images()["uploaded"], 1)
         self.assertEqual(self.fake.images, {"c1": ("image/jpeg", b"\xff\xd8poster")})
-        self.assertEqual(self.apply_images(), {"uploaded": 0, "unchanged": 1, "no_collection": 0})
+        self.assertEqual(self.apply_images(), {"uploaded": 0, "unchanged": 1, "no_collection": 0, "failed": 0})
         self.write_image("aviation collection.JPG", b"\xff\xd8new poster")  # file changed
         self.assertEqual(self.apply_images()["uploaded"], 1)
         self.assertEqual(self.fake.images["c1"][1], b"\xff\xd8new poster")
@@ -315,11 +318,25 @@ class EnricherTest(unittest.TestCase):
         self.write_image("Aviation Collection.png")
         self.write_image("Polyamory Collection.webp")
         stats = self.apply_images(dry_run=True)
-        self.assertEqual(stats, {"uploaded": 1, "unchanged": 0, "no_collection": 1})
+        self.assertEqual(stats, {"uploaded": 1, "unchanged": 0, "no_collection": 1, "failed": 0})
         self.assertEqual(self.fake.images, {})
         self.assertFalse(os.path.exists(os.path.join(self.tmp.name, "images.json")))
         self.apply_images()
         self.assertEqual(self.fake.images["c1"][0], "image/png")
+
+    def test_one_failing_collection_does_not_stop_the_rest(self):
+        for i, name in enumerate(["1980's Movies", "1990's Movies", "2000's Movies"]):
+            self.fake.add(f"c{i}", name, item_type="BoxSet")
+            self.write_image(f"{name}.jpg")
+        self.fake.image_errors = {"c1"}
+        with self.assertLogs(level="ERROR") as logs:
+            stats = self.apply_images()
+        self.assertEqual(stats, {"uploaded": 2, "unchanged": 0, "no_collection": 0, "failed": 1})
+        self.assertEqual(set(self.fake.images), {"c0", "c2"})
+        self.assertIn("1990's Movies (c1) failed: HTTP Error 500", "\n".join(logs.output))
+        self.assertIn("cannot access the file", "\n".join(logs.output))  # Jellyfin's message is logged
+        self.fake.image_errors = set()  # the failed one is retried next run; the others are unchanged
+        self.assertEqual(self.apply_images(), {"uploaded": 1, "unchanged": 2, "no_collection": 0, "failed": 0})
 
     def test_two_images_for_one_collection_is_an_error(self):
         self.write_image("Aviation Collection.png")
@@ -468,6 +485,9 @@ class EnricherTest(unittest.TestCase):
         vicky_cristina_barcelona = {"polyamorous relationship": (3, 3), "polyamory": (3, 4), "bisexual": (1, 3)}
         self.assertEqual(tags(vicky_cristina_barcelona), {"polyamory"})  # bisexual voted down
         self.assertEqual(tags({"menage a trois": (0, 0), "open marriage": (2, 2)}), set())
+        species = {"lesbian": (3, 6), "body horror": (0, 0), "hitman": (2, 2)}  # 2026-10-27
+        self.assertEqual(tags(species), {"body horror", "assassin"})  # an even split is not enough for lesbian
+        self.assertIn("lesbian", tags({"lesbian": (4, 6)}))
         # Aviation (excerpts, 2026-10-27): planes as the main topic, not a plane in one scene.
         self.assertIn("aviation", tags({"air traffic controller": (3, 3), "airplane": (1, 1)}))  # Pushing Tin
         self.assertIn("aviation", tags({"airplane": (3, 3), "flight attendant": (0, 0)}))  # Snakes on a Plane

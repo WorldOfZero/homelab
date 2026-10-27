@@ -417,7 +417,7 @@ def apply_collection_images(directory, jellyfin, state_path, dry_run):
     collections = {}
     for c in jellyfin.items(["BoxSet"]):
         collections.setdefault(c["Name"].casefold(), []).append(c)
-    stats = {"uploaded": 0, "unchanged": 0, "no_collection": 0}
+    stats = {"uploaded": 0, "unchanged": 0, "no_collection": 0, "failed": 0}
     new_state = {}
     for key, path in images.items():
         name = os.path.basename(path)
@@ -435,12 +435,21 @@ def apply_collection_images(directory, jellyfin, state_path, dry_run):
                 new_state[c["Id"]] = state[c["Id"]]
                 stats["unchanged"] += 1
                 continue
-            stats["uploaded"] += 1
             log.info("collection image %s: %s %s", name, "would set on" if dry_run else "setting on", c["Name"])
             if dry_run:
+                stats["uploaded"] += 1
                 continue
-            jellyfin.set_primary_image(c["Id"], data, IMAGE_TYPES[os.path.splitext(path)[1].lower()])
-            tag = (jellyfin.get_item(c["Id"]).get("ImageTags") or {}).get("Primary")
+            try:
+                jellyfin.set_primary_image(c["Id"], data, IMAGE_TYPES[os.path.splitext(path)[1].lower()])
+                tag = (jellyfin.get_item(c["Id"]).get("ImageTags") or {}).get("Primary")
+            except OSError as e:  # HTTPError and connection errors
+                # One collection failing must not stop the rest; with no state it is retried next run.
+                detail = e.read().decode("utf-8", "replace")[:300] if isinstance(e, urllib.error.HTTPError) else ""
+                log.error("collection image %s: setting on %s (%s) failed: %s %s",
+                          name, c["Name"], c["Id"], e, detail.strip())
+                stats["failed"] += 1
+                continue
+            stats["uploaded"] += 1
             new_state[c["Id"]] = {"sha256": digest, "tag": tag}
     if not dry_run:
         tmp = state_path + ".tmp"

@@ -80,15 +80,17 @@ rules:
   - match: {imdb_keywords: [based on comic, based on comic book, based on graphic novel]}
     add: {tags: [based on comic]}
   # The lesbian, gay, trans and queer rules also add lgbt, so the lgbt tag covers all of them.
-  - match: {imdb_keywords: [lgbt, lgbtq, lgbtq+, lgbt plus, lgbtq film, bisexual, bisexuality]}
+  # min_percentage 0.6: an even split means a passing scene, not the film's subject (lesbian at 3
+  # of 6 on Species).
+  - match: {imdb_keywords: [lgbt, lgbtq, lgbtq+, lgbt plus, lgbtq film, bisexual, bisexuality], min_percentage: 0.6}
     add: {tags: [lgbt]}
-  - match: {imdb_keywords: [lesbian, lesbian relationship]}
+  - match: {imdb_keywords: [lesbian, lesbian relationship], min_percentage: 0.6}
     add: {tags: [lesbian, lgbt]}
-  - match: {imdb_keywords: [gay, gay relationship]}
+  - match: {imdb_keywords: [gay, gay relationship], min_percentage: 0.6}
     add: {tags: [gay, lgbt]}
-  - match: {imdb_keywords: [transgender, trans woman, trans man]}
+  - match: {imdb_keywords: [transgender, trans woman, trans man], min_percentage: 0.6}
     add: {tags: [trans, lgbt]}
-  - match: {imdb_keywords: [queer, queer cinema]}
+  - match: {imdb_keywords: [queer, queer cinema], min_percentage: 0.6}
     add: {tags: [queer, lgbt]}
   # Not menage a trois or open marriage: IMDb uses them for one-off threesomes and affairs.
   - match: {imdb_keywords: [polyamory, polyamorous, polyamorous relationship, throuple, three way relationship]}
