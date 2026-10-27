@@ -1,8 +1,9 @@
 # Collection posters
 
-`make_posters.py` renders a poster for each collection from `template.svg` into
-`../collection-images/`, which the enricher uploads as the collection's primary image (see
-`../README.md`).
+`make_posters.py` renders a poster for each collection from `template.svg`. The enricher's
+Dockerfile runs it for every collection while the image builds, so a redeploy uploads the current
+designs as the collections' primary images (see `../README.md`). Images made by hand in
+`../collection-images/` win: `--keep` skips the collections that already have one there.
 
 ```bash
 cd services/jellyfin/enricher/posters

@@ -74,8 +74,10 @@ To add a theme collection: add a `rules:` entry in `config.yaml` that produces t
 
 ### Collection images (`collection-images/`)
 
-To give a collection its own primary image, add a file named after it to `collection-images/`,
-for example `Aviation Collection.jpg`, and redeploy. `posters/` renders matching posters from a template; see
+Every collection gets a poster rendered from `posters/` while the image builds (see
+`posters/README.md`), so editing a design and redeploying updates it in Jellyfin. To use your own
+image for a collection instead, add a file named after it to `collection-images/`, for example
+`Aviation Collection.jpg`, and redeploy: the build keeps it and skips that poster. `posters/` renders matching posters from a template; see
 `posters/README.md`. Collections without a file keep whatever
 image Jellyfin gives them. On each run (dry runs only log):
 

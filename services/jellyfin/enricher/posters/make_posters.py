@@ -211,6 +211,12 @@ def render_all(args):
         names = list(dict.fromkeys(list(posters) + (cfg.get("preview") or [])))
     else:
         names = list(posters)
+    if args.keep:  # collections that already have an image there, e.g. one made by hand, are skipped
+        kept = {os.path.splitext(f)[0].casefold() for f in os.listdir(args.keep)
+                if os.path.splitext(f)[1].lower() in (".jpg", ".jpeg", ".png", ".webp")}
+        for name in [n for n in names if n.casefold() in kept]:
+            print(f"keeping the existing image for {name}")
+        names = [n for n in names if n.casefold() not in kept]
     title_font = Font(os.path.join(FONTS, "BebasNeue-Regular.ttf"))
 
     os.makedirs(args.out, exist_ok=True)
@@ -243,6 +249,7 @@ def main(argv=None):
     p.add_argument("--out", help="output folder (default: ../collection-images, or preview/ with --preview)")
     p.add_argument("--svg", action="store_true", help="also write the filled-in SVG next to each poster")
     p.add_argument("--settings", action="append", help="another posters.yaml-style file to add posters from")
+    p.add_argument("--keep", metavar="DIR", help="skip collections that already have an image in DIR")
     args = p.parse_args(argv)
     if args.out is None:
         args.out = os.path.join(HERE, "preview" if args.preview else os.path.join("..", "collection-images"))

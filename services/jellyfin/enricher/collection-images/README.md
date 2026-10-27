@@ -1,7 +1,8 @@
 # Collection images
 
-Primary images for collections. The enricher sets each collection's image from the file named
-after it here, for example `Aviation Collection.jpg` for the collection "Aviation Collection".
+Hand-made primary images for collections. Every collection already gets a poster rendered from
+`../posters/` while the image builds; a file here, named after its collection (for example
+`Aviation Collection.jpg` for "Aviation Collection"), replaces that poster.
 
 - Names are matched without regard to case. Each name must be a `CollectionName` in
   `../auto-collections.json`; a test checks this.

@@ -1,0 +1,4 @@
+# Local poster previews and Python caches are not part of the image.
+posters/preview/
+**/__pycache__/
+posters/batch-*.yaml
