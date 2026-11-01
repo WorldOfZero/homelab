@@ -8,13 +8,165 @@ x-logging-config:
     max-file: "3"
     tag: "{{.Name}}"
 
+configs:
+  alloy-config:
+    content: |
+      discovery.docker "containers" {
+        host = "unix:///var/run/docker.sock"
+      }
+
+      discovery.relabel "containers" {
+        targets = []
+
+        rule {
+          source_labels = ["__meta_docker_container_name"]
+          regex         = "/(.*)"
+          target_label  = "container"
+        }
+
+        rule {
+          source_labels = ["__meta_docker_container_log_stream"]
+          target_label  = "logstream"
+        }
+
+        rule {
+          source_labels = ["__meta_docker_container_label_com_docker_compose_project"]
+          target_label  = "stack"
+        }
+
+        rule {
+          source_labels = ["__meta_docker_container_label_com_docker_compose_service"]
+          target_label  = "service"
+        }
+      }
+
+      loki.source.docker "containers" {
+        host          = "unix:///var/run/docker.sock"
+        targets       = discovery.docker.containers.targets
+        relabel_rules = discovery.relabel.containers.rules
+        forward_to    = [loki.write.default.receiver]
+      }
+
+      // Roon writes its stream errors to this file, not to the container log.
+      local.file_match "roon" {
+        path_targets = [{
+          __path__  = "/roon-logs/RoonServer_log.txt",
+          stack     = "roon",
+          service   = "roonserver",
+          container = "roonserver",
+          logstream = "file",
+        }]
+      }
+
+      loki.source.file "roon" {
+        targets    = local.file_match.roon.targets
+        forward_to = [loki.write.default.receiver]
+      }
+
+      loki.write "default" {
+        endpoint {
+          url = "http://loki:3100/loki/api/v1/push"
+        }
+      }
+
+  prometheus-config:
+    content: |
+      global:
+        scrape_interval: 30s
+        evaluation_interval: 30s
+
+      scrape_configs:
+        - job_name: prometheus
+          static_configs:
+            - targets: ["localhost:9090"]
+
+        - job_name: cadvisor
+          static_configs:
+            - targets: ["cadvisor:8080"]
+
+        # node-exporter uses host networking, so it has no address on the stack network.
+        - job_name: node
+          static_configs:
+            - targets: ["host.docker.internal:9100"]
+              labels:
+                instance: minerva
+
+        - job_name: grafana
+          static_configs:
+            - targets: ["grafana:3000"]
+
+        - job_name: loki
+          static_configs:
+            - targets: ["loki:3100"]
+
+        - job_name: alloy
+          static_configs:
+            - targets: ["alloy:12345"]
+
+  loki-config:
+    content: |
+      auth_enabled: false
+
+      server:
+        http_listen_port: 3100
+        grpc_listen_port: 9096
+
+      common:
+        instance_addr: 127.0.0.1
+        path_prefix: /loki
+        storage:
+          filesystem:
+            chunks_directory: /loki/chunks
+            rules_directory: /loki/rules
+        replication_factor: 1
+        ring:
+          kvstore:
+            store: inmemory
+
+      frontend:
+        max_outstanding_per_tenant: 2048
+
+      pattern_ingester:
+        enabled: true
+
+      limits_config:
+        max_global_streams_per_user: 0
+        ingestion_rate_mb: 50000
+        ingestion_burst_size_mb: 50000
+        volume_enabled: true
+        retention_period: 720h
+
+      compactor:
+        working_directory: /loki/compactor
+        retention_enabled: true
+        delete_request_store: filesystem
+
+      query_range:
+        results_cache:
+          cache:
+            embedded_cache:
+              enabled: true
+              max_size_mb: 100
+
+      schema_config:
+        configs:
+          - from: 2020-10-24
+            store: tsdb
+            object_store: filesystem
+            schema: v13
+            index:
+              prefix: index_
+              period: 24h
+
+      ruler:
+        alertmanager_url: http://localhost:9093
+
+      analytics:
+        reporting_enabled: false
 
 services:
   grafana:
     image: grafana/grafana:13.2.3
-    labels:
-      logging: "promtail"
-      stack: grafana
     restart: unless-stopped
     user: "472:472"
     ports:
@@ -28,61 +180,85 @@ services:
 
   loki:
     image: grafana/loki:3.7.1
-    labels:
-      logging: "promtail"
-      stack: grafana
     restart: unless-stopped
-    ports:
-      - 3100:3100
+    configs:
+      - source: loki-config
+        target: /etc/loki/local-config.yaml
     volumes:
-      - '/mnt/Fast/Configuration/grafana/loki:/etc/loki'
+      - '/mnt/Fast/Telemetry/loki:/loki' # Must be owned by 10001:10001
     command: -config.file=/etc/loki/local-config.yaml
     logging: *logging-config
 
-  promtail:
-    image: grafana/promtail:3.6.10
-    labels:
-      logging: "promtail"
-      stack: grafana
+  alloy:
+    image: grafana/alloy:v1.21.3
     restart: unless-stopped
     depends_on:
       - loki
+    configs:
+      - source: alloy-config
+        target: /etc/alloy/config.alloy
     volumes:
-      - '/var/lib/docker/containers:/var/lib/docker/containers:ro'
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - '/mnt/Fast/Configuration/grafana/promtail:/etc/promtail'
-    command: -config.file=/etc/promtail/docker-config.yaml
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - '/mnt/Fast/Telemetry/alloy:/var/lib/alloy/data' # Read positions, so a restart does not send logs again
+      - '/mnt/Fast/Configuration/roon/data/RoonServer/Logs:/roon-logs:ro'
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
     logging: *logging-config
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.55.1
     restart: unless-stopped
-    labels:
-      prometheus_job: cadvisor
-      logging: "promtail"
-      stack: grafana
     volumes:
       - '/:/rootfs:ro'
       - '/sys:/sys:ro'
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
       - '/var/lib/docker:/var/lib/docker:ro'
+      # cAdvisor reports no containers without this socket. Fail the deploy if the path is wrong.
+      - type: bind
+        source: /run/containerd/containerd.sock
+        target: /run/containerd/containerd.sock
+        read_only: true
+        bind:
+          create_host_path: false
     command:
       - '-docker_only'
+      - '-housekeeping_interval=30s'
+      - '-store_container_labels=false'
+      - '-whitelisted_container_labels=com.docker.compose.project,com.docker.compose.service'
+    logging: *logging-config
+
+  # Host networking and the host PID namespace make the NIC and process metrics those of minerva.
+  node-exporter:
+    image: prom/node-exporter:v1.12.1
+    restart: unless-stopped
+    network_mode: host
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    command:
+      - --path.rootfs=/host
     logging: *logging-config
 
   prometheus:
     image: prom/prometheus:v3.11.2
     restart: unless-stopped
-    labels:
-      logging: "promtail"
-      stack: grafana
     ports:
       - 9090:9090
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    configs:
+      - source: prometheus-config
+        target: /etc/prometheus/prometheus.yaml
     command:
-      - --config.file=/etc/prometheus/prometheus-docker-scraper.yaml
+      - --config.file=/etc/prometheus/prometheus.yaml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=30d
+      - --storage.tsdb.retention.size=20GB
     volumes:
-      - '/mnt/Fast/Configuration/grafana/prometheus:/etc/prometheus:ro'
+      - '/mnt/Fast/Telemetry/prometheus:/prometheus' # Must be owned by 65534:65534
     depends_on:
       - cadvisor
     logging: *logging-config
-
