@@ -125,7 +125,12 @@ when the stack redeploys and the image builds again.
 | Dashboard | Shows |
 |---|---|
 | Container Health | State, health, restarts and resources of all containers, host pressure, memory, disks, network, and error logs |
-| Media Stack | Service health, Jellyfin streams and library, Sonarr, Radarr and Bazarr counts and issues, resources, and error logs |
+| Media Stack | Service health, each stream with its buffer and speed, playback errors, host load, library, Sonarr, Radarr and Bazarr counts and issues, and error logs |
+| Roon | Core starts, stream problems, endpoint drops, errors, core resources, host load, and logs |
+
+When a stream has a problem, look at the Streaming problems row, then compare the time with the Host row. The Roon dashboard has the same Host row. The core can restart in the Roon container, so use Core starts, not the container restart count.
+
+`jellyfin_stream_info` has stream titles and user names in its labels. All LAN devices can read them from Prometheus.
 
 Seerr and Themearr have no metrics endpoint. The Media Stack dashboard shows only their container
 state, resources and logs.

@@ -25,6 +25,41 @@ configs:
               return json.load(response)
 
 
+      def label(value):
+          return str(value or "").replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
+
+
+      def title(item):
+          if item.get("SeriesName"):
+              return "%s S%02dE%02d %s" % (item["SeriesName"], item.get("ParentIndexNumber") or 0, item.get("IndexNumber") or 0, item.get("Name"))
+          return item.get("Name")
+
+
+      def stream_lines(session):
+          item, state = session["NowPlayingItem"], session.get("PlayState", {})
+          info = session.get("TranscodingInfo") or {}
+          key = 'session="%s"' % session["Id"][:8]
+          identity = 'user="%s",client="%s",device="%s",title="%s",method="%s",paused="%s",video="%s",hardware="%s",reasons="%s"' % (
+              label(session.get("UserName")), label(session.get("Client")), label(session.get("DeviceName")), label(title(item)),
+              label(state.get("PlayMethod")), str(bool(state.get("IsPaused"))).lower(),
+              "copy" if info.get("IsVideoDirect") else "transcode" if info else "",
+              label(info.get("HardwareAccelerationType")), label(",".join(info.get("TranscodeReasons") or [])),
+          )
+          lines = ["jellyfin_stream_info{%s,%s} 1" % (key, identity)]
+          if info.get("Bitrate"):
+              lines.append("jellyfin_stream_bitrate_bps{%s} %d" % (key, info["Bitrate"]))
+          if info.get("Framerate"):
+              lines.append("jellyfin_stream_transcode_fps{%s} %s" % (key, info["Framerate"]))
+          source = [m.get("RealFrameRate") for m in item.get("MediaStreams", []) if m.get("Type") == "Video"]
+          if source and source[0]:
+              lines.append("jellyfin_stream_source_fps{%s} %s" % (key, source[0]))
+          # How far the transcode is ahead of the player. A low value means the player is about to stall.
+          if info.get("CompletionPercentage") is not None and item.get("RunTimeTicks"):
+              done = info["CompletionPercentage"] / 100 * item["RunTimeTicks"]
+              lines.append("jellyfin_stream_buffer_seconds{%s} %.1f" % (key, (done - (state.get("PositionTicks") or 0)) / 10000000))
+          return lines
+
+
       def metrics():
           sessions = get("/Sessions")
           streams = [s for s in sessions if s.get("NowPlayingItem")]
@@ -36,6 +71,8 @@ configs:
           lines = ["jellyfin_sessions_active %d" % sum(1 for s in sessions if s.get("IsActive"))]
           lines += ['jellyfin_streams{method="%s"} %d' % item for item in methods.items()]
           lines.append("jellyfin_streams_paused %d" % paused)
+          for stream in streams:
+              lines += stream_lines(stream)
           counts = get("/Items/Counts")
           lines += ['jellyfin_items{type="%s"} %d' % (name, counts.get(key, 0)) for key, name in ITEM_TYPES.items()]
           return "\n".join(lines) + "\n"

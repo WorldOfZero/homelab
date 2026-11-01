@@ -12,14 +12,32 @@
   "version": 1,
   "refresh": "1m",
   "time": {
-    "from": "now-6h",
+    "from": "now-3h",
     "to": "now"
   },
   "timezone": "browser",
   "fiscalYearStartMonth": 0,
   "liveNow": false,
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "name": "Library scan",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "enable": true,
+        "iconColor": "#199e70",
+        "target": {
+          "expr": "{container=\"app-jellyfin\"} |= \"Validating media library\"",
+          "refId": "Anno",
+          "queryType": "range",
+          "maxLines": 200
+        },
+        "textFormat": "",
+        "titleFormat": "Library scan"
+      }
+    ]
   },
   "links": [
     {
@@ -628,9 +646,9 @@
       }
     },
     {
-      "id": 8,
+      "id": 2001,
       "type": "row",
-      "title": "Jellyfin",
+      "title": "Streaming now",
       "collapsed": false,
       "gridPos": {
         "h": 1,
@@ -643,7 +661,7 @@
     {
       "type": "stat",
       "title": "Streams now",
-      "description": "Sessions that have an item in play, including paused ones.",
+      "description": "Sessions with an item in play, including paused ones.",
       "datasource": {
         "type": "prometheus",
         "uid": "${prometheus}"
@@ -657,8 +675,8 @@
           "expr": "sum(jellyfin_streams)",
           "refId": "A",
           "legendFormat": "__auto",
-          "instant": true,
-          "range": false
+          "range": false,
+          "instant": true
         }
       ],
       "fieldConfig": {
@@ -696,7 +714,7 @@
         "orientation": "auto",
         "wideLayout": true
       },
-      "id": 9,
+      "id": 2002,
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -721,8 +739,8 @@
           "expr": "sum(jellyfin_streams{method=\"Transcode\"})",
           "refId": "A",
           "legendFormat": "__auto",
-          "instant": true,
-          "range": false
+          "range": false,
+          "instant": true
         }
       ],
       "fieldConfig": {
@@ -760,7 +778,7 @@
         "orientation": "auto",
         "wideLayout": true
       },
-      "id": 10,
+      "id": 2003,
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -770,7 +788,1456 @@
     },
     {
       "type": "stat",
-      "title": "Paused",
+      "title": "Low buffer",
+      "description": "Transcoded streams with less than 10 seconds ready ahead of the player. These streams are about to stall.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "count(jellyfin_stream_buffer_seconds < 10) or vector(0)",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#d03b3b",
+                "value": 1
+              }
+            ]
+          },
+          "noValue": "0",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2004,
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 5
+      }
+    },
+    {
+      "type": "stat",
+      "title": "HTTP 5xx",
+      "description": "Server errors in the last 15 minutes. Needs EnableMetrics in Jellyfin.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum(increase(http_requests_received_total{job=\"jellyfin\",code=~\"5..\"}[15m])) or vector(0)",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              }
+            ]
+          },
+          "noValue": "0",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2005,
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 5
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Stream p95",
+      "description": "Response time of video and audio requests in the last 5 minutes. Needs EnableMetrics in Jellyfin.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{job=\"jellyfin\",controller=~\"DynamicHls|Videos|Audio|UniversalAudio|HlsSegment\"}[5m])))",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              },
+              {
+                "color": "#d03b3b",
+                "value": 5
+              }
+            ]
+          },
+          "noValue": "–"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2006,
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 12,
+        "y": 5
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Slow HTTP",
+      "description": "Slow responses in the last hour. Jellyfin logs these if the slow response warning is on in its settings.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"Slow HTTP Response\" [1h]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              }
+            ]
+          },
+          "noValue": "0",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2007,
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 5
+      }
+    },
+    {
+      "type": "stat",
+      "title": "FFmpeg fails",
+      "description": "Transcodes that ended with an error code in the last hour. A client that stops a stream can also cause a non-zero code.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |~ \"FFmpeg exited with code [1-9]\" [1h]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              }
+            ]
+          },
+          "noValue": "0",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2008,
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 5
+      }
+    },
+    {
+      "type": "stat",
+      "title": "IO pressure",
+      "description": "The share of time that tasks on the host waited for disks.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "rate(node_pressure_io_waiting_seconds_total[5m])",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 0.1
+              },
+              {
+                "color": "#d03b3b",
+                "value": 0.3
+              }
+            ]
+          },
+          "noValue": "–"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2009,
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 5
+      }
+    },
+    {
+      "type": "table",
+      "title": "Now playing",
+      "description": "One row for each stream. Low buffer is the first sign of a stall. Reasons shows why Jellyfin transcodes. Buffer and speed are blank when a transcode has not started or is complete, and for streams with no transcode.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "jellyfin_stream_info",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "jellyfin_stream_buffer_seconds",
+          "refId": "B",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "jellyfin_stream_transcode_fps / jellyfin_stream_source_fps",
+          "refId": "C",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "jellyfin_stream_bitrate_bps",
+          "refId": "D",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "session",
+            "mode": "outer"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "includeByName": {
+              "title": true,
+              "user": true,
+              "client": true,
+              "device": true,
+              "method": true,
+              "paused": true,
+              "hardware": true,
+              "reasons": true,
+              "Value #B": true,
+              "Value #C": true,
+              "Value #D": true
+            },
+            "indexByName": {
+              "title": 0,
+              "user": 1,
+              "client": 2,
+              "device": 3,
+              "method": 4,
+              "paused": 5,
+              "Value #B": 6,
+              "Value #C": 7,
+              "Value #D": 8,
+              "hardware": 9,
+              "reasons": 10
+            },
+            "renameByName": {
+              "title": "Title",
+              "user": "User",
+              "client": "Client",
+              "device": "Device",
+              "method": "Method",
+              "paused": "Paused",
+              "hardware": "Hardware",
+              "reasons": "Reasons",
+              "Value #B": "Buffer ahead",
+              "Value #C": "Speed",
+              "Value #D": "Bitrate"
+            }
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto"
+          },
+          "noValue": "–"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Buffer ahead"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#d03b3b",
+                      "value": null
+                    },
+                    {
+                      "color": "#fab219",
+                      "value": 10
+                    },
+                    {
+                      "color": "text",
+                      "value": 30
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Speed"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "unit",
+                "value": "suffix:x"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bitrate"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bps"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Buffer ahead",
+            "desc": false
+          }
+        ]
+      },
+      "id": 2010,
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      }
+    },
+    {
+      "id": 2011,
+      "type": "row",
+      "title": "Streaming problems",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "Transcode buffer ahead",
+      "description": "Seconds ready ahead of the player. Below the line, the player is about to stall. This updates when the client reports its position, about each 10 seconds. A line stops when the transcode is complete, which is normal.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "jellyfin_stream_buffer_seconds * on (session) group_left (title, user) jellyfin_stream_info",
+          "refId": "A",
+          "legendFormat": "{{user}}: {{title}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            },
+            "barAlignment": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "#ec835a",
+                "value": 10
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 280,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2012,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 16
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Transcode speed",
+      "description": "1 is real time. Below 1 with a low buffer means the host cannot keep up. Below 1 with a high buffer is usually normal throttling.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "jellyfin_stream_transcode_fps / jellyfin_stream_source_fps * on (session) group_left (title) jellyfin_stream_info",
+          "refId": "A",
+          "legendFormat": "{{title}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            },
+            "barAlignment": 0
+          },
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "#ec835a",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 240,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2013,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 16
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Stream response time",
+      "description": "Needs EnableMetrics in Jellyfin.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{job=\"jellyfin\",controller=~\"DynamicHls|Videos|Audio|UniversalAudio|HlsSegment\"}[$__rate_interval])))",
+          "refId": "A",
+          "legendFormat": "p95",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(http_request_duration_seconds_bucket{job=\"jellyfin\",controller=~\"DynamicHls|Videos|Audio|UniversalAudio|HlsSegment\"}[$__rate_interval])))",
+          "refId": "B",
+          "legendFormat": "p50",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p95"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p50"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2014,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 16
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Jellyfin errors by source",
+      "description": "Metadata errors are usually not playback problems.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "topk(6, sum by (source) (count_over_time({container=\"app-jellyfin\"} |~ \"\\\\[(ERR|FTL)\\\\]\" | regexp \"\\\\[(ERR|FTL)\\\\] \\\\[[0-9]+\\\\] (?P<source>[A-Za-z.]+):\" [$__auto])))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{source}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineInterpolation": "linear",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 340,
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2015,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Stream and host events",
+      "description": "Library scans read many files from Vault, so they can slow streams.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"Slow HTTP Response\" [$__auto]))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "Slow response"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |~ \"FFmpeg exited with code [1-9]\" [$__auto]))",
+          "refId": "B",
+          "queryType": "range",
+          "legendFormat": "FFmpeg failure"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"Validating media library\" [$__auto]))",
+          "refId": "C",
+          "queryType": "range",
+          "legendFormat": "Library scan"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"started playback of\" [$__auto]))",
+          "refId": "D",
+          "queryType": "range",
+          "legendFormat": "Playback start"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineInterpolation": "linear",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Slow response"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FFmpeg failure"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Library scan"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Playback start"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#c98500"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2016,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      }
+    },
+    {
+      "id": 2017,
+      "type": "row",
+      "title": "Host: is load the cause?",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "Pressure: time spent waiting",
+      "description": "The share of time that at least one task waited. A rise at the time of a problem points to host load.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "rate(node_pressure_cpu_waiting_seconds_total[$__rate_interval])",
+          "refId": "A",
+          "legendFormat": "CPU",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "rate(node_pressure_memory_waiting_seconds_total[$__rate_interval])",
+          "refId": "B",
+          "legendFormat": "Memory",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "rate(node_pressure_io_waiting_seconds_total[$__rate_interval])",
+          "refId": "C",
+          "legendFormat": "IO",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CPU"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Memory"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IO"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2018,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 33
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Disk busy (top 8)",
+      "description": "nvme0n1 is the Fast pool. The sd disks are Vault.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(8, rate(node_disk_io_time_seconds_total[$__rate_interval]))",
+          "refId": "A",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 170,
+          "calcs": [
+            "max"
+          ],
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2019,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 33
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Top CPU containers",
+      "description": "1.0 is one full core. Shows what else used the host at that time.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(6, sum by (name) (rate(container_cpu_usage_seconds_total{name!=\"\"}[$__rate_interval])))",
+          "refId": "A",
+          "legendFormat": "{{name}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 260,
+          "calcs": [
+            "max"
+          ],
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2020,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 33
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "LAN traffic (eno1)",
       "description": "",
       "datasource": {
         "type": "prometheus",
@@ -782,55 +2249,384 @@
             "type": "prometheus",
             "uid": "${prometheus}"
           },
-          "expr": "jellyfin_streams_paused",
+          "expr": "rate(node_network_receive_bytes_total{device=\"eno1\"}[$__rate_interval])",
           "refId": "A",
-          "legendFormat": "__auto",
-          "instant": true,
-          "range": false
+          "legendFormat": "Received",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "rate(node_network_transmit_bytes_total{device=\"eno1\"}[$__rate_interval])",
+          "refId": "B",
+          "legendFormat": "Sent",
+          "range": true
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "locale",
+          "unit": "Bps",
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic-by-name"
           },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Received"
+            },
+            "properties": [
               {
-                "color": "text",
-                "value": null
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
               }
             ]
           },
-          "noValue": "0",
-          "decimals": 0
-        },
-        "overrides": []
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Sent"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          }
+        ]
       },
       "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [],
+          "showLegend": true
         },
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "textMode": "auto",
-        "orientation": "auto",
-        "wideLayout": true
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
-      "id": 11,
+      "id": 2021,
       "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 6,
-        "y": 5
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 41
       }
+    },
+    {
+      "type": "timeseries",
+      "title": "TCP retransmits and NIC errors",
+      "description": "A rise suggests a network problem, not a disk or CPU problem.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "rate(node_netstat_Tcp_RetransSegs[$__rate_interval])",
+          "refId": "A",
+          "legendFormat": "TCP retransmits",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum(rate(node_network_receive_errs_total{device=\"eno1\"}[$__rate_interval]) + rate(node_network_transmit_errs_total{device=\"eno1\"}[$__rate_interval]))",
+          "refId": "B",
+          "legendFormat": "eno1 errors",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "TCP retransmits"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "eno1 errors"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2022,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 41
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Host memory",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "node_memory_MemAvailable_bytes",
+          "refId": "A",
+          "legendFormat": "Available",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "node_zfs_arc_size",
+          "refId": "B",
+          "legendFormat": "ZFS ARC",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "barAlignment": 0
+          },
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Available"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ZFS ARC"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2023,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 41
+      }
+    },
+    {
+      "id": 2024,
+      "type": "row",
+      "title": "Streaming logs",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "panels": []
+    },
+    {
+      "type": "logs",
+      "title": "Playback and transcode errors",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "{container=\"app-jellyfin\"} |~ \"(?i)\\\\[(ERR|WRN|FTL)\\\\]|Slow HTTP|FFmpeg exited with code [1-9]\" |~ \"(?i)transcod|ffmpeg|playback|hls|stream|Slow HTTP\"",
+          "refId": "A",
+          "queryType": "range"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending"
+      },
+      "id": 2025,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 49
+      }
+    },
+    {
+      "id": 8,
+      "type": "row",
+      "title": "Jellyfin",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 58
+      },
+      "panels": []
     },
     {
       "type": "stat",
@@ -891,9 +2687,9 @@
       "id": 12,
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 9,
-        "y": 5
+        "w": 4,
+        "x": 0,
+        "y": 59
       }
     },
     {
@@ -932,7 +2728,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -955,9 +2751,9 @@
       "id": 13,
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 12,
-        "y": 5
+        "w": 5,
+        "x": 4,
+        "y": 59
       }
     },
     {
@@ -996,7 +2792,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -1019,9 +2815,9 @@
       "id": 14,
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 15,
-        "y": 5
+        "w": 5,
+        "x": 9,
+        "y": 59
       }
     },
     {
@@ -1083,9 +2879,9 @@
       "id": 15,
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 18,
-        "y": 5
+        "w": 5,
+        "x": 14,
+        "y": 59
       }
     },
     {
@@ -1147,9 +2943,9 @@
       "id": 16,
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 21,
-        "y": 5
+        "w": 5,
+        "x": 19,
+        "y": 59
       }
     },
     {
@@ -1264,7 +3060,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 9
+        "y": 63
       }
     },
     {
@@ -1339,7 +3135,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 9
+        "y": 63
       }
     },
     {
@@ -1424,7 +3220,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 9
+        "y": 63
       }
     },
     {
@@ -1436,7 +3232,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 71
       },
       "panels": []
     },
@@ -1476,7 +3272,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -1501,7 +3297,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 18
+        "y": 72
       }
     },
     {
@@ -1540,7 +3336,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -1565,7 +3361,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 18
+        "y": 72
       }
     },
     {
@@ -1604,7 +3400,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -1629,7 +3425,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 18
+        "y": 72
       }
     },
     {
@@ -1668,7 +3464,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -1693,7 +3489,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 18
+        "y": 72
       }
     },
     {
@@ -1757,7 +3553,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 18
+        "y": 72
       }
     },
     {
@@ -1825,7 +3621,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 18
+        "y": 72
       }
     },
     {
@@ -1837,7 +3633,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 76
       },
       "panels": []
     },
@@ -1877,7 +3673,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -1902,7 +3698,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 23
+        "y": 77
       }
     },
     {
@@ -1941,7 +3737,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -1966,7 +3762,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 23
+        "y": 77
       }
     },
     {
@@ -2005,7 +3801,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -2030,7 +3826,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 23
+        "y": 77
       }
     },
     {
@@ -2069,7 +3865,7 @@
               }
             ]
           },
-          "noValue": "0",
+          "noValue": "–",
           "decimals": 0
         },
         "overrides": []
@@ -2094,7 +3890,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 23
+        "y": 77
       }
     },
     {
@@ -2158,7 +3954,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 23
+        "y": 77
       }
     },
     {
@@ -2226,7 +4022,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 23
+        "y": 77
       }
     },
     {
@@ -2238,7 +4034,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 27
+        "y": 81
       },
       "panels": []
     },
@@ -2324,7 +4120,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 28
+        "y": 82
       }
     },
     {
@@ -2409,7 +4205,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 28
+        "y": 82
       }
     },
     {
@@ -2519,7 +4315,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 28
+        "y": 82
       }
     },
     {
@@ -2629,7 +4425,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 28
+        "y": 82
       }
     },
     {
@@ -2697,7 +4493,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 36
+        "y": 90
       }
     },
     {
@@ -2780,7 +4576,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 36
+        "y": 90
       }
     },
     {
@@ -2792,7 +4588,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 97
       },
       "panels": []
     },
@@ -2974,7 +4770,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 44
+        "y": 98
       }
     },
     {
@@ -3155,7 +4951,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 44
+        "y": 98
       }
     },
     {
@@ -3336,7 +5132,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 52
+        "y": 106
       }
     },
     {
@@ -3517,7 +5313,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 52
+        "y": 106
       }
     },
     {
@@ -3529,7 +5325,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 60
+        "y": 114
       },
       "panels": []
     },
@@ -3604,7 +5400,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 115
       }
     },
     {
@@ -3641,7 +5437,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 67
+        "y": 121
       }
     }
   ],

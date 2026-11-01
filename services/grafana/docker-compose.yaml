@@ -68,7 +68,22 @@ configs:
 
       loki.source.file "roon" {
         targets    = local.file_match.roon.targets
+        forward_to = [loki.process.roon.receiver]
+      }
+
+      // Use the time in the Roon log line, not the time that Alloy read the line.
+      loki.process "roon" {
         forward_to = [loki.write.default.receiver]
+
+        stage.regex {
+          expression = "^(?P<time>[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}) "
+        }
+
+        stage.timestamp {
+          source   = "time"
+          format   = "01/02 15:04:05"
+          location = "America/Los_Angeles"
+        }
       }
 
       loki.write "default" {
