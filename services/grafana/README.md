@@ -13,8 +13,9 @@ Grafana, Loki, Prometheus, Alloy, cAdvisor and node-exporter for minerva.
 | Other application metrics | Not configured | See [[add-app-metrics-exporters]] |
 
 The Alloy, Prometheus and Loki configuration is in the `configs` block of
-`docker-compose.yaml`, so a redeploy applies it. Copy no files to the host for them. Grafana
-provisioning still comes from `/mnt/Fast/Configuration/grafana/grafana/provisioning`.
+`docker-compose.yaml`, so a redeploy applies it. The Grafana provisioning in
+`grafana/provisioning` is in the Grafana image, so a redeploy with a build applies it too. Copy no
+files to the host for any of them.
 
 ## Access
 
@@ -82,18 +83,10 @@ Run these steps on minerva before the first deploy of this version.
    sudo cat prometheus/prometheus-docker-scraper.yaml loki/local-config.yaml promtail/docker-config.yaml
    ```
 
-4. Copy the dashboards to the host. Grafana reads them from the host, not from the compose file.
-   Repeat this step when a dashboard changes:
-
-   ```bash
-   sudo cp -r services/grafana/grafana/provisioning/dashboards /mnt/Fast/Configuration/grafana/grafana/provisioning/
-   sudo chown -R 472:472 /mnt/Fast/Configuration/grafana/grafana/provisioning/dashboards
-   ```
-
-5. Turn on the Jellyfin metrics. Stop the Jellyfin stack, and set `<EnableMetrics>true</EnableMetrics>`
+4. Turn on the Jellyfin metrics. Stop the Jellyfin stack, and set `<EnableMetrics>true</EnableMetrics>`
    in `/mnt/Fast/Configuration/jellyfin/config/config/system.xml`.
 
-6. In Portainer, add these stack variables. A stack does not deploy without its value:
+5. In Portainer, add these stack variables. A stack does not deploy without its value:
 
    | Stack | Variable | Value |
    |---|---|---|
@@ -103,7 +96,7 @@ Run these steps on minerva before the first deploy of this version.
 
    The jellyfin stack uses the `JELLYFIN_APIKEY` value that it has now.
 
-7. Redeploy the monitoring, jellyfin, sonarr, radarr and bazarr stacks in Portainer. Remove the old
+6. Redeploy the monitoring, jellyfin, sonarr, radarr and bazarr stacks in Portainer. Remove the old
    `promtail` container if Portainer keeps it.
 
 ## Check the deploy
@@ -126,7 +119,8 @@ source. The `container` label must list the containers of all stacks.
 ## Dashboards
 
 The dashboards are in the **Homelab** folder in Grafana. Change them in the repo, not in Grafana,
-because Grafana does not save changes to a provisioned dashboard.
+because Grafana does not save changes to a provisioned dashboard. A dashboard change reaches Grafana
+when the stack redeploys and the image builds again.
 
 | Dashboard | Shows |
 |---|---|

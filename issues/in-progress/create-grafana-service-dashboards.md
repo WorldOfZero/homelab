@@ -60,4 +60,6 @@ These items were not tested:
 
 The dashboards select the data sources with variables, so the panels do not depend on a data source UID.
 
+2026-11-01: From the human: the dashboards do not provision, because no step copies them to the host. The stack now builds a Grafana image that contains `grafana/provisioning`, with the same method as the Jellyfin enricher. The host provisioning mount is removed. A dashboard that exists only on the host, such as `plex-overview.json`, stops loading.
+
 ## Resolution
