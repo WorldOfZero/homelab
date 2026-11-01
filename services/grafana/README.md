@@ -8,7 +8,9 @@ Grafana, Loki, Prometheus, Alloy, cAdvisor and node-exporter for minerva.
 | Roon log file | Alloy reads `RoonServer_log.txt` | Roon stream errors do not go to the container log |
 | Container metrics | cAdvisor | All containers: CPU, memory, restarts, IO |
 | Host metrics | node-exporter | minerva: CPU, memory, pressure, disks, NICs, ZFS |
-| Application metrics | Not configured | See [[add-app-metrics-exporters]] |
+| Docker state | `docker-state-exporter` | All containers: state, health, restarts, OOM kills, exit code |
+| Media metrics | exportarr, `jellyfin-exporter`, Jellyfin `/metrics` | Sonarr, Radarr, Bazarr, Jellyfin |
+| Other application metrics | Not configured | See [[add-app-metrics-exporters]] |
 
 The Alloy, Prometheus and Loki configuration is in the `configs` block of
 `docker-compose.yaml`, so a redeploy applies it. Copy no files to the host for them. Grafana
@@ -80,7 +82,29 @@ Run these steps on minerva before the first deploy of this version.
    sudo cat prometheus/prometheus-docker-scraper.yaml loki/local-config.yaml promtail/docker-config.yaml
    ```
 
-4. Redeploy the stack in Portainer. Remove the old `promtail` container if Portainer keeps it.
+4. Copy the dashboards to the host. Grafana reads them from the host, not from the compose file.
+   Repeat this step when a dashboard changes:
+
+   ```bash
+   sudo cp -r services/grafana/grafana/provisioning/dashboards /mnt/Fast/Configuration/grafana/grafana/provisioning/
+   sudo chown -R 472:472 /mnt/Fast/Configuration/grafana/grafana/provisioning/dashboards
+   ```
+
+5. Turn on the Jellyfin metrics. Stop the Jellyfin stack, and set `<EnableMetrics>true</EnableMetrics>`
+   in `/mnt/Fast/Configuration/jellyfin/config/config/system.xml`.
+
+6. In Portainer, add these stack variables. A stack does not deploy without its value:
+
+   | Stack | Variable | Value |
+   |---|---|---|
+   | sonarr | `SONARR_APIKEY` | Settings -> General in Sonarr |
+   | radarr | `RADARR_APIKEY` | Settings -> General in Radarr |
+   | bazarr | `BAZARR_APIKEY` | Settings -> General in Bazarr |
+
+   The jellyfin stack uses the `JELLYFIN_APIKEY` value that it has now.
+
+7. Redeploy the monitoring, jellyfin, sonarr, radarr and bazarr stacks in Portainer. Remove the old
+   `promtail` container if Portainer keeps it.
 
 ## Check the deploy
 
@@ -98,6 +122,19 @@ curl -s -G http://localhost:9090/api/v1/query --data-urlencode 'query=node_press
 
 Loki has no published port. To check the logs, open Grafana -> Explore and select the Loki data
 source. The `container` label must list the containers of all stacks.
+
+## Dashboards
+
+The dashboards are in the **Homelab** folder in Grafana. Change them in the repo, not in Grafana,
+because Grafana does not save changes to a provisioned dashboard.
+
+| Dashboard | Shows |
+|---|---|
+| Container Health | State, health, restarts and resources of all containers, host pressure, memory, disks, network, and error logs |
+| Media Stack | Service health, Jellyfin streams and library, Sonarr, Radarr and Bazarr counts and issues, resources, and error logs |
+
+Seerr and Themearr have no metrics endpoint. The Media Stack dashboard shows only their container
+state, resources and logs.
 
 ## Storage and retention
 
@@ -122,6 +159,12 @@ Use Grafana to read the logs.
 
 Prometheus (9090) and node-exporter (9100) have no authentication, and all LAN devices can connect
 to them. They hold metrics, not logs.
+
+The exportarr exporters (9707) and `jellyfin-exporter` (9711) share the network of their Tailscale
+sidecars. Tailnet devices can read them if the tailnet policy allows it. They show library counts
+and health messages, and they show no API keys.
+
+`docker-state-exporter` reads the Docker socket. It makes only GET calls and it publishes no port.
 
 ## Agent access
 

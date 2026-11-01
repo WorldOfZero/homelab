@@ -80,6 +80,20 @@ services:
     restart: unless-stopped
     logging: *logging-config
 
+  exporter:
+    image: ghcr.io/onedr0p/exportarr:v2.3.0
+    container_name: bazarr-exporter
+    network_mode: service:tailscale # Reaches Bazarr on 127.0.0.1:6767. Prometheus connects through tailnet-local.
+    command: ["bazarr"]
+    environment:
+      - PORT=9707
+      - URL=http://127.0.0.1:6767
+      - APIKEY=${BAZARR_APIKEY:?Set BAZARR_APIKEY in the Portainer stack variables}
+    depends_on:
+      - application
+    restart: unless-stopped
+    logging: *logging-config
+
 networks:
   tailnet-local:
     external: true # Create once on the host: docker network create tailnet-local

@@ -60,4 +60,6 @@ Roon, ollama, factorio and other services can have no metrics endpoint. For thos
 
 ## Notes
 
+2026-11-01: [[create-grafana-service-dashboards]] adds Sonarr, Radarr, Bazarr and Jellyfin. Remove these items from the candidates when that work is complete.
+
 ## Resolution

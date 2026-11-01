@@ -99,6 +99,20 @@ retention (the image's own defaults). See Improvements.md §14.
 | `GRAFANA_OIDC_CLIENT_SECRET` | `grafana` — the tsidp client | Yes | Portainer (secret) |
 | `GRAFANA_ADMIN_EMAIL` | `grafana` — the user who gets the Admin role | No, but personal | Portainer |
 
+## Media metrics exporters
+
+Each exportarr sidecar needs the API key of its application, set on the stack of that application.
+`SONARR_APIKEY` and `RADARR_APIKEY` have the same names as the homepage variables, and they have the
+same values. See `services/grafana/README.md`.
+
+| Variable | Used by | Secret? | Where |
+|---|---|---|---|
+| `SONARR_APIKEY` | `arr/sonarr` (`exporter`) | Yes | Portainer (secret) |
+| `RADARR_APIKEY` | `arr/radarr` (`exporter`) | Yes | Portainer (secret) |
+| `BAZARR_APIKEY` | `arr/bazarr` (`exporter`) | Yes | Portainer (secret) |
+
+`jellyfin` (`exporter`) uses the existing `JELLYFIN_APIKEY`.
+
 ## Homepage dashboard API keys
 
 `homepage` pulls read-only status/API keys from six other services to populate its dashboard.
