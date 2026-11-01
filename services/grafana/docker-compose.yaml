@@ -9,6 +9,14 @@ x-logging-config:
     tag: "{{.Name}}"
 
 configs:
+  ts-serve:
+    content: |
+      {"TCP":{"443":{"HTTPS":true}},
+      "Web":{"$${TS_CERT_DOMAIN}:443":
+          {"Handlers":{"/":
+          {"Proxy":"http://127.0.0.1:3000"}}}},
+      "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
+
   alloy-config:
     content: |
       discovery.docker "containers" {
@@ -93,7 +101,8 @@ configs:
 
         - job_name: grafana
           static_configs:
-            - targets: ["grafana:3000"]
+            # Grafana uses the network of its sidecar, so it has no name of its own.
+            - targets: ["tailscale:3000"]
 
         - job_name: loki
           static_configs:
@@ -165,14 +174,53 @@ configs:
         reporting_enabled: false
 
 services:
+  tailscale:
+    image: tailscale/tailscale:v1.98
+    container_name: tailscale-grafana
+    hostname: grafana # Name used within your Tailscale environment
+    networks:
+      - default
+      - tailnet-local # Shared with the other sidecars on this host so tailscaled finds a direct path instead of relaying via DERP
+    ports:
+      - 3001:3000 # Grafana on the LAN
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=false
+      - TS_ENABLE_HEALTH_CHECK=true
+      - TS_LOCAL_ADDR_PORT=127.0.0.1:41234
+      - TS_ACCEPT_DNS=false # Grafana finds loki and prometheus through Docker DNS
+      - TS_AUTH_ONCE=true
+    configs:
+      - source: ts-serve
+        target: /config/serve.json
+    volumes:
+      - '/mnt/Fast/Configuration/tailscale/state-grafana:/var/lib/tailscale'
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: always
+    logging: *logging-config
+
   grafana:
     image: grafana/grafana:13.2.3
     restart: unless-stopped
     user: "472:472"
-    ports:
-      - 3001:3000
+    network_mode: service:tailscale
+    depends_on:
+      tailscale:
+        condition: service_healthy
     environment:
       - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - GF_SERVER_ROOT_URL=https://grafana.comet-stork.ts.net
     volumes:
       - '/mnt/Fast/Configuration/grafana/data:/var/lib/grafana:rw'
       - '/mnt/Fast/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning'
@@ -262,3 +310,7 @@ services:
     depends_on:
       - cadvisor
     logging: *logging-config
+
+networks:
+  tailnet-local:
+    external: true # Create once on the host: docker network create tailnet-local

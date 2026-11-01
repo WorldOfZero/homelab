@@ -14,6 +14,12 @@ The Alloy, Prometheus and Loki configuration is in the `configs` block of
 `docker-compose.yaml`, so a redeploy applies it. Copy no files to the host for them. Grafana
 provisioning still comes from `/mnt/Fast/Configuration/grafana/grafana/provisioning`.
 
+## Access
+
+Grafana is at `https://grafana.comet-stork.ts.net` on the tailnet, and at port 3001 on the LAN. A
+Tailscale sidecar gives Grafana its name. Set `TS_AUTHKEY` in the Portainer stack variables before
+you deploy. The `tailnet-local` network must exist. See `ENVIRONMENT.md`.
+
 ## Deploy
 
 Run these steps on minerva before the first deploy of this version.

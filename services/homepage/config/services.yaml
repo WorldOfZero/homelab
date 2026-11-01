@@ -65,6 +65,7 @@
             env: Minerva
             #key: ptr_accesskeyaccesskeyaccesskeyaccesskey
     - Grafana:
+        href: https://grafana.comet-stork.ts.net
         description: Homelab Dashboards and Monitoring
         widget:
             type: grafana

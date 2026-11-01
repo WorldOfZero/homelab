@@ -76,4 +76,6 @@ These items were not tested in the sandbox:
 
 2026-11-01: From the human: agents get a Grafana token for Loki and Prometheus, which are both Grafana data sources. Thus the Loki port is removed. This closes the question about Loki exposure. The Prometheus port stays, because the human did not ask to remove it and it holds no logs.
 
+2026-11-01: From the human: Grafana must have a Tailscale name. A sidecar now gives it the name `grafana`, and the LAN port 3001 stays. The grafana stack now needs `TS_AUTHKEY` in Portainer. The sidecar sets `TS_ACCEPT_DNS=false`, because Grafana finds Loki and Prometheus through Docker DNS.
+
 ## Resolution
