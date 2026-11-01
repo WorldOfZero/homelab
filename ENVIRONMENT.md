@@ -91,6 +91,14 @@ retention (the image's own defaults). See Improvements.md §14.
 |---|---|---|---|
 | `DISCORD_WEBHOOK_URL` | `grafana` — expanded into `services/grafana/grafana/provisioning/alerting/discord.yaml` | Yes — anyone with the URL can post to the channel | Portainer (secret) |
 
+## Grafana login
+
+| Variable | Used by | Secret? | Where |
+|---|---|---|---|
+| `GRAFANA_OIDC_CLIENT_ID` | `grafana` — the tsidp client | No | Portainer |
+| `GRAFANA_OIDC_CLIENT_SECRET` | `grafana` — the tsidp client | Yes | Portainer (secret) |
+| `GRAFANA_ADMIN_EMAIL` | `grafana` — the user who gets the Admin role | No, but personal | Portainer |
+
 ## Homepage dashboard API keys
 
 `homepage` pulls read-only status/API keys from six other services to populate its dashboard.

@@ -20,6 +20,24 @@ Grafana is at `https://grafana.comet-stork.ts.net` on the tailnet, and at port 3
 Tailscale sidecar gives Grafana its name. Set `TS_AUTHKEY` in the Portainer stack variables before
 you deploy. The `tailnet-local` network must exist. See `ENVIRONMENT.md`.
 
+## Login
+
+Grafana uses tsidp for Tailscale login. The browser must be on the tailnet. The local login form
+stays as a way in when tsidp is down. Service account tokens do not use tsidp.
+
+The configured `GRAFANA_ADMIN_EMAIL` user gets the Admin role, and all other tailnet users get the
+Viewer role.
+
+Do these steps before the deploy:
+
+1. In the tsidp UI at `https://idp.comet-stork.ts.net`, create a client with this redirect URI:
+   `https://grafana.comet-stork.ts.net/login/generic_oauth`
+2. In the Portainer stack variables, set `GRAFANA_OIDC_CLIENT_ID`, `GRAFANA_OIDC_CLIENT_SECRET` and
+   `GRAFANA_ADMIN_EMAIL`. The stack does not deploy without them.
+
+If you get the Viewer role, read your email in Grafana -> Profile. Set `GRAFANA_ADMIN_EMAIL` to that
+value, and deploy again.
+
 ## Deploy
 
 Run these steps on minerva before the first deploy of this version.

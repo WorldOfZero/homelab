@@ -190,7 +190,7 @@ services:
       - TS_USERSPACE=false
       - TS_ENABLE_HEALTH_CHECK=true
       - TS_LOCAL_ADDR_PORT=127.0.0.1:41234
-      - TS_ACCEPT_DNS=false # Grafana finds loki and prometheus through Docker DNS
+      - TS_ACCEPT_DNS=true # Grafana reaches tsidp by its tailnet name. Docker names still resolve.
       - TS_AUTH_ONCE=true
     configs:
       - source: ts-serve
@@ -221,6 +221,18 @@ services:
     environment:
       - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
       - GF_SERVER_ROOT_URL=https://grafana.comet-stork.ts.net
+      # Log in with Tailscale through tsidp. The login form stays as a way in when tsidp is down.
+      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
+      - GF_AUTH_GENERIC_OAUTH_NAME=Tailscale
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=${GRAFANA_OIDC_CLIENT_ID:?Set GRAFANA_OIDC_CLIENT_ID in the Portainer stack variables}
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=${GRAFANA_OIDC_CLIENT_SECRET:?Set GRAFANA_OIDC_CLIENT_SECRET in the Portainer stack variables}
+      - GF_AUTH_GENERIC_OAUTH_SCOPES=openid email profile
+      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://idp.comet-stork.ts.net/authorize
+      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://idp.comet-stork.ts.net/token
+      - GF_AUTH_GENERIC_OAUTH_API_URL=https://idp.comet-stork.ts.net/userinfo
+      - GF_AUTH_GENERIC_OAUTH_USE_PKCE=true
+      - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
+      - "GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH=email == '${GRAFANA_ADMIN_EMAIL:?Set GRAFANA_ADMIN_EMAIL in the Portainer stack variables}' && 'Admin' || 'Viewer'"
     volumes:
       - '/mnt/Fast/Configuration/grafana/data:/var/lib/grafana:rw'
       - '/mnt/Fast/Configuration/grafana/grafana/provisioning:/etc/grafana/provisioning'
