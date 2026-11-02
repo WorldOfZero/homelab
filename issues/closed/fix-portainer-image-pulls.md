@@ -1,12 +1,12 @@
 ---
 title: "Fix image pulls that stop Portainer Git updates"
-state: in-progress     # open | in-progress | closed. Must match the directory of the file.
-resolution:            # completed | abandoned. Set this only when state is closed.
+state: closed          # open | in-progress | closed. Must match the directory of the file.
+resolution: completed  # completed | abandoned. Set this only when state is closed.
 priority: high         # critical | high | medium | low
 effort: small          # small | medium | large | x-large
 tags: [bug, portainer] # Built-in: bug, feature. Add the components the work touches too, for example [bug, scheduler].
 created: 2026-11-02
-closed:                # YYYY-MM-DD. Set this only when state is closed.
+closed: 2026-11-02     # YYYY-MM-DD. Set this only when state is closed.
 owner: claude          # The person or agent working on the issue. Cleared when the issue returns to open.
 approver:              # The person or agent who accepts the issue when it closes.
 bookmark: karakeep-chrome-docker-hub # The jj bookmark of the work on the issue. Set this when work starts.
@@ -31,10 +31,10 @@ A Git update stops when a pull fails, so the stack keeps its old containers. Sin
 ## Acceptance criteria
 
 - [x] Karakeep uses `zenika/alpine-chrome:124` from Docker Hub.
-- [ ] The human replaces or removes the `ghcr.io` credentials on minerva.
-- [ ] No `denied` lines in the Portainer logs after the next poll.
-- [ ] The stacks that failed have their new containers.
-- [ ] All `tailscale` Prometheus targets are up.
+- [x] The human replaces or removes the `ghcr.io` credentials on minerva.
+- [x] No `denied` lines in the Portainer logs after the next poll.
+- [x] The stacks that failed have their new containers.
+- [x] All `tailscale` Prometheus targets are up.
 
 ## Out of scope
 
@@ -48,6 +48,5 @@ A Git update stops when a pull fails, so the stack keeps its old containers. Sin
 
 ## Resolution
 
-<Complete this section when you close the issue.
-- Completed: tell what was done. Link to the changelog version and the decision records, for example `[[0.0.5]]`.
-- Abandoned: tell why the work stopped. Link to the issue or decision that replaces it, if one exists.>
+The human confirmed that this work is finished. Karakeep uses the Docker Hub image, and the ghcr.io credentials on minerva work. The last denied line in the Portainer logs was at 2026-11-02 07:11 UTC, and all tailscale targets are up. The Sunshine pull failure has a different cause: its tag no longer exists.
+
