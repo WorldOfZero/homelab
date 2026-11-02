@@ -36,7 +36,7 @@ The Plex compromise ran for days and nobody saw it. The dashboards show the sign
 - [x] Media Stack, GPU and Network show stream events as marks.
 - [x] Media Stack has a Group playback row for SyncPlay.
 - [ ] After the deploy, `jellyfin_stream_position_seconds` has data, and Position gap shows a value in a watch party.
-- [ ] The `flights-tandoor` and `karakeep-kavita` dashboards are gone from Grafana.
+- [x] The `flights-tandoor` and `karakeep-kavita` dashboards are gone from Grafana.
 
 ## Out of scope
 
@@ -60,5 +60,9 @@ The Plex compromise ran for days and nobody saw it. The dashboards show the sign
 2026-11-02: `/SyncPlay/List` metrics are not in the exporter. The exporter uses an API key, and the list was not tested with an API key. The logs and session positions give the same signals.
 
 2026-11-02: Live panels of `tandoor` and `karakeep` match commit `c0a3335e`, which removed the two old dashboard files, but Grafana still lists the old dashboards as provisioned. The cause is not known. Deletion worked in a test on Grafana 13.1.1. Minerva runs 13.2.3, which was not tested because the sandbox could not get the image.
+
+2026-11-02: The NVIDIA exporter stopped at start with `CPU ISA level is lower than required`. The ELF header of the `1.17.0-nvml` binary requires x86-64-v3. The `1.17.0` binary is static, and it reads `nvidia-smi`. It gave the dashboard metrics from a stub `nvidia-smi`, but it was not tested on a real GPU.
+
+2026-11-02: The two old dashboards went away after the next redeploy. The cause of the delay is not known.
 
 ## Resolution
