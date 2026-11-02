@@ -126,8 +126,10 @@ when the stack redeploys and the image builds again.
 |---|---|
 | Container Health | State, health, restarts and resources of all containers, host pressure, memory, disks, network, and error logs |
 | Media Stack | Service health, each stream with its buffer and speed, playback errors, host load, library, Sonarr, Radarr and Bazarr counts and issues, and error logs |
-| Flights and Tandoor | Status, tailnet probe, backups, resources and logs |
-| Karakeep and Kavita | Status, tailnet probe, bookmarks, job queues, API errors, backups and logs |
+| Flights | Status, tailnet probe, backups, resources and logs |
+| Tandoor | Status, tailnet probe, backups, resources and logs |
+| Karakeep | Status, tailnet probe, bookmarks, job queues, API errors and logs |
+| Kavita | Status, tailnet probe, backups, warnings, resources and logs |
 | GameScores | Status, tailnet probe, response time, restarts, errors, resources and logs |
 | tsidp | Status, tailnet probe, logins for each service, errors, resources and logs |
 | Media Interest | Watch time, top titles, directors, studios, genres, artists and albums, and watch history for the last 30 days. All Grafana users can see the watch history of each person. |

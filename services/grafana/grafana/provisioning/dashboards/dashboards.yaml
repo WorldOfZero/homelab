@@ -4,7 +4,7 @@ providers:
   - name: homelab
     folder: Homelab
     type: file
-    disableDeletion: true
+    disableDeletion: false
     allowUiUpdates: false
     updateIntervalSeconds: 3600
     options:
