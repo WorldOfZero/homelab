@@ -110,4 +110,6 @@ A gauge for a game that has no rooms must return to 0. Set each known game on ea
 
 2026-11-02: The Usage row on the GameScores dashboard shows these metrics. Names differ from the proposal: `gamescores_room_active`, `gamescores_users_active`, `gamescores_room_created_total{game,source}`. No `game_not_found` line is in the logs yet, so that line is not confirmed. The panel for it was added.
 
+2026-11-02: From the human: track game replays, and the list of games that people asked for is empty, but should not be. Replays are on the dashboard from `gamescores_room_play_again_total`. GameScores 0.0.328 has no metric for a missing game, and its logs after startup have no `game_not_found` line. The app must report this data. A failed lookup at `/game/{id}` returns no error status, so HTTP metrics do not show it.
+
 ## Resolution

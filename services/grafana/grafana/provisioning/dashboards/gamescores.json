@@ -639,8 +639,8 @@
     },
     {
       "type": "stat",
-      "title": "Idle rooms",
-      "description": "Rooms that exist, but nobody uses now.",
+      "title": "Replays",
+      "description": "Times that people selected to play a game again in the selected time.",
       "datasource": {
         "type": "prometheus",
         "uid": "${prometheus}"
@@ -651,7 +651,7 @@
             "type": "prometheus",
             "uid": "${prometheus}"
           },
-          "expr": "sum(gamescores_room_inactive{job=\"gamescores\"})",
+          "expr": "sum(clamp_min(gamescores_room_play_again_total{job=\"gamescores\"} - (gamescores_room_play_again_total{job=\"gamescores\"} offset $__range or gamescores_room_play_again_total{job=\"gamescores\"} * 0), 0)) or vector(0)",
           "refId": "A",
           "instant": true,
           "range": false,
@@ -896,7 +896,7 @@
     {
       "type": "timeseries",
       "title": "Rooms and players",
-      "description": "Rooms in use and users in rooms.",
+      "description": "Rooms in use, idle rooms, and users in rooms.",
       "datasource": {
         "type": "prometheus",
         "uid": "${prometheus}"
@@ -920,6 +920,16 @@
           "expr": "sum(gamescores_users_active{job=\"gamescores\"})",
           "refId": "B",
           "legendFormat": "Players",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum(gamescores_room_inactive{job=\"gamescores\"})",
+          "refId": "C",
+          "legendFormat": "Idle rooms",
           "range": true
         }
       ],
@@ -1174,6 +1184,17 @@
           "instant": true,
           "range": false,
           "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum by (game) (clamp_min(gamescores_room_play_again_total{job=\"gamescores\"} - (gamescores_room_play_again_total{job=\"gamescores\"} offset $__range or gamescores_room_play_again_total{job=\"gamescores\"} * 0), 0))",
+          "refId": "E",
+          "instant": true,
+          "range": false,
+          "format": "table"
         }
       ],
       "transformations": [
@@ -1190,16 +1211,18 @@
             "indexByName": {
               "game": 0,
               "Value #A": 1,
-              "Value #B": 2,
-              "Value #C": 3,
-              "Value #D": 4
+              "Value #B": 3,
+              "Value #C": 4,
+              "Value #D": 5,
+              "Value #E": 2
             },
             "renameByName": {
               "game": "Game",
               "Value #A": "Rooms created",
               "Value #B": "Joins",
               "Value #C": "Players added",
-              "Value #D": "Page views"
+              "Value #D": "Page views",
+              "Value #E": "Replays"
             }
           }
         },
