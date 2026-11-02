@@ -21,7 +21,7 @@
   "annotations": {
     "list": [
       {
-        "name": "Library scan",
+        "name": "Stream started",
         "datasource": {
           "type": "loki",
           "uid": "${loki}"
@@ -29,10 +29,61 @@
         "enable": true,
         "iconColor": "#199e70",
         "target": {
+          "expr": "{container=\"app-jellyfin\"} |= \"started playback of\" | regexp `User (?P<user>.+?) started playback of '(?P<title>.*)' \\(` | line_format \"{{.user}}: {{.title}}\"",
+          "refId": "Anno",
+          "queryType": "range",
+          "maxLines": 300
+        },
+        "textFormat": "",
+        "titleFormat": "Stream started"
+      },
+      {
+        "name": "Stream stopped",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "enable": true,
+        "iconColor": "#898781",
+        "target": {
+          "expr": "{container=\"app-jellyfin\"} |= \"stopped playback of\" | regexp `User (?P<user>.+?) stopped playback of '(?P<title>.*)' at` | line_format \"{{.user}}: {{.title}}\"",
+          "refId": "Anno",
+          "queryType": "range",
+          "maxLines": 300
+        },
+        "textFormat": "",
+        "titleFormat": "Stream stopped"
+      },
+      {
+        "name": "SyncPlay group waits",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "enable": true,
+        "iconColor": "#ec835a",
+        "target": {
+          "expr": "{container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"switching from Playing to Waiting\"",
+          "refId": "Anno",
+          "queryType": "range",
+          "maxLines": 300
+        },
+        "textFormat": "",
+        "titleFormat": "SyncPlay group waits"
+      },
+      {
+        "name": "Library scan",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "enable": true,
+        "iconColor": "#c98500",
+        "target": {
           "expr": "{container=\"app-jellyfin\"} |= \"Validating media library\"",
           "refId": "Anno",
           "queryType": "range",
-          "maxLines": 200
+          "maxLines": 300
         },
         "textFormat": "",
         "titleFormat": "Library scan"
@@ -1939,6 +1990,937 @@
       }
     },
     {
+      "type": "row",
+      "title": "Group playback (SyncPlay)",
+      "collapsed": false,
+      "panels": [],
+      "id": 2126,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Groups",
+      "description": "Groups created in the selected time.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"created group\" [$__range]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2127,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 33
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Joins",
+      "description": "Times that a session joined a group.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"joined group\" [$__range]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2128,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 33
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Leaves",
+      "description": "Times that a session left a group. More leaves than you expect can mean that clients drop out.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \" left group\" [$__range]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2129,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 33
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Group waits",
+      "description": "Times that a playing group stopped to wait for a client.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"switching from Playing to Waiting\" [$__range]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2130,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 33
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Buffer requests",
+      "description": "Times that a client told the group that it has to buffer.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"requested Buffer in group\" [$__range]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2131,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 33
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Seeks",
+      "description": "Seeks in the group. Seeks that nobody asked for can mean that clients correct their position.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"requested Seek in group\" [$__range]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2132,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 33
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Client requests by type",
+      "description": "Buffer and Ready show waits: the group stops for all clients when one client buffers. The panel hides Ping, which is normal background traffic.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum by (op) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" !~ \"requested Ping\" | regexp \"requested (?P<op>[A-Za-z]+) in group\" [$__auto]))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{op}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2133,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 37
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Group state changes",
+      "description": "Playing to Waiting is a stop for the whole group.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum by (src, dst) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" | regexp \"switching from (?P<src>[A-Za-z]+) to (?P<dst>[A-Za-z]+)\" [$__auto]))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{src}} to {{dst}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2134,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 37
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Buffer requests by session",
+      "description": "The first 8 characters of the session ID. The same IDs are in the jellyfin_stream_info metric. One session with most of the requests is the client that stops the group.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum by (session) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"requested Buffer in group\" | regexp \"Session (?P<session>[0-9a-f]{8})\" [$__auto]))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{session}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2135,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 45
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Buffer ahead for each client",
+      "description": "Only for transcodes. A client with a low buffer can stop the group.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "jellyfin_stream_buffer_seconds * on (session) group_left (user, client, title) jellyfin_stream_info",
+          "refId": "A",
+          "legendFormat": "{{user}} {{client}}: {{title}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2136,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 45
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Position gap in one title",
+      "description": "The gap between the first and last client that play the same title. Clients report their position about each 10 seconds, so a small gap is normal. Two people who watch one title separately also show here.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "(max by (title) (jellyfin_stream_position_seconds * on (session) group_left (title) jellyfin_stream_info) - min by (title) (jellyfin_stream_position_seconds * on (session) group_left (title) jellyfin_stream_info)) and on (title) (count by (title) (jellyfin_stream_info) > 1)",
+          "refId": "A",
+          "legendFormat": "{{title}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2137,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 53
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "SyncPlay request time, p95",
+      "description": "A slow server response makes clients drift apart.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "histogram_quantile(0.95, sum by (le, action) (rate(http_request_duration_seconds_bucket{job=\"jellyfin\",controller=\"SyncPlay\"}[$__rate_interval])))",
+          "refId": "A",
+          "legendFormat": "{{action}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2138,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 53
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "SyncPlay request errors",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum by (action, code) (rate(http_requests_received_total{job=\"jellyfin\",controller=\"SyncPlay\",code!~\"2..\"}[$__rate_interval]))",
+          "refId": "A",
+          "legendFormat": "{{action}} {{code}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2139,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 53
+      }
+    },
+    {
+      "type": "logs",
+      "title": "SyncPlay events",
+      "description": "All group events, without Ping.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "{container=\"app-jellyfin\"} |= \"SyncPlay.Group\" !~ \"requested Ping\"",
+          "refId": "A",
+          "queryType": "range"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending"
+      },
+      "id": 2140,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 61
+      }
+    },
+    {
       "id": 2017,
       "type": "row",
       "title": "Host: is load the cause?",
@@ -1947,7 +2929,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 70
       },
       "panels": []
     },
@@ -2083,7 +3065,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 33
+        "y": 71
       }
     },
     {
@@ -2158,7 +3140,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 33
+        "y": 71
       }
     },
     {
@@ -2232,7 +3214,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 33
+        "y": 71
       }
     },
     {
@@ -2342,7 +3324,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 41
+        "y": 79
       }
     },
     {
@@ -2452,7 +3434,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 41
+        "y": 79
       }
     },
     {
@@ -2562,7 +3544,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 41
+        "y": 79
       }
     },
     {
@@ -2574,7 +3556,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 48
+        "y": 86
       },
       "panels": []
     },
@@ -2612,7 +3594,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 49
+        "y": 87
       }
     },
     {
@@ -2624,7 +3606,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 58
+        "y": 96
       },
       "panels": []
     },
@@ -2689,7 +3671,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 59
+        "y": 97
       }
     },
     {
@@ -2753,7 +3735,7 @@
         "h": 4,
         "w": 5,
         "x": 4,
-        "y": 59
+        "y": 97
       }
     },
     {
@@ -2817,7 +3799,7 @@
         "h": 4,
         "w": 5,
         "x": 9,
-        "y": 59
+        "y": 97
       }
     },
     {
@@ -2881,7 +3863,7 @@
         "h": 4,
         "w": 5,
         "x": 14,
-        "y": 59
+        "y": 97
       }
     },
     {
@@ -2945,7 +3927,7 @@
         "h": 4,
         "w": 5,
         "x": 19,
-        "y": 59
+        "y": 97
       }
     },
     {
@@ -3060,7 +4042,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 63
+        "y": 101
       }
     },
     {
@@ -3135,7 +4117,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 63
+        "y": 101
       }
     },
     {
@@ -3220,7 +4202,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 63
+        "y": 101
       }
     },
     {
@@ -3232,7 +4214,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 71
+        "y": 109
       },
       "panels": []
     },
@@ -3297,7 +4279,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 72
+        "y": 110
       }
     },
     {
@@ -3361,7 +4343,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 72
+        "y": 110
       }
     },
     {
@@ -3425,7 +4407,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 72
+        "y": 110
       }
     },
     {
@@ -3489,7 +4471,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 72
+        "y": 110
       }
     },
     {
@@ -3553,7 +4535,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 72
+        "y": 110
       }
     },
     {
@@ -3621,7 +4603,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 72
+        "y": 110
       }
     },
     {
@@ -3633,7 +4615,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 76
+        "y": 114
       },
       "panels": []
     },
@@ -3698,7 +4680,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 77
+        "y": 115
       }
     },
     {
@@ -3762,7 +4744,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 77
+        "y": 115
       }
     },
     {
@@ -3826,7 +4808,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 77
+        "y": 115
       }
     },
     {
@@ -3890,7 +4872,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 77
+        "y": 115
       }
     },
     {
@@ -3954,7 +4936,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 77
+        "y": 115
       }
     },
     {
@@ -4022,7 +5004,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 77
+        "y": 115
       }
     },
     {
@@ -4034,7 +5016,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 81
+        "y": 119
       },
       "panels": []
     },
@@ -4120,7 +5102,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 82
+        "y": 120
       }
     },
     {
@@ -4205,7 +5187,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 82
+        "y": 120
       }
     },
     {
@@ -4315,7 +5297,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 82
+        "y": 120
       }
     },
     {
@@ -4425,7 +5407,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 82
+        "y": 120
       }
     },
     {
@@ -4493,7 +5475,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 90
+        "y": 128
       }
     },
     {
@@ -4576,7 +5558,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 90
+        "y": 128
       }
     },
     {
@@ -4588,7 +5570,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 97
+        "y": 135
       },
       "panels": []
     },
@@ -4770,7 +5752,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 98
+        "y": 136
       }
     },
     {
@@ -4951,7 +5933,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 98
+        "y": 136
       }
     },
     {
@@ -5132,7 +6114,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 106
+        "y": 144
       }
     },
     {
@@ -5313,7 +6295,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 106
+        "y": 144
       }
     },
     {
@@ -5325,7 +6307,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 114
+        "y": 152
       },
       "panels": []
     },
@@ -5400,7 +6382,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 115
+        "y": 153
       }
     },
     {
@@ -5437,7 +6419,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 121
+        "y": 159
       }
     }
   ],

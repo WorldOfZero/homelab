@@ -353,6 +353,9 @@ configs:
             - targets: ["https://jellyfin.comet-stork.ts.net/health"]
               labels:
                 app: jellyfin
+            - targets: ["https://ollama.comet-stork.ts.net/api/version"]
+              labels:
+                app: ollama
           relabel_configs:
             - source_labels: [__address__]
               target_label: __param_target
@@ -374,6 +377,10 @@ configs:
           scrape_interval: 2m
           static_configs:
             - targets: ["lastfm-exporter:9718"]
+
+        - job_name: nvidia
+          static_configs:
+            - targets: ["nvidia-exporter:9835"]
 
         - job_name: jellyfin
           static_configs:
@@ -594,6 +601,22 @@ services:
       - LASTFM_API_KEY=${LASTFM_API_KEY:-}
       - LASTFM_USER=${LASTFM_USER:-}
     command: ["python", "-u", "/exporter.py"]
+    logging: *logging-config
+
+  # Reports the memory and use of the T400, which Jellyfin and Ollama share.
+  nvidia-exporter:
+    image: utkuozdemir/nvidia_gpu_exporter:1.17.0-nvml
+    restart: unless-stopped
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     logging: *logging-config
 
   # Uses the sidecar network, so its probes follow the same path as a tailnet client.

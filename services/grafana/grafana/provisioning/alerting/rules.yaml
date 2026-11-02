@@ -1,0 +1,549 @@
+# Discord receives these alerts. See discord.yaml. The thresholds come from normal use: the host uses
+# about 7% of its CPU, and no container uses more than 2 cores. Free space is used, not percent, because
+# ZFS datasets share the space of the pool.
+apiVersion: 1
+groups:
+- orgId: 1
+  name: homelab
+  folder: Homelab
+  interval: 1m
+  rules:
+  - uid: container-unhealthy
+    title: Container unhealthy
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: docker_container_health == 3
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: gt
+            params:
+            - 0
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 15m
+    annotations:
+      summary: '{{ $labels.name }} failed its health check for 15 minutes.'
+    labels:
+      severity: warning
+    isPaused: false
+  - uid: container-crash-loop
+    title: Container crash loop
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: changes(docker_container_started_at_seconds[15m])
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: gt
+            params:
+            - 2
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 5m
+    annotations:
+      summary: '{{ $labels.name }} started more than 2 times in 15 minutes.'
+    labels:
+      severity: critical
+    isPaused: false
+  - uid: container-high-cpu
+    title: Container high CPU
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: sum by (name) (rate(container_cpu_usage_seconds_total{name!=""}[5m]))
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: gt
+            params:
+            - 4
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 1h
+    annotations:
+      summary: '{{ $labels.name }} used more than 4 CPU cores for 1 hour. Check it for an unwanted process.'
+    labels:
+      severity: warning
+    isPaused: false
+  - uid: host-high-cpu
+    title: Host high CPU
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: 1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m]))
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: gt
+            params:
+            - 0.5
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 30m
+    annotations:
+      summary: minerva used more than 50% of its CPU for 30 minutes.
+    labels:
+      severity: warning
+    isPaused: false
+  - uid: disk-space-vault
+    title: Vault is low on space
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: node_filesystem_avail_bytes{mountpoint="/mnt/Vault"}
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: lt
+            params:
+            - 2000000000000.0
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 15m
+    annotations:
+      summary: Vault has less than 2 TB free.
+    labels:
+      severity: warning
+    isPaused: false
+  - uid: disk-space-fast
+    title: Fast is low on space
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: node_filesystem_avail_bytes{mountpoint="/mnt/Fast"}
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: lt
+            params:
+            - 100000000000.0
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 15m
+    annotations:
+      summary: Fast has less than 100 GB free. Roon and all application data use this pool.
+    labels:
+      severity: critical
+    isPaused: false
+  - uid: disk-space-telemetry
+    title: Telemetry is low on space
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: node_filesystem_avail_bytes{mountpoint="/mnt/Fast/Telemetry"}
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: lt
+            params:
+            - 10000000000.0
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 15m
+    annotations:
+      summary: Fast/Telemetry has less than 10 GB free. Logs and metrics can stop.
+    labels:
+      severity: warning
+    isPaused: false
+  - uid: disk-space-boot
+    title: boot-pool is low on space
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: node_filesystem_avail_bytes{mountpoint="/"}
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: lt
+            params:
+            - 20000000000.0
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 15m
+    annotations:
+      summary: boot-pool has less than 20 GB free.
+    labels:
+      severity: critical
+    isPaused: false
+  - uid: backup-flights
+    title: Flights backup is old
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 600
+        to: 0
+      datasourceUid: P8E80F9AEF21F6940
+      model:
+        refId: A
+        expr: sum(count_over_time({container="airtrail_db_backup"} |= "SQL backup created successfully" [26h]))
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        queryType: instant
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: lt
+            params:
+            - 1
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: Alerting
+    execErrState: Error
+    for: 10m
+    annotations:
+      summary: Flights has no successful backup in the last 26 hours. The job runs each day.
+    labels:
+      severity: warning
+    isPaused: false
+  - uid: backup-tandoor
+    title: Tandoor backup is old
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 600
+        to: 0
+      datasourceUid: P8E80F9AEF21F6940
+      model:
+        refId: A
+        expr: sum(count_over_time({container="tandoor_db_backup"} |= "SQL backup created successfully" [26h]))
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        queryType: instant
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: lt
+            params:
+            - 1
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: Alerting
+    execErrState: Error
+    for: 10m
+    annotations:
+      summary: Tandoor has no successful backup in the last 26 hours. The job runs each day.
+    labels:
+      severity: warning
+    isPaused: false
+  - uid: backup-kavita
+    title: Kavita backup is old
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 600
+        to: 0
+      datasourceUid: P8E80F9AEF21F6940
+      model:
+        refId: A
+        expr: sum(count_over_time({container="app-kavita"} |= "Database backup completed" [26h]))
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        queryType: instant
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: lt
+            params:
+            - 1
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: Alerting
+    execErrState: Error
+    for: 10m
+    annotations:
+      summary: Kavita has no successful backup in the last 26 hours. The job runs each day.
+    labels:
+      severity: warning
+    isPaused: false

@@ -46,6 +46,8 @@ configs:
               label(info.get("HardwareAccelerationType")), label(",".join(info.get("TranscodeReasons") or [])),
           )
           lines = ["jellyfin_stream_info{%s,%s} 1" % (key, identity)]
+          if state.get("PositionTicks") is not None:
+              lines.append("jellyfin_stream_position_seconds{%s} %.1f" % (key, state["PositionTicks"] / 10000000))
           if info.get("Bitrate"):
               lines.append("jellyfin_stream_bitrate_bps{%s} %d" % (key, info["Bitrate"]))
           if info.get("Framerate"):

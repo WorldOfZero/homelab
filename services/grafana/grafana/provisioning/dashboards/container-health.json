@@ -2110,7 +2110,7 @@
     },
     {
       "type": "bargauge",
-      "title": "Pool space used",
+      "title": "Space free",
       "datasource": {
         "type": "prometheus",
         "uid": "${prometheus}"
@@ -2121,7 +2121,7 @@
             "type": "prometheus",
             "uid": "${prometheus}"
           },
-          "expr": "1 - node_filesystem_avail_bytes{mountpoint=~\"/mnt/(Fast|Vault)(/Configuration|/Telemetry|/Media)?\"} / node_filesystem_size_bytes",
+          "expr": "node_filesystem_avail_bytes{fstype=\"zfs\",mountpoint=~\"/|/mnt/(Fast|Vault|Fast/Telemetry)\"}",
           "refId": "A",
           "legendFormat": "{{mountpoint}}",
           "instant": true,
@@ -2130,9 +2130,8 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit",
+          "unit": "bytes",
           "min": 0,
-          "max": 1,
           "color": {
             "mode": "fixed",
             "fixedColor": "#3987e5"
@@ -2172,7 +2171,8 @@
         "w": 24,
         "x": 0,
         "y": 85
-      }
+      },
+      "description": "Free space is the reliable number, because ZFS datasets share the pool. / is boot-pool."
     },
     {
       "id": 27,
