@@ -1261,33 +1261,12 @@
       }
     },
     {
-      "type": "logs",
+      "type": "table",
       "title": "Games that people asked for",
-      "description": "Requests for a game that GameScores does not have. These are the lines with game_not_found. It is empty when nobody asked for a missing game, and also if this release does not write the line.",
+      "description": "Names that people asked for in the selected time, when GameScores has no such game. Source shows where the request came from. People type these names, so they can contain anything. Restarts do not affect this list.",
       "datasource": {
         "type": "loki",
         "uid": "${loki}"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "${loki}"
-          },
-          "expr": "{container=\"gamescores\"} |= \"game_not_found\"",
-          "refId": "A",
-          "queryType": "range"
-        }
-      ],
-      "options": {
-        "showTime": true,
-        "showLabels": false,
-        "showCommonLabels": false,
-        "wrapLogMessage": true,
-        "prettifyLogMessage": false,
-        "enableLogDetails": true,
-        "dedupStrategy": "none",
-        "sortOrder": "Descending"
       },
       "id": 33,
       "gridPos": {
@@ -1295,6 +1274,70 @@
         "w": 6,
         "x": 12,
         "y": 17
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum by (requested, source) (count_over_time({container=\"gamescores\"} |= \"game_not_found\" | regexp `requested=\"(?P<requested>[^\"]*)\" source=\"(?P<source>[^\"]*)\"` [$__range]))",
+          "refId": "A",
+          "queryType": "instant",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "indexByName": {
+              "requested": 0,
+              "source": 1
+            },
+            "renameByName": {
+              "requested": "Game",
+              "source": "Source",
+              "Value": "Times",
+              "Value #A": "Times"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Times",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto"
+          },
+          "noValue": "–",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
       }
     },
     {
