@@ -1,108 +1,68 @@
 ---
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/services/
+#
+# This page helps new people on the tailnet find services. Each entry is a link. Do not add widgets
+# that need API keys, because a stale key or address shows as an error to all users.
 
-- Media:
+- Watch and read:
     - Jellyfin:
+        icon: jellyfin.png
         href: https://jellyfin.comet-stork.ts.net
-        description: Home Jellyfin Server for Movie, Show, Music and Book streaming.
-        widget:
-            type: jellyfin
-            url: http://100.93.135.76:8096
-            key: {{HOMEPAGE_VAR_JELLYFIN_API}}
-            version: 2 # optional, default is 1
-            enableBlocks: true # optional, defaults to false
-            enableNowPlaying: true # optional, defaults to true
-            enableUser: true # optional, defaults to false
-            enableMediaControl: false # optional, defaults to true
-            showEpisodeNumber: true # optional, defaults to false
-            expandOneStreamToTwoRows: false # optional, defaults to true
+        description: Movies, shows and music
     - Kavita:
+        icon: kavita.png
         href: https://kavita.comet-stork.ts.net
-        description: Ebook Library
-        widget:
-            type: kavita
-            url: https://kavita.comet-stork.ts.net:41234
-            key: {{HOMEPAGE_VAR_KAVITA_API}} # Optional, e.g. if not using username and password
-    - Bazarr:
-        href: https://bazarr.comet-stork.ts.net
-        description: Bazarr Subtitle Service
-        widget:
-            type: bazarr
-            url: http://100.87.59.121:6767
-            key: {{HOMEPAGE_VAR_BAZARR_API}}
-    - Radarr:
-        href: https://radarr.comet-stork.ts.net
-        description: Radarr Movie Metadata Service
-        widget:
-            type: radarr
-            url: http://100.113.174.100:7878
-            key: {{HOMEPAGE_VAR_RADARR_API}}
-            enableQueue: true # optional, defaults to false
-    - Sonarr:
-        href: https://sonarr.comet-stork.ts.net
-        description: Sonarr Show Metadata Service
-        widget:
-            type: sonarr
-            url: http://100.126.40.118:8989
-            key: {{HOMEPAGE_VAR_SONARR_API}}
-            enableQueue: true # optional, defaults to false
+        description: Ebooks
     - Seerr:
+        icon: seerr.png
         href: https://seerr.comet-stork.ts.net
-        description: Seerr Media Requests
-        widget:
-            type: seerr
-            url: http://100.104.237.63:5055
-            key: {{HOMEPAGE_VAR_SEERR_API}}
+        description: Ask for a movie or show
 
-- Intranet:
-    - Portainer:
-        href: http://localhost/
-        description: Portainer portal
-        widget:
-            type: portainer
-            url: https://portainer.host.or.ip:9443
-            env: Minerva
-            #key: ptr_accesskeyaccesskeyaccesskeyaccesskey
+- Everyday:
+    - Karakeep:
+        icon: karakeep.png
+        href: https://karakeep.comet-stork.ts.net
+        description: Save and search bookmarks
+    - Tandoor:
+        icon: tandoor-recipes.png
+        href: https://tandoor.comet-stork.ts.net
+        description: Recipes and meal plans
+    - Flights:
+        icon: mdi-airplane
+        href: https://flights.comet-stork.ts.net
+        description: Flight history and maps
+    - GameScores:
+        icon: mdi-trophy
+        href: https://gamescores.comet-stork.ts.net
+        description: Scores for games
+
+- Admin:
     - Grafana:
+        icon: grafana.png
         href: https://grafana.comet-stork.ts.net
-        description: Homelab Dashboards and Monitoring
-        widget:
-            type: grafana
-            version: 2 # optional, default is 1
-            url: http://grafana.host.or.ip:port
-            #username: username
-            #password: password
-
-- Finance:
-    - Wallos:
-        description: Wallos subscription tracking
-        widget:
-            type: wallos
-            url: https://wallos.comet-stork.ts.net
-            key: {{HOMEPAGE_VAR_WALLOS_APIKEY}}
-
-- Configuration:
-    - Homelab Configuration:
-        href: https://github.com/worldofzero/homelab 
-        description: Homelab configuration on GitHub 
+        description: Dashboards and alerts
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: https://uptime.comet-stork.ts.net
+        description: Service status
+    - Radarr:
+        icon: radarr.png
+        href: https://radarr.comet-stork.ts.net
+        description: Movie downloads
+    - Sonarr:
+        icon: sonarr.png
+        href: https://sonarr.comet-stork.ts.net
+        description: Show downloads
+    - Bazarr:
+        icon: bazarr.png
+        href: https://bazarr.comet-stork.ts.net
+        description: Subtitles
     - Tailscale:
+        icon: tailscale.png
         href: https://login.tailscale.com/admin
-        descripption: Tailscale admin portal for Tailnet management
-
-- Machines:
-    - Minerva:
-        widget:
-            type: tailscale
-            deviceid: nTacDWpKGb11CNTRL
-            key: {{HOMEPAGE_VAR_TS_APIKEY}}
-    - Hestia:
-        widget:
-            type: tailscale
-            deviceid: nbLpPXcJBH11CNTRL
-            key: {{HOMEPAGE_VAR_TS_APIKEY}}
-    - Athena:
-        widget:
-            type: tailscale
-            deviceid: nJgUqg5CNTRL
-            key: {{HOMEPAGE_VAR_TS_APIKEY}}
+        description: Tailnet admin
+    - Homelab repo:
+        icon: github.png
+        href: https://github.com/worldofzero/homelab
+        description: Configuration of this homelab

@@ -2,17 +2,4 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/bookmarks
 
-- Developer:
-    - Github:
-        - abbr: GH
-          href: https://github.com/
-
-- Social:
-    - Reddit:
-        - abbr: RE
-          href: https://reddit.com/
-
-- Entertainment:
-    - YouTube:
-        - abbr: YT
-          href: https://youtube.com/
+[]

@@ -70,7 +70,7 @@ address the others can reach, and tailscaled uses it as a direct endpoint. Check
 | `CURSEFORGE_API_KEY` | `minecraft` | Yes | Portainer (secret) |
 | `OLLAMA_API_KEY` | `ollama` (currently commented out / optional) | Yes, if enabled | Portainer (secret) |
 | `THEMEARR_AUTH_TOKEN` | `arr/themearr` | Yes — the API refuses to start without it; generate with `openssl rand -hex 32` | Portainer (secret) |
-| `JELLYFIN_APIKEY` | `jellyfin` (the `enricher` service) — same name as the homepage widget's key below, but set on the jellyfin stack; can be the same key or a dedicated one | Yes | Portainer (secret) |
+| `JELLYFIN_APIKEY` | `jellyfin` (the `enricher` service) | Yes | Portainer (secret) |
 | `ENRICHER_DRY_RUN` | `jellyfin` (`enricher`) — defaults to `true` (log only); set `false` once the dry-run log looks right. See `services/jellyfin/enricher/README.md` | No | Portainer |
 
 `tandoor`'s `POSTGRES_HOST`/`POSTGRES_PORT` used to be Portainer-set variables pointing at an
@@ -102,8 +102,7 @@ retention (the image's own defaults). See Improvements.md §14.
 ## Media metrics exporters
 
 Each exportarr sidecar needs the API key of its application, set on the stack of that application.
-`SONARR_APIKEY` and `RADARR_APIKEY` have the same names as the homepage variables, and they have the
-same values. See `services/grafana/README.md`.
+See `services/grafana/README.md` for `SONARR_APIKEY` and `RADARR_APIKEY`.
 
 | Variable | Used by | Secret? | Where |
 |---|---|---|---|
@@ -136,19 +135,9 @@ Optional. Without these, the last.fm panels stay empty, and the rest of the stac
 
 ## Homepage dashboard API keys
 
-`homepage` pulls read-only status/API keys from six other services to populate its dashboard.
-Each is still a live credential for that service, even though its blast radius is smaller
-(typically read-only):
-
-| Variable | Feeds | Secret? | Where |
-|---|---|---|---|
-| `JELLYFIN_APIKEY` | Jellyfin API key | Yes | Portainer (secret) |
-| `KAVITA_APIKEY` | Kavita API key | Yes | Portainer (secret) |
-| `RADARR_APIKEY` | Radarr API key | Yes | Portainer (secret) |
-| `SEERR_APIKEY` | Seerr API key | Yes | Portainer (secret) |
-| `SONARR_APIKEY` | Sonarr API key | Yes | Portainer (secret) |
-| `WALLOS_APIKEY` | Wallos API key | Yes | Portainer (secret) |
-| `TS_APIKEY` | Tailscale API key (for `homepage`'s Tailscale widget) | Yes | Portainer (secret) |
+`homepage` has only links, so it needs no API keys. You can remove these variables from its Portainer
+stack: `JELLYFIN_APIKEY`, `KAVITA_APIKEY`, `RADARR_APIKEY`, `SEERR_APIKEY`, `SONARR_APIKEY`,
+`WALLOS_APIKEY` and `TS_APIKEY`.
 
 ## Dead / template leftovers
 

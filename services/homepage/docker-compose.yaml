@@ -52,31 +52,15 @@ services:
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
     container_name: homepage
     environment:
-      - HOMEPAGE_VAR_JELLYFIN_API=${JELLYFIN_APIKEY}
-      - HOMEPAGE_VAR_KAVITA_API=${KAVITA_APIKEY}
-      - HOMEPAGE_VAR_RADARR_API=${RADARR_APIKEY}
-      - HOMEPAGE_VAR_SEERR_API=${SEERR_APIKEY}
-      - HOMEPAGE_VAR_SONARR_API=${SONARR_APIKEY}
-      - HOMEPAGE_VAR_TS_APIKEY=${TS_APIKEY}
-      - HOMEPAGE_VAR_WALLOS_APIKEY=${WALLOS_APIKEY}
       - HOMEPAGE_ALLOWED_HOSTS=homepage.comet-stork.ts.net,home.worldofzero.com
-    volumes:
-      # These mounts are provided so that homepage can give info about these directories - it should not have write permission to either of them
-      - type: bind
-        source: /mnt/Vault/Media
-        target: /host-fs/media
-        read_only: true
-      - type: bind
-        source: /mnt/Fast/Configuration
-        target: /host-fs/config
-        read_only: true
-      # Don't use docker socket.
+    # Don't use docker socket.
     depends_on:
       tailscale:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "pgrep", "-f", "next-server"] # Check if ${SERVICE} process is running
-      interval: 1m # How often to perform the check
+      # A new container serves the default settings until this call. It also shows that the server answers.
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/revalidate"]
+      interval: 30s # How often to perform the check
       timeout: 10s # Time to wait for the check to succeed
       retries: 3 # Number of retries before marking as unhealthy
       start_period: 30s # Time to wait before starting health checks

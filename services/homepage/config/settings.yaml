@@ -1,0 +1,28 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/settings/
+
+title: Homelab
+theme: dark
+color: slate
+headerStyle: clean
+hideVersion: true
+useEqualHeights: true
+target: _blank
+
+layout:
+  Watch and read:
+    style: row
+    columns: 3
+  Everyday:
+    style: row
+    columns: 4
+  Admin:
+    style: row
+    columns: 4
+    initiallyCollapsed: true
+
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: true
+  hideVisitURL: true
