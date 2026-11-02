@@ -382,6 +382,39 @@ configs:
           static_configs:
             - targets: ["nvidia-exporter:9835"]
 
+        # The bytes on each tailnet path: direct, DERP or peer relay.
+        - job_name: tailscale
+          static_configs:
+            - targets:
+                - "tailscale-airtrail:41234"
+                - "tailscale-bazarr:41234"
+                - "tailscale-gamescores:41234"
+                - "tailscale-grafana:41234"
+                - "tailscale-homepage:41234"
+                - "tailscale-jellyfin:41236"
+                - "tailscale-karakeep:41234"
+                - "tailscale-kavita:41234"
+                - "tailscale-kuma:41234"
+                - "tailscale-ollama:41234"
+                - "tailscale-radarr:41234"
+                - "tailscale-seerr:41234"
+                - "tailscale-sonarr:41234"
+                - "tailscale-tandoor:41234"
+                - "tailscale-themearr:41234"
+                - "tailscale-tsidp:41234"
+                - "tailscale-wallos:41234"
+            - targets: ["192.168.1.43:41235"]
+              labels:
+                node: minerva
+          relabel_configs:
+            - source_labels: [__address__]
+              regex: tailscale-(.+):\d+
+              target_label: node
+          metric_relabel_configs:
+            - source_labels: [__name__]
+              regex: tailscaled_(inbound|outbound)_(bytes|packets|dropped_packets)_total
+              action: keep
+
         - job_name: jellyfin
           static_configs:
             - targets: ["tailscale-jellyfin:8096"]
@@ -486,7 +519,8 @@ services:
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=false
       - TS_ENABLE_HEALTH_CHECK=true
-      - TS_LOCAL_ADDR_PORT=127.0.0.1:41234
+      - TS_ENABLE_METRICS=true
+      - TS_LOCAL_ADDR_PORT=0.0.0.0:41234
       - TS_ACCEPT_DNS=true # Grafana reaches tsidp by its tailnet name. Docker names still resolve.
       - TS_AUTH_ONCE=true
     configs:

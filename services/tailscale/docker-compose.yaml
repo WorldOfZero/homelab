@@ -17,7 +17,7 @@ services:
       - TS_USERSPACE=false
       - TS_ENABLE_METRICS=true
       - TS_ENABLE_HEALTH_CHECK=true
-      - TS_LOCAL_ADDR_PORT=127.0.0.1:41235
+      - TS_LOCAL_ADDR_PORT=0.0.0.0:41235
       - TS_ACCEPT_DNS=true
       - TS_AUTH_ONCE=true
     volumes:

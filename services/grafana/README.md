@@ -9,6 +9,7 @@ Grafana, Loki, Prometheus, Alloy, cAdvisor and node-exporter for minerva.
 | Container metrics | cAdvisor | All containers: CPU, memory, restarts, IO |
 | Host metrics | node-exporter | minerva: CPU, memory, pressure, disks, NICs, ZFS |
 | Docker state | `docker-state-exporter` | All containers: state, health, restarts, OOM kills, exit code |
+| Tailnet paths | Tailscale client metrics | Bytes on each path (direct, DERP, peer relay) for each sidecar and the minerva node |
 | Media metrics | exportarr, `jellyfin-exporter`, Jellyfin `/metrics` | Sonarr, Radarr, Bazarr, Jellyfin |
 | Other application metrics | Not configured | See [[add-app-metrics-exporters]] |
 
@@ -130,7 +131,7 @@ when the stack updates from Git and the image builds again. See `services/portai
 | Security | UniFi threats, unusual container behaviour, signs of compromise, and logins |
 | Storage and Backups | Pool state, free space, disk activity and backups |
 | GPU and Ollama | T400 memory and use, transcodes and Ollama requests |
-| Network | minerva traffic, tailnet paths, Wi-Fi clients and Roon symptoms |
+| Network | minerva traffic, tailnet paths, traffic through Tailscale DERP relays, Wi-Fi clients and Roon symptoms |
 | Flights | Status, tailnet probe, backups, resources and logs |
 | Tandoor | Status, tailnet probe, backups, resources and logs |
 | Karakeep | Status, tailnet probe, bookmarks, job queues, API errors and logs |
@@ -211,6 +212,8 @@ sidecars. Tailnet devices can read them if the tailnet policy allows it. They sh
 and health messages, and they show no API keys.
 
 Port 1514 has no authentication, so all LAN devices can send lines to Loki through it. Treat these lines as a guide, not as proof. Do not forward this port from the internet.
+
+The Tailscale sidecars serve health and metrics on all interfaces, at port 41234 in most stacks, so Prometheus can read them on `tailnet-local`. Tailnet devices can read them if the tailnet policy allows it. The minerva node has host networking, so all LAN devices can read port 41235. These ports show traffic counts, and no secrets.
 
 `docker-state-exporter` reads the Docker socket. It makes only GET calls and it publishes no port.
 
