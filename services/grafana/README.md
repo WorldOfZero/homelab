@@ -130,6 +130,7 @@ when the stack redeploys and the image builds again.
 | Karakeep and Kavita | Status, tailnet probe, bookmarks, job queues, API errors, backups and logs |
 | GameScores | Status, tailnet probe, response time, restarts, errors, resources and logs |
 | tsidp | Status, tailnet probe, logins for each service, errors, resources and logs |
+| Media Interest | Watch time, top titles, directors, studios, genres, artists and albums, and watch history for the last 30 days. All Grafana users can see the watch history of each person. |
 | Roon | Core starts, stream problems, Bluesound device connections and errors, core resources, host load, and logs |
 
 When a stream has a problem, look at the Streaming problems row, then compare the time with the Host row. The Roon dashboard has the same Host row. The core can restart in the Roon container, so use Core starts, not the container restart count.

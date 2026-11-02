@@ -119,6 +119,15 @@ same values. See `services/grafana/README.md`.
 |---|---|---|---|
 | `KARAKEEP_PROMETHEUS_TOKEN` | `karakeep` and `grafana` — must have the same value in both stacks. Generate it with `openssl rand -hex 32`. | Yes | Portainer (secret) |
 
+## last.fm
+
+Optional. Without these, the last.fm panels stay empty, and the rest of the stack works.
+
+| Variable | Used by | Secret? | Where |
+|---|---|---|---|
+| `LASTFM_API_KEY` | `grafana` (`lastfm-exporter`) | Yes | Portainer (secret) |
+| `LASTFM_USER` | `grafana` (`lastfm-exporter`) | No | Portainer |
+
 ## Homepage dashboard API keys
 
 `homepage` pulls read-only status/API keys from six other services to populate its dashboard.

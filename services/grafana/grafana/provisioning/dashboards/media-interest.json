@@ -1,0 +1,2256 @@
+{
+  "uid": "media-interest",
+  "title": "Media Interest",
+  "description": "What people watch and hear in the last 30 days. Data stays for 30 days.",
+  "tags": [
+    "homelab",
+    "media"
+  ],
+  "editable": false,
+  "graphTooltip": 1,
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "1m",
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "timezone": "browser",
+  "fiscalYearStartMonth": 0,
+  "liveNow": false,
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "title": "Homelab dashboards",
+      "type": "dashboards",
+      "tags": [
+        "homelab"
+      ],
+      "asDropdown": true,
+      "includeVars": false,
+      "keepTime": true,
+      "targetBlank": false,
+      "icon": "external link",
+      "tooltip": "",
+      "url": ""
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Last 30 days",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "panels": []
+    },
+    {
+      "type": "stat",
+      "title": "Watch time",
+      "description": "Time that Jellyfin streams played, not paused. Audio also counts. Sampled each 30 seconds.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum(sum_over_time(jellyfin_stream_playing[$__range])) * 30",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "noValue": "–"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Plays started",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({container=\"app-jellyfin\"} |= \"started playback of\" [$__range]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "noValue": "0",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 3,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Viewers",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "count(count by (user) (count_over_time(jellyfin_stream_playing[$__range])))",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "noValue": "0",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 4,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Titles",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "count(count by (title) (count_over_time(jellyfin_stream_playing[$__range])))",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "noValue": "0",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 5,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Roon scrobbles",
+      "description": "Plays from Roon, through last.fm. Counts start when the exporter starts.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({service=\"lastfm-exporter\"} |= \"\\\"scrobble\\\"\" [$__range]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "noValue": "0",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 6,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      }
+    },
+    {
+      "type": "stat",
+      "title": "last.fm",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "lastfm_configured",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "noValue": "not set",
+          "decimals": 0,
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "not set",
+                  "color": "#898781",
+                  "index": 0
+                },
+                "1": {
+                  "text": "● connected",
+                  "color": "#0ca30c",
+                  "index": 1
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 7,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      }
+    },
+    {
+      "id": 8,
+      "type": "row",
+      "title": "Who watches, and what",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "panels": []
+    },
+    {
+      "type": "table",
+      "title": "Watch time by person",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, sum by (user) (sum_over_time(jellyfin_stream_playing{}[$__range]))) * 30",
+          "refId": "A",
+          "legendFormat": "{{user}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 9,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 6
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top movies",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, sum by (title) (sum_over_time(jellyfin_stream_playing{type=\"Movie\"}[$__range]))) * 30",
+          "refId": "A",
+          "legendFormat": "{{title}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 10,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 8,
+        "y": 6
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top shows",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, sum by (series) (sum_over_time(jellyfin_stream_playing{type=\"Episode\"}[$__range]))) * 30",
+          "refId": "A",
+          "legendFormat": "{{series}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 11,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 16,
+        "y": 6
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top directors",
+      "description": "Uses the first director of each title.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, sum by (director) (sum_over_time(jellyfin_stream_playing{director!=\"\"}[$__range]))) * 30",
+          "refId": "A",
+          "legendFormat": "{{director}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 12,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 16
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top studios",
+      "description": "Uses the first studio of each title.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, sum by (studio) (sum_over_time(jellyfin_stream_playing{studio!=\"\"}[$__range]))) * 30",
+          "refId": "A",
+          "legendFormat": "{{studio}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 13,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 8,
+        "y": 16
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top genres",
+      "description": "Uses the first genre of each title.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, sum by (genre) (sum_over_time(jellyfin_stream_playing{genre!=\"\"}[$__range]))) * 30",
+          "refId": "A",
+          "legendFormat": "{{genre}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 14,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 16,
+        "y": 16
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Watch time by person over time",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum by (user) (count_over_time(jellyfin_stream_playing[$__interval])) * 30",
+          "refId": "A",
+          "legendFormat": "{{user}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [],
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 15,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      }
+    },
+    {
+      "id": 16,
+      "type": "row",
+      "title": "Music: Roon, through last.fm",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "panels": []
+    },
+    {
+      "type": "table",
+      "title": "Top artists",
+      "description": "Plays in the last month, as last.fm counts them. The dashboard time range does not change this panel.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, lastfm_top_artist_plays)",
+          "refId": "A",
+          "legendFormat": "{{artist}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 17,
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 0,
+        "y": 35
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top albums",
+      "description": "Plays in the last month, as last.fm counts them.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, lastfm_top_album_plays)",
+          "refId": "A",
+          "legendFormat": "{{album}} ({{artist}})",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 18,
+      "gridPos": {
+        "h": 10,
+        "w": 9,
+        "x": 6,
+        "y": 35
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top tracks",
+      "description": "Plays in the last month, as last.fm counts them.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, lastfm_top_track_plays)",
+          "refId": "A",
+          "legendFormat": "{{track}} ({{artist}})",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 19,
+      "gridPos": {
+        "h": 10,
+        "w": 9,
+        "x": 15,
+        "y": 35
+      }
+    },
+    {
+      "type": "logs",
+      "title": "Recent Roon plays",
+      "description": "Plays that last.fm reported. A restart of the exporter can repeat the last 100 plays.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "{service=\"lastfm-exporter\"} |= \"\\\"scrobble\\\"\" | json | line_format \"{{.artist}} - {{.track}} ({{.album}})\"",
+          "refId": "A",
+          "queryType": "range"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending"
+      },
+      "id": 20,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 45
+      }
+    },
+    {
+      "id": 21,
+      "type": "row",
+      "title": "Music: Jellyfin",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 53
+      },
+      "panels": []
+    },
+    {
+      "type": "table",
+      "title": "Top artists",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, sum by (artist) (sum_over_time(jellyfin_stream_playing{artist!=\"\"}[$__range]))) * 30",
+          "refId": "A",
+          "legendFormat": "{{artist}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 22,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 54
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top albums",
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "topk(15, sum by (album) (sum_over_time(jellyfin_stream_playing{album!=\"\"}[$__range]))) * 30",
+          "refId": "A",
+          "legendFormat": "{{album}}",
+          "range": false,
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 23,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 54
+      }
+    },
+    {
+      "id": 24,
+      "type": "row",
+      "title": "Plays started",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 64
+      },
+      "panels": []
+    },
+    {
+      "type": "table",
+      "title": "Most started titles",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "topk(15, sum by (title) (count_over_time({container=\"app-jellyfin\"} |= \"started playback of\" | regexp \"User (?P<user>.+?) started playback of '(?P<title>.*)' \\\\((?P<client>[^)]*)\" [$__range])))",
+          "refId": "A",
+          "queryType": "instant",
+          "legendFormat": "{{title}}"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 25,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 65
+      }
+    },
+    {
+      "type": "table",
+      "title": "Plays by person",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "topk(15, sum by (user) (count_over_time({container=\"app-jellyfin\"} |= \"started playback of\" | regexp \"User (?P<user>.+?) started playback of '(?P<title>.*)' \\\\((?P<client>[^)]*)\" [$__range])))",
+          "refId": "A",
+          "queryType": "instant",
+          "legendFormat": "{{user}}"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 26,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 8,
+        "y": 65
+      }
+    },
+    {
+      "type": "table",
+      "title": "Plays by client",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "topk(15, sum by (client) (count_over_time({container=\"app-jellyfin\"} |= \"started playback of\" | regexp \"User (?P<user>.+?) started playback of '(?P<title>.*)' \\\\((?P<client>[^)]*)\" [$__range])))",
+          "refId": "A",
+          "queryType": "instant",
+          "legendFormat": "{{client}}"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "Value": "Total",
+              "Value #A": "Total"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Total",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data yet",
+          "custom": {
+            "align": "auto",
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "id": 27,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 16,
+        "y": 65
+      }
+    },
+    {
+      "type": "logs",
+      "title": "Watch history",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "{container=\"app-jellyfin\"} |= \"started playback of\" | regexp \"User (?P<user>.+?) started playback of '(?P<title>.*)' \\\\((?P<client>[^)]*)\" | line_format \"{{.user}}: {{.title}} ({{.client}})\"",
+          "refId": "A",
+          "queryType": "range"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending"
+      },
+      "id": 28,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 75
+      }
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "prometheus",
+        "label": "Prometheus",
+        "type": "datasource",
+        "query": "prometheus",
+        "hide": 0,
+        "current": {},
+        "includeAll": false,
+        "multi": false,
+        "refresh": 1,
+        "regex": "",
+        "options": []
+      },
+      {
+        "name": "loki",
+        "label": "Loki",
+        "type": "datasource",
+        "query": "loki",
+        "hide": 0,
+        "current": {},
+        "includeAll": false,
+        "multi": false,
+        "refresh": 1,
+        "regex": "",
+        "options": []
+      }
+    ]
+  }
+}

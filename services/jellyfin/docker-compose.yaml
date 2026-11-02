@@ -60,6 +60,34 @@ configs:
           return lines
 
 
+      CACHE = {}
+
+
+      def details(item):
+          # People, studios and genres are not in the session data. Cache them, because they rarely change.
+          key = item["Id"]
+          if key not in CACHE:
+              found = get("/Items?ids=%s&Fields=People,Studios,Genres" % key).get("Items") or [{}]
+              CACHE[key] = found[0]
+          return CACHE[key]
+
+
+      def first(values):
+          return values[0] if values else ""
+
+
+      def interest_line(session):
+          item = session["NowPlayingItem"]
+          info = details(item)
+          directors = [p.get("Name") for p in info.get("People") or [] if p.get("Type") == "Director"]
+          studios = [s.get("Name") for s in info.get("Studios") or []]
+          return 'jellyfin_stream_playing{user="%s",type="%s",title="%s",series="%s",artist="%s",album="%s",director="%s",studio="%s",genre="%s"} 1' % (
+              label(session.get("UserName")), label(item.get("Type")), label(item.get("Name")), label(item.get("SeriesName")),
+              label(item.get("AlbumArtist") or first(item.get("Artists"))), label(item.get("Album")),
+              label(first(directors)), label(first(studios)), label(first(info.get("Genres"))),
+          )
+
+
       def metrics():
           sessions = get("/Sessions")
           streams = [s for s in sessions if s.get("NowPlayingItem")]
@@ -73,6 +101,8 @@ configs:
           lines.append("jellyfin_streams_paused %d" % paused)
           for stream in streams:
               lines += stream_lines(stream)
+              if not stream.get("PlayState", {}).get("IsPaused"):
+                  lines.append(interest_line(stream))
           counts = get("/Items/Counts")
           lines += ['jellyfin_items{type="%s"} %d' % (name, counts.get(key, 0)) for key, name in ITEM_TYPES.items()]
           return "\n".join(lines) + "\n"
