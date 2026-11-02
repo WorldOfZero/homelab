@@ -88,6 +88,7 @@ services:
     environment:
       - PORT=9707
       - URL=http://127.0.0.1:6767
+      - ENABLE_ADDITIONAL_METRICS=true # Without this, exportarr collects no episode subtitle metrics
       - APIKEY=${BAZARR_APIKEY:?Set BAZARR_APIKEY in the Portainer stack variables}
     depends_on:
       - application

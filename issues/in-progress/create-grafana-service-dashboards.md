@@ -62,4 +62,8 @@ The dashboards select the data sources with variables, so the panels do not depe
 
 2026-11-01: From the human: the dashboards do not provision, because no step copies them to the host. The stack now builds a Grafana image that contains `grafana/provisioning`, with the same method as the Jellyfin enricher. The host provisioning mount is removed. A dashboard that exists only on the host, such as `plex-overview.json`, stops loading.
 
+2026-11-02: From the human: Bazarr has series and movies configured, but the dashboard has no episode metrics. exportarr collects Bazarr episode metrics only with `ENABLE_ADDITIONAL_METRICS`, so this change sets it. Check the scrape time after the deploy, because Sonarr has about 21,700 episodes and the scrape timeout is 1 minute.
+
+2026-11-02: Bazarr health metrics use the labels `issue` and `object`, not `source` and `message`. The Active health issues table did not show them, and now it does.
+
 ## Resolution

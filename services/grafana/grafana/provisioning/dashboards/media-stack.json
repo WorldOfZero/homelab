@@ -4442,7 +4442,7 @@
             "type": "prometheus",
             "uid": "${prometheus}"
           },
-          "expr": "{__name__=~\"(sonarr|radarr|bazarr)_system_health_issues\",message!=\"\"}",
+          "expr": "{__name__=~\"(sonarr|radarr)_system_health_issues\",message!=\"\"} or label_replace(label_replace(bazarr_system_health_issues{issue!=\"\"},\"source\",\"$1\",\"issue\",\"(.*)\"),\"message\",\"$1\",\"object\",\"(.*)\")",
           "refId": "A",
           "legendFormat": "__auto",
           "instant": true,
