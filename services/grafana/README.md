@@ -126,6 +126,10 @@ when the stack redeploys and the image builds again.
 |---|---|
 | Container Health | State, health, restarts and resources of all containers, host pressure, memory, disks, network, and error logs |
 | Media Stack | Service health, each stream with its buffer and speed, playback errors, host load, library, Sonarr, Radarr and Bazarr counts and issues, and error logs |
+| Flights and Tandoor | Status, tailnet probe, backups, resources and logs |
+| Karakeep and Kavita | Status, tailnet probe, bookmarks, job queues, API errors, backups and logs |
+| GameScores | Status, tailnet probe, response time, restarts, errors, resources and logs |
+| tsidp | Status, tailnet probe, logins for each service, errors, resources and logs |
 | Roon | Core starts, stream problems, Bluesound device connections and errors, core resources, host load, and logs |
 
 When a stream has a problem, look at the Streaming problems row, then compare the time with the Host row. The Roon dashboard has the same Host row. The core can restart in the Roon container, so use Core starts, not the container restart count.
@@ -149,6 +153,10 @@ The dataset has a 100 GB quota, because Loki has no size limit of its own. The q
 telemetry from filling the Fast pool, which also holds the Roon database. If the dataset reaches
 the quota, Loki writes fail. Do not make this dataset part of the nightly replication. The data
 has no backup, and a loss of `Fast` loses it.
+
+## Tailnet probes
+
+The `blackbox` service checks each application at its tailnet address each minute, so a failure can come from DNS, Tailscale, TLS or the application. The tailnet policy must allow access from the `grafana` node to each application. To add a target, change the `blackbox` job in `docker-compose.yaml`.
 
 ## UniFi logs
 

@@ -205,6 +205,15 @@ configs:
 
       ThreadingHTTPServer(("0.0.0.0", 9417), Handler).serve_forever()
 
+  blackbox-config:
+    content: |
+      modules:
+        http_2xx:
+          prober: http
+          timeout: 15s
+          http:
+            preferred_ip_protocol: ip4
+
   prometheus-config:
     content: |
       global:
@@ -243,6 +252,51 @@ configs:
         - job_name: alloy
           static_configs:
             - targets: ["alloy:12345"]
+
+        # Probes use the tailnet address of each application, so they test the path that users take.
+        - job_name: blackbox
+          scrape_interval: 1m
+          metrics_path: /probe
+          params:
+            module: [http_2xx]
+          static_configs:
+            - targets: ["https://flights.comet-stork.ts.net/api/ping"]
+              labels:
+                app: flights
+            - targets: ["https://tandoor.comet-stork.ts.net/"]
+              labels:
+                app: tandoor
+            - targets: ["https://karakeep.comet-stork.ts.net/"]
+              labels:
+                app: karakeep
+            - targets: ["https://kavita.comet-stork.ts.net/"]
+              labels:
+                app: kavita
+            - targets: ["https://gamescores.comet-stork.ts.net/healthz"]
+              labels:
+                app: gamescores
+            - targets: ["https://idp.comet-stork.ts.net/.well-known/openid-configuration"]
+              labels:
+                app: tsidp
+            - targets: ["https://jellyfin.comet-stork.ts.net/health"]
+              labels:
+                app: jellyfin
+          relabel_configs:
+            - source_labels: [__address__]
+              target_label: __param_target
+            - source_labels: [__param_target]
+              target_label: instance
+            - target_label: __address__
+              replacement: tailscale:9115
+
+        # Each scrape counts rows in the Karakeep database.
+        - job_name: karakeep
+          scrape_interval: 1m
+          metrics_path: /api/metrics
+          authorization:
+            credentials: ${KARAKEEP_PROMETHEUS_TOKEN:?Set KARAKEEP_PROMETHEUS_TOKEN in the Portainer stack variables}
+          static_configs:
+            - targets: ["tailscale-karakeep:3000"]
 
         - job_name: jellyfin
           static_configs:
@@ -450,6 +504,21 @@ services:
       - '-housekeeping_interval=30s'
       - '-store_container_labels=false'
       - '-whitelisted_container_labels=com.docker.compose.project,com.docker.compose.service'
+    logging: *logging-config
+
+  # Uses the sidecar network, so its probes follow the same path as a tailnet client.
+  blackbox:
+    image: prom/blackbox-exporter:v0.29.1
+    restart: unless-stopped
+    network_mode: service:tailscale
+    depends_on:
+      tailscale:
+        condition: service_healthy
+    configs:
+      - source: blackbox-config
+        target: /etc/blackbox/config.yaml
+    command:
+      - --config.file=/etc/blackbox/config.yaml
     logging: *logging-config
 
   # cAdvisor does not report Docker health, restart counts or OOM kills. Only GET calls use the socket.

@@ -113,6 +113,12 @@ same values. See `services/grafana/README.md`.
 
 `jellyfin` (`exporter`) uses the existing `JELLYFIN_APIKEY`.
 
+## Karakeep metrics
+
+| Variable | Used by | Secret? | Where |
+|---|---|---|---|
+| `KARAKEEP_PROMETHEUS_TOKEN` | `karakeep` and `grafana` — must have the same value in both stacks. Generate it with `openssl rand -hex 32`. | Yes | Portainer (secret) |
+
 ## Homepage dashboard API keys
 
 `homepage` pulls read-only status/API keys from six other services to populate its dashboard.
