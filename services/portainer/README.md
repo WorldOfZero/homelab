@@ -48,3 +48,17 @@ services:
 The label changes the service when the config changes. The content is visible in `docker inspect`, like an environment variable. cAdvisor does not export this label, because `-store_container_labels=false` is set.
 
 The `ts-serve` configs do not have the label. A change to one recreates nothing, so use **Pull and redeploy** for that stack. With a label, the sidecar and all services that share its network would restart when the label is first added.
+
+## GitHub token for image pulls
+
+Portainer uses a GitHub token to pull images from `ghcr.io`, and the GameScores image needs it. The token expires after 90 days. The current token expires about 2027-01-31. The issue `renew-ghcr-token` tracks this date.
+
+When the token expires, all `ghcr.io` pulls fail, also for public images. Each Git update of a stack with such an image stops, and the stack keeps its old containers. The Portainer logs show `denied: denied`, and the running containers continue to work.
+
+To renew the token:
+
+1. In GitHub, create a token with the `read:packages` permission.
+2. In Portainer, update the `ghcr.io` entry in **Registries**. If you logged in on the host, run `sudo docker login ghcr.io` instead.
+3. Do not put the token in this repo.
+4. Check that the Portainer logs show no new `denied` lines after the next poll.
+5. Change the date in this section and in the issue.
