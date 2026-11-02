@@ -126,7 +126,7 @@ when the stack redeploys and the image builds again.
 |---|---|
 | Container Health | State, health, restarts and resources of all containers, host pressure, memory, disks, network, and error logs |
 | Media Stack | Service health, each stream with its buffer and speed, playback errors, host load, library, Sonarr, Radarr and Bazarr counts and issues, and error logs |
-| Roon | Core starts, stream problems, endpoint drops, errors, core resources, host load, and logs |
+| Roon | Core starts, stream problems, Bluesound device connections and errors, core resources, host load, and logs |
 
 When a stream has a problem, look at the Streaming problems row, then compare the time with the Host row. The Roon dashboard has the same Host row. The core can restart in the Roon container, so use Core starts, not the container restart count.
 

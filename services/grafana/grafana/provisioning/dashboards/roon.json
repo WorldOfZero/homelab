@@ -1111,6 +1111,607 @@
       }
     },
     {
+      "id": 3001,
+      "type": "row",
+      "title": "Bluesound devices",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Drops",
+      "description": "RAAT connections lost in the last 24 hours. A device that sleeps or restarts also counts.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"Bluesound\" |~ \"=> Disconnected\" [24h]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 3002,
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 23
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Reconnects",
+      "description": "RAAT connections made in the last 24 hours. Many reconnects mean that a device is unstable.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"Bluesound\" |~ \"=> Connected\" [24h]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 3003,
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 23
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Write errors",
+      "description": "Roon could not send to a device in the last 24 hours. This can interrupt audio.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"Bluesound\" |~ \"error writing to connection\" [24h]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#d03b3b",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 3004,
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 23
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Unavailable reports",
+      "description": "Times that Roon reported an endpoint in a zone as unavailable in the last 24 hours. A device that is off also counts.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum(count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"Bluesound\" |~ \"IsAvailable=False\" [24h]))",
+          "refId": "A",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "decimals": 0,
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 3005,
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 23
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Drops by device",
+      "description": "If one device drops often, check that device or its Wi-Fi. If all drop at the same time, check the Roon core or the network.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum by (device, ip) (count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"=> Disconnected\" |= \"Bluesound\" | regexp \"\\\\[raat\\\\] \\\\[(?P<device>Bluesound [^\\\\]@]+?) @ (?P<ip>[0-9.]+):[0-9]+\\\\] => Disconnected\" [$__auto]))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{device}} {{ip}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "spanNulls": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 350,
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 3006,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Write errors by device",
+      "description": "Roon could not send to the device. This can interrupt audio.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum by (device, ip) (count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"error writing to connection\" |= \"Bluesound\" | regexp \"\\\\[raat_ll/client\\\\] \\\\[(?P<device>Bluesound [^\\\\]@]+?) @ (?P<ip>[0-9.]+):[0-9]+\\\\] error writing to connection\" [$__auto]))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{device}} {{ip}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "spanNulls": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 350,
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 3007,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 27
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Reconnects by device",
+      "description": "Each bar is a new RAAT connection to the device.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum by (device, ip) (count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"=> Connected\" |= \"Bluesound\" | regexp \"\\\\[raat\\\\] \\\\[(?P<device>Bluesound [^\\\\]@]+?) @ (?P<ip>[0-9.]+):[0-9]+\\\\] => Connected\" [$__auto]))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{device}} {{ip}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "spanNulls": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 350,
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 3008,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 35
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Availability reports",
+      "description": "How Roon reported each endpoint when it loaded a zone. Two devices of the same model share a name here.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "sum by (device, available) (count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"with endpoint Bluesound\" | regexp \"with endpoint (?P<device>Bluesound .+?) \\\\([^)]*\\\\) \\\\[IsAvailable=(?P<available>[A-Za-z]+)\\\\]\" [$__auto]))",
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{device}}: {{available}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "spanNulls": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 350,
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 3009,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 35
+      }
+    },
+    {
+      "type": "logs",
+      "title": "Bluesound connection events",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "expr": "{service=\"roonserver\",logstream=\"file\"} |= \"Bluesound\" |~ \"=> (Disconnected|Connected)|lost client connection|error writing to connection|IsAvailable=False\"",
+          "refId": "A",
+          "queryType": "range"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending"
+      },
+      "id": 3010,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 43
+      }
+    },
+    {
       "id": 1015,
       "type": "row",
       "title": "Host: is load the cause?",
@@ -1119,7 +1720,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 52
       },
       "panels": []
     },
@@ -1255,7 +1856,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 23
+        "y": 53
       }
     },
     {
@@ -1330,7 +1931,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 23
+        "y": 53
       }
     },
     {
@@ -1404,7 +2005,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 23
+        "y": 53
       }
     },
     {
@@ -1514,7 +2115,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 31
+        "y": 61
       }
     },
     {
@@ -1624,7 +2225,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 31
+        "y": 61
       }
     },
     {
@@ -1734,7 +2335,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 31
+        "y": 61
       }
     },
     {
@@ -1746,7 +2347,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 38
+        "y": 68
       },
       "panels": []
     },
@@ -1882,7 +2483,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 39
+        "y": 69
       }
     },
     {
@@ -1992,7 +2593,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 39
+        "y": 69
       }
     },
     {
@@ -2077,7 +2678,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 39
+        "y": 69
       }
     },
     {
@@ -2162,7 +2763,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 47
+        "y": 77
       }
     },
     {
@@ -2272,7 +2873,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 47
+        "y": 77
       }
     },
     {
@@ -2382,7 +2983,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 47
+        "y": 77
       }
     },
     {
@@ -2394,7 +2995,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 85
       },
       "panels": []
     },
@@ -2432,7 +3033,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 56
+        "y": 86
       }
     },
     {
@@ -2469,7 +3070,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 65
+        "y": 95
       }
     },
     {
@@ -2506,7 +3107,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 75
+        "y": 105
       }
     },
     {
@@ -2543,7 +3144,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 82
+        "y": 112
       }
     }
   ],
