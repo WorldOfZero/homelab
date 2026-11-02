@@ -90,7 +90,7 @@ services:
       DATA_DIR: /data # DON'T CHANGE THIS
     logging: *logging-config
   chrome:
-    image: gcr.io/zenika-hub/alpine-chrome:124
+    image: zenika/alpine-chrome:124
     container_name: app-karakeep-chrome
     restart: unless-stopped
     command:
