@@ -81,7 +81,6 @@ services:
       INFERENCE_ENABLE_AUTO_TAGGING: true
       INFERENCE_ENABLE_AUTO_SUMMARIZATION: true
       CRAWLER_STORE_PDF: true
-      OTEL_TRACING_ENABLED: true
       PROMETHEUS_AUTH_TOKEN: ${KARAKEEP_PROMETHEUS_TOKEN:?Set KARAKEEP_PROMETHEUS_TOKEN in the Portainer stack variables}
       # OPENAI_API_KEY: ... # Unused - use ollama for local analysis
 
