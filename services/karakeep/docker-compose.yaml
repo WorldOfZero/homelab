@@ -56,7 +56,7 @@ services:
     restart: always
 
   web:
-    image: ghcr.io/karakeep-app/karakeep:0.33.2
+    image: ghcr.io/karakeep-app/karakeep:0.34.1
     restart: unless-stopped
     network_mode: service:tailscale
     container_name: app-karakeep
