@@ -489,8 +489,8 @@
     },
     {
       "type": "stat",
-      "title": "API errors",
-      "description": "API errors in the last 24 hours.",
+      "title": "Added, 30d",
+      "description": "Bookmarks added in the last 30 days.",
       "datasource": {
         "type": "prometheus",
         "uid": "${prometheus}"
@@ -501,7 +501,7 @@
             "type": "prometheus",
             "uid": "${prometheus}"
           },
-          "expr": "sum(increase(karakeep_trpc_errors_total[24h]))",
+          "expr": "sum(increase(karakeep_bookmark_creations_total[30d]))",
           "refId": "A",
           "legendFormat": "__auto",
           "range": false,
@@ -518,12 +518,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#0ca30c",
+                "color": "text",
                 "value": null
-              },
-              {
-                "color": "#fab219",
-                "value": 1
               }
             ]
           },
@@ -557,8 +553,8 @@
     },
     {
       "type": "stat",
-      "title": "Starts, 7d",
-      "description": "",
+      "title": "API errors",
+      "description": "API errors in the last 24 hours.",
       "datasource": {
         "type": "prometheus",
         "uid": "${prometheus}"
@@ -569,7 +565,7 @@
             "type": "prometheus",
             "uid": "${prometheus}"
           },
-          "expr": "changes(docker_container_started_at_seconds{name=\"app-karakeep\"}[7d])",
+          "expr": "sum(increase(karakeep_trpc_errors_total[24h]))",
           "refId": "A",
           "legendFormat": "__auto",
           "range": false,
@@ -763,8 +759,8 @@
     },
     {
       "type": "timeseries",
-      "title": "Bookmarks over time",
-      "description": "",
+      "title": "Bookmarks added",
+      "description": "Counts start when Karakeep starts with metrics on.",
       "datasource": {
         "type": "prometheus",
         "uid": "${prometheus}"
@@ -775,9 +771,9 @@
             "type": "prometheus",
             "uid": "${prometheus}"
           },
-          "expr": "karakeep_total_bookmarks",
+          "expr": "sum(increase(karakeep_bookmark_creations_total[$__rate_interval]))",
           "refId": "A",
-          "legendFormat": "Bookmarks",
+          "legendFormat": "Added",
           "range": true
         }
       ],
@@ -789,16 +785,16 @@
             "mode": "palette-classic-by-name"
           },
           "custom": {
-            "drawStyle": "line",
-            "lineWidth": 2,
-            "fillOpacity": 8,
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
             "showPoints": "never",
             "spanNulls": false,
             "axisBorderShow": false,
             "axisPlacement": "auto",
             "gradientMode": "none",
             "stacking": {
-              "mode": "none",
+              "mode": "normal",
               "group": "A"
             },
             "thresholdsStyle": {
@@ -812,7 +808,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Bookmarks"
+              "options": "Added"
             },
             "properties": [
               {
