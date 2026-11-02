@@ -34,7 +34,7 @@ Check the current documentation of each candidate before you start:
 |---|---|
 | Karakeep | Its settings include OAuth login. Check the variables for version 0.33.2. |
 | Kavita | Check if version 0.9.0 has OIDC login. |
-| Tandoor | The compose file has `SOCIAL_PROVIDERS` for OpenID Connect. Check if it uses tsidp now. |
+| Tandoor | Planned. See [[tandoor-tsidp-login]]. |
 | Jellyfin | Needs a plugin. |
 | Seerr, Sonarr, Radarr, Bazarr, Prowlarr | Check support. Some of them may have no OIDC login. |
 | GameScores | The human owns this application. Check if it can use OIDC. |
