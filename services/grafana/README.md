@@ -150,6 +150,20 @@ telemetry from filling the Fast pool, which also holds the Roon database. If the
 the quota, Loki writes fail. Do not make this dataset part of the nightly replication. The data
 has no backup, and a loss of `Fast` loses it.
 
+## UniFi logs
+
+Alloy receives syslog on port 1514 of minerva, on UDP and TCP, and sends the lines to Loki.
+
+Configure UniFi once. In **Settings -> Control Plane -> Integrations -> Activity Logging**, select **SIEM Server**, and enter `192.168.1.43` and port `1514`. The menu names can change between versions. Select only the log categories that you need, because all of the lines go to Loki and use the quota of `Fast/Telemetry`.
+
+| Question | LogQL query |
+|---|---|
+| All UniFi lines | `{service="unifi-siem"}` |
+| UniFi Network events | `{service="unifi-siem", product="UniFi Network"}` |
+| Traffic to an address | `{service="unifi-siem"} \|= "85.11.167.7"` |
+
+Loki uses the time that Alloy receives each line, because UniFi timestamps change between versions.
+
 ## Network exposure
 
 Loki has no authentication, and it holds the logs of all containers. A log line can contain a
@@ -162,6 +176,8 @@ to them. They hold metrics, not logs.
 The exportarr exporters (9707) and `jellyfin-exporter` (9711) share the network of their Tailscale
 sidecars. Tailnet devices can read them if the tailnet policy allows it. They show library counts
 and health messages, and they show no API keys.
+
+Port 1514 has no authentication, so all LAN devices can send lines to Loki through it. Treat these lines as a guide, not as proof. Do not forward this port from the internet.
 
 `docker-state-exporter` reads the Docker socket. It makes only GET calls and it publishes no port.
 

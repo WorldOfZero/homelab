@@ -86,6 +86,38 @@ configs:
         }
       }
 
+      // UniFi SIEM logs. The raw format also keeps lines that a strict syslog parser rejects.
+      loki.source.syslog "unifi" {
+        listener {
+          address       = "0.0.0.0:1514"
+          protocol      = "udp"
+          syslog_format = "raw"
+          labels        = { stack = "unifi", service = "unifi-siem", container = "unifi", logstream = "syslog" }
+        }
+
+        listener {
+          address       = "0.0.0.0:1514"
+          protocol      = "tcp"
+          syslog_format = "raw"
+          labels        = { stack = "unifi", service = "unifi-siem", container = "unifi", logstream = "syslog" }
+        }
+
+        forward_to = [loki.process.unifi.receiver]
+      }
+
+      loki.process "unifi" {
+        forward_to = [loki.write.default.receiver]
+
+        // The product separates firewall events from system events without many streams.
+        stage.regex {
+          expression = "CEF:[0-9]+\\|[^|]*\\|(?P<product>[^|]*)\\|"
+        }
+
+        stage.labels {
+          values = { product = "" }
+        }
+      }
+
       loki.write "default" {
         endpoint {
           url = "http://loki:3100/loki/api/v1/push"
@@ -378,6 +410,9 @@ services:
   alloy:
     image: grafana/alloy:v1.21.3
     restart: unless-stopped
+    ports:
+      - 1514:1514/udp # UniFi SIEM logs
+      - 1514:1514/tcp
     depends_on:
       - loki
     configs:
@@ -390,6 +425,7 @@ services:
     command:
       - run
       - --server.http.listen-addr=0.0.0.0:12345
+      - --stability.level=experimental # Needed for the raw syslog format
       - --storage.path=/var/lib/alloy/data
       - /etc/alloy/config.alloy
     logging: *logging-config
