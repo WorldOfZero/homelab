@@ -45,4 +45,6 @@ Roon logs each RAAT connection as `Bluesound <model> @ <ip>:<port>`, and reports
 
 2026-11-01: The log has one event for 7 devices at 02:01:54 and 02:01:55 on 2026-11-01. They all dropped and connected again in the same seconds. One event does not show a cause.
 
+2026-11-02: During grouped playback, Roon logged `long rtt sync` warnings, mostly for Bluesound PULSE FLEX. The row now shows these warnings for each device. Two devices of one model have the same name in this message.
+
 ## Resolution

@@ -1676,6 +1676,151 @@
       }
     },
     {
+      "type": "timeseries",
+      "title": "Clock sync delay by device",
+      "description": "The longest delay when Roon syncs its clock with a speaker. Roon logs this only when the delay is long. High values on one speaker suggest a Wi-Fi problem on that speaker, and can cause dropouts in grouped playback.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{device}}",
+          "expr": "max by (device) (max_over_time({service=\"roonserver\",logstream=\"file\"} |= \"long rtt sync\" | regexp \"long rtt sync (?P<device>[^:]+): realtime=[0-9]+ rtt=(?P<rtt>[0-9]+)us\" | unwrap rtt [$__auto]))"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "µs",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "points",
+            "lineWidth": 0,
+            "fillOpacity": 0,
+            "showPoints": "always",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "spanNulls": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "pointSize": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 350,
+          "calcs": [
+            "max"
+          ],
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 3100,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 43
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Slow clock syncs by device",
+      "description": "How often Roon logged a long clock sync for each speaker.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "queryType": "range",
+          "legendFormat": "{{device}}",
+          "expr": "sum by (device) (count_over_time({service=\"roonserver\",logstream=\"file\"} |= \"long rtt sync\" | regexp \"long rtt sync (?P<device>[^:]+): realtime\" [$__auto]))"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 0,
+            "fillOpacity": 80,
+            "showPoints": "never",
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "spanNulls": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "width": 350,
+          "calcs": [
+            "sum"
+          ],
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 3101,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 43
+      }
+    },
+    {
       "type": "logs",
       "title": "Bluesound connection events",
       "datasource": {
@@ -1708,7 +1853,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 51
       }
     },
     {
@@ -1720,7 +1865,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 60
       },
       "panels": []
     },
@@ -1856,7 +2001,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 53
+        "y": 61
       }
     },
     {
@@ -1931,7 +2076,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 53
+        "y": 61
       }
     },
     {
@@ -2005,7 +2150,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 53
+        "y": 61
       }
     },
     {
@@ -2115,7 +2260,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 61
+        "y": 69
       }
     },
     {
@@ -2225,7 +2370,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 61
+        "y": 69
       }
     },
     {
@@ -2335,7 +2480,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 61
+        "y": 69
       }
     },
     {
@@ -2347,7 +2492,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 68
+        "y": 76
       },
       "panels": []
     },
@@ -2483,7 +2628,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 69
+        "y": 77
       }
     },
     {
@@ -2593,7 +2738,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 69
+        "y": 77
       }
     },
     {
@@ -2678,7 +2823,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 69
+        "y": 77
       }
     },
     {
@@ -2763,7 +2908,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 77
+        "y": 85
       }
     },
     {
@@ -2873,7 +3018,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 77
+        "y": 85
       }
     },
     {
@@ -2983,7 +3128,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 77
+        "y": 85
       }
     },
     {
@@ -2995,7 +3140,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 85
+        "y": 93
       },
       "panels": []
     },
@@ -3033,7 +3178,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 86
+        "y": 94
       }
     },
     {
@@ -3070,7 +3215,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 95
+        "y": 103
       }
     },
     {
@@ -3107,7 +3252,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 105
+        "y": 113
       }
     },
     {
@@ -3144,7 +3289,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 112
+        "y": 120
       }
     }
   ],
