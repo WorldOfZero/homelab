@@ -70,8 +70,19 @@ services:
     container_name: app-ollama # Name for local container management
     environment:
       - OLLAMA_HOST=0.0.0.0:11434
-      - OLLAMA_KEEP_ALIVE=24h # Optional: keeps models loaded in memory (default is 5 min)
+      - OLLAMA_KEEP_ALIVE=5m # The T400 has 4 GB of memory, and Jellyfin needs it for transcodes
+      - OLLAMA_GPU_OVERHEAD=1073741824 # Keep 1 GB of GPU memory free for Jellyfin
+      - OLLAMA_MAX_LOADED_MODELS=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
       # - OLLAMA_API_KEY=${OLLAMA_API_KEY} # Optional: set an API key to restrict access
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     volumes:
       - /mnt/Fast/Configuration/ollama:/root/.ollama # Stores downloaded models
     depends_on:
