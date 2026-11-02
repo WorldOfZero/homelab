@@ -569,7 +569,7 @@ services:
     logging: *logging-config
 
   loki:
-    image: grafana/loki:3.7.1
+    image: grafana/loki:3.7.9
     labels:
       # Changes the service when the config changes, so that a Git update recreates the container.
       config-content: *loki-config
