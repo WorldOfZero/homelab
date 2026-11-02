@@ -112,7 +112,7 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:3000/api/v1/settings/public || exit 1
+      test: ["CMD", "airtrail-healthcheck"] # From the image, which has no wget
       start_period: 20s
       timeout: 3s
       interval: 15s
