@@ -1,12 +1,12 @@
 ---
 title: "Fix the AirTrail health check"
-state: in-progress     # open | in-progress | closed. Must match the directory of the file.
-resolution:            # completed | abandoned. Set this only when state is closed.
+state: closed          # open | in-progress | closed. Must match the directory of the file.
+resolution: completed  # completed | abandoned. Set this only when state is closed.
 priority: medium       # critical | high | medium | low
 effort: small          # small | medium | large | x-large
 tags: [bug, airtrail]  # Built-in: bug, feature. Add the components the work touches too, for example [bug, scheduler].
 created: 2026-11-02
-closed:                # YYYY-MM-DD. Set this only when state is closed.
+closed: 2026-11-02     # YYYY-MM-DD. Set this only when state is closed.
 owner: claude          # The person or agent working on the issue. Cleared when the issue returns to open.
 approver:              # The person or agent who accepts the issue when it closes.
 bookmark: airtrail-healthcheck # The jj bookmark of the work on the issue. Set this when work starts.
@@ -33,7 +33,7 @@ The log also shows `EACCES` for `/app/uploads`. On the host this is `/mnt/Fast/C
 ## Acceptance criteria
 
 - [x] The health check uses the `airtrail-healthcheck` command of the image.
-- [ ] After the deploy, `app-airtrail` shows as healthy.
+- [x] After the deploy, `app-airtrail` shows as healthy.
 - [ ] The human sets the owner of the upload directory to `1000:1000`, and the `EACCES` error stops after a restart.
 
 ## Out of scope
@@ -45,3 +45,6 @@ The log also shows `EACCES` for `/app/uploads`. On the host this is `/mnt/Fast/C
 2026-11-02: From the human: the health log shows `wget: not found`, and the upload directory is `drwxr-xr-x 0 0`.
 
 ## Resolution
+
+The human confirmed that this work is finished. The health check uses the airtrail-healthcheck command, and app-airtrail shows as healthy. The container has not restarted since the last EACCES line at 2026-11-02 04:08 UTC, so the logs do not yet show the result of the upload directory fix.
+
