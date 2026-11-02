@@ -415,6 +415,10 @@ configs:
               regex: tailscaled_(inbound|outbound)_(bytes|packets|dropped_packets)_total
               action: keep
 
+        - job_name: gamescores
+          static_configs:
+            - targets: ["tailscale-gamescores:9464"]
+
         - job_name: jellyfin
           static_configs:
             - targets: ["tailscale-jellyfin:8096"]

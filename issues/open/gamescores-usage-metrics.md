@@ -106,4 +106,6 @@ A gauge for a game that has no rooms must return to 0. Set each known game on ea
 
 2026-11-02: From the human: track rooms and users by game, and games that are requested but not in the application. Move this issue to the GameScores repo.
 
+2026-11-02: GameScores 0.0.328 listens on port 9464. Prometheus now scrapes `tailscale-gamescores:9464`. Read the metric names from Prometheus before adding panels.
+
 ## Resolution
