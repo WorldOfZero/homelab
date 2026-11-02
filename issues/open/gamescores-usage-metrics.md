@@ -91,8 +91,8 @@ A gauge for a game that has no rooms must return to 0. Set each known game on ea
 ## Acceptance criteria
 
 - [ ] Each open question has an answer in Notes.
-- [ ] GameScores exposes `/metrics`, with the rooms and users metrics for each game.
-- [ ] A game with no rooms reports 0.
+- [x] GameScores exposes metrics on port 9464, with the rooms and users metrics for each game.
+- [x] A game with no rooms reports 0.
 - [ ] GameScores logs one `game_not_found` line for each request for a game that does not exist.
 - [ ] A test shows that a long name or a name with control characters or quotes cannot break or forge a log line.
 - [ ] No metric label uses a room ID, a user ID, or a requested game name.
@@ -107,5 +107,7 @@ A gauge for a game that has no rooms must return to 0. Set each known game on ea
 2026-11-02: From the human: track rooms and users by game, and games that are requested but not in the application. Move this issue to the GameScores repo.
 
 2026-11-02: GameScores 0.0.328 listens on port 9464. Prometheus now scrapes `tailscale-gamescores:9464`. Read the metric names from Prometheus before adding panels.
+
+2026-11-02: The Usage row on the GameScores dashboard shows these metrics. Names differ from the proposal: `gamescores_room_active`, `gamescores_users_active`, `gamescores_room_created_total{game,source}`. No `game_not_found` line is in the logs yet, so that line is not confirmed. The panel for it was added.
 
 ## Resolution

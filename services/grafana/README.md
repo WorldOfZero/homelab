@@ -136,7 +136,7 @@ when the stack updates from Git and the image builds again. See `services/portai
 | Tandoor | Status, tailnet probe, backups, resources and logs |
 | Karakeep | Status, tailnet probe, bookmarks, job queues, API errors and logs |
 | Kavita | Status, tailnet probe, backups, warnings, resources and logs |
-| GameScores | Status, tailnet probe, response time, restarts, errors, resources and logs |
+| GameScores | Rooms, players and games played, games that people asked for, status, tailnet probe, response time, restarts, errors, resources and logs |
 | tsidp | Status, tailnet probe, logins for each service, errors, resources and logs |
 | Media Interest | Watch time, top titles, directors, studios, genres, artists and albums, and watch history for the last 30 days. All Grafana users can see the watch history of each person. |
 | Roon | Core starts, stream problems, Bluesound device connections and errors, core resources, host load, and logs |
