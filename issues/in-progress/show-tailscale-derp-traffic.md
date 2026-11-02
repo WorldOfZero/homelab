@@ -46,6 +46,10 @@ Traffic through DERP is slower than a direct path. Tailscale clients count bytes
 
 2026-11-02: The metric names were read from a real `tailscale/tailscale:v1.98` container with no tailnet login, so the counters were 0. The panels were not rendered, because the sandbox has no Grafana image. The first deploy restarts each application that shares a sidecar network.
 
+2026-11-02: From the human: detect when Jellyfin or a Roon app streams over DERP. Jellyfin has its own node, so the alert and panels use that node. They do not show the client. To show the client, the exporter needs the tailscaled socket of the sidecar. This was not done. From the human: Roon does not use the tailnet, so DERP does not apply to it.
+
+2026-11-02: The new alert was checked as a query on live data, but not loaded in Grafana.
+
 ## Resolution
 
 <Complete this section when you close the issue.

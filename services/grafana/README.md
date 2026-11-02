@@ -143,6 +143,10 @@ when the stack updates from Git and the image builds again. See `services/portai
 
 The Media Stack, GPU and Ollama, and Network dashboards show Jellyfin events as marks on their panels: stream starts and stops, SyncPlay group waits, and library scans. To hide a type of mark, use the switches at the top of the dashboard.
 
+The Tailnet path row on the Media Stack dashboard shows what Jellyfin sends over direct and DERP paths. It does not show which client. To find the client, run `tailscale status` on it, and look for `relay` on the `jellyfin` line.
+
+Roon does not use the tailnet, so it does not use DERP.
+
 To debug a watch party, open the Group playback row on the Media Stack dashboard, and select the time of the problem. Compare Group waits with Buffer requests by session. If one session has most of the requests, that client stops the group. Then look at its stream in Now playing, and at the Buffer ahead panel.
 
 When a stream has a problem, look at the Streaming problems row, then compare the time with the Host row. The Roon dashboard has the same Host row. The core can restart in the Roon container, so use Core starts, not the container restart count.
@@ -183,6 +187,7 @@ The `blackbox` service checks each application at its tailnet address each minut
 | Host high CPU | minerva uses more than 50% for 30 minutes |
 | Low on space | Vault has under 2 TB, Fast under 100 GB, Fast/Telemetry under 10 GB, or boot-pool under 20 GB |
 | Backup is old | Flights, Tandoor or Kavita has no backup in 26 hours |
+| Jellyfin stream uses DERP | With a stream on, Jellyfin sends more than 10 kB/s through DERP for 3 minutes |
 
 ## UniFi logs
 

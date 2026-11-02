@@ -1991,6 +1991,158 @@
     },
     {
       "type": "row",
+      "title": "Tailnet path",
+      "collapsed": false,
+      "panels": [],
+      "id": 2141,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      }
+    },
+    {
+      "type": "stat",
+      "title": "DERP now",
+      "description": "What Jellyfin sends through DERP relays now. With a stream on, a value above 10 kB/s means that a client has no direct path. The Jellyfin stream uses DERP alert uses the same limit. These metrics do not show which client.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum(rate(tailscaled_outbound_bytes_total{node=\"jellyfin\",path=\"derp\"}[2m]))",
+          "refId": "A",
+          "instant": true,
+          "range": false,
+          "legendFormat": "__auto"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "noValue": "0",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#0ca30c",
+                "value": null
+              },
+              {
+                "color": "#fab219",
+                "value": 10000
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "textMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true
+      },
+      "id": 2142,
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 33
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "What Jellyfin sends, by path",
+      "description": "Traffic from the Jellyfin node to tailnet clients. Compare it with the stream start and stop marks. LAN traffic that does not use the tailnet is not here.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum by (path) (rate(tailscaled_outbound_bytes_total{node=\"jellyfin\"}[$__rate_interval]))",
+          "refId": "A",
+          "legendFormat": "{{path}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2143,
+      "gridPos": {
+        "h": 8,
+        "w": 18,
+        "x": 6,
+        "y": 33
+      }
+    },
+    {
+      "type": "row",
       "title": "Group playback (SyncPlay)",
       "collapsed": false,
       "panels": [],
@@ -1999,7 +2151,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 41
       }
     },
     {
@@ -2061,7 +2213,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 33
+        "y": 42
       }
     },
     {
@@ -2123,7 +2275,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 33
+        "y": 42
       }
     },
     {
@@ -2185,7 +2337,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 33
+        "y": 42
       }
     },
     {
@@ -2251,7 +2403,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 33
+        "y": 42
       }
     },
     {
@@ -2317,7 +2469,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 33
+        "y": 42
       }
     },
     {
@@ -2379,7 +2531,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 33
+        "y": 42
       }
     },
     {
@@ -2450,7 +2602,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 37
+        "y": 46
       }
     },
     {
@@ -2521,7 +2673,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 37
+        "y": 46
       }
     },
     {
@@ -2592,7 +2744,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 45
+        "y": 54
       }
     },
     {
@@ -2664,7 +2816,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 45
+        "y": 54
       }
     },
     {
@@ -2736,7 +2888,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 53
+        "y": 62
       }
     },
     {
@@ -2808,7 +2960,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 53
+        "y": 62
       }
     },
     {
@@ -2880,7 +3032,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 53
+        "y": 62
       }
     },
     {
@@ -2917,7 +3069,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 70
       }
     },
     {
@@ -2929,7 +3081,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 70
+        "y": 79
       },
       "panels": []
     },
@@ -3065,7 +3217,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 71
+        "y": 80
       }
     },
     {
@@ -3140,7 +3292,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 71
+        "y": 80
       }
     },
     {
@@ -3214,7 +3366,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 71
+        "y": 80
       }
     },
     {
@@ -3324,7 +3476,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 79
+        "y": 88
       }
     },
     {
@@ -3434,7 +3586,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 79
+        "y": 88
       }
     },
     {
@@ -3544,7 +3696,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 79
+        "y": 88
       }
     },
     {
@@ -3556,7 +3708,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 86
+        "y": 95
       },
       "panels": []
     },
@@ -3594,7 +3746,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 87
+        "y": 96
       }
     },
     {
@@ -3606,7 +3758,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 96
+        "y": 105
       },
       "panels": []
     },
@@ -3671,7 +3823,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 97
+        "y": 106
       }
     },
     {
@@ -3735,7 +3887,7 @@
         "h": 4,
         "w": 5,
         "x": 4,
-        "y": 97
+        "y": 106
       }
     },
     {
@@ -3799,7 +3951,7 @@
         "h": 4,
         "w": 5,
         "x": 9,
-        "y": 97
+        "y": 106
       }
     },
     {
@@ -3863,7 +4015,7 @@
         "h": 4,
         "w": 5,
         "x": 14,
-        "y": 97
+        "y": 106
       }
     },
     {
@@ -3927,7 +4079,7 @@
         "h": 4,
         "w": 5,
         "x": 19,
-        "y": 97
+        "y": 106
       }
     },
     {
@@ -4042,7 +4194,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 101
+        "y": 110
       }
     },
     {
@@ -4117,7 +4269,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 101
+        "y": 110
       }
     },
     {
@@ -4202,7 +4354,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 101
+        "y": 110
       }
     },
     {
@@ -4214,7 +4366,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 109
+        "y": 118
       },
       "panels": []
     },
@@ -4279,7 +4431,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 110
+        "y": 119
       }
     },
     {
@@ -4343,7 +4495,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 110
+        "y": 119
       }
     },
     {
@@ -4407,7 +4559,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 110
+        "y": 119
       }
     },
     {
@@ -4471,7 +4623,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 110
+        "y": 119
       }
     },
     {
@@ -4535,7 +4687,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 110
+        "y": 119
       }
     },
     {
@@ -4603,7 +4755,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 110
+        "y": 119
       }
     },
     {
@@ -4615,7 +4767,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 114
+        "y": 123
       },
       "panels": []
     },
@@ -4680,7 +4832,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 115
+        "y": 124
       }
     },
     {
@@ -4744,7 +4896,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 115
+        "y": 124
       }
     },
     {
@@ -4808,7 +4960,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 115
+        "y": 124
       }
     },
     {
@@ -4872,7 +5024,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 115
+        "y": 124
       }
     },
     {
@@ -4936,7 +5088,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 115
+        "y": 124
       }
     },
     {
@@ -5004,7 +5156,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 115
+        "y": 124
       }
     },
     {
@@ -5016,7 +5168,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 128
       },
       "panels": []
     },
@@ -5102,7 +5254,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 120
+        "y": 129
       }
     },
     {
@@ -5187,7 +5339,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 120
+        "y": 129
       }
     },
     {
@@ -5297,7 +5449,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 120
+        "y": 129
       }
     },
     {
@@ -5407,7 +5559,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 120
+        "y": 129
       }
     },
     {
@@ -5475,7 +5627,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 128
+        "y": 137
       }
     },
     {
@@ -5558,7 +5710,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 128
+        "y": 137
       }
     },
     {
@@ -5570,7 +5722,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 135
+        "y": 144
       },
       "panels": []
     },
@@ -5752,7 +5904,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 136
+        "y": 145
       }
     },
     {
@@ -5933,7 +6085,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 136
+        "y": 145
       }
     },
     {
@@ -6114,7 +6266,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 144
+        "y": 153
       }
     },
     {
@@ -6295,7 +6447,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 144
+        "y": 153
       }
     },
     {
@@ -6307,7 +6459,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 152
+        "y": 161
       },
       "panels": []
     },
@@ -6382,7 +6534,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 153
+        "y": 162
       }
     },
     {
@@ -6419,7 +6571,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 159
+        "y": 168
       }
     }
   ],

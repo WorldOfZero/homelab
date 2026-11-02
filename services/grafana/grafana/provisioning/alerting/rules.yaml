@@ -204,6 +204,55 @@ groups:
     labels:
       severity: warning
     isPaused: false
+  - uid: jellyfin-derp
+    title: Jellyfin stream uses DERP
+    condition: C
+    data:
+    - refId: A
+      relativeTimeRange:
+        from: 900
+        to: 0
+      datasourceUid: PBFA97CFB590B2093
+      model:
+        refId: A
+        expr: sum(rate(tailscaled_outbound_bytes_total{node="jellyfin",path="derp"}[2m])) and on () (sum(jellyfin_streams) > 0)
+        instant: true
+        intervalMs: 60000
+        maxDataPoints: 100
+        range: false
+    - refId: C
+      relativeTimeRange:
+        from: 0
+        to: 0
+      datasourceUid: __expr__
+      model:
+        refId: C
+        type: threshold
+        expression: A
+        conditions:
+        - type: query
+          evaluator:
+            type: gt
+            params:
+            - 10000
+          operator:
+            type: and
+          query:
+            params:
+            - C
+          reducer:
+            params: []
+            type: last
+        intervalMs: 1000
+        maxDataPoints: 43200
+    noDataState: OK
+    execErrState: Error
+    for: 3m
+    annotations:
+      summary: Jellyfin sends {{ humanize $values.A.Value }}B/s through a DERP relay during a stream
+    labels:
+      severity: warning
+    isPaused: false
   - uid: disk-space-vault
     title: Vault is low on space
     condition: C
