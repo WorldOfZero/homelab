@@ -8,7 +8,7 @@ x-logging-config:
     
 configs:
   jellyfin-exporter:
-    content: |
+    content: &jellyfin-exporter |
       import json
       import os
       import urllib.request
@@ -246,6 +246,9 @@ services:
   # Jellyfin /metrics has no sessions or library counts, so this exporter reads them from the API.
   exporter:
     image: python:3.13-alpine3.24
+    labels:
+      # Changes the service when the config changes, so that a Git update recreates the container.
+      config-content: *jellyfin-exporter
     container_name: jellyfin-exporter
     network_mode: service:tailscale # Prometheus connects through tailnet-local
     configs:

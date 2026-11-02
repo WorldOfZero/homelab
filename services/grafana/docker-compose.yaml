@@ -18,7 +18,7 @@ configs:
       "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 
   alloy-config:
-    content: |
+    content: &alloy-config |
       discovery.docker "containers" {
         host = "unix:///var/run/docker.sock"
       }
@@ -125,7 +125,7 @@ configs:
       }
 
   docker-state-exporter:
-    content: |
+    content: &docker-state-exporter |
       import datetime
       import http.client
       import json
@@ -206,7 +206,7 @@ configs:
       ThreadingHTTPServer(("0.0.0.0", 9417), Handler).serve_forever()
 
   blackbox-config:
-    content: |
+    content: &blackbox-config |
       modules:
         http_2xx:
           prober: http
@@ -215,7 +215,7 @@ configs:
             preferred_ip_protocol: ip4
 
   lastfm-exporter:
-    content: |
+    content: &lastfm-exporter |
       import json
       import os
       import threading
@@ -287,7 +287,7 @@ configs:
       ThreadingHTTPServer(("0.0.0.0", 9718), Handler).serve_forever()
 
   prometheus-config:
-    content: |
+    content: &prometheus-config |
       global:
         scrape_interval: 30s
         evaluation_interval: 30s
@@ -410,7 +410,7 @@ configs:
             - targets: ["tailscale-bazarr:9707"]
 
   loki-config:
-    content: |
+    content: &loki-config |
       auth_enabled: false
 
       server:
@@ -536,6 +536,9 @@ services:
 
   loki:
     image: grafana/loki:3.7.1
+    labels:
+      # Changes the service when the config changes, so that a Git update recreates the container.
+      config-content: *loki-config
     restart: unless-stopped
     configs:
       - source: loki-config
@@ -547,6 +550,9 @@ services:
 
   alloy:
     image: grafana/alloy:v1.21.3
+    labels:
+      # Changes the service when the config changes, so that a Git update recreates the container.
+      config-content: *alloy-config
     restart: unless-stopped
     ports:
       - 1514:1514/udp # UniFi SIEM logs
@@ -593,6 +599,9 @@ services:
   # Reads top music for the last month. Roon sends its plays to last.fm.
   lastfm-exporter:
     image: python:3.13-alpine3.24
+    labels:
+      # Changes the service when the config changes, so that a Git update recreates the container.
+      config-content: *lastfm-exporter
     restart: unless-stopped
     configs:
       - source: lastfm-exporter
@@ -623,6 +632,9 @@ services:
   # Uses the sidecar network, so its probes follow the same path as a tailnet client.
   blackbox:
     image: prom/blackbox-exporter:v0.29.1
+    labels:
+      # Changes the service when the config changes, so that a Git update recreates the container.
+      config-content: *blackbox-config
     restart: unless-stopped
     network_mode: service:tailscale
     depends_on:
@@ -638,6 +650,9 @@ services:
   # cAdvisor does not report Docker health, restart counts or OOM kills. Only GET calls use the socket.
   docker-state-exporter:
     image: python:3.13-alpine3.24
+    labels:
+      # Changes the service when the config changes, so that a Git update recreates the container.
+      config-content: *docker-state-exporter
     restart: unless-stopped
     configs:
       - source: docker-state-exporter
@@ -661,6 +676,9 @@ services:
 
   prometheus:
     image: prom/prometheus:v3.11.2
+    labels:
+      # Changes the service when the config changes, so that a Git update recreates the container.
+      config-content: *prometheus-config
     restart: unless-stopped
     ports:
       - 9090:9090

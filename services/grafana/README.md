@@ -120,7 +120,7 @@ source. The `container` label must list the containers of all stacks.
 
 The dashboards are in the **Homelab** folder in Grafana. Change them in the repo, not in Grafana,
 because Grafana does not save changes to a provisioned dashboard. A dashboard change reaches Grafana
-when the stack redeploys and the image builds again.
+when the stack updates from Git and the image builds again. See `services/portainer/README.md`.
 
 | Dashboard | Shows |
 |---|---|
