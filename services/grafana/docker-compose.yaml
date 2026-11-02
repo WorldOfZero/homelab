@@ -453,6 +453,7 @@ configs:
       server:
         http_listen_port: 3100
         grpc_listen_port: 9096
+        log_level: warn # At info, query logs were most of the log bytes
 
       common:
         instance_addr: 127.0.0.1
