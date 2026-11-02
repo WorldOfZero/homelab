@@ -128,6 +128,12 @@ Optional. Without these, the last.fm panels stay empty, and the rest of the stac
 | `LASTFM_API_KEY` | `grafana` (`lastfm-exporter`) | Yes | Portainer (secret) |
 | `LASTFM_USER` | `grafana` (`lastfm-exporter`) | No | Portainer |
 
+## Tandoor login
+
+| Variable | Used by | Secret? | Where |
+|---|---|---|---|
+| `TANDOOR_SOCIALACCOUNT_PROVIDERS` | `tandoor` — the tsidp client, as JSON on one line. It contains the client secret. | Yes | Portainer (secret) |
+
 ## Homepage dashboard API keys
 
 `homepage` pulls read-only status/API keys from six other services to populate its dashboard.

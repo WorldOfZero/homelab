@@ -1,16 +1,16 @@
 ---
 title: "Configure Tandoor with tsidp login and Ollama"
-state: open            # open | in-progress | closed. Must match the directory of the file.
+state: in-progress     # open | in-progress | closed. Must match the directory of the file.
 resolution:            # completed | abandoned. Set this only when state is closed.
 priority: medium       # critical | high | medium | low
 effort: small          # small | medium | large | x-large
 tags: [feature, tandoor, tailscale] # Built-in: bug, feature. Add the components the work touches too, for example [bug, scheduler].
 created: 2026-11-02
 closed:                # YYYY-MM-DD. Set this only when state is closed.
-owner:                 # The person or agent working on the issue. Cleared when the issue returns to open.
+owner: claude          # The person or agent working on the issue. Cleared when the issue returns to open.
 approver:              # The person or agent who accepts the issue when it closes.
-bookmark:              # The jj bookmark of the work on the issue. Set this when work starts.
-workspaces: []         # jj workspaces where local work on the issue has happened, for example [fix-login-bug].
+bookmark: tandoor-tsidp # The jj bookmark of the work on the issue. Set this when work starts.
+workspaces: [fable]    # jj workspaces where local work on the issue has happened, for example [fix-login-bug].
 metadata: {}           # Optional. Arbitrary key-value notes, for example an AI agent session id to resume work with context: {session-id: "abc123"}.
 deferred-from:         # Optional. The issue (as a quoted wikilink) or bookmark that deferred this work.
 parent: "[[enable-tsidp-more-services]]" # Optional. The parent issue (as a quoted wikilink), if this issue is a sub-issue.
@@ -35,7 +35,7 @@ Use these values:
 | Setting | Value |
 |---|---|
 | Discovery URL | `https://idp.comet-stork.ts.net/.well-known/openid-configuration` |
-| Redirect URI | Check the Tandoor documentation. For django-allauth it uses the `provider_id` in `/accounts/oidc/<provider_id>/login/callback/` |
+| Redirect URI | `https://tandoor.comet-stork.ts.net/accounts/oidc/tsidp/login/callback/` |
 | PKCE | On |
 
 The sidecar already has `TS_ACCEPT_DNS=true`, so Tandoor can find tsidp by its tailnet name.
@@ -45,7 +45,7 @@ The sidecar already has `TS_ACCEPT_DNS=true`, so Tandoor can find tsidp by its t
 Tandoor can import recipes from images, PDFs and text through an AI provider. Use the shared Ollama service for this. Tandoor sends AI calls through LiteLLM, and a user configures the provider in the Tandoor web interface. A superuser can configure a global provider for all spaces.
 
 - Use the tailnet name `https://ollama.comet-stork.ts.net`, not an IP address. A Tailscale address can change.
-- The compose file sets `AI_ALLOWED_HOSTS=http://100.116.7.88:11434`. Tandoor 2.6.13 reads only `AI_ALLOWED_URLS`, so this setting has no effect. Replace it with `AI_ALLOWED_URLS=https://ollama.comet-stork.ts.net/`, and check the effect of this list in the deployed version.
+- The compose file now sets `AI_ALLOWED_URLS=https://ollama.comet-stork.ts.net`. Tandoor 2.6.13 compares the URL of the provider with this list by exact match, so the URL in the provider form must be the same, with no trailing slash.
 - The Tandoor documentation has no Ollama example. Use the LiteLLM documentation for the provider type and the model name.
 - Ollama has no API key, but the provider form needs a value. Enter any text that is not empty.
 - Select a model that can read images for image imports. Pull the model in Ollama first.
@@ -54,7 +54,7 @@ Tandoor can import recipes from images, PDFs and text through an AI provider. Us
 
 ## Acceptance criteria
 
-- [ ] The first administrator exists.
+- [x] The first administrator exists.
 - [ ] A client for Tandoor exists in tsidp, and its secret is only in Portainer.
 - [ ] A tailnet user can log in through tsidp.
 - [ ] `ENABLE_SIGNUP` and `SOCIAL_DEFAULT_ACCESS` have values that the human selected, and Notes records them.
@@ -71,5 +71,7 @@ Tandoor can import recipes from images, PDFs and text through an AI provider. Us
 2026-11-02: From the human: Tandoor is not configured yet, and it will be a tsidp application.
 
 2026-11-02: From the human: Tandoor must use the shared Ollama service for recipe parsing.
+
+2026-11-02: From the human: Tandoor is configured. The probe now redirects to the login page, not to `/setup/`. The compose file now sets the provider variable and `AI_ALLOWED_URLS`, and this needs a redeploy.
 
 ## Resolution

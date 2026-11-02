@@ -101,7 +101,7 @@ services:
       - TZ=America/Los_Angeles
       - TANDOOR_PORT=9001
       - ALLOWED_HOSTS=tandoor.comet-stork.ts.net
-      - AI_ALLOWED_HOSTS=http://100.116.7.88:11434
+      - AI_ALLOWED_URLS=https://ollama.comet-stork.ts.net # Must match the URL of the AI provider in Tandoor exactly
       - SECRET_KEY=$SECRET_KEY
       - DB_ENGINE=django.db.backends.postgresql
       - POSTGRES_HOST=db
@@ -110,6 +110,7 @@ services:
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
       - POSTGRES_DB=$POSTGRES_DB
       - SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
+      - SOCIALACCOUNT_PROVIDERS=${TANDOOR_SOCIALACCOUNT_PROVIDERS:?Set TANDOOR_SOCIALACCOUNT_PROVIDERS in the Portainer stack variables}
     volumes:
       - /mnt/Fast/Configuration/tandoor/staticfiles:/opt/recipes/staticfiles
       - /mnt/Fast/Configuration/tandoor/mediafiles:/opt/recipes/mediafiles
