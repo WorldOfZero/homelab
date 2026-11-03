@@ -18,6 +18,10 @@
         icon: seerr.png
         href: https://seerr.comet-stork.ts.net
         description: Ask for a movie or show
+    - Movie Night:
+        icon: mdi-movie-open
+        href: https://movie-night.comet-stork.ts.net:8443
+        description: Pick the movie for movie night
 
 - Everyday:
     - Karakeep:

@@ -26,7 +26,7 @@ referencing a new variable, or stops referencing one.
 
 | Variable | Used by | Secret? | Where |
 |---|---|---|---|
-| `TS_AUTHKEY` | Sidecar in nearly every service: `airtrail`, `arr/bazarr`, `arr/radarr`, `arr/seerr`, `arr/sonarr`, `arr/themearr`, `gamescores`, `grafana`, `homepage`, `jellyfin`, `karakeep`, `kavita`, `kuma`, `ollama`, `tailscale-idp` (sidecar + `tsidp` app), `tandoor`, `wallos` | Yes | Portainer (shared, if supported) |
+| `TS_AUTHKEY` | Sidecar in nearly every service: `airtrail`, `arr/bazarr`, `arr/radarr`, `arr/seerr`, `arr/sonarr`, `arr/themearr`, `gamescores`, `grafana`, `homepage`, `jellyfin`, `karakeep`, `kavita`, `kuma`, `movie-night`, `ollama`, `tailscale-idp` (sidecar + `tsidp` app), `tandoor`, `wallos` | Yes | Portainer (shared, if supported) |
 | `TAILSCALE_AUTH_TOKEN` | `tailscale` (the main tailnet node) — same purpose as `TS_AUTHKEY` above, different name; see Improvements.md §8 | Yes | Portainer (shared, if supported) |
 | `TS_CERT_DOMAIN` | Every sidecar's `ts-serve` config (`services/*/docker-compose.yaml`, the `configs:` block) | No | Auto (not user-set) — supplied by Tailscale itself; the `$$` escaping in those files is deliberate, don't "fix" it into a Portainer variable |
 
@@ -61,9 +61,9 @@ address the others can reach, and tailscaled uses it as a direct endpoint. Check
 | `MEILI_MASTER_KEY` | `karakeep` (both the `web` app and `meilisearch`) | Yes | Portainer (secret) |
 | `NEXTAUTH_URL` | `karakeep` | No — just a URL | Env file candidate |
 | `SECRET_KEY` | `tandoor` (Django secret key) | Yes | Portainer (secret) |
-| `POSTGRES_PASSWORD` | `tandoor` (`application`, `db`, `backup`), `airtrail` (as `DB_PASSWORD` there — `db`, `backup`) | Yes | Portainer (secret) |
-| `POSTGRES_USER` | `tandoor` (`application`, `db`, `backup`), `airtrail` (as `DB_USERNAME` there — `db`, `backup`) | Borderline — a username alone, low sensitivity | Env file candidate |
-| `POSTGRES_DB` | `tandoor` (`application`, `db`, `backup`), `airtrail` (as `DB_DATABASE_NAME` there — `db`, `backup`) | No — just a database name | Env file candidate |
+| `POSTGRES_PASSWORD` | `tandoor` (`application`, `db`, `backup`), `movie-night` (`application`, `db`, `backup` — use only URL-safe characters, because it goes into `DATABASE_URL`), `airtrail` (as `DB_PASSWORD` there — `db`, `backup`) | Yes | Portainer (secret) |
+| `POSTGRES_USER` | `tandoor` (`application`, `db`, `backup`), `movie-night` (`application`, `db`, `backup`), `airtrail` (as `DB_USERNAME` there — `db`, `backup`) | Borderline — a username alone, low sensitivity | Env file candidate |
+| `POSTGRES_DB` | `tandoor` (`application`, `db`, `backup`), `movie-night` (`application`, `db`, `backup`), `airtrail` (as `DB_DATABASE_NAME` there — `db`, `backup`) | No — just a database name | Env file candidate |
 | `DB_USERNAME` | `airtrail` (`db`, `backup`) | Borderline, same as `POSTGRES_USER` above | Env file candidate |
 | `DB_DATABASE_NAME` | `airtrail` (`db`, `backup`) | No | Env file candidate |
 | `DB_URL` | `airtrail` (app connection string) | Depends on format — confirm it doesn't embed the password inline before treating as non-secret; `DB_PASSWORD` is already passed separately, so it likely doesn't | Portainer (secret) until confirmed otherwise |
@@ -80,7 +80,7 @@ never meaningfully be anything else. One less thing to configure.
 
 ## Postgres backups
 
-Both self-hosted postgres instances (`tandoor`, `airtrail`) now have a `backup` sidecar
+All self-hosted postgres instances (`tandoor`, `airtrail`, `movie-night`) now have a `backup` sidecar
 (`prodrigestivill/postgres-backup-local`) doing daily `pg_dump` snapshots into a `backups/`
 subdirectory next to each database's data directory, with 7 daily / 4 weekly / 6 monthly
 retention (the image's own defaults). See Improvements.md §14.
@@ -132,6 +132,20 @@ Optional. Without these, the last.fm panels stay empty, and the rest of the stac
 | Variable | Used by | Secret? | Where |
 |---|---|---|---|
 | `TANDOOR_SOCIALACCOUNT_PROVIDERS` | `tandoor` — the tsidp client, as JSON on one line. It contains the client secret. | Yes | Portainer (secret) |
+
+## Movie Night
+
+| Variable | Used by | Secret? | Where |
+|---|---|---|---|
+| `MOVIE_NIGHT_VERSION` | `movie-night` — the image tag, without the `v`. Use `0.0.34` or later. | No | Portainer |
+| `MOVIE_NIGHT_JELLYFIN_APIKEY` | `movie-night` — its own Jellyfin API key. Do not share it with other services. | Yes | Portainer (secret) |
+| `MOVIE_NIGHT_JELLYFIN_LIBRARIES` | `movie-night` — the ItemIds of the movie libraries, separated by commas | No | Portainer |
+
+Jellyfin 12 does not accept `X-Emby-Token` or `api_key`. To list the library ids, use this command:
+
+```bash
+curl -s -H 'Authorization: MediaBrowser Token="<key>"' https://jellyfin.comet-stork.ts.net/Library/VirtualFolders
+```
 
 ## Homepage dashboard API keys
 

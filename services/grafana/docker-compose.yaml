@@ -356,6 +356,9 @@ configs:
             - targets: ["https://ollama.comet-stork.ts.net/api/version"]
               labels:
                 app: ollama
+            - targets: ["https://movie-night.comet-stork.ts.net/healthz"]
+              labels:
+                app: movie-night
           relabel_configs:
             - source_labels: [__address__]
               target_label: __param_target
@@ -395,6 +398,7 @@ configs:
                 - "tailscale-karakeep:41234"
                 - "tailscale-kavita:41234"
                 - "tailscale-kuma:41234"
+                - "tailscale-movie-night:41234"
                 - "tailscale-ollama:41234"
                 - "tailscale-radarr:41234"
                 - "tailscale-seerr:41234"
@@ -418,6 +422,10 @@ configs:
         - job_name: gamescores
           static_configs:
             - targets: ["tailscale-gamescores:9464"]
+
+        - job_name: movie-night
+          static_configs:
+            - targets: ["tailscale-movie-night:8081"]
 
         - job_name: jellyfin
           static_configs:
