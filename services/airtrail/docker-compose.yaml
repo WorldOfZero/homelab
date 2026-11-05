@@ -91,7 +91,7 @@ services:
     logging: *logging-config
 
   application: # Managing requests
-    image: johly/airtrail:v3.11.1
+    image: johly/airtrail:v3.14.0
     init: true
     network_mode: service:tailscale
     container_name: app-airtrail
