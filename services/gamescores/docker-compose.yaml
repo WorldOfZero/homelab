@@ -90,6 +90,29 @@ services:
     restart: always
     logging: *logging-config
 
+  # Cloudflare Tunnel: publishes GameScores as games.worldofzero.com on worldofzero.com without an open router port.
+  # The public hostname and its service (http://127.0.0.1:8080) are set on the tunnel in the
+  # Cloudflare dashboard, not here.
+  cloudflared:
+    image: cloudflare/cloudflared:2026.10.7
+    container_name: cloudflared-gamescores
+    network_mode: service:tailscale # Shares localhost with the application, so the tunnel reaches it on 127.0.0.1
+    command: tunnel --no-autoupdate --metrics 0.0.0.0:2000 run
+    environment:
+      - TUNNEL_TOKEN=${GAMESCORES_TUNNEL_TOKEN:?Set GAMESCORES_TUNNEL_TOKEN in the Portainer stack variables}
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    pids_limit: 100
+    depends_on:
+      application:
+        condition: service_healthy
+    restart: always
+    logging: *logging-config
+
 networks:
   tailnet-local:
     external: true # Create once on the host: docker network create tailnet-local

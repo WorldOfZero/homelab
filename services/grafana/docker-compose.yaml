@@ -344,7 +344,7 @@ configs:
             - targets: ["https://kavita.comet-stork.ts.net/"]
               labels:
                 app: kavita
-            - targets: ["https://gamescores.comet-stork.ts.net/healthz"]
+            - targets: ["https://games.worldofzero.com/healthz"]
               labels:
                 app: gamescores
             - targets: ["https://idp.comet-stork.ts.net/.well-known/openid-configuration"]
@@ -356,7 +356,7 @@ configs:
             - targets: ["https://ollama.comet-stork.ts.net/api/version"]
               labels:
                 app: ollama
-            - targets: ["https://movie-night.comet-stork.ts.net/healthz"]
+            - targets: ["https://movie-night.worldofzero.com/healthz"]
               labels:
                 app: movie-night
           relabel_configs:
@@ -426,6 +426,15 @@ configs:
         - job_name: movie-night
           static_configs:
             - targets: ["tailscale-movie-night:8081"]
+
+        - job_name: cloudflared
+          static_configs:
+            - targets: ["tailscale-gamescores:2000"]
+              labels:
+                app: gamescores
+            - targets: ["tailscale-movie-night:2000"]
+              labels:
+                app: movie-night
 
         - job_name: jellyfin
           static_configs:

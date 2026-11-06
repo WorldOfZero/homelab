@@ -38,7 +38,7 @@
         description: Flight history and maps
     - GameScores:
         icon: mdi-trophy
-        href: https://gamescores.comet-stork.ts.net
+        href: https://games.worldofzero.com
         description: Scores for games
 
 - Admin:

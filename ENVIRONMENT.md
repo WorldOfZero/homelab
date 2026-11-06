@@ -147,6 +147,25 @@ Jellyfin 12 does not accept `X-Emby-Token` or `api_key`. To list the library ids
 curl -s -H 'Authorization: MediaBrowser Token="<key>"' https://jellyfin.comet-stork.ts.net/Library/VirtualFolders
 ```
 
+## Cloudflare Tunnel
+
+Each published stack has its own tunnel and token. Do not use one token for two stacks.
+
+| Variable | Used by | Secret? | Where |
+|---|---|---|---|
+| `GAMESCORES_TUNNEL_TOKEN` | `gamescores` (`cloudflared`) — the tunnel for `games.worldofzero.com` | Yes | Portainer (secret) |
+| `MOVIE_NIGHT_TUNNEL_TOKEN` | `movie-night` (`cloudflared`) — the tunnel for `movie-night.worldofzero.com` | Yes | Portainer (secret) |
+
+To make a tunnel, go to Cloudflare Zero Trust, then Networks, then Tunnels, and select Create a tunnel (Cloudflared).
+Copy the token from the `docker run` command that the dashboard shows. Then add a public hostname:
+
+| Tunnel | Hostname | Service |
+|---|---|---|
+| gamescores | `games.worldofzero.com` | `http://127.0.0.1:8080` |
+| movie-night | `movie-night.worldofzero.com` | `http://127.0.0.1:8080` |
+
+Never route `127.0.0.1:8081` of movie-night through a tunnel. Host sign-in and the metrics are on that port.
+
 ## Homepage dashboard API keys
 
 `homepage` has only links, so it needs no API keys. You can remove these variables from its Portainer

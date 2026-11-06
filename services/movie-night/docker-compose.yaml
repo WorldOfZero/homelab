@@ -103,8 +103,8 @@ services:
       - JELLYFIN_API_KEY=${MOVIE_NIGHT_JELLYFIN_APIKEY:?Set MOVIE_NIGHT_JELLYFIN_APIKEY in the Portainer stack variables}
       - JELLYFIN_LIBRARIES=${MOVIE_NIGHT_JELLYFIN_LIBRARIES:?Set MOVIE_NIGHT_JELLYFIN_LIBRARIES in the Portainer stack variables}
       - JELLYFIN_WEB_URL=https://jellyfin.comet-stork.ts.net
-      - PUBLIC_URL=https://movie-night.comet-stork.ts.net
-      - TRUSTED_PROXIES=127.0.0.1 # Tailscale Serve connects from localhost and sets X-Forwarded-For
+      - PUBLIC_URL=https://movie-night.worldofzero.com
+      - TRUSTED_PROXIES=127.0.0.1 # cloudflared and Tailscale Serve connect from localhost and set X-Forwarded-For
       # - PLAY_LAUNCHERS= # Optional. See ENVIRONMENT.md in the movie-night repo
     read_only: true
     cap_drop:
@@ -125,6 +125,29 @@ services:
       timeout: 10s # Time to wait for the check to succeed
       retries: 3 # Number of retries before marking as unhealthy
       start_period: 30s # Time to wait before starting health checks
+    restart: always
+    logging: *logging-config
+
+  # Cloudflare Tunnel: publishes the guest port as movie-night.worldofzero.com. Never route port 8081 through the tunnel on worldofzero.com without an open router port.
+  # The public hostname and its service (http://127.0.0.1:8080) are set on the tunnel in the
+  # Cloudflare dashboard, not here.
+  cloudflared:
+    image: cloudflare/cloudflared:2026.10.7
+    container_name: cloudflared-movie-night
+    network_mode: service:tailscale # Shares localhost with the application, so the tunnel reaches it on 127.0.0.1
+    command: tunnel --no-autoupdate --metrics 0.0.0.0:2000 run
+    environment:
+      - TUNNEL_TOKEN=${MOVIE_NIGHT_TUNNEL_TOKEN:?Set MOVIE_NIGHT_TUNNEL_TOKEN in the Portainer stack variables}
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    pids_limit: 100
+    depends_on:
+      application:
+        condition: service_healthy
     restart: always
     logging: *logging-config
 
