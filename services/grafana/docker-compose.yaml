@@ -585,7 +585,10 @@ services:
       - GF_AUTH_GENERIC_OAUTH_API_URL=https://idp.comet-stork.ts.net/userinfo
       - GF_AUTH_GENERIC_OAUTH_USE_PKCE=true
       - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
-      - "GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH=email == '${GRAFANA_ADMIN_EMAIL:?Set GRAFANA_ADMIN_EMAIL in the Portainer stack variables}' && 'Admin' || 'Viewer'"
+      # The role comes from the "groups" claim. The tailnet policy gives tsidp one grant for each
+      # group:grafana-* group. A user in no group cannot log in. See README.md.
+      - "GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH=contains(groups || `[]`, 'grafana-admins') && 'Admin' || contains(groups || `[]`, 'grafana-editors') && 'Editor' || contains(groups || `[]`, 'grafana-viewers') && 'Viewer'"
+      - GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_STRICT=true
     volumes:
       - '/mnt/Fast/Configuration/grafana/data:/var/lib/grafana:rw'
     logging: *logging-config

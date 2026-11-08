@@ -29,18 +29,29 @@ you deploy. The `tailnet-local` network must exist. See `ENVIRONMENT.md`.
 Grafana uses tsidp for Tailscale login. The browser must be on the tailnet. The local login form
 stays as a way in when tsidp is down. Service account tokens do not use tsidp.
 
-The configured `GRAFANA_ADMIN_EMAIL` user gets the Admin role, and all other tailnet users get the
-Viewer role.
+The role comes from the `groups` claim that tsidp sends. The tailnet policy (in homelab-private)
+gives each Grafana group a `tailscale.com/cap/tsidp` grant with that claim:
+
+| Tailscale group | Claim | Grafana role |
+|---|---|---|
+| `group:grafana-admins` | `grafana-admins` | Admin |
+| `group:grafana-editors` | `grafana-editors` | Editor |
+| `group:grafana-viewers` | `grafana-viewers` | Viewer |
+
+A user in more than one group gets the highest role. A user in no group cannot log in with
+Tailscale. Grafana sets the role at each login, so a change in a group applies at the next login
+of that user. The grants must go to the node that runs tsidp (`idp`, with `tag:tsidp`). If they do
+not, tsidp sends no groups, and nobody can log in with Tailscale.
 
 Do these steps before the deploy:
 
 1. In the tsidp UI at `https://idp.comet-stork.ts.net`, create a client with this redirect URI:
    `https://grafana.comet-stork.ts.net/login/generic_oauth`
-2. In the Portainer stack variables, set `GRAFANA_OIDC_CLIENT_ID`, `GRAFANA_OIDC_CLIENT_SECRET` and
-   `GRAFANA_ADMIN_EMAIL`. The stack does not deploy without them.
+2. In the Portainer stack variables, set `GRAFANA_OIDC_CLIENT_ID` and `GRAFANA_OIDC_CLIENT_SECRET`.
+   The stack does not deploy without them.
 
-If you get the Viewer role, read your email in Grafana -> Profile. Set `GRAFANA_ADMIN_EMAIL` to that
-value, and deploy again.
+If Tailscale login fails with a role error, check that the `idp` node has `tag:tsidp`, and that
+your user is in one of the groups in the table above. Use the local login form to get in meanwhile.
 
 ## Deploy
 

@@ -1,16 +1,16 @@
 ---
 title: "Set Grafana roles from Tailscale groups"
-state: open            # open | in-progress | closed. Must match the directory of the file.
+state: in-progress     # open | in-progress | closed. Must match the directory of the file.
 resolution:            # completed | abandoned. Set this only when state is closed.
 priority: low          # critical | high | medium | low
 effort: small          # small | medium | large | x-large
 tags: [feature, grafana, tailscale] # Built-in: bug, feature. Add the components the work touches too, for example [bug, scheduler].
 created: 2026-11-01
 closed:                # YYYY-MM-DD. Set this only when state is closed.
-owner:                 # The person or agent working on the issue. Cleared when the issue returns to open.
+owner: claude          # The person or agent working on the issue. Cleared when the issue returns to open.
 approver:              # The person or agent who accepts the issue when it closes.
-bookmark:              # The jj bookmark of the work on the issue. Set this when work starts.
-workspaces: []         # jj workspaces where local work on the issue has happened, for example [fix-login-bug].
+bookmark: grafana-roles-from-groups # The jj bookmark of the work on the issue. Set this when work starts.
+workspaces: [fable]    # jj workspaces where local work on the issue has happened, for example [fix-login-bug].
 metadata: {}           # Optional. Arbitrary key-value notes, for example an AI agent session id to resume work with context: {session-id: "abc123"}.
 deferred-from: "[[grafana-tsidp-login]]" # Optional. The issue (as a quoted wikilink) or bookmark that deferred this work.
 parent:                # Optional. The parent issue (as a quoted wikilink), if this issue is a sub-issue.
@@ -55,10 +55,10 @@ tsidp warns that its capability schema can change. Read the schema of the deploy
 
 ## Acceptance criteria
 
-- [ ] The human selects the groups. Proposed: `grafana-admins` and `grafana-viewers`.
-- [ ] The tailnet policy has a grant for each group.
+- [x] The human selects the groups. Proposed: `grafana-admins` and `grafana-viewers`.
+- [x] The tailnet policy has a grant for each group.
 - [ ] A test with a mock provider gives the correct role for each group, and denies a user with no group.
-- [ ] `GRAFANA_ADMIN_EMAIL` is removed from the compose file, `services/grafana/README.md`, and `ENVIRONMENT.md`.
+- [x] `GRAFANA_ADMIN_EMAIL` is removed from the compose file, `services/grafana/README.md`, and `ENVIRONMENT.md`.
 - [ ] On minerva, a user in each group gets the correct role, and a user in no group cannot log in.
 
 ## Out of scope
@@ -69,5 +69,11 @@ tsidp warns that its capability schema can change. Read the schema of the deploy
 ## Notes
 
 2026-11-01: From the human: track this work, and do not implement it yet.
+
+2026-11-08: The human made `group:grafana-admins`, `group:grafana-editors` and `group:grafana-viewers`, and a grant for each, with `dst` `tag:tsidp`. The admin UI and client registration grant is now for `group:homelab-operators` only.
+
+2026-11-08: The tsidp v0.0.18 source (`server/extraclaims.go`) merges the `extraClaims` of all matching grants, and removes duplicates from lists, so `groups` is a list. It refuses only the standard and Tailscale claims, and `groups` is not one of them. Grants with `includeInUserInfo` also go to `/userinfo`.
+
+2026-11-08: The role expression was tested with `github.com/jmespath/go-jmespath` v0.4.0 against the resolved compose file. Admin, editor and viewer give their roles. Two groups give the higher role. Another group, an empty list and no `groups` claim give `false`, which strict mode denies. There was no test with a mock provider in Grafana. Do the minerva test after the deploy.
 
 ## Resolution

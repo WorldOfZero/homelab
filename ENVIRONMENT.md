@@ -97,7 +97,6 @@ retention (the image's own defaults). See Improvements.md §14.
 |---|---|---|---|
 | `GRAFANA_OIDC_CLIENT_ID` | `grafana` — the tsidp client | No | Portainer |
 | `GRAFANA_OIDC_CLIENT_SECRET` | `grafana` — the tsidp client | Yes | Portainer (secret) |
-| `GRAFANA_ADMIN_EMAIL` | `grafana` — the user who gets the Admin role | No, but personal | Portainer |
 
 ## Media metrics exporters
 
