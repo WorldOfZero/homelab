@@ -36,6 +36,7 @@ services:
       - TS_LOCAL_ADDR_PORT=0.0.0.0:41234       # The <addr>:<port> for the healthz and metrics endpoints
       - TS_ACCEPT_DNS=true # Uncomment when using MagicDNS
       - TS_AUTH_ONCE=true
+      - TS_EXTRA_ARGS=--advertise-tags=tag:cookbook # Applies only at the first login. For a registered node, set the tag in the admin console
     configs:
       - source: ts-serve
         target: /config/serve.json
