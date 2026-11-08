@@ -41,9 +41,12 @@ Guests reach GameScores and movie-night through Tailscale Funnel on comet-stork.
 - [ ] The rate limits of movie-night see each guest as a separate address.
 - [x] Prometheus shows the two `cloudflared` targets as up, and the blackbox probes of the new URLs succeed.
 
+- [ ] Funnel is off on the two stacks, so each application has only one public path. `https://gamescores.comet-stork.ts.net` and `https://movie-night.comet-stork.ts.net` do not load from outside the tailnet, and still load on the tailnet.
+- [ ] The human removes the three `funnel` entries from `nodeAttrs` in the tailnet policy.
+
 ## Out of scope
 
-- Turning off Funnel on the two stacks. Do it after the new names work, so that each application has only one public path. Then the tailnet policy does not need the `funnel` attribute for these nodes.
+- Making the tailnet policy narrower than allow-all. That is separate work.
 
 ## Notes
 
@@ -58,6 +61,8 @@ Guests reach GameScores and movie-night through Tailscale Funnel on comet-stork.
 2026-11-06: From minerva, `/metrics` on the public name returns 404, and port 8081 does not connect (`000`). It is not yet checked that `:8443` on the public name shows the guest page and not the host sign-in.
 
 2026-11-06: `:8443` on the public name shows the guest page, because Cloudflare sends it to port 8080 through the tunnel. The display stream sends the state event through the tunnel, and its `joinUrl` uses the new name. Later the same day, the stream showed the state event and then four pings, so Cloudflare does not buffer it.
+
+2026-11-08: Funnel is off in both stacks. Serve stays on, so the `comet-stork.ts.net` names still work on the tailnet. No blackbox probe uses those names now.
 
 ## Resolution
 

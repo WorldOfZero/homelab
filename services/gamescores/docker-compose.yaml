@@ -6,6 +6,7 @@ x-logging-config:
     max-file: "3"
     tag: "{{.Name}}"
 
+# Serve is on the tailnet only. Guests use games.worldofzero.com, through the cloudflared container.
 configs:
   ts-serve:
     content: |
@@ -13,7 +14,7 @@ configs:
       "Web":{"$${TS_CERT_DOMAIN}:443":
           {"Handlers":{"/":
           {"Proxy":"http://127.0.0.1:8080"}}}},
-      "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":true}}
+      "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 
 # GameScores (github.com/WorldOfZero/GameScores) - Blazor Server board game
 # scoresheets with live sync between devices over SignalR.

@@ -6,7 +6,8 @@ x-logging-config:
     max-file: "3"
     tag: "{{.Name}}"
 
-# Each listener has its own Serve port. Keep 8443 out of Funnel: host sign-in and room creation are there.
+# Each listener has its own Serve port, on the tailnet only. Guests use movie-night.worldofzero.com, through the
+# cloudflared container. Never make 8443 or 8081 public: host sign-in and room creation are there.
 configs:
   ts-serve:
     content: |
@@ -17,7 +18,7 @@ configs:
       "$${TS_CERT_DOMAIN}:8443":
           {"Handlers":{"/":
           {"Proxy":"http://127.0.0.1:8081"}}}},
-      "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":true,"$${TS_CERT_DOMAIN}:8443":false}}
+      "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false,"$${TS_CERT_DOMAIN}:8443":false}}
 
 # Movie Night (github.com/WorldOfZero/movie-night) - people vote on movies from Jellyfin on their
 # phones, and a TV page shows the result.
@@ -33,7 +34,7 @@ services:
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
-      - TS_SERVE_CONFIG=/config/serve.json # Tailscale Serve configuration, with Funnel on port 443 only
+      - TS_SERVE_CONFIG=/config/serve.json # Tailscale Serve configuration, on the tailnet only
       - TS_USERSPACE=false
       - TS_ENABLE_HEALTH_CHECK=true              # Enable healthcheck endpoint: "/healthz"
       - TS_ENABLE_METRICS=true
