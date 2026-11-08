@@ -129,6 +129,28 @@ services:
     restart: always
     logging: *logging-config
 
+  # Keeps the Tandoor shopping list and Home Assistant's todo.shopping_list the same, both ways.
+  # See shopping-sync/README.md.
+  shopping-sync:
+    build: ./shopping-sync
+    network_mode: service:tailscale # Reaches Tandoor on 127.0.0.1:9001, Home Assistant over the tailnet
+    container_name: tandoor-shopping-sync
+    environment:
+      - TZ=America/Los_Angeles
+      - TANDOOR_URL=http://127.0.0.1:9001
+      - TANDOOR_HOST=tandoor.comet-stork.ts.net # Django checks the Host header against ALLOWED_HOSTS
+      - TANDOOR_TOKEN=${TANDOOR_SHOPPING_SYNC_TOKEN:?Set TANDOOR_SHOPPING_SYNC_TOKEN in the Portainer stack variables}
+      - HA_URL=https://homeassistant.comet-stork.ts.net
+      - HA_TOKEN=${HA_SHOPPING_SYNC_TOKEN:?Set HA_SHOPPING_SYNC_TOKEN in the Portainer stack variables}
+      - HA_TODO_ENTITY=todo.shopping_list
+      - DRY_RUN=${SHOPPING_SYNC_DRY_RUN:-true} # Logs the changes only; set SHOPPING_SYNC_DRY_RUN=false to write
+    volumes:
+      - /mnt/Fast/Configuration/tandoor/shopping-sync:/data # The saved pairs; must be owned by 1000:1000
+    depends_on:
+      - application
+    restart: unless-stopped
+    logging: *logging-config
+
 networks:
   tailnet-local:
     external: true # Create once on the host: docker network create tailnet-local
