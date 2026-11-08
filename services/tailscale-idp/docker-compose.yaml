@@ -33,6 +33,7 @@ services:
       - TS_LOCAL_ADDR_PORT=0.0.0.0:41234 # The <addr>:<port> for the healthz and metrics endpoints
       - TS_ACCEPT_DNS=true # Uncomment when using MagicDNS
       - TS_AUTH_ONCE=true
+      - TS_EXTRA_ARGS=--advertise-tags=tag:tsidp # Applies only at the first login. For a registered node, set the tag in the admin console
     configs:
       - source: ts-serve
         target: /config/serve.json
@@ -73,7 +74,7 @@ services:
       - TS_HOSTNAME=idp # Hostname on tailnet (becomes idp.your-tailnet.ts.net)
       - TSIDP_ENABLE_STS=1 # Enable OAuth token exchange
       - TS_AUTHKEY=${TS_AUTHKEY}
-      #- TS_ADVERTISE_TAGS=tag:tsidp
+      - TS_ADVERTISE_TAGS=tag:tsidp # Applies only at the first login. For a registered node, set the tag in the admin console
     logging: *logging-config
 
 networks:
