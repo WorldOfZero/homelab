@@ -76,4 +76,6 @@ tsidp warns that its capability schema can change. Read the schema of the deploy
 
 2026-11-08: The role expression was tested with `github.com/jmespath/go-jmespath` v0.4.0 against the resolved compose file. Admin, editor and viewer give their roles. Two groups give the higher role. Another group, an empty list and no `groups` claim give `false`, which strict mode denies. There was no test with a mock provider in Grafana. Do the minerva test after the deploy.
 
+2026-11-08: Deployed. Tailscale sign-in failed at first: the key of the `idp` node had expired, so tsidp did not connect and did not listen. The human disabled key expiry on `idp`, and sign-in worked. The human confirms the role is correct for their user (Admin). A user in `grafana-editors` or `grafana-viewers`, and a user in no group, are not tested yet: those groups are empty.
+
 ## Resolution
