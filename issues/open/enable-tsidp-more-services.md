@@ -32,12 +32,20 @@ Check the current documentation of each candidate before you start:
 
 | Service | Status |
 |---|---|
-| Karakeep | Its settings include OAuth login. Check the variables for version 0.33.2. |
-| Kavita | Check if version 0.9.0 has OIDC login. |
-| Tandoor | Planned. See [[tandoor-tsidp-login]]. |
-| Jellyfin | Needs a plugin. |
-| Seerr, Sonarr, Radarr, Bazarr, Prowlarr | Check support. Some of them may have no OIDC login. |
-| GameScores | The human owns this application. Check if it can use OIDC. |
+| Grafana | Done. See [[grafana-tsidp-login]] and [[grafana-roles-from-tailscale]]. |
+| AirTrail (Flights) | Done. Set in the AirTrail UI (Settings, OAuth). |
+| Tandoor | In progress. See [[tandoor-tsidp-login]]. |
+| Karakeep | Native OAuth. See [[karakeep-tsidp-login]]. |
+| Kavita | Native OIDC. See [[kavita-tsidp-login]]. |
+| Wallos | Native OIDC since 4.0. Pin 4.9.6 or later first. See [[wallos-tsidp-login]]. |
+| Portainer | Custom OAuth in CE. See [[portainer-tsidp-login]]. |
+| Jellyfin | Needs an SSO plugin fork for Jellyfin 12. See [[jellyfin-tsidp-login]]. |
+| Home Assistant | Needs the `hass-oidc-auth` custom integration. See [[home-assistant-tsidp-login]]. |
+| Seerr | OIDC only in development builds. Wait for a release. See [[seerr-tsidp-login]]. |
+| Sonarr, Radarr, Bazarr, Uptime Kuma | No OIDC. Use the tailnet policy as the login. See [[tailnet-policy-login]]. |
+| Prowlarr | Not in this repo. |
+| movie-night | Its own repo. Track OIDC login there. |
+| GameScores, Homepage, Ollama, Themearr | No user accounts, or only API keys. Nothing to do. |
 
 ## Acceptance criteria
 
@@ -53,5 +61,7 @@ Check the current documentation of each candidate before you start:
 ## Notes
 
 2026-11-02: From the human: create this issue. Do not start this work yet.
+
+2026-11-09: From the human: create an issue for each service that can use tsidp. Ideally the services get their login from the tailnet identity. One sub-issue for each service is in the table above.
 
 ## Resolution
