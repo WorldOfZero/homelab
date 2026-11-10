@@ -2679,7 +2679,7 @@
     {
       "type": "table",
       "title": "SyncPlay events by person",
-      "description": "Each group event, with the Jellyfin user and device of the session. The user comes from jellyfin_stream_info, so a session that never played anything shows no user. Kept the group waiting, Out of sync, Paused to catch up and Buffering show who slows the group down.",
+      "description": "Each group event, with the Jellyfin user and device of the session. The user comes from jellyfin_session_info and jellyfin_stream_info, which start on 2026-11-01. An older session shows Unknown, with its session ID. Kept the group waiting, Out of sync, Paused to catch up and Buffering show who slows the group down.",
       "datasource": {
         "type": "datasource",
         "uid": "-- Mixed --"
@@ -2699,7 +2699,7 @@
             "type": "prometheus",
             "uid": "${prometheus}"
           },
-          "expr": "max by (session, user, device, client) (max_over_time(jellyfin_stream_info[$__range]))",
+          "expr": "max by (session, user, device, client) (max_over_time(jellyfin_session_info[$__range])) or max by (session, user, device, client) (max_over_time(jellyfin_stream_info[$__range]))",
           "refId": "B",
           "instant": true,
           "range": false,
@@ -2727,6 +2727,20 @@
           }
         },
         {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Value": true,
+              "Value #B": true,
+              "Time": true
+            }
+          },
+          "filter": {
+            "id": "byRefId",
+            "options": "B"
+          }
+        },
+        {
           "id": "joinByField",
           "options": {
             "byField": "session",
@@ -2739,17 +2753,16 @@
             "excludeByName": {
               "Time": true,
               "Time 1": true,
-              "Time 2": true,
-              "Value #B": true,
-              "session": true
+              "Time 2": true
             },
             "indexByName": {
               "user": 0,
               "device": 1,
               "client": 2,
-              "event": 3,
-              "Value": 4,
-              "Value #A": 4
+              "session": 3,
+              "event": 4,
+              "Value": 5,
+              "Value #A": 5
             },
             "renameByName": {
               "user": "Person",
@@ -2757,7 +2770,8 @@
               "client": "Client",
               "event": "Event",
               "Value": "Count",
-              "Value #A": "Count"
+              "Value #A": "Count",
+              "session": "Session"
             }
           }
         },
@@ -2856,6 +2870,49 @@
               {
                 "id": "custom.width",
                 "value": 90
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Person"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "special",
+                    "options": {
+                      "match": "null+nan",
+                      "result": {
+                        "text": "Unknown"
+                      }
+                    }
+                  },
+                  {
+                    "type": "special",
+                    "options": {
+                      "match": "empty",
+                      "result": {
+                        "text": "Unknown"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Session"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
               }
             ]
           }

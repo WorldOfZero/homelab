@@ -101,6 +101,12 @@ configs:
           lines = ["jellyfin_sessions_active %d" % sum(1 for s in sessions if s.get("IsActive"))]
           lines += ['jellyfin_streams{method="%s"} %d' % item for item in methods.items()]
           lines.append("jellyfin_streams_paused %d" % paused)
+          # Every signed-in session, also one that plays nothing. SyncPlay logs name only the
+          # session, so the Media Stack dashboard looks up the user here by the session label.
+          for session in sessions:
+              if session.get("UserName"):
+                  lines.append('jellyfin_session_info{session="%s",user="%s",client="%s",device="%s"} 1' % (
+                      session["Id"][:8], label(session.get("UserName")), label(session.get("Client")), label(session.get("DeviceName"))))
           for stream in streams:
               lines += stream_lines(stream)
               if not stream.get("PlayState", {}).get("IsPaused"):
