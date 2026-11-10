@@ -59,4 +59,6 @@ Jellyfin 10.10 and later have two options in Dashboard -> Playback -> Trickplay:
 
 2026-10-21: The human turned trickplay off. `SaveTrickplayWithMedia` is now off for Movies and Shows, and `/media` is read-only (see [[keep-jellyfin-writes-off-vault]]). When trickplay is turned on again, Jellyfin writes the images under `/config` on the Fast pool, and it can generate them again for the full libraries. Do this work before trickplay is turned on again, so that the full run is fast.
 
+2026-11-10: The human turned trickplay on again. The Background tasks row on the Media Stack dashboard shows the progress of the Generate Trickplay Images task, its last run time, and how many films and episodes have trickplay images. Use it to compare the speed before and after the GPU and keyframe options.
+
 ## Resolution

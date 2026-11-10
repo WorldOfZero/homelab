@@ -11,7 +11,10 @@ configs:
     content: &jellyfin-exporter |
       import json
       import os
+      import re
+      import time
       import urllib.request
+      from datetime import datetime, timezone
       from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
       URL = os.environ["JELLYFIN_URL"]
@@ -19,9 +22,9 @@ configs:
       ITEM_TYPES = {"MovieCount": "movie", "SeriesCount": "series", "EpisodeCount": "episode", "SongCount": "song", "AlbumCount": "album", "BookCount": "book"}
 
 
-      def get(path):
+      def get(path, timeout=10):
           request = urllib.request.Request(URL + path, headers={"Authorization": AUTH, "Accept": "application/json"})
-          with urllib.request.urlopen(request, timeout=10) as response:
+          with urllib.request.urlopen(request, timeout=timeout) as response:
               return json.load(response)
 
 
@@ -90,6 +93,49 @@ configs:
           )
 
 
+      def epoch(text):
+          # Jellyfin sends 7 digits of fractional seconds, and Python reads at most 6.
+          text = re.sub(r"(\.\d{6})\d+", r"\1", text).replace("Z", "+00:00")
+          moment = datetime.fromisoformat(text)
+          return (moment if moment.tzinfo else moment.replace(tzinfo=timezone.utc)).timestamp()
+
+
+      def task_lines():
+          lines = []
+          for task in get("/ScheduledTasks?isHidden=false"):
+              key = 'task="%s",category="%s"' % (label(task.get("Name")), label(task.get("Category")))
+              running = task.get("State") == "Running"
+              lines.append("jellyfin_task_running{%s} %d" % (key, running))
+              if running and task.get("CurrentProgressPercentage") is not None:
+                  lines.append("jellyfin_task_progress_ratio{%s} %.4f" % (key, task["CurrentProgressPercentage"] / 100))
+              last = task.get("LastExecutionResult") or {}
+              if last.get("StartTimeUtc") and last.get("EndTimeUtc"):
+                  start, end = epoch(last["StartTimeUtc"]), epoch(last["EndTimeUtc"])
+                  lines.append("jellyfin_task_last_end_timestamp_seconds{%s} %d" % (key, end))
+                  lines.append("jellyfin_task_last_duration_seconds{%s} %d" % (key, max(0, end - start)))
+                  lines.append('jellyfin_task_last_status{%s,status="%s"} 1' % (key, label(last.get("Status"))))
+          return lines
+
+
+      TRICKPLAY = {"at": 0, "lines": []}
+
+
+      def trickplay_lines():
+          # Reading every film and episode is slow, and the count changes slowly, so read it every 10 minutes.
+          if time.time() - TRICKPLAY["at"] > 600:
+              items = get("/Items?Recursive=true&IncludeItemTypes=Movie,Episode&Fields=Trickplay&EnableImages=false&EnableUserData=false", timeout=60)
+              total, done = {"Movie": 0, "Episode": 0}, {"Movie": 0, "Episode": 0}
+              for item in items.get("Items", []):
+                  kind = item.get("Type")
+                  if kind in total:
+                      total[kind] += 1
+                      done[kind] += bool(item.get("Trickplay"))
+              TRICKPLAY["lines"] = ['jellyfin_trickplay_items{type="%s"} %d' % (kind.lower(), count) for kind, count in done.items()]
+              TRICKPLAY["lines"] += ['jellyfin_trickplay_video_items{type="%s"} %d' % (kind.lower(), count) for kind, count in total.items()]
+              TRICKPLAY["at"] = time.time()
+          return TRICKPLAY["lines"]
+
+
       def metrics():
           sessions = get("/Sessions")
           streams = [s for s in sessions if s.get("NowPlayingItem")]
@@ -111,6 +157,12 @@ configs:
               lines += stream_lines(stream)
               if not stream.get("PlayState", {}).get("IsPaused"):
                   lines.append(interest_line(stream))
+          # A failed task or trickplay read must not hide the session metrics.
+          for extra in (task_lines, trickplay_lines):
+              try:
+                  lines += extra()
+              except Exception as error:
+                  print("%s failed: %s" % (extra.__name__, error), flush=True)
           counts = get("/Items/Counts")
           lines += ['jellyfin_items{type="%s"} %d' % (name, counts.get(key, 0)) for key, name in ITEM_TYPES.items()]
           return "\n".join(lines) + "\n"

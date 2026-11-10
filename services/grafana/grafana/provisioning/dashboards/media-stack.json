@@ -4543,6 +4543,718 @@
       }
     },
     {
+      "id": 2145,
+      "type": "row",
+      "title": "Background tasks",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 128
+      },
+      "panels": []
+    },
+    {
+      "type": "table",
+      "title": "Running now",
+      "id": 2146,
+      "description": "Jellyfin scheduled tasks that run now, with their progress. From /ScheduledTasks, read by the Jellyfin exporter.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max by (task, category) (jellyfin_task_progress_ratio)",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "indexByName": {
+              "task": 0,
+              "category": 1,
+              "Value": 2
+            },
+            "renameByName": {
+              "task": "Task",
+              "category": "Category",
+              "Value": "Progress"
+            }
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No task runs now",
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Progress"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 1
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 129
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Trickplay coverage",
+      "id": 2147,
+      "description": "Films and episodes that have trickplay images (the preview pictures on the seek bar). Counted every 10 minutes.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum(jellyfin_trickplay_items) / sum(jellyfin_trickplay_video_items)",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum(jellyfin_trickplay_video_items) - sum(jellyfin_trickplay_items)",
+          "refId": "B",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "noValue": "no data"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "displayName",
+                "value": "Have trickplay"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "locale"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              },
+              {
+                "id": "displayName",
+                "value": "Left to do"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "vertical",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 12,
+        "y": 129
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Trickplay task",
+      "id": 2148,
+      "description": "The Generate Trickplay Images task: its progress now, and its last run.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max(jellyfin_task_progress_ratio{task=\"Generate Trickplay Images\"})",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max(jellyfin_task_last_end_timestamp_seconds{task=\"Generate Trickplay Images\"}) * 1000",
+          "refId": "B",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max(jellyfin_task_last_duration_seconds{task=\"Generate Trickplay Images\"})",
+          "refId": "C",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              },
+              {
+                "id": "displayName",
+                "value": "Progress"
+              },
+              {
+                "id": "noValue",
+                "value": "not running"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeFromNow"
+              },
+              {
+                "id": "displayName",
+                "value": "Last finished"
+              },
+              {
+                "id": "noValue",
+                "value": "never"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "C"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "displayName",
+                "value": "Took"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "vertical",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 129
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Task progress",
+      "description": "The progress of each task while it runs. A line shows when the task ran and how fast it went.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max by (task) (jellyfin_task_progress_ratio)",
+          "refId": "A",
+          "legendFormat": "{{task}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          },
+          "max": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2149,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 136
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Films and episodes with trickplay",
+      "description": "The count of films and episodes that have trickplay images, against all of them.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum by (type) (jellyfin_trickplay_items)",
+          "refId": "A",
+          "legendFormat": "{{type}} with trickplay",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "sum by (type) (jellyfin_trickplay_video_items)",
+          "refId": "B",
+          "legendFormat": "{{type}}, all",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "locale",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "showPoints": "never",
+            "spanNulls": false,
+            "axisBorderShow": false,
+            "axisPlacement": "auto",
+            "gradientMode": "none",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineInterpolation": "linear",
+            "barAlignment": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "id": 2150,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 136
+      }
+    },
+    {
+      "type": "table",
+      "title": "Last run of each task",
+      "id": 2151,
+      "description": "The last run of each Jellyfin scheduled task, from /ScheduledTasks. A task that never ran is not in the table.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus}"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max by (task, category) (jellyfin_task_last_end_timestamp_seconds) * 1000",
+          "refId": "A",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false,
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max by (task) (jellyfin_task_last_duration_seconds)",
+          "refId": "B",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false,
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max by (task, status) (jellyfin_task_last_status)",
+          "refId": "C",
+          "legendFormat": "__auto",
+          "instant": true,
+          "range": false,
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "task",
+            "mode": "outer"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Time 1": true,
+              "Time 2": true,
+              "Time 3": true,
+              "Value #C": true
+            },
+            "indexByName": {
+              "task": 0,
+              "category": 1,
+              "status": 2,
+              "Value #A": 3,
+              "Value #B": 4
+            },
+            "renameByName": {
+              "task": "Task",
+              "category": "Category",
+              "status": "Status",
+              "Value #A": "Finished",
+              "Value #B": "Took"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Finished",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Finished"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeFromNow"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Took"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "Completed": {
+                        "color": "green",
+                        "index": 0
+                      },
+                      "Failed": {
+                        "color": "red",
+                        "index": 1
+                      },
+                      "Cancelled": {
+                        "color": "orange",
+                        "index": 2
+                      },
+                      "Aborted": {
+                        "color": "orange",
+                        "index": 3
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        }
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 144
+      }
+    },
+    {
       "id": 20,
       "type": "row",
       "title": "Sonarr",
@@ -4551,7 +5263,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 128
+        "y": 153
       },
       "panels": []
     },
@@ -4616,7 +5328,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 129
+        "y": 154
       }
     },
     {
@@ -4680,7 +5392,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 129
+        "y": 154
       }
     },
     {
@@ -4744,7 +5456,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 129
+        "y": 154
       }
     },
     {
@@ -4808,7 +5520,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 129
+        "y": 154
       }
     },
     {
@@ -4872,7 +5584,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 129
+        "y": 154
       }
     },
     {
@@ -4940,7 +5652,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 129
+        "y": 154
       }
     },
     {
@@ -4952,7 +5664,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 133
+        "y": 158
       },
       "panels": []
     },
@@ -5017,7 +5729,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 134
+        "y": 159
       }
     },
     {
@@ -5081,7 +5793,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 134
+        "y": 159
       }
     },
     {
@@ -5145,7 +5857,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 134
+        "y": 159
       }
     },
     {
@@ -5209,7 +5921,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 134
+        "y": 159
       }
     },
     {
@@ -5273,7 +5985,7 @@
         "h": 4,
         "w": 4,
         "x": 16,
-        "y": 134
+        "y": 159
       }
     },
     {
@@ -5341,7 +6053,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 134
+        "y": 159
       }
     },
     {
@@ -5353,7 +6065,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 138
+        "y": 163
       },
       "panels": []
     },
@@ -5439,7 +6151,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 139
+        "y": 164
       }
     },
     {
@@ -5524,7 +6236,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 139
+        "y": 164
       }
     },
     {
@@ -5634,7 +6346,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 139
+        "y": 164
       }
     },
     {
@@ -5744,7 +6456,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 139
+        "y": 164
       }
     },
     {
@@ -5812,7 +6524,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 147
+        "y": 172
       }
     },
     {
@@ -5895,7 +6607,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 147
+        "y": 172
       }
     },
     {
@@ -5907,7 +6619,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 154
+        "y": 179
       },
       "panels": []
     },
@@ -6089,7 +6801,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 155
+        "y": 180
       }
     },
     {
@@ -6270,7 +6982,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 155
+        "y": 180
       }
     },
     {
@@ -6451,7 +7163,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 163
+        "y": 188
       }
     },
     {
@@ -6632,7 +7344,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 163
+        "y": 188
       }
     },
     {
@@ -6644,7 +7356,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 171
+        "y": 196
       },
       "panels": []
     },
@@ -6719,7 +7431,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 172
+        "y": 197
       }
     },
     {
@@ -6756,7 +7468,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 178
+        "y": 203
       }
     }
   ],

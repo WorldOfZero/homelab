@@ -137,7 +137,7 @@ when the stack updates from Git and the image builds again. See `services/portai
 | Dashboard | Shows |
 |---|---|
 | Container Health | State, health, restarts and resources of all containers, host pressure, memory, disks, network, and error logs |
-| Media Stack | Service health, each stream with its buffer and speed, playback errors, group playback, host load, library, Sonarr, Radarr and Bazarr counts and issues, and error logs |
+| Media Stack | Service health, each stream with its buffer and speed, playback errors, group playback, host load, library, Jellyfin background tasks and trickplay, Sonarr, Radarr and Bazarr counts and issues, and error logs |
 | Overview | Anything wrong now, applications, load, and links to the other dashboards |
 | Security | UniFi threats, unusual container behaviour, signs of compromise, and logins |
 | Storage and Backups | Pool state, free space, disk activity and backups |
@@ -153,6 +153,8 @@ when the stack updates from Git and the image builds again. See `services/portai
 | Roon | Core starts, stream problems, Bluesound device connections and errors, core resources, host load, and logs |
 
 The Media Stack, GPU and Ollama, and Network dashboards show Jellyfin events as marks on their panels: stream starts and stops, SyncPlay group waits, and library scans. To hide a type of mark, use the switches at the top of the dashboard.
+
+The Background tasks row on the Media Stack dashboard shows the Jellyfin scheduled tasks that run now, the progress of each task over time, and the last run of each task. The Jellyfin exporter reads them from `/ScheduledTasks`. The row also shows how many films and episodes have trickplay images. The exporter counts them every 10 minutes.
 
 The Tailnet path row on the Media Stack dashboard shows what Jellyfin sends over direct and DERP paths. It does not show which client. To find the client, run `tailscale status` on it, and look for `relay` on the `jellyfin` line.
 
