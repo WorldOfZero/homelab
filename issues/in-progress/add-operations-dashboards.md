@@ -65,4 +65,6 @@ The Plex compromise ran for days and nobody saw it. The dashboards show the sign
 
 2026-11-02: The two old dashboards went away after the next redeploy. The cause of the delay is not known.
 
+2026-11-10: The Group playback row shows who causes each SyncPlay event. The SyncPlay logs have only the session ID, so the table joins the first 8 characters of it with the `session` label of `jellyfin_stream_info`, which has the user and the device. Group state changes and Client requests by type also counted the lines that their regexp did not match, as one series with no labels (shown as "to"). Both queries now filter for their lines first.
+
 ## Resolution

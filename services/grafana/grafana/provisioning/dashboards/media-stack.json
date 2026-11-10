@@ -2548,7 +2548,7 @@
             "type": "loki",
             "uid": "${loki}"
           },
-          "expr": "sum by (op) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" !~ \"requested Ping\" | regexp \"requested (?P<op>[A-Za-z]+) in group\" [$__auto]))",
+          "expr": "sum by (op) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \" requested \" !~ \"requested Ping\" | regexp \"requested (?P<op>[A-Za-z]+) in group\" [$__auto]))",
           "refId": "A",
           "queryType": "range",
           "legendFormat": "{{op}}"
@@ -2619,7 +2619,7 @@
             "type": "loki",
             "uid": "${loki}"
           },
-          "expr": "sum by (src, dst) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" | regexp \"switching from (?P<src>[A-Za-z]+) to (?P<dst>[A-Za-z]+)\" [$__auto]))",
+          "expr": "sum by (src, dst) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"switching from\" | regexp \"switching from (?P<src>[A-Za-z]+) to (?P<dst>[A-Za-z]+)\" [$__auto]))",
           "refId": "A",
           "queryType": "range",
           "legendFormat": "{{src}} to {{dst}}"
@@ -2677,12 +2677,12 @@
       }
     },
     {
-      "type": "timeseries",
-      "title": "Buffer requests by session",
-      "description": "The first 8 characters of the session ID. The same IDs are in the jellyfin_stream_info metric. One session with most of the requests is the client that stops the group.",
+      "type": "table",
+      "title": "SyncPlay events by person",
+      "description": "Each group event, with the Jellyfin user and device of the session. The user comes from jellyfin_stream_info, so a session that never played anything shows no user. Kept the group waiting, Out of sync, Paused to catch up and Buffering show who slows the group down.",
       "datasource": {
-        "type": "loki",
-        "uid": "${loki}"
+        "type": "datasource",
+        "uid": "-- Mixed --"
       },
       "targets": [
         {
@@ -2690,53 +2690,182 @@
             "type": "loki",
             "uid": "${loki}"
           },
-          "expr": "sum by (session) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay.Group\" |= \"requested Buffer in group\" | regexp \"Session (?P<session>[0-9a-f]{8})\" [$__auto]))",
+          "expr": "sum by (session, event) (count_over_time({container=\"app-jellyfin\"} |= \"SyncPlay\" !~ \"requested Ping\" | regexp \"[Ss]ession(\\\\(s\\\\))? (?P<session>[0-9a-f]{8})\" | regexp \"(?P<event>requested [A-Za-z]+|joined group|left group|created group|is recovering|got lost in time|resumed playback|will pause when ready|to report ready, giving up)\" | session != \"\" | event != \"\" [$__range]))",
           "refId": "A",
-          "queryType": "range",
-          "legendFormat": "{{session}}"
+          "queryType": "instant"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "expr": "max by (session, user, device, client) (max_over_time(jellyfin_stream_info[$__range]))",
+          "refId": "B",
+          "instant": true,
+          "range": false,
+          "format": "table",
+          "legendFormat": "__auto"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns"
+          },
+          "filter": {
+            "id": "byRefId",
+            "options": "A"
+          }
+        },
+        {
+          "id": "merge",
+          "options": {},
+          "filter": {
+            "id": "byRefId",
+            "options": "A"
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "session",
+            "mode": "outerTabular"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Time 1": true,
+              "Time 2": true,
+              "Value #B": true,
+              "session": true
+            },
+            "indexByName": {
+              "user": 0,
+              "device": 1,
+              "client": 2,
+              "event": 3,
+              "Value": 4,
+              "Value #A": 4
+            },
+            "renameByName": {
+              "user": "Person",
+              "device": "Device",
+              "client": "Client",
+              "event": "Event",
+              "Value": "Count",
+              "Value #A": "Count"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Count",
+                "desc": true
+              }
+            ]
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0,
-          "color": {
-            "mode": "palette-classic-by-name"
-          },
           "custom": {
-            "drawStyle": "bars",
-            "lineWidth": 0,
-            "fillOpacity": 80,
-            "showPoints": "never",
-            "spanNulls": false,
-            "axisBorderShow": false,
-            "axisPlacement": "auto",
-            "gradientMode": "none",
-            "stacking": {
-              "mode": "normal",
-              "group": "A"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            },
-            "lineInterpolation": "linear",
-            "barAlignment": 0
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            }
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Event"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "requested Buffer": {
+                        "text": "Buffering"
+                      },
+                      "requested Ready": {
+                        "text": "Ready"
+                      },
+                      "requested Pause": {
+                        "text": "Paused"
+                      },
+                      "requested Unpause": {
+                        "text": "Unpaused"
+                      },
+                      "requested Play": {
+                        "text": "Started playback"
+                      },
+                      "requested Seek": {
+                        "text": "Seeked"
+                      },
+                      "requested IgnoreWait": {
+                        "text": "Skipped the wait"
+                      },
+                      "joined group": {
+                        "text": "Joined"
+                      },
+                      "left group": {
+                        "text": "Left"
+                      },
+                      "created group": {
+                        "text": "Created the group"
+                      },
+                      "is recovering": {
+                        "text": "Recovering"
+                      },
+                      "got lost in time": {
+                        "text": "Out of sync"
+                      },
+                      "resumed playback": {
+                        "text": "Resumed"
+                      },
+                      "will pause when ready": {
+                        "text": "Paused to catch up"
+                      },
+                      "to report ready, giving up": {
+                        "text": "Kept the group waiting"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Count"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          }
+        ]
       },
       "options": {
-        "legend": {
-          "displayMode": "table",
-          "placement": "bottom",
-          "calcs": [
-            "sum"
-          ],
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
         }
       },
       "id": 2135,

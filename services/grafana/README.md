@@ -158,7 +158,7 @@ The Tailnet path row on the Media Stack dashboard shows what Jellyfin sends over
 
 Roon does not use the tailnet, so it does not use DERP.
 
-To debug a watch party, open the Group playback row on the Media Stack dashboard, and select the time of the problem. Compare Group waits with Buffer requests by session. If one session has most of the requests, that client stops the group. Then look at its stream in Now playing, and at the Buffer ahead panel.
+To debug a watch party, open the Group playback row on the Media Stack dashboard, and select the time of the problem. Compare Group waits with SyncPlay events by person. The person and device with the most Kept the group waiting, Out of sync, Paused to catch up or Buffering events slow the group down. Then look at their stream in Now playing, and at the Buffer ahead panel. The table gets the person from `jellyfin_stream_info`, so a session that never played anything shows no person.
 
 When a stream has a problem, look at the Streaming problems row, then compare the time with the Host row. The Roon dashboard has the same Host row. The core can restart in the Roon container, so use Core starts, not the container restart count.
 
